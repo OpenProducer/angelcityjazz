@@ -80,7 +80,7 @@ namespace Stripe;
  * @property null|string $hosted_invoice_url The URL for the hosted invoice page, which allows customers to view and pay an invoice. If the invoice has not been finalized yet, this will be null.
  * @property null|string $invoice_pdf The link to download the PDF for the invoice. If the invoice has not been finalized yet, this will be null.
  * @property null|\Stripe\ErrorObject $last_finalization_error The error encountered during the previous attempt to finalize the invoice. This field is cleared when the invoice is successfully finalized.
- * @property \Stripe\Collection $lines The individual line items that make up the invoice. <code>lines</code> is sorted as follows: invoice items in reverse chronological order, followed by the subscription, if any.
+ * @property \Stripe\Collection<\Stripe\InvoiceLineItem> $lines The individual line items that make up the invoice. <code>lines</code> is sorted as follows: invoice items in reverse chronological order, followed by the subscription, if any.
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
  * @property null|\Stripe\StripeObject $metadata Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
  * @property null|int $next_payment_attempt The time at which payment will next be attempted. This value will be <code>null</code> for invoices where <code>collection_method=send_invoice</code>.
@@ -104,6 +104,7 @@ namespace Stripe;
  * @property int $subscription_proration_date Only set for upcoming invoices that preview prorations. The time used to calculate prorations.
  * @property int $subtotal Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or tax is applied. Item discounts are already incorporated
  * @property null|int $tax The amount of tax on this invoice. This is the sum of all the tax amounts on this invoice.
+ * @property null|string|\Stripe\TestHelpers\TestClock $test_clock ID of the test clock this invoice belongs to.
  * @property \Stripe\StripeObject $threshold_reason
  * @property int $total Total after discounts and taxes.
  * @property null|\Stripe\StripeObject[] $total_discount_amounts The aggregate amounts calculated per discount across all line items.
@@ -118,6 +119,7 @@ class Invoice extends ApiResource
     use ApiOperations\Create;
     use ApiOperations\Delete;
     use ApiOperations\Retrieve;
+    use ApiOperations\Search;
     use ApiOperations\Update;
 
     const BILLING_CHARGE_AUTOMATICALLY = 'charge_automatically';
@@ -153,7 +155,7 @@ class Invoice extends ApiResource
      *
      * @throws StripeExceptionApiErrorException if the request fails
      *
-     * @return \Stripe\Collection the list of lines (InvoiceLineItem)
+     * @return \Stripe\Collection<\Stripe\InvoiceLineItem> the list of lines (InvoiceLineItem)
      */
     public static function allLines($id, $params = null, $opts = null)
     {
@@ -261,5 +263,20 @@ class Invoice extends ApiResource
         $this->refreshFrom($response, $opts);
 
         return $this;
+    }
+
+    /**
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\SearchResult<Invoice> the invoice search results
+     */
+    public static function search($params = null, $opts = null)
+    {
+        $url = '/v1/invoices/search';
+
+        return self::_searchResource($url, $params, $opts);
     }
 }

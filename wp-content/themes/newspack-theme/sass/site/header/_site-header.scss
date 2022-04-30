@@ -28,6 +28,7 @@
 
 		.custom-logo {
 			max-width: 100%;
+			object-position: left center;
 		}
 	}
 }
@@ -524,7 +525,7 @@
 		&.single-featured-image-beside {
 			.middle-header-contain {
 				margin: auto;
-				max-width: 90%;
+				max-width: 90vw;
 				width: 1200px;
 
 				.wrapper {
@@ -575,6 +576,24 @@
 
 			&.site-branding {
 				width: 38%;
+			}
+		}
+	}
+
+	&.h-cl .site-header .custom-logo {
+		object-position: left center;
+	}
+
+	&.h-cl {
+		&.h-dh .site-header .custom-logo {
+			@include media( tablet ) {
+				object-position: center center;
+			}
+		}
+
+		&.h-sh .site-header .custom-logo {
+			@include media( narrowdesktop ) {
+				object-position: center center;
 			}
 		}
 	}
@@ -640,7 +659,7 @@
 
 				.wrapper {
 					margin: auto;
-					max-width: 90%;
+					max-width: 90vw;
 					padding-right: 0;
 					width: 1200px;
 				}

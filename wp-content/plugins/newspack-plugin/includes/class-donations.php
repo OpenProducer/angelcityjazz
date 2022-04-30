@@ -153,6 +153,20 @@ class Donations {
 	}
 
 	/**
+	 * Get donation product ID.
+	 *
+	 * @param string $frequency Donation frequency of the requested product.
+	 */
+	public static function get_donation_product( $frequency ) {
+		$is_donation_product_valid = self::validate_donation_product();
+		if ( is_wp_error( $is_donation_product_valid ) ) {
+			self::create_donation_product( $args );
+		}
+		$product_ids = self::get_donation_product_child_products_ids();
+		return isset( $product_ids[ $frequency ] ) ? $product_ids[ $frequency ] : false;
+	}
+
+	/**
 	 * Check if the donation product is valid.
 	 */
 	private static function validate_donation_product() {
@@ -240,9 +254,11 @@ class Donations {
 		$currency_symbol = html_entity_decode( self::get_currency_symbol() );
 
 		if ( ! self::is_platform_wc() ) {
-			$saved_settings             = get_option( self::DONATION_NON_WC_SETTINGS_OPTION, [] );
-			$defaults                   = self::get_donation_default_settings( true );
-			$settings                   = wp_parse_args( $saved_settings, $defaults );
+			$saved_settings = get_option( self::DONATION_NON_WC_SETTINGS_OPTION, [] );
+			$defaults       = self::get_donation_default_settings( true );
+			// Get only the saved settings matching keys from default settings.
+			$valid_saved_settings       = array_intersect_key( $saved_settings, $defaults );
+			$settings                   = wp_parse_args( $valid_saved_settings, $defaults );
 			$settings['currencySymbol'] = $currency_symbol;
 			return $settings;
 		}
@@ -294,6 +310,9 @@ class Donations {
 	 * @return array Updated settings.
 	 */
 	public static function set_donation_settings( $args ) {
+		$defaults = self::get_donation_default_settings();
+		// Filter incoming object, so that is contains only valid keys.
+		$args = array_intersect_key( $args, $defaults );
 		if ( ! self::is_platform_wc() ) {
 			update_option( self::DONATION_NON_WC_SETTINGS_OPTION, $args );
 			return self::get_donation_settings();
@@ -695,7 +714,9 @@ class Donations {
 		$page_id = wp_insert_post( $page_args );
 		if ( is_numeric( $page_id ) ) {
 			self::set_donation_page( $page_id );
+			update_post_meta( $page_id, '_wp_page_template', 'single-feature.php' );
 		}
+
 		return $page_id;
 	}
 

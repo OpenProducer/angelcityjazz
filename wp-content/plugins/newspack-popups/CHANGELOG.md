@@ -1,4 +1,202 @@
+## [1.52.1](https://github.com/Automattic/newspack-popups/compare/v1.52.0...v1.52.1) (2022-04-20)
+
+
+### Bug Fixes
+
+* revert group insertion fix ([#858](https://github.com/Automattic/newspack-popups/issues/858)) ([15af041](https://github.com/Automattic/newspack-popups/commit/15af04192c74d832423c226b031321fc7bac0c7b)), closes [#855](https://github.com/Automattic/newspack-popups/issues/855)
+
+## [1.52.1-hotfix.1](https://github.com/Automattic/newspack-popups/compare/v1.52.0...v1.52.1-hotfix.1) (2022-04-20)
+
+
+### Reverts
+
+* Revert "fix: insertion of prompts around Group blocks (#855)" ([b9917f2](https://github.com/Automattic/newspack-popups/commit/b9917f2f7e9c17bad96c8bb0385dbf144d10344b)), closes [#855](https://github.com/Automattic/newspack-popups/issues/855)
+
+# [1.52.0](https://github.com/Automattic/newspack-popups/compare/v1.51.0...v1.52.0) (2022-04-20)
+
+
+### Bug Fixes
+
+* insertion of prompts around Group blocks ([#855](https://github.com/Automattic/newspack-popups/issues/855)) ([6ae5ea9](https://github.com/Automattic/newspack-popups/commit/6ae5ea90c664e359d80e116253a2a675fe200b69))
+* make "scroll" the default inline trigger_type ([#846](https://github.com/Automattic/newspack-popups/issues/846)) ([a2ffee4](https://github.com/Automattic/newspack-popups/commit/a2ffee42bdc44bec33f8769407f1d5c4344fbeb0))
+
+
+### Features
+
+* support other newsletter signup forms ([#836](https://github.com/Automattic/newspack-popups/issues/836)) ([c30702d](https://github.com/Automattic/newspack-popups/commit/c30702de0995204c9eea5bc02f1ad6066e20a796))
+
+# [1.52.0-alpha.1](https://github.com/Automattic/newspack-popups/compare/v1.51.1-alpha.1...v1.52.0-alpha.1) (2022-04-20)
+
+
+### Bug Fixes
+
+* insertion of prompts around Group blocks ([#855](https://github.com/Automattic/newspack-popups/issues/855)) ([6ae5ea9](https://github.com/Automattic/newspack-popups/commit/6ae5ea90c664e359d80e116253a2a675fe200b69))
+
+
+### Features
+
+* support other newsletter signup forms ([#836](https://github.com/Automattic/newspack-popups/issues/836)) ([c30702d](https://github.com/Automattic/newspack-popups/commit/c30702de0995204c9eea5bc02f1ad6066e20a796))
+
+## [1.51.1-alpha.1](https://github.com/Automattic/newspack-popups/compare/v1.51.0...v1.51.1-alpha.1) (2022-04-18)
+
+
+### Bug Fixes
+
+* make "scroll" the default inline trigger_type ([#846](https://github.com/Automattic/newspack-popups/issues/846)) ([a2ffee4](https://github.com/Automattic/newspack-popups/commit/a2ffee42bdc44bec33f8769407f1d5c4344fbeb0))
+
+# [1.51.0](https://github.com/Automattic/newspack-popups/compare/v1.50.0...v1.51.0) (2022-04-05)
+
+
+### Bug Fixes
+
+* donation landing page setting ([#826](https://github.com/Automattic/newspack-popups/issues/826)) ([9b057b8](https://github.com/Automattic/newspack-popups/commit/9b057b805c728b3e29ff51426ff09393f6130f31))
+* restore "Announcements" category and move segments to label ([9c429a6](https://github.com/Automattic/newspack-popups/commit/9c429a67478988845082a3ad300b09781acbbe5d))
+* track logged-in users interactions ([#839](https://github.com/Automattic/newspack-popups/issues/839)) ([82f1296](https://github.com/Automattic/newspack-popups/commit/82f12966505dd9b11a77205d8b01bcd3f60a0098)), closes [#838](https://github.com/Automattic/newspack-popups/issues/838)
+
+
+### Features
+
+* add "undismissible" option for inline prompts ([#832](https://github.com/Automattic/newspack-popups/issues/832)) ([f766dac](https://github.com/Automattic/newspack-popups/commit/f766dac3d0e15b89a1d2d92dc0827654bb1d70b6))
+* allow segmentation by user login status ([#825](https://github.com/Automattic/newspack-popups/issues/825)) ([affdbea](https://github.com/Automattic/newspack-popups/commit/affdbeae0de92c908e244cb20fb0658d4ee8f412))
+* **analytics:** add segment name to event_category ([5a9f7c3](https://github.com/Automattic/newspack-popups/commit/5a9f7c3ac8d6c0c52b3e1e8a2faceddd126f52d4))
+* show prompts to logged-in admin and editor users ([#824](https://github.com/Automattic/newspack-popups/issues/824)) ([cba27f5](https://github.com/Automattic/newspack-popups/commit/cba27f52c7114e8df3d92dfd74f4f5ab449b21d2))
+
+# [1.51.0-alpha.2](https://github.com/Automattic/newspack-popups/compare/v1.51.0-alpha.1...v1.51.0-alpha.2) (2022-04-05)
+
+
+### Bug Fixes
+
+* track logged-in users interactions ([#839](https://github.com/Automattic/newspack-popups/issues/839)) ([82f1296](https://github.com/Automattic/newspack-popups/commit/82f12966505dd9b11a77205d8b01bcd3f60a0098)), closes [#838](https://github.com/Automattic/newspack-popups/issues/838)
+
+# [1.51.0-alpha.1](https://github.com/Automattic/newspack-popups/compare/v1.50.0...v1.51.0-alpha.1) (2022-03-31)
+
+
+### Bug Fixes
+
+* donation landing page setting ([#826](https://github.com/Automattic/newspack-popups/issues/826)) ([9b057b8](https://github.com/Automattic/newspack-popups/commit/9b057b805c728b3e29ff51426ff09393f6130f31))
+* restore "Announcements" category and move segments to label ([9c429a6](https://github.com/Automattic/newspack-popups/commit/9c429a67478988845082a3ad300b09781acbbe5d))
+
+
+### Features
+
+* add "undismissible" option for inline prompts ([#832](https://github.com/Automattic/newspack-popups/issues/832)) ([f766dac](https://github.com/Automattic/newspack-popups/commit/f766dac3d0e15b89a1d2d92dc0827654bb1d70b6))
+* allow segmentation by user login status ([#825](https://github.com/Automattic/newspack-popups/issues/825)) ([affdbea](https://github.com/Automattic/newspack-popups/commit/affdbeae0de92c908e244cb20fb0658d4ee8f412))
+* **analytics:** add segment name to event_category ([5a9f7c3](https://github.com/Automattic/newspack-popups/commit/5a9f7c3ac8d6c0c52b3e1e8a2faceddd126f52d4))
+* show prompts to logged-in admin and editor users ([#824](https://github.com/Automattic/newspack-popups/issues/824)) ([cba27f5](https://github.com/Automattic/newspack-popups/commit/cba27f52c7114e8df3d92dfd74f4f5ab449b21d2))
+
+# [1.50.0](https://github.com/Automattic/newspack-popups/compare/v1.49.1...v1.50.0) (2022-03-22)
+
+
+### Features
+
+* **segmentation:** add filter to designate additional product IDs as donations ([#818](https://github.com/Automattic/newspack-popups/issues/818)) ([c9a00c8](https://github.com/Automattic/newspack-popups/commit/c9a00c86ff509c1d5d67abae1fd78c716248f4f5))
+
+# [1.50.0-alpha.1](https://github.com/Automattic/newspack-popups/compare/v1.49.1...v1.50.0-alpha.1) (2022-03-15)
+
+
+### Features
+
+* **segmentation:** add filter to designate additional product IDs as donations ([#818](https://github.com/Automattic/newspack-popups/issues/818)) ([c9a00c8](https://github.com/Automattic/newspack-popups/commit/c9a00c86ff509c1d5d67abae1fd78c716248f4f5))
+
+## [1.49.1](https://github.com/Automattic/newspack-popups/compare/v1.49.0...v1.49.1) (2022-03-10)
+
+
+### Bug Fixes
+
+* prefix preview query param keys to avoid collisions ([b6b82ed](https://github.com/Automattic/newspack-popups/commit/b6b82ed639e45e40e6e08118eeb083d92b25ffbf))
+
+## [1.49.1-hotfix.1](https://github.com/Automattic/newspack-popups/compare/v1.49.0...v1.49.1-hotfix.1) (2022-03-10)
+
+
+### Bug Fixes
+
+* prefix preview query param keys to avoid collisions ([b6b82ed](https://github.com/Automattic/newspack-popups/commit/b6b82ed639e45e40e6e08118eeb083d92b25ffbf))
+
+# [1.49.0](https://github.com/Automattic/newspack-popups/compare/v1.48.0...v1.49.0) (2022-03-08)
+
+
+### Bug Fixes
+
+* allow overlay_opacity to be set to 0 for prompts ([#803](https://github.com/Automattic/newspack-popups/issues/803)) ([1e3f68b](https://github.com/Automattic/newspack-popups/commit/1e3f68b7f7315ecc511fc8e9d6fcf612de98f6b7)), closes [#632](https://github.com/Automattic/newspack-popups/issues/632)
+* count inner blocks' content toward post length ([#807](https://github.com/Automattic/newspack-popups/issues/807)) ([f745419](https://github.com/Automattic/newspack-popups/commit/f745419308640d35e66f1d5c5fff41f96bdf45f3))
+* ensure correct option is selected for trigger dropdown ([#802](https://github.com/Automattic/newspack-popups/issues/802)) ([b9210b2](https://github.com/Automattic/newspack-popups/commit/b9210b2d7db59faa0a6e82dac5e736c4ef1fbb0a))
+* only count donation products for donor segmentation ([#814](https://github.com/Automattic/newspack-popups/issues/814)) ([b471dad](https://github.com/Automattic/newspack-popups/commit/b471dada7ba1f88b03caeddda96e9bafa61186cf))
+* prevent default category on term deletion ([#806](https://github.com/Automattic/newspack-popups/issues/806)) ([465c907](https://github.com/Automattic/newspack-popups/commit/465c90705b7dd3e390e2a192dda13e4bdb66884a))
+* prevent non-page post types from appearing in settings dropdown ([#813](https://github.com/Automattic/newspack-popups/issues/813)) ([bc1cead](https://github.com/Automattic/newspack-popups/commit/bc1cead574559d851f14a001117a9fc72e7f4a71))
+* **preview:** pass url params to links within single-prompt preview iframes ([#792](https://github.com/Automattic/newspack-popups/issues/792)) ([6cad2c0](https://github.com/Automattic/newspack-popups/commit/6cad2c0a7689b5ac696c42724bcb9b3e682952d4)), closes [#663](https://github.com/Automattic/newspack-popups/issues/663)
+
+
+### Features
+
+* insertion at block count ([#755](https://github.com/Automattic/newspack-popups/issues/755)) ([9240d52](https://github.com/Automattic/newspack-popups/commit/9240d52ec4c4fd39d708520591ef0198fb9346bc)), closes [#623](https://github.com/Automattic/newspack-popups/issues/623)
+
+# [1.49.0-alpha.2](https://github.com/Automattic/newspack-popups/compare/v1.49.0-alpha.1...v1.49.0-alpha.2) (2022-03-02)
+
+
+### Bug Fixes
+
+* only count donation products for donor segmentation ([#814](https://github.com/Automattic/newspack-popups/issues/814)) ([b471dad](https://github.com/Automattic/newspack-popups/commit/b471dada7ba1f88b03caeddda96e9bafa61186cf))
+* prevent non-page post types from appearing in settings dropdown ([#813](https://github.com/Automattic/newspack-popups/issues/813)) ([bc1cead](https://github.com/Automattic/newspack-popups/commit/bc1cead574559d851f14a001117a9fc72e7f4a71))
+
+# [1.49.0-alpha.1](https://github.com/Automattic/newspack-popups/compare/v1.48.0...v1.49.0-alpha.1) (2022-02-24)
+
+
+### Bug Fixes
+
+* allow overlay_opacity to be set to 0 for prompts ([#803](https://github.com/Automattic/newspack-popups/issues/803)) ([1e3f68b](https://github.com/Automattic/newspack-popups/commit/1e3f68b7f7315ecc511fc8e9d6fcf612de98f6b7)), closes [#632](https://github.com/Automattic/newspack-popups/issues/632)
+* count inner blocks' content toward post length ([#807](https://github.com/Automattic/newspack-popups/issues/807)) ([f745419](https://github.com/Automattic/newspack-popups/commit/f745419308640d35e66f1d5c5fff41f96bdf45f3))
+* ensure correct option is selected for trigger dropdown ([#802](https://github.com/Automattic/newspack-popups/issues/802)) ([b9210b2](https://github.com/Automattic/newspack-popups/commit/b9210b2d7db59faa0a6e82dac5e736c4ef1fbb0a))
+* prevent default category on term deletion ([#806](https://github.com/Automattic/newspack-popups/issues/806)) ([465c907](https://github.com/Automattic/newspack-popups/commit/465c90705b7dd3e390e2a192dda13e4bdb66884a))
+* **preview:** pass url params to links within single-prompt preview iframes ([#792](https://github.com/Automattic/newspack-popups/issues/792)) ([6cad2c0](https://github.com/Automattic/newspack-popups/commit/6cad2c0a7689b5ac696c42724bcb9b3e682952d4)), closes [#663](https://github.com/Automattic/newspack-popups/issues/663)
+
+
+### Features
+
+* insertion at block count ([#755](https://github.com/Automattic/newspack-popups/issues/755)) ([9240d52](https://github.com/Automattic/newspack-popups/commit/9240d52ec4c4fd39d708520591ef0198fb9346bc)), closes [#623](https://github.com/Automattic/newspack-popups/issues/623)
+
+# [1.48.0](https://github.com/Automattic/newspack-popups/compare/v1.47.2...v1.48.0) (2022-02-22)
+
+
+### Bug Fixes
+
+* don't strip URL query params if there's a hash in the URL ([#798](https://github.com/Automattic/newspack-popups/issues/798)) ([4deea2e](https://github.com/Automattic/newspack-popups/commit/4deea2e2218d25b9d64aac558a80502baa434ed9))
+
+
+### Features
+
+* allow admins to define merge fields for donors ([#777](https://github.com/Automattic/newspack-popups/issues/777)) ([183aa59](https://github.com/Automattic/newspack-popups/commit/183aa59ff62a042f90e0b6ddba15899b567fae07))
+* **api:** remove forcing HTTP; tweak referer verification ([5bd188b](https://github.com/Automattic/newspack-popups/commit/5bd188bd490572e5cfb158a170a2dd7535902e65))
+
+
+### Performance Improvements
+
+* **segmentation:** limit query results when fetching segmentation reach data ([#797](https://github.com/Automattic/newspack-popups/issues/797)) ([eb95a04](https://github.com/Automattic/newspack-popups/commit/eb95a04e0ebb974111e7780b8ad48c5262878314)), closes [#627](https://github.com/Automattic/newspack-popups/issues/627)
+
+# [1.48.0-alpha.1](https://github.com/Automattic/newspack-popups/compare/v1.47.2-alpha.1...v1.48.0-alpha.1) (2022-02-10)
+
+
+### Bug Fixes
+
+* don't strip URL query params if there's a hash in the URL ([#798](https://github.com/Automattic/newspack-popups/issues/798)) ([4deea2e](https://github.com/Automattic/newspack-popups/commit/4deea2e2218d25b9d64aac558a80502baa434ed9))
+
+
+### Features
+
+* allow admins to define merge fields for donors ([#777](https://github.com/Automattic/newspack-popups/issues/777)) ([183aa59](https://github.com/Automattic/newspack-popups/commit/183aa59ff62a042f90e0b6ddba15899b567fae07))
+* **api:** remove forcing HTTP; tweak referer verification ([5bd188b](https://github.com/Automattic/newspack-popups/commit/5bd188bd490572e5cfb158a170a2dd7535902e65))
+
+
+### Performance Improvements
+
+* **segmentation:** limit query results when fetching segmentation reach data ([#797](https://github.com/Automattic/newspack-popups/issues/797)) ([eb95a04](https://github.com/Automattic/newspack-popups/commit/eb95a04e0ebb974111e7780b8ad48c5262878314)), closes [#627](https://github.com/Automattic/newspack-popups/issues/627)
+
 ## [1.47.2](https://github.com/Automattic/newspack-popups/compare/v1.47.1...v1.47.2) (2022-02-01)
+
+### Bug Fixes
+
+* **class-newspack-popups-model.php:** fire the "Form Submission" event on submit, not submit success ([#790](https://github.com/Automattic/newspack-popups/issues/790)) ([c9bfbbb](https://github.com/Automattic/newspack-popups/commit/c9bfbbb525373400b97488422f6f7549a9b87082))
+
+## [1.47.2-alpha.1](https://github.com/Automattic/newspack-popups/compare/v1.47.1...v1.47.2-alpha.1) (2022-02-01)
 
 
 ### Bug Fixes

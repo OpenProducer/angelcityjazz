@@ -22,22 +22,24 @@ final class Newspack_Popups {
 	const LIGHTWEIGHT_API_CONFIG_FILE_PATH        = WP_CONTENT_DIR . '/newspack-popups-config.php';
 
 	const PREVIEW_QUERY_KEYS = [
-		'background_color'               => 'bc',
-		'display_title'                  => 'ti',
-		'hide_border'                    => 'hb',
-		'dismiss_text'                   => 'dt',
-		'dismiss_text_alignment'         => 'da',
-		'frequency'                      => 'fr',
-		'overlay_color'                  => 'oc',
-		'overlay_opacity'                => 'oo',
-		'overlay_size'                   => 'os',
-		'placement'                      => 'pl',
-		'trigger_type'                   => 'tt',
-		'trigger_delay'                  => 'td',
-		'trigger_scroll_progress'        => 'ts',
-		'archive_insertion_posts_count'  => 'ac',
-		'archive_insertion_is_repeating' => 'ar',
-		'utm_suppression'                => 'ut',
+		'background_color'               => 'n_bc',
+		'display_title'                  => 'n_ti',
+		'hide_border'                    => 'n_hb',
+		'undismissible_prompt'           => 'n_u',
+		'dismiss_text'                   => 'n_dt',
+		'dismiss_text_alignment'         => 'n_da',
+		'frequency'                      => 'n_fr',
+		'overlay_color'                  => 'n_oc',
+		'overlay_opacity'                => 'n_oo',
+		'overlay_size'                   => 'n_os',
+		'placement'                      => 'n_pl',
+		'trigger_type'                   => 'n_tt',
+		'trigger_delay'                  => 'n_td',
+		'trigger_scroll_progress'        => 'n_ts',
+		'trigger_blocks_count'           => 'n_tb',
+		'archive_insertion_posts_count'  => 'n_ac',
+		'archive_insertion_is_repeating' => 'n_ar',
+		'utm_suppression'                => 'n_ut',
 	];
 
 	/**
@@ -75,8 +77,8 @@ final class Newspack_Popups {
 			add_action( 'customize_controls_enqueue_scripts', [ __CLASS__, 'enqueue_customizer_assets' ] );
 			add_filter( 'display_post_states', [ __CLASS__, 'display_post_states' ], 10, 2 );
 			add_action( 'save_post_' . self::NEWSPACK_POPUPS_CPT, [ __CLASS__, 'popup_default_fields' ], 10, 3 );
-			add_action( 'transition_post_status', [ __CLASS__, 'remove_default_category' ], 10, 3 );
-
+			add_action( 'transition_post_status', [ __CLASS__, 'prevent_default_category_on_publish' ], 10, 3 );
+			add_action( 'pre_delete_term', [ __CLASS__, 'prevent_default_category_on_term_delete' ], 10, 2 );
 			add_filter( 'show_admin_bar', [ __CLASS__, 'show_admin_bar' ], 10, 2 ); // phpcs:ignore WordPressVIPMinimum.UserExperience.AdminBarRemoval.RemovalDetected
 
 			include_once dirname( __FILE__ ) . '/class-newspack-popups-model.php';
@@ -143,6 +145,19 @@ final class Newspack_Popups {
 		\register_meta(
 			'post',
 			'trigger_scroll_progress',
+			[
+				'object_subtype' => self::NEWSPACK_POPUPS_CPT,
+				'show_in_rest'   => true,
+				'type'           => 'integer',
+				'single'         => true,
+				'auth_callback'  => '__return_true',
+			]
+		);
+
+		\register_meta(
+			'post',
+			// Not really a "trigger", since this meta applies only to inline prompts. Keeping the "trigger"-based naming for consistency.
+			'trigger_blocks_count',
 			[
 				'object_subtype' => self::NEWSPACK_POPUPS_CPT,
 				'show_in_rest'   => true,
@@ -270,6 +285,19 @@ final class Newspack_Popups {
 				'object_subtype' => self::NEWSPACK_POPUPS_CPT,
 				'show_in_rest'   => true,
 				'type'           => 'string',
+				'single'         => true,
+				'auth_callback'  => '__return_true',
+			]
+		);
+
+		\register_meta(
+			'post',
+			'undismissible_prompt',
+			[
+				'object_subtype' => self::NEWSPACK_POPUPS_CPT,
+				'show_in_rest'   => true,
+				'type'           => 'boolean',
+				'default'        => false,
 				'single'         => true,
 				'auth_callback'  => '__return_true',
 			]
@@ -569,6 +597,7 @@ final class Newspack_Popups {
 			'newspack-popups',
 			'newspack_popups_data',
 			[
+				'frontend_url'                 => get_site_url(),
 				'preview_post'                 => self::preview_post_permalink(),
 				'preview_archive'              => self::preview_archive_permalink(),
 				'segments'                     => Newspack_Popups_Segmentation::get_segments(),
@@ -662,7 +691,7 @@ final class Newspack_Popups {
 		$is_customizer_preview = is_customize_preview();
 		// Used by the Newspack Plugin's Campaigns Wizard.
 		$is_view_as_preview = false != Newspack_Popups_View_As::viewing_as_spec();
-		return self::previewed_popup_id() || $is_view_as_preview || $is_customizer_preview;
+		return ! empty( self::previewed_popup_id() ) || $is_view_as_preview || $is_customizer_preview;
 	}
 
 	/**
@@ -764,6 +793,7 @@ final class Newspack_Popups {
 		update_post_meta( $post_id, 'trigger_type', $trigger_type );
 		update_post_meta( $post_id, 'trigger_delay', 3 );
 		update_post_meta( $post_id, 'trigger_scroll_progress', 30 );
+		update_post_meta( $post_id, 'trigger_blocks_count', 3 );
 		update_post_meta( $post_id, 'archive_insertion_posts_count', 0 );
 		update_post_meta( $post_id, 'archive_insertion_is_repeating', false );
 		update_post_meta( $post_id, 'utm_suppression', '' );
@@ -828,10 +858,20 @@ final class Newspack_Popups {
 	}
 
 	/**
-	 * Is the user an admin user?
+	 * Is the user an admin or editor user?
+	 * If so, prompts will be shown to these users while logged in, but analytics
+	 * will not be fired for them.
 	 */
 	public static function is_user_admin() {
-		return is_user_logged_in() && current_user_can( 'edit_others_pages' );
+		/**
+		 * Filter to allow other plugins to decide which capability should be checked
+		 * to determine whether a user's activity should be tracked via Google Analytics.
+		 *
+		 * @param string $capability Capability to check. Default: edit_others_pages.
+		 * @return string Filtered capability string.
+		 */
+		$capability = apply_filters( 'newspack_popups_admin_user_capability', 'edit_others_pages' );
+		return is_user_logged_in() && current_user_can( $capability );
 	}
 
 	/**
@@ -841,6 +881,17 @@ final class Newspack_Popups {
 	 */
 	public static function is_account_related_post( $post ) {
 		return has_shortcode( $post->post_content, 'woocommerce_my_account' );
+	}
+
+	/**
+	 * Should tracking code be inserted?
+	 * We shouldn't be tracking analytics in the dashboard or on the front-end by admin/editor users.
+	 */
+	public static function is_tracking() {
+		if ( is_admin() || self::is_user_admin() || Newspack_Popups_Settings::is_non_interactive() ) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -926,20 +977,89 @@ final class Newspack_Popups {
 	}
 
 	/**
+	 * Remove the default category from the given post, if it's the only category applied to that post.
+	 *
+	 * @param int $post_id ID of the post.
+	 */
+	private static function remove_default_category( $post_id ) {
+		$default_category_id = (int) get_option( 'default_category', 0 );
+		if ( empty( $default_category_id ) ) {
+			return;
+		}
+
+		$post_categories = wp_get_post_categories( $post_id );
+		if ( 1 === count( $post_categories ) && reset( $post_categories ) === $default_category_id ) {
+			wp_remove_object_terms( $post_id, $default_category_id, 'category' );
+		}
+	}
+
+	/**
 	 * Prevent setting the default category when publishing.
 	 *
 	 * @param string $new_status New status.
 	 * @param string $old_status Old status.
 	 * @param bool   $post Post.
 	 */
-	public static function remove_default_category( $new_status, $old_status, $post ) {
+	public static function prevent_default_category_on_publish( $new_status, $old_status, $post ) {
 		if ( self::NEWSPACK_POPUPS_CPT === $post->post_type && 'publish' !== $old_status && 'publish' === $new_status ) {
-			$default_category_id = (int) get_option( 'default_category', false );
-			$popup_has_category  = has_category( $default_category_id, $post->ID );
-			if ( $popup_has_category ) {
-				wp_remove_object_terms( $post->ID, $default_category_id, 'category' );
-			}
+			self::remove_default_category( $post->ID );
 		}
+	}
+
+	/**
+	 * When a category is deleted, any posts that have only that category assigned
+	 * are automatically assigned the site's default category (usually "Uncategorized").
+	 * We want to prevent this behavior for prompts, as prompts with the default
+	 * category will only appear on posts with that category.
+	 *
+	 * @param int    $deleted_term ID of the term being deleted.
+	 * @param string $taxonomy Name of the taxonomy the term belongs to.
+	 *
+	 * @return int The number of prompts affected by this callback.
+	 */
+	public static function prevent_default_category_on_term_delete( $deleted_term, $taxonomy ) {
+		// We only care about categories.
+		if ( 'category' !== $taxonomy ) {
+			return;
+		}
+
+		$default_category_id = (int) get_option( 'default_category', 0 );
+		if ( empty( $default_category_id ) ) {
+			return;
+		}
+
+		$prompts_with_deleted_category = get_posts(
+			[
+				'category__in'     => $deleted_term,
+				'category__not_in' => $default_category_id, // We don't want to remove the default category if it was intentionally added.
+				'fields'           => 'ids',
+				'post_status'      => 'any',
+				'post_type'        => self::NEWSPACK_POPUPS_CPT,
+				'posts_per_page'   => -1,
+			]
+		);
+
+		if ( empty( $prompts_with_deleted_category ) ) {
+			return;
+		}
+
+		// When the default category is assigned to a prompt and it wasn't previously assigned, remove it.
+		add_action(
+			'set_object_terms',
+			// Use an anonymous function that can read the variables above in its closure.
+			function( $post_id, $terms, $tt_ids, $taxonomy ) use ( $default_category_id, $prompts_with_deleted_category ) {
+				if (
+					self::NEWSPACK_POPUPS_CPT === get_post_type( $post_id ) &&
+					in_array( $post_id, $prompts_with_deleted_category, true ) &&
+					in_array( $default_category_id, $terms, true ) &&
+					'category' === $taxonomy
+				) {
+					self::remove_default_category( $post_id );
+				}
+			},
+			10,
+			4
+		);
 	}
 
 	/**

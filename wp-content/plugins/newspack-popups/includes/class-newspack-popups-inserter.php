@@ -207,6 +207,45 @@ final class Newspack_Popups_Inserter {
 	}
 
 	/**
+	 * Get content from a given block's inner blocks, and recursively from those blocks' inner blocks.
+	 *
+	 * @param object $block A block.
+	 *
+	 * @return string The block's inner content.
+	 */
+	public static function get_inner_block_content( $block ) {
+		$inner_block_content = '';
+
+		if ( 0 < count( $block['innerBlocks'] ) ) {
+			foreach ( $block['innerBlocks'] as $inner_block ) {
+				$inner_block_content .= $inner_block['innerHTML'];
+
+				// Recursively get content from nested inner blocks.
+				if ( 0 < count( $inner_block['innerBlocks'] ) ) {
+					$inner_block_content .= self::get_inner_block_content( $inner_block );
+				}
+			}
+		}
+
+		return $inner_block_content;
+	}
+
+	/**
+	 * Get content from given block, including content from the block's inner blocks, if any.
+	 *
+	 * @param object $block A block.
+	 *
+	 * @return string The block's content.
+	 */
+	public static function get_block_content( $block ) {
+		$is_classic_block = null === $block['blockName'] || 'core/freeform' === $block['blockName']; // Classic block doesn't have a block name.
+		$block_content    = $is_classic_block ? force_balance_tags( wpautop( $block['innerHTML'] ) ) : $block['innerHTML'];
+		$block_content   .= self::get_inner_block_content( $block );
+
+		return $block_content;
+	}
+
+	/**
 	 * Insert popups in a post content.
 	 *
 	 * @param string $content The post content.
@@ -291,9 +330,8 @@ final class Newspack_Popups_Inserter {
 				// Give length-ignored blocks a length of 1 so that prompts at 0% can still be inserted before them.
 				$total_length++;
 			} else {
-				$is_classic_block = null === $block['blockName'] || 'core/freeform' === $block['blockName']; // Classic block doesn't have a block name.
-				$block_content    = $is_classic_block ? force_balance_tags( wpautop( $block['innerHTML'] ) ) : $block['innerHTML'];
-				$total_length    += strlen( wp_strip_all_tags( $block_content ) );
+				$block_content = self::get_block_content( $block );
+				$total_length += strlen( wp_strip_all_tags( $block_content ) );
 			}
 		}
 
@@ -303,7 +341,8 @@ final class Newspack_Popups_Inserter {
 		foreach ( $popups as $popup ) {
 			if ( Newspack_Popups_Model::is_inline( $popup ) ) {
 				$percentage                = intval( $popup['options']['trigger_scroll_progress'] ) / 100;
-				$popup['precise_position'] = $total_length * $percentage;
+				$blocks_before_prompt      = intval( $popup['options']['trigger_blocks_count'] );
+				$popup['precise_position'] = 'blocks_count' === $popup['options']['trigger_type'] ? $blocks_before_prompt : $total_length * $percentage;
 				$popup['is_inserted']      = false;
 				$inline_popups[]           = $popup;
 			} elseif ( Newspack_Popups_Model::is_overlay( $popup ) ) {
@@ -320,7 +359,7 @@ final class Newspack_Popups_Inserter {
 		$pos    = 0;
 		$output = '';
 
-		foreach ( $parsed_blocks_groups as $block_group ) {
+		foreach ( $parsed_blocks_groups as $block_index => $block_group ) {
 			// Compute the length of the blocks in the group.
 			foreach ( $block_group as $block ) {
 				if ( in_array( $block['blockName'], $length_ignored_blocks ) ) {
@@ -333,10 +372,18 @@ final class Newspack_Popups_Inserter {
 
 			// Inject prompts before the group.
 			foreach ( $inline_popups as &$inline_popup ) {
-				if (
-					! $inline_popup['is_inserted'] &&
-					$pos > $inline_popup['precise_position']
-				) {
+				if ( $inline_popup['is_inserted'] ) {
+					// Skip if already inserted.
+					continue;
+				}
+
+				$position          = $inline_popup['precise_position'];
+				$trigger_type      = $inline_popup['options']['trigger_type'];
+				$insert_at_zero    = 0 === $position; // If the position is 0, the prompt should always appear first.
+				$insert_for_scroll = 'blocks_count' !== $trigger_type && $pos > $position;
+				$insert_for_blocks = 'blocks_count' === $trigger_type && $block_index >= $position;
+
+				if ( $insert_at_zero || $insert_for_scroll || $insert_for_blocks ) {
 					$output                     .= '<!-- wp:shortcode -->[newspack-popup id="' . $inline_popup['id'] . '"]<!-- /wp:shortcode -->';
 					$inline_popup['is_inserted'] = true;
 				}
@@ -576,8 +623,12 @@ final class Newspack_Popups_Inserter {
 			't'   => $type,
 		];
 
-		if ( Newspack_Popups_Custom_Placements::is_custom_placement_or_manual( $popup ) ) {
+		if ( \Newspack_Popups_Custom_Placements::is_custom_placement_or_manual( $popup ) ) {
 			$popup_payload['c'] = $popup['options']['placement'];
+		}
+
+		if ( \Newspack_Popups_Model::is_undismissible_prompt( $popup ) ) {
+			$popup_payload['u'] = true;
 		}
 
 		return $popup_payload;
@@ -595,9 +646,6 @@ final class Newspack_Popups_Inserter {
 	 * make reliable retrieval problematic.
 	 */
 	public static function insert_popups_amp_access() {
-		if ( ! Newspack_Popups_Segmentation::is_tracking() ) {
-			return;
-		}
 		$popups = array_filter(
 			Newspack_Popups_Model::retrieve_popups(
 				// Include drafts if it's a preview request.
@@ -697,7 +745,7 @@ final class Newspack_Popups_Inserter {
 		}
 
 		$settings = $previewed_popup_id ? [] : array_reduce(
-			\Newspack_Popups_Settings::get_settings(),
+			\Newspack_Popups_Settings::get_settings( false, true ),
 			function ( $acc, $item ) {
 				$key       = $item['key'];
 				$acc->$key = $item['value'];
@@ -830,6 +878,11 @@ final class Newspack_Popups_Inserter {
 	 * @return bool Whether the prompt should be shown based on matching terms.
 	 */
 	public static function assess_taxonomy_filter( $popup, $taxonomy = 'category' ) {
+		// If a preview request, ensure the prompt appears in the first post loaded in the preview window.
+		if ( Newspack_Popups::is_preview_request() ) {
+			return true;
+		}
+
 		$post_terms     = get_the_terms( get_the_ID(), $taxonomy );
 		$post_terms_ids = array_column( $post_terms ? $post_terms : [], 'term_id' );
 
@@ -872,12 +925,8 @@ final class Newspack_Popups_Inserter {
 
 		// Unless it's a preview request, perform some additional checks.
 		if ( ! Newspack_Popups::is_preview_request() ) {
-			// Hide prompts for admin users.
-			if ( Newspack_Popups::is_user_admin() ) {
-				return false;
-			}
-			// Hide overlay prompts in non-interactive mode, for non-admin users.
-			if ( ! Newspack_Popups::is_user_admin() && Newspack_Popups_Settings::is_non_interactive() && ! Newspack_Popups_Model::is_inline( $popup ) ) {
+			// Hide overlay prompts in non-interactive mode.
+			if ( Newspack_Popups_Settings::is_non_interactive() && ! Newspack_Popups_Model::is_inline( $popup ) ) {
 				return false;
 			}
 		}

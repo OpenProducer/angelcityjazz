@@ -60,6 +60,12 @@ body.newspack-single-wide-template .wp-block[data-align=full] figcaption,
 body.newspack-single-column-template .wp-block[data-align=full] figcaption {
   padding: 0 1rem;
 }
+body.newspack-static-front-page .wp-block[data-align=full] .wp-block-group:not(.has-background):not(.is-style-border),
+body.newspack-single-wide-template .wp-block[data-align=full] .wp-block-group:not(.has-background):not(.is-style-border),
+body.newspack-single-column-template .wp-block[data-align=full] .wp-block-group:not(.has-background):not(.is-style-border) {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
 body.newspack-static-front-page .wp-block[data-align=left],
 body.newspack-single-wide-template .wp-block[data-align=left],
 body.newspack-single-column-template .wp-block[data-align=left] {

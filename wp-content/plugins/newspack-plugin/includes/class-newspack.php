@@ -42,19 +42,13 @@ final class Newspack {
 		$this->includes();
 		add_action( 'admin_init', [ $this, 'admin_redirects' ] );
 		add_action( 'current_screen', [ $this, 'restrict_user_access' ] );
+		add_action( 'current_screen', [ $this, 'wizard_redirect' ] );
 		add_action( 'admin_menu', [ $this, 'handle_resets' ], 1 );
 		add_action( 'admin_menu', [ $this, 'remove_newspack_suite_plugin_links' ], 1 );
 		add_action( 'admin_notices', [ $this, 'remove_notifications' ], -9999 );
 		add_action( 'network_admin_notices', [ $this, 'remove_notifications' ], -9999 );
 		add_action( 'all_admin_notices', [ $this, 'remove_notifications' ], -9999 );
 		register_activation_hook( NEWSPACK_PLUGIN_FILE, [ $this, 'activation_hook' ] );
-
-		// Disable the block-based widget editing altogether until further notice.
-		// See https://github.com/Automattic/newspack-plugin/issues/1124.
-		// Disables the block editor from managing widgets in the Gutenberg plugin.
-		add_filter( 'gutenberg_use_widgets_block_editor', '__return_false' );
-		// Disables the block editor from managing widgets.
-		add_filter( 'use_widgets_block_editor', '__return_false' );
 	}
 
 	/**
@@ -85,9 +79,9 @@ final class Newspack {
 		include_once NEWSPACK_ABSPATH . 'includes/class-profile.php';
 		include_once NEWSPACK_ABSPATH . 'includes/class-analytics.php';
 		include_once NEWSPACK_ABSPATH . 'includes/reader-revenue/class-stripe-connection.php';
+		include_once NEWSPACK_ABSPATH . 'includes/reader-revenue/class-woocommerce-connection.php';
 		include_once NEWSPACK_ABSPATH . 'includes/reader-revenue/class-reader-revenue-emails.php';
 		include_once NEWSPACK_ABSPATH . 'includes/oauth/class-oauth.php';
-		include_once NEWSPACK_ABSPATH . 'includes/oauth/class-wpcom-oauth.php';
 		include_once NEWSPACK_ABSPATH . 'includes/oauth/class-google-oauth.php';
 		include_once NEWSPACK_ABSPATH . 'includes/oauth/class-google-services-connection.php';
 		include_once NEWSPACK_ABSPATH . 'includes/oauth/class-mailchimp-api.php';
@@ -110,7 +104,6 @@ final class Newspack {
 		include_once NEWSPACK_ABSPATH . 'includes/wizards/class-site-design-wizard.php';
 		include_once NEWSPACK_ABSPATH . 'includes/wizards/class-syndication-wizard.php';
 		include_once NEWSPACK_ABSPATH . 'includes/wizards/class-health-check-wizard.php';
-		include_once NEWSPACK_ABSPATH . 'includes/wizards/class-support-wizard.php';
 		include_once NEWSPACK_ABSPATH . 'includes/wizards/class-popups-wizard.php';
 		include_once NEWSPACK_ABSPATH . 'includes/wizards/class-connections-wizard.php';
 
@@ -123,6 +116,10 @@ final class Newspack {
 		include_once NEWSPACK_ABSPATH . 'includes/class-starter-content.php';
 		include_once NEWSPACK_ABSPATH . 'includes/class-amp-enhancements.php';
 		include_once NEWSPACK_ABSPATH . 'includes/class-newspack-image-credits.php';
+
+		// Integrations w/ third-party plugins.
+		include_once NEWSPACK_ABSPATH . 'includes/plugins/class-jetpack.php';
+		include_once NEWSPACK_ABSPATH . 'includes/plugins/class-gravityforms.php';
 
 		include_once NEWSPACK_ABSPATH . 'includes/class-patches.php';
 
@@ -182,11 +179,6 @@ final class Newspack {
 				exit;
 			}
 		}
-		if ( WPCOM_OAuth::get_wpcom_access_token() && 'reset-wpcom' === $newspack_reset ) {
-			delete_user_meta( get_current_user_id(), WPCOM_OAuth::NEWSPACK_WPCOM_ACCESS_TOKEN );
-			delete_user_meta( get_current_user_id(), WPCOM_OAuth::NEWSPACK_WPCOM_EXPIRES_IN );
-			$redirect_url = Wizards::get_url( 'connections' );
-		}
 
 		if ( $newspack_reset ) {
 			wp_safe_redirect( $redirect_url );
@@ -240,6 +232,33 @@ final class Newspack {
 				exit;
 			}
 			remove_menu_page( 'plugins.php' );
+		}
+	}
+
+	/**
+	 * Redirect "hidden" admin screens to the corresponding wizard screen.
+	 *
+	 * @param WP_Screen $current_screen Current WP_Screen object.
+	 */
+	public function wizard_redirect( $current_screen ) {
+		$post_type_mapping = [];
+
+		// Map custom post types to their wizard screen URLs.
+		if ( class_exists( '\Newspack_Popups' ) ) {
+			$post_type_mapping[ \Newspack_Popups::NEWSPACK_POPUPS_CPT ] = [
+				'base' => 'edit',
+				'url'  => esc_url( admin_url( 'admin.php?page=newspack-popups-wizard' ) ),
+			];
+		}
+
+		$current_screen_base = $current_screen->base;
+		$current_post_type   = $current_screen->post_type;
+		if (
+			in_array( $current_post_type, array_keys( $post_type_mapping ), true ) &&
+			$post_type_mapping[ $current_post_type ]['base'] === $current_screen_base
+		) {
+			wp_safe_redirect( $post_type_mapping[ $current_post_type ]['url'] );
+			exit;
 		}
 	}
 

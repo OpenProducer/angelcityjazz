@@ -69,6 +69,7 @@ function newspack_custom_typography_css() {
 
 		/* _blocks.scss */
 		.wp-block-button__link,
+		.wp-block-jetpack-button button.wp-block-button__link,
 
 		/* _captions.scss */
 		figcaption,
@@ -388,6 +389,7 @@ function newspack_custom_typography_css() {
 		if ( ! is_child_theme() ) {
 			$css_blocks        .= '
 				.accent-header,
+				#secondary .widgettitle,
 				.article-section-title {
 					text-transform: uppercase;
 				}

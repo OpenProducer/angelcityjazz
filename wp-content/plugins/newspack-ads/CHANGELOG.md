@@ -1,3 +1,158 @@
+# [1.31.0](https://github.com/Automattic/newspack-ads/compare/v1.30.1...v1.31.0) (2022-04-18)
+
+
+### Features
+
+* **gam:** size map filters and width threshold ([#366](https://github.com/Automattic/newspack-ads/issues/366)) ([4b012d1](https://github.com/Automattic/newspack-ads/commit/4b012d1274d7891913fafa8ae74e2e554a161680))
+* **gam:** strict container bounds for ad slot ([#375](https://github.com/Automattic/newspack-ads/issues/375)) ([69103ad](https://github.com/Automattic/newspack-ads/commit/69103ad2d733732e1a6758c62a39700c104a8a3c))
+* **integrations:** disable refresh control for adsense ([#373](https://github.com/Automattic/newspack-ads/issues/373)) ([c7e184f](https://github.com/Automattic/newspack-ads/commit/c7e184f63cb6f5b027f734fb265dd4179a52758e))
+* **placements:** ad unit preview ([#367](https://github.com/Automattic/newspack-ads/issues/367)) ([aab1265](https://github.com/Automattic/newspack-ads/commit/aab126589554da789f444c16ad270f56c31867dd))
+
+# [1.31.0-alpha.1](https://github.com/Automattic/newspack-ads/compare/v1.30.1...v1.31.0-alpha.1) (2022-04-13)
+
+
+### Features
+
+* **gam:** size map filters and width threshold ([#366](https://github.com/Automattic/newspack-ads/issues/366)) ([4b012d1](https://github.com/Automattic/newspack-ads/commit/4b012d1274d7891913fafa8ae74e2e554a161680))
+* **gam:** strict container bounds for ad slot ([#375](https://github.com/Automattic/newspack-ads/issues/375)) ([69103ad](https://github.com/Automattic/newspack-ads/commit/69103ad2d733732e1a6758c62a39700c104a8a3c))
+* **integrations:** disable refresh control for adsense ([#373](https://github.com/Automattic/newspack-ads/issues/373)) ([c7e184f](https://github.com/Automattic/newspack-ads/commit/c7e184f63cb6f5b027f734fb265dd4179a52758e))
+* **placements:** ad unit preview ([#367](https://github.com/Automattic/newspack-ads/issues/367)) ([aab1265](https://github.com/Automattic/newspack-ads/commit/aab126589554da789f444c16ad270f56c31867dd))
+
+## [1.30.1](https://github.com/Automattic/newspack-ads/compare/v1.30.0...v1.30.1) (2022-04-06)
+
+
+### Bug Fixes
+
+* **blocks:** ensure id uniqueness ([#362](https://github.com/Automattic/newspack-ads/issues/362)) ([07870aa](https://github.com/Automattic/newspack-ads/commit/07870aa200721f8e17497ac91e6e1c34f89b4a75))
+
+# [1.30.0](https://github.com/Automattic/newspack-ads/compare/v1.29.0...v1.30.0) (2022-04-05)
+
+
+### Bug Fixes
+
+* **gam:** consider size map viewport count for responsive strategy ([#350](https://github.com/Automattic/newspack-ads/issues/350)) ([e793f5b](https://github.com/Automattic/newspack-ads/commit/e793f5b8646f728543abafe1aef9fc7f5b8adcc3))
+* **gam:** remove unused gpt script ([#352](https://github.com/Automattic/newspack-ads/issues/352)) ([c6b984a](https://github.com/Automattic/newspack-ads/commit/c6b984a2fa8410d00014403882ff5bbe9d4e04f1))
+* **integrations:** ad refresh control sanitized settings ([#359](https://github.com/Automattic/newspack-ads/issues/359)) ([68422ff](https://github.com/Automattic/newspack-ads/commit/68422ff792b08540f86e958bdab50131fb31dec4))
+* **placements:** add action hook ([#349](https://github.com/Automattic/newspack-ads/issues/349)) ([e0a8f57](https://github.com/Automattic/newspack-ads/commit/e0a8f576a49ecb51fee8ca031dbf91f07dc86bf7))
+* **placements:** remove default ad unit ([#351](https://github.com/Automattic/newspack-ads/issues/351)) ([7d7b359](https://github.com/Automattic/newspack-ads/commit/7d7b359e717697042a90a61da4e97ce35e574e58))
+* template targeting basename ([#330](https://github.com/Automattic/newspack-ads/issues/330)) ([8fe7e66](https://github.com/Automattic/newspack-ads/commit/8fe7e6635d21687a8891c2af5cf77d7c6bffb453))
+
+
+### Features
+
+* ad unit block as a dynamic placement ([#322](https://github.com/Automattic/newspack-ads/issues/322)) ([b12eeff](https://github.com/Automattic/newspack-ads/commit/b12eeff5c59d94a36ad4ff2a16cd921af8de26b8))
+* integrate ad refresh control plugin ([#346](https://github.com/Automattic/newspack-ads/issues/346)) ([3ebbed3](https://github.com/Automattic/newspack-ads/commit/3ebbed3706e28b3dfa4a17d7e1086b6fe4ecc4f7))
+
+# [1.30.0-alpha.2](https://github.com/Automattic/newspack-ads/compare/v1.30.0-alpha.1...v1.30.0-alpha.2) (2022-04-05)
+
+
+### Bug Fixes
+
+* **integrations:** ad refresh control sanitized settings ([#359](https://github.com/Automattic/newspack-ads/issues/359)) ([68422ff](https://github.com/Automattic/newspack-ads/commit/68422ff792b08540f86e958bdab50131fb31dec4))
+
+# [1.30.0-alpha.1](https://github.com/Automattic/newspack-ads/compare/v1.29.0...v1.30.0-alpha.1) (2022-03-31)
+
+
+### Bug Fixes
+
+* **gam:** consider size map viewport count for responsive strategy ([#350](https://github.com/Automattic/newspack-ads/issues/350)) ([e793f5b](https://github.com/Automattic/newspack-ads/commit/e793f5b8646f728543abafe1aef9fc7f5b8adcc3))
+* **gam:** remove unused gpt script ([#352](https://github.com/Automattic/newspack-ads/issues/352)) ([c6b984a](https://github.com/Automattic/newspack-ads/commit/c6b984a2fa8410d00014403882ff5bbe9d4e04f1))
+* **placements:** add action hook ([#349](https://github.com/Automattic/newspack-ads/issues/349)) ([e0a8f57](https://github.com/Automattic/newspack-ads/commit/e0a8f576a49ecb51fee8ca031dbf91f07dc86bf7))
+* **placements:** remove default ad unit ([#351](https://github.com/Automattic/newspack-ads/issues/351)) ([7d7b359](https://github.com/Automattic/newspack-ads/commit/7d7b359e717697042a90a61da4e97ce35e574e58))
+* template targeting basename ([#330](https://github.com/Automattic/newspack-ads/issues/330)) ([8fe7e66](https://github.com/Automattic/newspack-ads/commit/8fe7e6635d21687a8891c2af5cf77d7c6bffb453))
+
+
+### Features
+
+* ad unit block as a dynamic placement ([#322](https://github.com/Automattic/newspack-ads/issues/322)) ([b12eeff](https://github.com/Automattic/newspack-ads/commit/b12eeff5c59d94a36ad4ff2a16cd921af8de26b8))
+* integrate ad refresh control plugin ([#346](https://github.com/Automattic/newspack-ads/issues/346)) ([3ebbed3](https://github.com/Automattic/newspack-ads/commit/3ebbed3706e28b3dfa4a17d7e1086b6fe4ecc4f7))
+
+# [1.29.0](https://github.com/Automattic/newspack-ads/compare/v1.28.0...v1.29.0) (2022-03-22)
+
+
+### Bug Fixes
+
+* empty bidder unit id ([#328](https://github.com/Automattic/newspack-ads/issues/328)) ([ecc2715](https://github.com/Automattic/newspack-ads/commit/ecc27155ca0273d009b01280e1fcbef520f89b6b))
+* **header-bidding:** ensure sizes for creative placeholders ([#325](https://github.com/Automattic/newspack-ads/issues/325)) ([c85f5b4](https://github.com/Automattic/newspack-ads/commit/c85f5b4b74ef6d81e5d0657abfdefaa2555a2c96))
+* use ad unit size count for determining responsive amp ads strategy ([#319](https://github.com/Automattic/newspack-ads/issues/319)) ([8578719](https://github.com/Automattic/newspack-ads/commit/8578719349f46543cffa46d25c82c4acef04f918))
+
+
+### Features
+
+* Ads providers and Broadstreet integration ([#313](https://github.com/Automattic/newspack-ads/issues/313)) ([f491b17](https://github.com/Automattic/newspack-ads/commit/f491b1727e93bccd32f2e81a0502138621c594ab))
+* apply custom label to ad unit block and widget ([#307](https://github.com/Automattic/newspack-ads/issues/307)) ([5a62a52](https://github.com/Automattic/newspack-ads/commit/5a62a5228ffc78a8a74eb0904cae32f0582bde5d))
+
+# [1.29.0-alpha.1](https://github.com/Automattic/newspack-ads/compare/v1.28.0...v1.29.0-alpha.1) (2022-03-15)
+
+
+### Bug Fixes
+
+* empty bidder unit id ([#328](https://github.com/Automattic/newspack-ads/issues/328)) ([ecc2715](https://github.com/Automattic/newspack-ads/commit/ecc27155ca0273d009b01280e1fcbef520f89b6b))
+* **header-bidding:** ensure sizes for creative placeholders ([#325](https://github.com/Automattic/newspack-ads/issues/325)) ([c85f5b4](https://github.com/Automattic/newspack-ads/commit/c85f5b4b74ef6d81e5d0657abfdefaa2555a2c96))
+* use ad unit size count for determining responsive amp ads strategy ([#319](https://github.com/Automattic/newspack-ads/issues/319)) ([8578719](https://github.com/Automattic/newspack-ads/commit/8578719349f46543cffa46d25c82c4acef04f918))
+
+
+### Features
+
+* Ads providers and Broadstreet integration ([#313](https://github.com/Automattic/newspack-ads/issues/313)) ([f491b17](https://github.com/Automattic/newspack-ads/commit/f491b1727e93bccd32f2e81a0502138621c594ab))
+* apply custom label to ad unit block and widget ([#307](https://github.com/Automattic/newspack-ads/issues/307)) ([5a62a52](https://github.com/Automattic/newspack-ads/commit/5a62a5228ffc78a8a74eb0904cae32f0582bde5d))
+
+# [1.28.0](https://github.com/Automattic/newspack-ads/compare/v1.27.0...v1.28.0) (2022-03-08)
+
+
+### Bug Fixes
+
+* **header-bidding:** ensure sizes for creative placeholders ([#325](https://github.com/Automattic/newspack-ads/issues/325)) ([fc7adc9](https://github.com/Automattic/newspack-ads/commit/fc7adc9ca77b2494aedc1e23d6ee0c6db703de39))
+
+
+### Features
+
+* capitalise labels ([#318](https://github.com/Automattic/newspack-ads/issues/318)) ([c6d348b](https://github.com/Automattic/newspack-ads/commit/c6d348b13d3bf007de6ad86246b768798a0d427b))
+* **header-bidding:** enable user syncing through iframes for OpenX ([#317](https://github.com/Automattic/newspack-ads/issues/317)) ([a704b55](https://github.com/Automattic/newspack-ads/commit/a704b55da94dd9a69906b38adeafe2b699b1daf0))
+* **header-bidding:** multiple gam orders ([#310](https://github.com/Automattic/newspack-ads/issues/310)) ([8e4f123](https://github.com/Automattic/newspack-ads/commit/8e4f123e0119bb45e4112d82f8b6387925c9228c))
+
+# [1.28.0-alpha.2](https://github.com/Automattic/newspack-ads/compare/v1.28.0-alpha.1...v1.28.0-alpha.2) (2022-03-08)
+
+
+### Bug Fixes
+
+* **header-bidding:** ensure sizes for creative placeholders ([#325](https://github.com/Automattic/newspack-ads/issues/325)) ([fc7adc9](https://github.com/Automattic/newspack-ads/commit/fc7adc9ca77b2494aedc1e23d6ee0c6db703de39))
+
+# [1.28.0-alpha.1](https://github.com/Automattic/newspack-ads/compare/v1.27.0...v1.28.0-alpha.1) (2022-02-24)
+
+
+### Features
+
+* capitalise labels ([#318](https://github.com/Automattic/newspack-ads/issues/318)) ([c6d348b](https://github.com/Automattic/newspack-ads/commit/c6d348b13d3bf007de6ad86246b768798a0d427b))
+* **header-bidding:** enable user syncing through iframes for OpenX ([#317](https://github.com/Automattic/newspack-ads/issues/317)) ([a704b55](https://github.com/Automattic/newspack-ads/commit/a704b55da94dd9a69906b38adeafe2b699b1daf0))
+* **header-bidding:** multiple gam orders ([#310](https://github.com/Automattic/newspack-ads/issues/310)) ([8e4f123](https://github.com/Automattic/newspack-ads/commit/8e4f123e0119bb45e4112d82f8b6387925c9228c))
+
+# [1.27.0](https://github.com/Automattic/newspack-ads/compare/v1.26.4...v1.27.0) (2022-02-22)
+
+
+### Bug Fixes
+
+* dont query inactive ad units ([#296](https://github.com/Automattic/newspack-ads/issues/296)) ([91a6eda](https://github.com/Automattic/newspack-ads/commit/91a6eda80cf3afbd448e054800c599830a9ff96e))
+
+
+### Features
+
+* add OpenX, PubMatic and Sovrn to header bidding ([#290](https://github.com/Automattic/newspack-ads/issues/290)) ([f60c480](https://github.com/Automattic/newspack-ads/commit/f60c48019d2725cdd2ee5ce6d9475278f7fe4f99))
+* add template targeting key ([#297](https://github.com/Automattic/newspack-ads/issues/297)) ([be75360](https://github.com/Automattic/newspack-ads/commit/be753601a07a4fb3cc86ce955d04a628b29fc977))
+
+# [1.27.0-alpha.1](https://github.com/Automattic/newspack-ads/compare/v1.26.4...v1.27.0-alpha.1) (2022-02-10)
+
+
+### Bug Fixes
+
+* dont query inactive ad units ([#296](https://github.com/Automattic/newspack-ads/issues/296)) ([91a6eda](https://github.com/Automattic/newspack-ads/commit/91a6eda80cf3afbd448e054800c599830a9ff96e))
+
+
+### Features
+
+* add OpenX, PubMatic and Sovrn to header bidding ([#290](https://github.com/Automattic/newspack-ads/issues/290)) ([f60c480](https://github.com/Automattic/newspack-ads/commit/f60c48019d2725cdd2ee5ce6d9475278f7fe4f99))
+* add template targeting key ([#297](https://github.com/Automattic/newspack-ads/issues/297)) ([be75360](https://github.com/Automattic/newspack-ads/commit/be753601a07a4fb3cc86ce955d04a628b29fc977))
+
 ## [1.26.4](https://github.com/Automattic/newspack-ads/compare/v1.26.3...v1.26.4) (2022-02-08)
 
 
