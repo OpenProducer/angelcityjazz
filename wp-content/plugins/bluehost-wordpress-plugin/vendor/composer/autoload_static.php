@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0bbe2947eb5325f82052be9264c7f540
+class ComposerStaticInit95203b17a8dc6fbcbaf114aef70138bb
 {
     public static $files = array (
         'b62570ec8ed5d9ce1990d98269e51fa3' => __DIR__ . '/..' . '/endurance/wp-module-data/bootstrap.php',
@@ -13,6 +13,7 @@ class ComposerStaticInit0bbe2947eb5325f82052be9264c7f540
         '0774e44945781cd5a8d0b0dc32f80615' => __DIR__ . '/..' . '/bluehost/endurance-wp-module-gutenframe/bootstrap.php',
         '0a7ee76a6dd15c6349ed695bd3b2a987' => __DIR__ . '/..' . '/bluehost/endurance-wp-module-loader/module-loader.php',
         '6e09b332987211bb2939025b3ed3c51b' => __DIR__ . '/..' . '/bluehost/endurance-wp-module-sso/bootstrap.php',
+        '748560bdb9c548e074991a1f2181a2f5' => __DIR__ . '/..' . '/bluehost/wp-module-secure-passwords/bootstrap.php',
         '89c483fff8e47bfb3a84bf56b0ff5160' => __DIR__ . '/..' . '/wp-forge/helpers/includes/functions.php',
     );
 
@@ -53,8 +54,8 @@ class ComposerStaticInit0bbe2947eb5325f82052be9264c7f540
     public static $prefixDirsPsr4 = array (
         'wpscholar\\' => 
         array (
-            0 => __DIR__ . '/..' . '/wpscholar/url',
-            1 => __DIR__ . '/..' . '/wpscholar/collection',
+            0 => __DIR__ . '/..' . '/wpscholar/collection',
+            1 => __DIR__ . '/..' . '/wpscholar/url',
         ),
         'WP_Forge\\Helpers\\' => 
         array (
@@ -108,6 +109,7 @@ class ComposerStaticInit0bbe2947eb5325f82052be9264c7f540
         'Bluehost\\AccessToken' => __DIR__ . '/../..' . '/inc/AccessToken.php',
         'Bluehost\\AdminBar' => __DIR__ . '/../..' . '/inc/AdminBar.php',
         'Bluehost\\BuildAssets' => __DIR__ . '/../..' . '/inc/BuildAssets.php',
+        'Bluehost\\CTB\\CTBApi' => __DIR__ . '/../..' . '/inc/CTB/CTBApi.php',
         'Bluehost\\LoginRedirect' => __DIR__ . '/../..' . '/inc/LoginRedirect.php',
         'Bluehost\\Notifications\\AdminNotices' => __DIR__ . '/../..' . '/inc/Notifications/AdminNotices.php',
         'Bluehost\\Notifications\\Notification' => __DIR__ . '/../..' . '/inc/Notifications/Notification.php',
@@ -238,10 +240,10 @@ class ComposerStaticInit0bbe2947eb5325f82052be9264c7f540
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0bbe2947eb5325f82052be9264c7f540::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0bbe2947eb5325f82052be9264c7f540::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit0bbe2947eb5325f82052be9264c7f540::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit0bbe2947eb5325f82052be9264c7f540::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit95203b17a8dc6fbcbaf114aef70138bb::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit95203b17a8dc6fbcbaf114aef70138bb::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit95203b17a8dc6fbcbaf114aef70138bb::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit95203b17a8dc6fbcbaf114aef70138bb::$classMap;
 
         }, null, ClassLoader::class);
     }

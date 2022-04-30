@@ -55,6 +55,8 @@ With Tracking Code Manager you can forget about this problem also if you will ch
 
 You can also click on this link [http://intellywp.com/tracking-code-manager/](http://intellywp.com/tracking-code-manager/?utm_source=wordpress-org&utm_medium=plugin-page&utm_campaign=TCM) to see a full explanation. This is our official webpage, you will see the plugin in action, with the possibility to buy PREMIUM version and have full support.
 
+For documentation click here: [https://intellywp.com/docs/category/tracking-code-manager/](https://intellywp.com/docs/category/tracking-code-manager/)
+
 == Frequently Asked Questions ==
 
 > <strong>Bug Reports</strong><br>
@@ -104,6 +106,15 @@ Have a look at the source code of your page (search for: Tracking Code Manager) 
 6. Tracking code manager is also as a metabox in your posts/pages (you can remove by settings)
 
 == Changelog ==
+
+For detailed release notes, see our documentation here: [https://intellywp.com/docs/category/tracking-code-manager/](https://intellywp.com/docs/category/tracking-code-manager/).
+
+= 2.0.6 =
+*Release Date - 2022-4-7*
+
+* IWP-419 Fix conflict with WP Super Cache
+* IWP-420 & IWP-421 Add documentation links
+* Reduce PHP requirement to 5.6
 
 = 2.0.5 =
 *Release Date - 2022-2-14*

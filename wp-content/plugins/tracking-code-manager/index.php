@@ -6,9 +6,9 @@ Description: A plugin to manage ALL your tracking code and conversion pixels, si
 Author: Data443
 Author URI: https://data443.com/
 Email: info@intellywp.com
-Version: 2.0.5
+Version: 2.0.6
 Requires at least: 3.6.0
-Requires PHP: 7.3
+Requires PHP: 5.6
 */
 if(defined('TCMP_PLUGIN_NAME')) {
     function tcmp_admin_notices() {
@@ -26,7 +26,7 @@ define('TCMP_PLUGIN_PREFIX', 'TCMP_');
 define('TCMP_PLUGIN_FILE',__FILE__);
 define('TCMP_PLUGIN_SLUG', 'tracking-code-manager');
 define('TCMP_PLUGIN_NAME', 'Tracking Code Manager');
-define('TCMP_PLUGIN_VERSION', '2.0.5');
+define('TCMP_PLUGIN_VERSION', '2.0.6');
 define('TCMP_PLUGIN_AUTHOR', 'IntellyWP');
 
 define('TCMP_PLUGIN_DIR', dirname(__FILE__).'/');
@@ -71,6 +71,8 @@ define('TCMP_TAB_EDITOR', 'editor');
 define('TCMP_TAB_EDITOR_URI', TCMP_PAGE_MANAGER.'&tab='.TCMP_TAB_EDITOR);
 define('TCMP_TAB_MANAGER', 'manager');
 define('TCMP_TAB_MANAGER_URI', TCMP_PAGE_MANAGER.'&tab='.TCMP_TAB_MANAGER);
+define('TCMP_TAB_ADMIN_OPTIONS', 'admin options');
+define('TCMP_TAB_ADMIN_OPTIONS_URI', TCMP_PAGE_MANAGER.'&tab='.TCMP_TAB_ADMIN_OPTIONS);
 define('TCMP_TAB_SETTINGS', 'settings');
 define('TCMP_TAB_SETTINGS_URI', TCMP_PAGE_MANAGER.'&tab='.TCMP_TAB_SETTINGS);
 define('TCMP_TAB_DOCS', 'docs');

@@ -2,6 +2,7 @@ AboutNotice=Thank you for trying our amazing plugin. Now you are able to quickly
 AboutText1=We are Stefan and Alex, two guys in love with Wordpress, coding and marketing! Our company IntellyWP is an idea to bring Intelly ideas to your Intelly site ;)
 AboutText2=Feel free to reach us by the feedback form below.
 AboutTitle=We make Intelly plugins for your Intelly site
+AdminOptions.checkbox=Modify Superglobal Variable
 Actions=
 ActivateError=Errors activating key. Network problem or wrong password
 ActivateSuccess1=License key "{0}" successfully activated

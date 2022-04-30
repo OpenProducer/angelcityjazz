@@ -428,6 +428,22 @@ class TCMP_Options {
         $this->setOption('MetaboxPostTypes', $values);
     }
 
+    // Modify Superglobal Variable
+    public function getModifySuperglobalVariable()
+    {
+        return $this->getOption('ModifySuperglobalVariable', false);
+    }
+    
+    public function setModifySuperglobalVariable($value)
+    {
+        global $tcmp;
+        if ($tcmp->Utils->isTrue($value)) {
+            $this->setOption('ModifySuperglobalVariable', true);
+        } else {
+            $this->setOption('ModifySuperglobalVariable', false);
+        }
+    }
+
     //hook priority
     public function getHookPriority()
     {

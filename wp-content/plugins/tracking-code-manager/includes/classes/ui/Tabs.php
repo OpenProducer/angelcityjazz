@@ -103,6 +103,7 @@ class TCMP_Tabs {
             }
 
             $this->tabs[TCMP_TAB_MANAGER]=$tcmp->Lang->L('Manager');
+            $this->tabs[TCMP_TAB_ADMIN_OPTIONS] = $tcmp->Lang->L('Admin Options');
             $this->tabs[TCMP_TAB_SETTINGS]=$tcmp->Lang->L('Settings');
             $this->tabs[TCMP_TAB_DOCS]=$tcmp->Lang->L('Docs & FAQ');
         }
@@ -122,6 +123,9 @@ class TCMP_Tabs {
                     break;
                 case TCMP_TAB_MANAGER:
                     $header='Manager';
+                    break;
+                case TCMP_TAB_ADMIN_OPTIONS:
+                    $header='Admin Options';
                     break;
                 case TCMP_TAB_SETTINGS:
                     $header='Settings';
@@ -158,6 +162,9 @@ class TCMP_Tabs {
                             break;
                         case TCMP_TAB_MANAGER:
                             tcmp_ui_manager();
+                            break;
+                        case TCMP_TAB_ADMIN_OPTIONS:
+                            tcmp_ui_admin_options();
                             break;
                         case TCMP_TAB_SETTINGS:
                             tcmp_ui_track();

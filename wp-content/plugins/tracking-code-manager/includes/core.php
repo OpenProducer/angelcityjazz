@@ -40,6 +40,12 @@ function tcmp_footer() {
 
     $tcmp->Manager->writeCodes(TCMP_POSITION_CONVERSION);
     $tcmp->Manager->writeCodes(TCMP_POSITION_FOOTER);
+
+    if ($tcmp->Options->getModifySuperglobalVariable()) {
+        if (function_exists('wp_cache_set_home')) {
+            unset($_POST);
+        }
+    }
 }
 
 //volendo funziona anche con gli shortcode

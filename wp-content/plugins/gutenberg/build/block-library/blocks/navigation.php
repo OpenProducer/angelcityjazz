@@ -361,9 +361,13 @@ function gutenberg_block_core_navigation_get_fallback_blocks() {
  */
 function gutenberg_render_block_core_navigation( $attributes, $content, $block ) {
 
+	static $seen_menu_names = array();
+
 	// Flag used to indicate whether the rendered output is considered to be
 	// a fallback (i.e. the block has no menu associated with it).
 	$is_fallback = false;
+
+	$nav_menu_name = '';
 
 	/**
 	 * Deprecated:
@@ -390,6 +394,11 @@ function gutenberg_render_block_core_navigation( $attributes, $content, $block )
 	$should_load_view_script      = ! wp_script_is( 'wp-block-navigation-view' ) && ( $is_responsive_menu || $attributes['openSubmenusOnClick'] || $attributes['showSubmenuIcon'] );
 	if ( $should_load_view_script ) {
 		wp_enqueue_script( 'wp-block-navigation-view' );
+	}
+
+	$should_load_modal_view_script = isset( $attributes['overlayMenu'] ) && 'never' !== $attributes['overlayMenu'];
+	if ( $should_load_modal_view_script ) {
+		wp_enqueue_script( 'wp-block-navigation-view-modal' );
 	}
 
 	$inner_blocks = $block->inner_blocks;
@@ -426,6 +435,14 @@ function gutenberg_render_block_core_navigation( $attributes, $content, $block )
 		$navigation_post = get_post( $attributes['ref'] );
 		if ( ! isset( $navigation_post ) ) {
 			return '';
+		}
+
+		$nav_menu_name = $navigation_post->post_title;
+
+		if ( isset( $seen_menu_names[ $nav_menu_name ] ) ) {
+			++$seen_menu_names[ $nav_menu_name ];
+		} else {
+			$seen_menu_names[ $nav_menu_name ] = 1;
 		}
 
 		$parsed_blocks = parse_blocks( $navigation_post->post_content );
@@ -474,6 +491,10 @@ function gutenberg_render_block_core_navigation( $attributes, $content, $block )
 		$layout_class .= ' no-wrap';
 	}
 
+	// Manually add block support text decoration as CSS class.
+	$text_decoration       = _wp_array_get( $attributes, array( 'style', 'typography', 'textDecoration' ), null );
+	$text_decoration_class = sprintf( 'has-text-decoration-%s', $text_decoration );
+
 	$colors     = gutenberg_block_core_navigation_build_css_colors( $attributes );
 	$font_sizes = gutenberg_block_core_navigation_build_css_font_sizes( $attributes );
 	$classes    = array_merge(
@@ -481,7 +502,8 @@ function gutenberg_render_block_core_navigation( $attributes, $content, $block )
 		$font_sizes['css_classes'],
 		$is_responsive_menu ? array( 'is-responsive' ) : array(),
 		$layout_class ? array( $layout_class ) : array(),
-		$is_fallback ? array( 'is-fallback' ) : array()
+		$is_fallback ? array( 'is-fallback' ) : array(),
+		$text_decoration ? array( $text_decoration_class ) : array()
 	);
 
 	$inner_blocks_html = '';
@@ -508,10 +530,18 @@ function gutenberg_render_block_core_navigation( $attributes, $content, $block )
 
 	$block_styles = isset( $attributes['styles'] ) ? $attributes['styles'] : '';
 
+	// If the menu name has been used previously then append an ID
+	// to the name to ensure uniqueness across a given post.
+	if ( isset( $seen_menu_names[ $nav_menu_name ] ) && $seen_menu_names[ $nav_menu_name ] > 1 ) {
+		$count         = $seen_menu_names[ $nav_menu_name ];
+		$nav_menu_name = $nav_menu_name . ' ' . ( $count );
+	}
+
 	$wrapper_attributes = get_block_wrapper_attributes(
 		array(
-			'class' => implode( ' ', $classes ),
-			'style' => $block_styles . $colors['inline_styles'] . $font_sizes['inline_styles'],
+			'class'      => implode( ' ', $classes ),
+			'style'      => $block_styles . $colors['inline_styles'] . $font_sizes['inline_styles'],
+			'aria-label' => $nav_menu_name,
 		)
 	);
 

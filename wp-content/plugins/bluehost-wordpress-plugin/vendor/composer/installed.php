@@ -1,22 +1,22 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '2.9.0',
-        'version' => '2.9.0.0',
+        'pretty_version' => '2.10.0',
+        'version' => '2.10.0.0',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '802234e9f1d7d90dcc443c6be335ad7a5b81fd56',
+        'reference' => '035b5659cb0777d8f0da008eecf734d7fe2c52e1',
         'name' => 'bluehost/bluehost-wordpress-plugin',
         'dev' => false,
     ),
     'versions' => array(
         'bluehost/bluehost-wordpress-plugin' => array(
-            'pretty_version' => '2.9.0',
-            'version' => '2.9.0.0',
+            'pretty_version' => '2.10.0',
+            'version' => '2.10.0.0',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '802234e9f1d7d90dcc443c6be335ad7a5b81fd56',
+            'reference' => '035b5659cb0777d8f0da008eecf734d7fe2c52e1',
             'dev_requirement' => false,
         ),
         'bluehost/bluehost-wp-customer-data' => array(
@@ -71,6 +71,15 @@
             'install_path' => __DIR__ . '/../bluehost/endurance-wp-plugin-updater',
             'aliases' => array(),
             'reference' => '7ba33e3f02d612aa5e5e25751c945d6c700d1653',
+            'dev_requirement' => false,
+        ),
+        'bluehost/wp-module-secure-passwords' => array(
+            'pretty_version' => '1.0.3',
+            'version' => '1.0.3.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../bluehost/wp-module-secure-passwords',
+            'aliases' => array(),
+            'reference' => '9b16736255c20970b13ee266677edf9f3bc22e34',
             'dev_requirement' => false,
         ),
         'doctrine/inflector' => array(
