@@ -1,0 +1,102 @@
+/* Help Page */
+div.sp-lcpro-help .feature-section .sp-lcpro-feature {
+    background-color: #fff;
+    padding: 20px 20px;
+    border: 1px solid #ddd;
+}
+div.sp-lcpro-help .feature-section .sp-lcpro-feature h3 {
+    font-size: 16px;
+    margin-top: 18px;
+}
+div.sp-lcpro-help .feature-section i.sp-font {
+    font-size: 30px;
+    display: block;
+    color: #16a08b;
+}
+div.sp-lcpro-help.about-wrap h1 {
+    font-size: 2.6em;
+}
+div.sp-lcpro-help .headline-feature.feature-video {
+    position: relative;
+    margin: 40px 0;
+    padding-bottom: 56.25%;
+    width: 100%;
+    max-width: 100%;
+    height: 0;
+    text-align: center;
+}
+div.sp-lcpro-help .headline-feature.feature-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+div.sp-lcpro-help.about-wrap .sp-lcpro-text-center{
+    text-align: center;
+}
+
+/*
+More Plugins
+*/
+.about-wrap .plugin-section .three-col .col {
+    background: #ffffff;
+}
+.about-wrap .plugin-section .three-col .col .sp-lcpro-plugin {
+    border: 1px solid #ddd;
+}
+.about-wrap .plugin-section .three-col .col .sp-lcpro-plugin .sp-lcpro-plugin-content {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px
+}
+.about-wrap .plugin-section .three-col .col .sp-lcpro-plugin .sp-lcpro-plugin-content h3 {
+    margin-top: 20px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.about-wrap .plugin-section .three-col .col .sp-lcpro-plugin .sp-lcpro-plugin-content p {
+    margin-top: 0;
+}
+.about-wrap .plugin-section .sp-plugin-section-title h2 {
+    font-size: 2.2em;
+    color: #32373c;
+    font-weight: 400;
+}
+.about-wrap .plugin-section .sp-plugin-section-title h4 {
+    font-weight: 400;
+    text-align: center;
+    font-size: 18px;
+    color: #555d66;
+    margin-top: 15px;
+    margin-bottom: 40px;
+}
+.sp-lcpro-help.about-wrap [class$="-col"] {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.sp-lcpro-help.about-wrap [class$="-col"] .col {
+    flex: 1;
+    align-self: flex-start;
+}
+.sp-lcpro-help.about-wrap  .col {
+    margin-top: 40px;
+}
+.about-wrap [class$="-col"] .col+.col {
+    margin-left: 20px;
+}
+
+@media screen and (max-width: 782px){
+    .about-wrap .three-col .col {
+        min-width: 48%!important;
+        max-width: 48%!important;
+        margin-left: 0!important;
+    }
+}
+@media only screen and (max-width: 500px){
+    .about-wrap .three-col .col {
+        min-width: 100%!important;
+        max-width: 100%!important;
+    }
+}

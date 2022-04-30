@@ -1,0 +1,1891 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Logo Carousel Pro 3.3.5\n"
+"POT-Creation-Date: 2019-03-16 10:58+0600\n"
+"PO-Revision-Date: 2019-03-16 10:58+0600\n"
+"Last-Translator: \n"
+"Language-Team: ShapedPlugin <support@shapedplugin.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.7\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_x;esc_html__;esc_html_e;esc_html_x;esc_attr__;"
+"esc_attr_e;esc_attr_x\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../admin/views/metabox/classes/framework.class.php:169
+msgid "Default options restored."
+msgstr ""
+
+#: ../admin/views/metabox/classes/framework.class.php:188
+msgid "Default options restored for only this section."
+msgstr ""
+
+#: ../admin/views/metabox/classes/framework.class.php:328
+msgid "Settings saved."
+msgstr ""
+
+#: ../admin/views/metabox/classes/framework.class.php:330
+msgid "Save Changes"
+msgstr ""
+
+#: ../admin/views/metabox/classes/framework.class.php:330
+msgid "Saving..."
+msgstr ""
+
+#: ../admin/views/metabox/classes/framework.class.php:331
+msgid "Restore"
+msgstr ""
+
+#: ../admin/views/metabox/classes/framework.class.php:334
+msgid "Reset All Options"
+msgstr ""
+
+#: ../admin/views/metabox/classes/metabox.class.php:118
+#: ../logo-carousel-pro.php:271
+msgid "Shortcode"
+msgstr ""
+
+#: ../admin/views/metabox/classes/metabox.class.php:119
+msgid "Copy and paste this shortcode into your posts or pages:"
+msgstr ""
+
+#: ../admin/views/metabox/classes/metabox.class.php:126
+msgid "Template Include"
+msgstr ""
+
+#: ../admin/views/metabox/classes/metabox.class.php:127
+msgid "Paste the PHP code into your template file:"
+msgstr ""
+
+#: ../admin/views/metabox/classes/metabox.class.php:134
+msgid "Post or Page editor"
+msgstr ""
+
+#: ../admin/views/metabox/classes/metabox.class.php:135
+msgid "Insert the shortcode with the TinyMCE button:"
+msgstr ""
+
+#: ../admin/views/metabox/classes/options.class.php:125
+msgid "CONFIG"
+msgstr ""
+
+#: ../admin/views/metabox/classes/options.class.php:131
+#: ../admin/views/metabox/classes/options.class.php:151
+msgid "USAGE"
+msgstr ""
+
+#: ../admin/views/metabox/classes/options.class.php:137
+msgid "VALUE"
+msgstr ""
+
+#: ../admin/views/metabox/classes/options.class.php:155
+msgid "ID"
+msgstr ""
+
+#: ../admin/views/metabox/classes/options.class.php:227
+#, php-format
+msgid "You are editing language: ( <strong>%s</strong> )"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:10
+msgid "Settings"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:16
+#: ../admin/views/vc-add-on.php:35 ../admin/views/widget.php:22
+#: ../class/logos.php:73
+msgid "Logo Carousel Pro"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:31
+msgid "Advanced Settings"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:39
+msgid "Google Fonts?"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:40
+msgid "On/off the switch to enqueue/dequeue google fonts."
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:46
+msgid "Remove Data on Uninstall?"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:47
+msgid ""
+"Check this box if you would like Logo Carousel Pro to completely remove all "
+"of its data when the plugin is deleted."
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:53
+msgid "CSS Enqueue/Dequeue"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:58
+msgid "FontAwesome CSS"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:59
+msgid "On/off the switch to enqueue/dequeue fontawesome css."
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:65
+msgid "Slick CSS"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:66
+msgid "On/off the switch to enqueue/dequeue slick css."
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:72
+msgid "BXSlider CSS"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:73
+msgid "On/off the switch to enqueue/dequeue bxslider css."
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:79
+msgid "Tooltipster CSS"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:80
+msgid "On/off the switch to enqueue/dequeue tooltipster css."
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:86
+msgid "JS Enqueue/Dequeue"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:91
+msgid "Remodal JS"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:92
+msgid "On/off the switch to enqueue/dequeue remodal js."
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:98
+msgid "BXSlider JS"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:99
+msgid "On/off the switch to enqueue/dequeue bxslider js."
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:105
+msgid "Slick JS"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:106
+msgid "On/off the switch to enqueue/dequeue slick js."
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:112
+msgid "Tooltipster JS"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:113
+msgid "On/off the switch to enqueue/dequeue tooltipster js."
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:119
+msgid "Isotope JS"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:120
+msgid "On/off the switch to enqueue/dequeue isotope js."
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:132
+#: ../admin/views/metabox/config/framework.config.php:139
+msgid "Custom CSS"
+msgstr ""
+
+#: ../admin/views/metabox/config/framework.config.php:140
+msgid "Type your custom css."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:16
+msgid "Shortcode Options"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:25
+msgid "General Settings"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:35
+#: ../logo-carousel-pro.php:270
+msgid "Layout"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:36
+msgid "Select which layout you want to display"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:38
+msgid "Carousel"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:39
+msgid "Grid"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:40
+msgid "Filter"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:41
+msgid "List"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:42
+msgid "Inline"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:49
+msgid "Filter Style"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:50
+msgid "Choose the filter style."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:53
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:186
+msgid "Normal"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:54
+#: ../admin/views/metabox/config/metabox.config.php:1155
+msgid "Opacity"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:65
+msgid "Layout Mode"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:66
+msgid "Choose the layout mode."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:68
+msgid "Masonry"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:69
+msgid "Even"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:77
+msgid "Carousel Mode"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:78
+msgid "Select a carousel mode."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:81
+msgid "Standard"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:82
+msgid "Ticker"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:83
+#: ../admin/views/metabox/config/metabox.config.php:104
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:153
+msgid "Center"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:100
+msgid "List Style"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:101
+msgid "Used as the style of list"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:103
+#: ../admin/views/metabox/config/metabox.config.php:962
+#: ../admin/views/metabox/fields/margin/margin.php:45
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:152
+msgid "Left"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:105
+#: ../admin/views/metabox/config/metabox.config.php:963
+#: ../admin/views/metabox/fields/margin/margin.php:87
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:154
+msgid "Right"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:113
+msgid "Display Logos from"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:114
+msgid "Select an option to display the logos."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:116
+msgid "Latest"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:117
+#: ../class/taxonomy.php:53
+msgid "Category"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:118
+msgid "Specific Logos"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:125
+msgid "Choose Categories"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:126
+msgid "Choose the categories to show the logos from"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:134
+msgid "Select Categories"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:143
+msgid "Operator"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:144
+msgid "Choose the operator."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:146
+msgid "IN - Show logos which associate with one or more terms"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:147
+msgid "AND - Show logos which match all terms"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:148
+msgid "NOT IN - Show logos which don't match the terms"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:160
+msgid "Select Logos"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:161
+msgid "Choose the logos to display."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:171
+msgid "Choose Logos"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:183
+msgid "Total Logos"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:184
+msgid "Number of total logos to display."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:193
+#: ../admin/views/metabox/config/metabox.config.php:222
+msgid "Logo Columns"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:194
+msgid "Set Logo column on devices."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:223
+msgid "Set Logo column number on ticker carousel."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:239
+msgid "Logo Link"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:240
+msgid "On/Off to enable or disable the logo link."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:246
+msgid "Logo Detail Link Type"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:247
+msgid "Set logo detail link type."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:249
+msgid "External Link"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:250
+msgid "Popup"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:261
+msgid "Link Target"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:262
+msgid "Set logo link target."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:264
+msgid "Open a new tab"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:265
+msgid "Open in the same window"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:273
+msgid "Order by"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:274
+msgid "Set a order by option."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:276
+msgid "Drag & Drop"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:277
+#: ../logo-carousel-pro.php:273 ../logo-carousel-pro.php:320
+msgid "Date"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:278
+msgid "Random"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:279
+#: ../admin/views/metabox/config/metabox.config.php:813
+#: ../logo-carousel-pro.php:269 ../logo-carousel-pro.php:316
+msgid "Title"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:286
+msgid "Order"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:287
+msgid "Set logo order"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:289
+msgid "Ascending"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:290
+msgid "Descending"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:302
+msgid "Carousel Settings"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:308
+msgid "To see the carousel setting fields, select Carousel layout."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:314
+msgid "Center Padding"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:315
+msgid "Set center padding for the centered item"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:320
+msgid "px"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:326
+msgid "Logo Opacity"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:327
+msgid "Set opacity for the side logos."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:339
+msgid "Carousel Layout"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:340
+msgid "Choose carousel layout."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:343
+msgid "Horizontal"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:344
+msgid "Vertical"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:355
+msgid "AutoPlay"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:356
+msgid "On/Off auto play."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:363
+msgid "AutoPlay Speed"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:364
+msgid "Set auto play speed."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:365
+#: ../admin/views/metabox/config/metabox.config.php:391
+#: ../admin/views/metabox/config/metabox.config.php:403
+msgid "(millisecond)"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:377
+msgid "Maximum Width of slide"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:378
+msgid "Set maximum width of each logo. Carousel width depends on it"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:379
+#: ../admin/views/metabox/config/metabox.config.php:795
+#: ../admin/views/metabox/config/metabox.config.php:803
+#: ../admin/views/metabox/config/metabox.config.php:1195
+#: ../admin/views/metabox/config/metabox.config.php:1205
+msgid "(px)"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:389
+#: ../admin/views/metabox/config/metabox.config.php:401
+msgid "Carousel Speed"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:390
+#: ../admin/views/metabox/config/metabox.config.php:402
+msgid "Set carousel scroll speed."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:413
+msgid "Slide to Scroll"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:414
+msgid "Set number of slide to scroll on devices."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:442
+msgid "Row"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:443
+msgid "Set number of row on devices."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:471
+msgid "Pause on Hover"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:472
+msgid "On/Off pause on hover."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:479
+msgid "Adaptive Height"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:480
+msgid "Off adaptive height to set fixed height for the carousel."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:487
+msgid "Infinite Loop"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:488
+msgid "On/Off infinite looping for the carousel."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:495
+msgid "Navigation Settings"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:501
+msgid "Navigation"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:502
+#: ../admin/views/metabox/config/metabox.config.php:631
+msgid "Show or hide pagination dots."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:505
+#: ../admin/views/metabox/config/metabox.config.php:634
+msgid "Show"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:506
+#: ../admin/views/metabox/config/metabox.config.php:635
+msgid "Hide"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:507
+#: ../admin/views/metabox/config/metabox.config.php:636
+msgid "Hide on Mobile"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:518
+msgid "Navigation Position"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:519
+msgid "Choose a position of the navigation arrows."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:521
+msgid "Top right"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:522
+msgid "Top center"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:523
+msgid "Top left"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:524
+msgid "Bottom left"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:525
+msgid "Bottom center"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:526
+msgid "Bottom right"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:527
+msgid "Vertically center"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:528
+msgid "Vertically center inner"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:529
+msgid "Vertically center inner on hover"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:540
+msgid "Navigation Type"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:541
+msgid "Select the carousel navigation type."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:543
+msgid "Arrow"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:544
+msgid "Text"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:556
+msgid "Navigation Arrow Icon"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:557
+msgid "Select a nav arrow icon for the carousel."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:577
+msgid "Navigation Border Radius"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:578
+msgid "Set navigation border radius in %."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:579
+msgid "%"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:593
+msgid "Navigation Color"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:594
+msgid "Navigation color."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:624
+msgid "Pagination Settings"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:630
+msgid "Dots"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:647
+msgid "Dots Color"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:648
+msgid "Set pagination dots color."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:662
+msgid "Misc. Settings"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:668
+msgid "Lazy Load"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:669
+msgid "Activate lazy load for logos."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:676
+msgid "Touch Swipe"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:677
+msgid "On/Off touch swipe mode."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:684
+msgid "Mouse Draggable"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:685
+msgid "On/Off mouse draggable mode."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:686
+msgid "Dependent on touch swipe."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:693
+msgid "Carousel Direction"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:694
+msgid "Set carousel direction as you need."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:697
+msgid "Right to Left"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:698
+msgid "Left to Right"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:713
+msgid "Style Settings"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:720
+msgid "Section Title"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:721
+msgid "Display logo section title."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:727
+msgid "Section Title Margin Bottom"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:728
+msgid "Set margin bottom for the section title."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:736
+msgid "Filter Category"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:742
+msgid "\"All\" Tab"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:743
+msgid "Show/Hide \"All\" tab."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:750
+msgid "\"All\" Tab Text"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:751
+msgid "Set \"All\" tab text."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:758
+msgid "Filter Color"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:759
+msgid "Set filter category color."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:779
+msgid "Filter Border"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:780
+msgid "Set filter category border."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:793
+msgid "Margin"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:794
+msgid "Set margin between the logos."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:802
+msgid "Inner padding"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:804
+msgid "Padding between border and logo image."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:818
+msgid "Logo Title"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:819
+msgid "On/Off to show or hide the title."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:825
+msgid "Title Position"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:826
+msgid "Select the title position."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:828
+#: ../admin/views/metabox/config/metabox.config.php:960
+#: ../admin/views/metabox/config/metabox.config.php:1231
+#: ../admin/views/metabox/fields/margin/margin.php:59
+msgid "Top"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:829
+#: ../admin/views/metabox/config/metabox.config.php:865
+#: ../admin/views/metabox/config/metabox.config.php:961
+#: ../admin/views/metabox/config/metabox.config.php:1230
+#: ../admin/views/metabox/fields/margin/margin.php:73
+msgid "Bottom"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:830
+#: ../admin/views/metabox/config/metabox.config.php:866
+#: ../admin/views/metabox/config/metabox.config.php:1229
+msgid "Middle"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:831
+msgid "Title on Hover (Full)"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:832
+msgid "Title on Hover (Lower)"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:840
+msgid "Title Hover Background"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:841
+msgid "Used as the title background color."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:850
+#: ../admin/views/metabox/config/metabox.config.php:878
+msgid "Description"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:855
+msgid "Description Show/Hide"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:856
+msgid "On/Off to show or hide the logo description."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:862
+msgid "Description Position"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:863
+msgid "Set logo description position."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:874
+msgid "Description Type"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:875
+msgid "Choose the description type."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:879
+msgid "Description with Limit"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:890
+msgid "Description Words Limit"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:891
+msgid "Set description words limit."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:901
+msgid "Description Read More"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:902
+msgid "Show/Hide description read more button."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:909
+msgid "Read More Text"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:910
+msgid "Set description read more button text."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:917
+msgid "Description Read More Color"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:918
+msgid "Description read more button color."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:945
+#: ../admin/views/metabox/config/metabox.config.php:950
+msgid "Tooltip"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:951
+msgid "On/Off logo tooltip."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:957
+msgid "Tooltip Position"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:958
+msgid "Select the tooltip position."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:971
+msgid "Tooltip Width"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:972
+msgid "Maximum width of the tooltip."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:983
+msgid "Tooltip Effect"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:984
+msgid "Choose a effect for the tooltip."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:986
+msgid "Grow"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:987
+msgid "Fade"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:988
+msgid "Swing"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:989
+msgid "Slide"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:990
+msgid "Fall"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:998
+msgid "Tooltip Color"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:999
+msgid "Set tooltip color."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1013
+msgid "Background, Border and BoxShadow"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1018
+msgid "Logo Background Color"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1019
+msgid "Set the logo background color."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1032
+msgid "Logo Border"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1033
+msgid "Set border for logo image."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1045
+msgid "Outer Border"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1046
+msgid "Show/Hide logo outer border."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1053
+msgid "Border Radius"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1054
+msgid "Type logo border radius in pixel or percentage e.g. 50%."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1055
+msgid "px or %"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1063
+msgid "BoxShadow"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1064
+msgid "Enable or disable logo boxshadow."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1066
+#: ../admin/views/metabox/config/metabox.config.php:1138
+#: ../admin/views/metabox/config/metabox.config.php:1170
+msgid "Off"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1067
+#: ../admin/views/metabox/fields/border/border.php:69
+msgid "Inset"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1068
+#: ../admin/views/metabox/fields/border/border.php:70
+msgid "Outset"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1075
+msgid "BoxShadow Color"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1076
+msgid "Set boxshadow color."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1090
+msgid "Pagination Stylization"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1096
+msgid "Pagination Margin"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1097
+msgid "Set pagination margin."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1109
+msgid "Pagination Color"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1110
+msgid "Used as the pagination color."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1130
+msgid "Logo Effect on Hover"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1135
+msgid "Zoom"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1136
+msgid "Enable or disable zoom effect for the logo."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1139
+msgid "Zoom In"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1140
+msgid "Zoom Out"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1148
+msgid "Blur"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1149
+msgid "On/Off image blur effect."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1156
+msgid "Set opacity for the logos."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1167
+msgid "GrayScale"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1168
+msgid "Grayscale effect works on all modern browsers."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1171
+msgid "Gray with normal on hover"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1172
+msgid "Gray on hover"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1173
+msgid "Always Gray"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1180
+msgid "GrayScale on Tablet & Mobile"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1181
+msgid ""
+"On/Off grayscale effect on table and mobile screen. Screen smaller than "
+"736px."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1188
+msgid "Logo Image Settings"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1193
+msgid "Width"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1194
+msgid "Maximum width of the logo image."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1203
+msgid "Height"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1204
+msgid "Maximum height of the logo image."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1213
+msgid "Crop"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1214
+msgid "Hard cropping all the images equally."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1220
+msgid "Upload the images equal or larger than your desired crop size."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1226
+msgid "Vertical Alignment"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1227
+msgid "Select vertical alignment type."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1238
+msgid "Image Title Attribute"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1239
+msgid "Check to add image title attribute."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1249
+msgid "Typography"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1256
+msgid "Load Section Title Font"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1257
+msgid "On/Off google font for the section title."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1263
+msgid "Section Title Font"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1264
+msgid "Set section title font properties."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1283
+msgid "Load Filter Category Font"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1284
+msgid "On/Off google font for the filter category."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1291
+msgid "Filter Category Font"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1292
+msgid "Set filter category font properties"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1310
+msgid "Load Logo Title Font"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1311
+msgid "On/Off google font for the logo title."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1317
+msgid "Logo Title Font"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1318
+msgid "Set logo title font properties"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1337
+msgid "Load Logo Body/Description Font"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1338
+msgid "On/Off google font for the logo body/description."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1344
+msgid "Logo Body/Description Font"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1345
+msgid "Set logo description font properties"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1365
+msgid "Load Read More Font"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1366
+msgid "On/Off google font for the read more."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1373
+msgid "Read More Font"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1374
+msgid "Set description read more font properties"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1392
+msgid "Load Popup Title Font"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1393
+msgid "On/Off google font for the popup title."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1400
+msgid "Popup Title Font"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1401
+msgid "Set logo popup title font properties"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1421
+msgid "Load Popup Description Font"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1422
+msgid "On/Off google font for the logo popup description."
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1429
+msgid "Popup Description Font"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1430
+msgid "Set logo popup description font properties"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1459
+msgid "Logo Link URL"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1473
+msgid "Custom URL"
+msgstr ""
+
+#: ../admin/views/metabox/config/metabox.config.php:1474
+msgid "Type logo link url."
+msgstr ""
+
+#: ../admin/views/metabox/fields/border/border.php:45
+msgid "Border Width"
+msgstr ""
+
+#: ../admin/views/metabox/fields/border/border.php:59
+msgid "Border Style"
+msgstr ""
+
+#: ../admin/views/metabox/fields/border/border.php:62
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:168
+msgid "None"
+msgstr ""
+
+#: ../admin/views/metabox/fields/border/border.php:63
+msgid "Solid"
+msgstr ""
+
+#: ../admin/views/metabox/fields/border/border.php:64
+msgid "Dotted"
+msgstr ""
+
+#: ../admin/views/metabox/fields/border/border.php:65
+msgid "Dashed"
+msgstr ""
+
+#: ../admin/views/metabox/fields/border/border.php:66
+msgid "Double"
+msgstr ""
+
+#: ../admin/views/metabox/fields/border/border.php:67
+msgid "Groove"
+msgstr ""
+
+#: ../admin/views/metabox/fields/border/border.php:68
+msgid "Ridge"
+msgstr ""
+
+#: ../admin/views/metabox/fields/border/border.php:82
+msgid "Border Color"
+msgstr ""
+
+#: ../admin/views/metabox/fields/border/border.php:95
+msgid "Border Hover Color"
+msgstr ""
+
+#: ../admin/views/metabox/fields/icon/icon.php:25
+msgid "Add Icon"
+msgstr ""
+
+#: ../admin/views/metabox/fields/icon/icon.php:26
+msgid "Remove Icon"
+msgstr ""
+
+#: ../admin/views/metabox/fields/switcher/switcher.php:20
+msgid "on"
+msgstr ""
+
+#: ../admin/views/metabox/fields/switcher/switcher.php:20
+msgid "off"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:86
+msgid "Web Safe Fonts"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:92
+msgid "Google Fonts"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:125
+msgid "Font Size"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:138
+msgid "Line Height"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:169
+msgid "Capitalize"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:170
+msgid "Uppercase"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:171
+msgid "Lowercase"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:172
+msgid "Initial"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:173
+msgid "Inherit"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:187
+msgid "0.3px"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:188
+msgid "0.5px"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:189
+msgid "1px"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:190
+msgid "1.5px"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:191
+msgid "2px"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:192
+msgid "3px"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:193
+msgid "5px"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:194
+msgid "10px"
+msgstr ""
+
+#: ../admin/views/metabox/fields/typography_advanced/typography_advanced.php:231
+#: ../admin/views/metabox/functions/actions.php:32
+msgid "Error! Can not load json file."
+msgstr ""
+
+#: ../admin/views/metabox/functions/helpers.php:48
+msgid "This field class is not available!"
+msgstr ""
+
+#: ../admin/views/metabox/functions/validate.php:14
+msgid "Please write a valid email address!"
+msgstr ""
+
+#: ../admin/views/metabox/functions/validate.php:33
+msgid "Please write a numeric data!"
+msgstr ""
+
+#: ../admin/views/metabox/functions/validate.php:51
+msgid "Fatal Error! This field is required!"
+msgstr ""
+
+#: ../admin/views/vc-add-on.php:40
+msgid "Display Logo Carousel ."
+msgstr ""
+
+#: ../admin/views/vc-add-on.php:41
+msgid "ShapedPlugin"
+msgstr ""
+
+#: ../admin/views/vc-add-on.php:45 ../admin/views/widget.php:70
+msgid "Shortcode:"
+msgstr ""
+
+#: ../admin/views/vc-add-on.php:46
+msgid "Select a shortcode."
+msgstr ""
+
+#: ../admin/views/widget.php:24
+msgid "Display Logo Carousel."
+msgstr ""
+
+#: ../admin/views/widget.php:67
+msgid "Title:"
+msgstr ""
+
+#: ../admin/views/widget.php:85
+msgid "You did not generate any shortcode yet."
+msgstr ""
+
+#: ../admin/views/widget.php:86
+msgid "to generate a new shortcode now."
+msgstr ""
+
+#: ../admin/views/widget.php:87
+msgid "click here"
+msgstr ""
+
+#: ../class/help.php:47
+msgid "Logo Carousel Pro Help"
+msgstr ""
+
+#: ../class/help.php:47
+msgid "Help"
+msgstr ""
+
+#: ../class/help.php:56
+msgid "Welcome to Logo Carousel Pro!"
+msgstr ""
+
+#: ../class/help.php:57
+msgid ""
+"Thank you for installing Logo Carousel Pro! You're now running the most "
+"popular Logo Carousel Premium plugin. This video playlist will help you get "
+"started with the plugin."
+msgstr ""
+
+#: ../class/license.php:47
+msgid "Logo Carousel Pro License"
+msgstr ""
+
+#: ../class/license.php:47
+msgid "License"
+msgstr ""
+
+#: ../class/license.php:58
+msgid "Logo Carousel Pro License Activation"
+msgstr ""
+
+#: ../class/license.php:67
+msgid "License Key"
+msgstr ""
+
+#: ../class/license.php:71
+msgid "Enter your license key"
+msgstr ""
+
+#: ../class/license.php:78 ../class/license.php:87
+msgid "Activate License"
+msgstr ""
+
+#: ../class/license.php:82
+msgid "active"
+msgstr ""
+
+#: ../class/license.php:84
+msgid "Deactivate License"
+msgstr ""
+
+#: ../class/license.php:149 ../class/license.php:197 ../class/license.php:257
+msgid "An error occurred, please try again."
+msgstr ""
+
+#: ../class/license.php:163
+#, php-format
+msgid "Your license key expired on %s."
+msgstr ""
+
+#: ../class/license.php:170
+msgid "Your license key has been disabled."
+msgstr ""
+
+#: ../class/license.php:175
+msgid "Invalid license."
+msgstr ""
+
+#: ../class/license.php:181
+msgid "Your license is not active for this URL."
+msgstr ""
+
+#: ../class/license.php:186
+#, php-format
+msgid "This appears to be an invalid license key for %s."
+msgstr ""
+
+#: ../class/license.php:192
+msgid "Your license key has reached its activation limit."
+msgstr ""
+
+#: ../class/logos.php:51 ../class/logos.php:72 ../class/logos.php:84
+#: ../class/logos.php:85 ../logo-carousel-pro.php:317
+msgid "Logo"
+msgstr ""
+
+#: ../class/logos.php:52
+msgid "Logo custom post type."
+msgstr ""
+
+#: ../class/logos.php:71 ../class/logos.php:74
+msgid "All Logos"
+msgstr ""
+
+#: ../class/logos.php:75 ../class/logos.php:76 ../class/shortcode.php:57
+msgid "Add New"
+msgstr ""
+
+#: ../class/logos.php:77 ../class/logos.php:78 ../class/shortcode.php:59
+msgid "Edit"
+msgstr ""
+
+#: ../class/logos.php:79
+msgid "New Logo"
+msgstr ""
+
+#: ../class/logos.php:80
+msgid "Search Logos"
+msgstr ""
+
+#: ../class/logos.php:81
+msgid "No Logos found"
+msgstr ""
+
+#: ../class/logos.php:82
+msgid "No Logos found in Trash"
+msgstr ""
+
+#: ../class/logos.php:83
+msgid "Parent Logos"
+msgstr ""
+
+#: ../class/logos.php:86
+msgid "Set Logo"
+msgstr ""
+
+#: ../class/logos.php:87
+msgid "Remove logo"
+msgstr ""
+
+#: ../class/logos.php:88
+msgid "Use as logo"
+msgstr ""
+
+#: ../class/shortcode.php:44
+msgid "Logo Carousel Shortcode"
+msgstr ""
+
+#: ../class/shortcode.php:45
+msgid "Generate Shortcode for Logo Carousel"
+msgstr ""
+
+#: ../class/shortcode.php:54
+msgid "Logo Carousels"
+msgstr ""
+
+#: ../class/shortcode.php:55
+msgid "Logo Carousel"
+msgstr ""
+
+#: ../class/shortcode.php:56 ../logo-carousel-pro.php:372
+msgid "Shortcode Generator"
+msgstr ""
+
+#: ../class/shortcode.php:58
+msgid "Add New Carousel"
+msgstr ""
+
+#: ../class/shortcode.php:60
+msgid "Edit Shortcode"
+msgstr ""
+
+#: ../class/shortcode.php:61
+msgid "New Shortcode"
+msgstr ""
+
+#: ../class/shortcode.php:62 ../class/shortcode.php:63
+msgid "View Shortcode"
+msgstr ""
+
+#: ../class/shortcode.php:64
+msgid "Search Shortcode"
+msgstr ""
+
+#: ../class/shortcode.php:65
+msgid "No Shortcode Found"
+msgstr ""
+
+#: ../class/shortcode.php:66
+msgid "No Shortcode Found in Trash"
+msgstr ""
+
+#: ../class/shortcode.php:67
+msgid "Parent Shortcode"
+msgstr ""
+
+#: ../class/taxonomy.php:52 ../class/taxonomy.php:62
+#: ../logo-carousel-pro.php:318
+msgid "Categories"
+msgstr ""
+
+#: ../class/taxonomy.php:54
+msgid "Search Category"
+msgstr ""
+
+#: ../class/taxonomy.php:55
+msgid "All Categories"
+msgstr ""
+
+#: ../class/taxonomy.php:56
+msgid "Parent Category"
+msgstr ""
+
+#: ../class/taxonomy.php:57
+msgid "Parent Category:"
+msgstr ""
+
+#: ../class/taxonomy.php:58
+msgid "Edit Category"
+msgstr ""
+
+#: ../class/taxonomy.php:59
+msgid "Update Category"
+msgstr ""
+
+#: ../class/taxonomy.php:60
+msgid "Add New Category"
+msgstr ""
+
+#: ../class/taxonomy.php:61
+msgid "New Category Name"
+msgstr ""
+
+#: ../class/updater.php:203
+#, php-format
+msgid ""
+"There is a new version of %1$s available. %2$sView version %3$s details%4$s."
+msgstr ""
+
+#: ../class/updater.php:211
+#, php-format
+msgid ""
+"There is a new version of %1$s available. %2$sView version %3$s details%4$s "
+"or %5$supdate now%6$s."
+msgstr ""
+
+#: ../class/updater.php:365
+msgid "You do not have permission to install plugin updates"
+msgstr ""
+
+#: ../class/updater.php:365
+msgid "Error"
+msgstr ""
+
+#: ../includes/functions.php:29 ../includes/functions.php:30
+msgid "Shortcode updated."
+msgstr ""
+
+#: ../includes/functions.php:31
+msgid "Shortcode published."
+msgstr ""
+
+#: ../includes/functions.php:32
+msgid "Shortcode submitted."
+msgstr ""
+
+#: ../includes/functions.php:33
+msgid "Shortcode draft updated."
+msgstr ""
+
+#: ../includes/functions.php:35 ../includes/functions.php:36
+msgid "Logo updated."
+msgstr ""
+
+#: ../includes/functions.php:37
+msgid "Logo published."
+msgstr ""
+
+#: ../includes/functions.php:38
+msgid "Logo submitted."
+msgstr ""
+
+#: ../includes/functions.php:39
+msgid "Logo draft updated."
+msgstr ""
+
+#: ../includes/functions.php:52
+msgid "Logo Image"
+msgstr ""
+
+#: ../includes/functions.php:64
+msgid "Enter logo title here"
+msgstr ""
+
+#: ../includes/functions.php:80
+#, php-format
+msgid ""
+"If you like <strong>Logo Carousel Pro</strong> please leave us a <a href=\"%s"
+"\" target=\"_blank\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Your "
+"Review is very important to us as it helps us to grow more. "
+msgstr ""
+
+#: ../includes/functions.php:92
+msgid "No shortcode to duplicate has been supplied!"
+msgstr ""
+
+#: ../includes/functions.php:173
+msgid "Shortcode creation failed, could not find original post: "
+msgstr ""
+
+#: ../includes/functions.php:182
+msgid "Duplicate"
+msgstr ""
+
+#: ../logo-carousel-pro.php:319
+msgid "URL"
+msgstr ""
+
+#: ../public/views/layout/carousel.php:157
+#: ../public/views/layout/filter.php:184 ../public/views/layout/grid.php:167
+#: ../public/views/layout/inline.php:165 ../public/views/layout/list.php:220
+msgid "No logos found"
+msgstr ""

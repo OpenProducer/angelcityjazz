@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "woocommerce-name-your-price",
+			"path": "."
+		},
+		{
+			"name": "woocommerce",
+			"path": "..\\woocommerce"
+		}
+	],
+	"settings": {}
+}
