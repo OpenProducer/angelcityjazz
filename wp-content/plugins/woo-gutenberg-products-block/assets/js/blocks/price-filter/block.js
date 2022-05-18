@@ -12,8 +12,9 @@ import PriceSlider from '@woocommerce/base-components/price-slider';
 import { useDebouncedCallback } from 'use-debounce';
 import PropTypes from 'prop-types';
 import { getCurrencyFromPriceResponse } from '@woocommerce/price-format';
-import { getSetting } from '@woocommerce/settings';
+import { getSettingWithCoercion } from '@woocommerce/settings';
 import { addQueryArgs, removeQueryArgs } from '@wordpress/url';
+import { isBoolean } from '@woocommerce/types';
 
 /**
  * Internal dependencies
@@ -68,9 +69,16 @@ function formatPrice( value, minorUnit ) {
  * @param {boolean} props.isEditor   Whether in editor context or not.
  */
 const PriceFilterBlock = ( { attributes, isEditor = false } ) => {
-	const filteringForPhpTemplate = getSetting(
+	const hasFilterableProducts = getSettingWithCoercion(
+		'has_filterable_products',
+		false,
+		isBoolean
+	);
+
+	const filteringForPhpTemplate = getSettingWithCoercion(
 		'is_rendering_php_template',
-		''
+		false,
+		isBoolean
 	);
 
 	/**
@@ -178,7 +186,7 @@ const PriceFilterBlock = ( { attributes, isEditor = false } ) => {
 			setMinPriceQuery,
 			setMaxPriceQuery,
 			filteringForPhpTemplate,
-			currency,
+			currency.minorUnit,
 		]
 	);
 
@@ -194,13 +202,30 @@ const PriceFilterBlock = ( { attributes, isEditor = false } ) => {
 			if ( prices[ 1 ] !== maxPrice ) {
 				setMaxPrice( prices[ 1 ] );
 			}
+
+			if (
+				filteringForPhpTemplate &&
+				hasSetPhpFilterDefaults &&
+				! attributes.showFilterButton
+			) {
+				debouncedUpdateQuery( prices[ 0 ], prices[ 1 ] );
+			}
 		},
-		[ minPrice, maxPrice, setMinPrice, setMaxPrice ]
+		[
+			minPrice,
+			maxPrice,
+			setMinPrice,
+			setMaxPrice,
+			filteringForPhpTemplate,
+			hasSetPhpFilterDefaults,
+			debouncedUpdateQuery,
+			attributes.showFilterButton,
+		]
 	);
 
 	// Track price STATE changes - if state changes, update the query.
 	useEffect( () => {
-		if ( ! attributes.showFilterButton ) {
+		if ( ! attributes.showFilterButton && ! filteringForPhpTemplate ) {
 			debouncedUpdateQuery( minPrice, maxPrice );
 		}
 	}, [
@@ -208,6 +233,7 @@ const PriceFilterBlock = ( { attributes, isEditor = false } ) => {
 		maxPrice,
 		attributes.showFilterButton,
 		debouncedUpdateQuery,
+		filteringForPhpTemplate,
 	] );
 
 	// Track price query/price constraint changes so the slider reflects current filters.
@@ -250,6 +276,10 @@ const PriceFilterBlock = ( { attributes, isEditor = false } ) => {
 		previousMinPriceQuery,
 		previousMaxPriceQuery,
 	] );
+
+	if ( ! hasFilterableProducts ) {
+		return null;
+	}
 
 	if (
 		! isLoading &&

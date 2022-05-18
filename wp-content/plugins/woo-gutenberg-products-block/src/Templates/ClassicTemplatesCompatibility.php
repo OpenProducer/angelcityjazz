@@ -35,6 +35,8 @@ class ClassicTemplatesCompatibility {
 	protected function init() {
 		if ( ! wc_current_theme_is_fse_theme() ) {
 			add_action( 'template_redirect', array( $this, 'set_classic_template_data' ) );
+			// We need to set this data on the widgets screen so the filters render previews.
+			add_action( 'load-widgets.php', array( $this, 'set_filterable_product_data' ) );
 		}
 	}
 
@@ -55,8 +57,10 @@ class ClassicTemplatesCompatibility {
 	 * @return void
 	 */
 	public function set_filterable_product_data() {
-		if ( is_shop() || is_product_taxonomy() ) {
-			$this->asset_data_registry->add( 'has_filterable_products', true, null );
+		global $pagenow;
+
+		if ( is_shop() || is_product_taxonomy() || 'widgets.php' === $pagenow ) {
+			$this->asset_data_registry->add( 'has_filterable_products', true, true );
 		}
 	}
 
@@ -71,7 +75,7 @@ class ClassicTemplatesCompatibility {
 	 */
 	public function set_php_template_data() {
 		if ( is_shop() || is_product_taxonomy() ) {
-			$this->asset_data_registry->add( 'is_rendering_php_template', true, null );
+			$this->asset_data_registry->add( 'is_rendering_php_template', true, true );
 		}
 	}
 }
