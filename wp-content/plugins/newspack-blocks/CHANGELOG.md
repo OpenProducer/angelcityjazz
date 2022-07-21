@@ -1,3 +1,104 @@
+## [1.53.1](https://github.com/Automattic/newspack-blocks/compare/v1.53.0...v1.53.1) (2022-07-05)
+
+
+### Bug Fixes
+
+* guest author selection in Author Profile block ([#1188](https://github.com/Automattic/newspack-blocks/issues/1188)) ([085efaf](https://github.com/Automattic/newspack-blocks/commit/085efaf431b70ad15514a0d33c7ad0ce0697387e))
+
+# [1.53.0](https://github.com/Automattic/newspack-blocks/compare/v1.52.0...v1.53.0) (2022-06-27)
+
+
+### Bug Fixes
+
+* **donate:** amount formatting ([c766ce3](https://github.com/Automattic/newspack-blocks/commit/c766ce38fd8aba8fb1c6a688f96f7d6b1ddb05bf))
+* **homepage posts block:** align items when an odd number of items is inserted ([#1173](https://github.com/Automattic/newspack-blocks/issues/1173)) ([7139567](https://github.com/Automattic/newspack-blocks/commit/71395679c60f4ce544d35ced95a97eff0d423539))
+* **iframe-block:** handle errors from server-side fetch ([#1162](https://github.com/Automattic/newspack-blocks/issues/1162)) ([8378b41](https://github.com/Automattic/newspack-blocks/commit/8378b417c279dd03bcaa11d7676248f67a77d812))
+* make sure block exists before unregistering ([#1169](https://github.com/Automattic/newspack-blocks/issues/1169)) ([6d3deed](https://github.com/Automattic/newspack-blocks/commit/6d3deed0918851172560956ab8bc59d918caaae5))
+
+
+### Features
+
+* unregister the Jetpack Donation block ([#1163](https://github.com/Automattic/newspack-blocks/issues/1163)) ([6acbcac](https://github.com/Automattic/newspack-blocks/commit/6acbcac378b267f726efcde06552b9fdd2fb8218))
+
+# [1.53.0-alpha.1](https://github.com/Automattic/newspack-blocks/compare/v1.52.0...v1.53.0-alpha.1) (2022-06-16)
+
+
+### Bug Fixes
+
+* **donate:** amount formatting ([c766ce3](https://github.com/Automattic/newspack-blocks/commit/c766ce38fd8aba8fb1c6a688f96f7d6b1ddb05bf))
+* **homepage posts block:** align items when an odd number of items is inserted ([#1173](https://github.com/Automattic/newspack-blocks/issues/1173)) ([7139567](https://github.com/Automattic/newspack-blocks/commit/71395679c60f4ce544d35ced95a97eff0d423539))
+* **iframe-block:** handle errors from server-side fetch ([#1162](https://github.com/Automattic/newspack-blocks/issues/1162)) ([8378b41](https://github.com/Automattic/newspack-blocks/commit/8378b417c279dd03bcaa11d7676248f67a77d812))
+* make sure block exists before unregistering ([#1169](https://github.com/Automattic/newspack-blocks/issues/1169)) ([6d3deed](https://github.com/Automattic/newspack-blocks/commit/6d3deed0918851172560956ab8bc59d918caaae5))
+
+
+### Features
+
+* unregister the Jetpack Donation block ([#1163](https://github.com/Automattic/newspack-blocks/issues/1163)) ([6acbcac](https://github.com/Automattic/newspack-blocks/commit/6acbcac378b267f726efcde06552b9fdd2fb8218))
+
+# [1.52.0](https://github.com/Automattic/newspack-blocks/compare/v1.51.0...v1.52.0) (2022-06-13)
+
+
+### Bug Fixes
+
+* correct donate block tab spacing in editor ([#1153](https://github.com/Automattic/newspack-blocks/issues/1153)) ([c17221f](https://github.com/Automattic/newspack-blocks/commit/c17221fae28e651189893e6536471772b7b73a55))
+* disambiguate WP users vs. guest authors with same ID ([#1143](https://github.com/Automattic/newspack-blocks/issues/1143)) ([d3c5920](https://github.com/Automattic/newspack-blocks/commit/d3c5920ad0520976b2ff7b0b2ad9f89ab028bc3a))
+* echo closing link tags on sponsor bylines ([#1152](https://github.com/Automattic/newspack-blocks/issues/1152)) ([f80893f](https://github.com/Automattic/newspack-blocks/commit/f80893f271dfdf91a359278d5b2365f619bdad4b))
+* remove custom column block styles ([#1133](https://github.com/Automattic/newspack-blocks/issues/1133)) ([bd79783](https://github.com/Automattic/newspack-blocks/commit/bd797830364c2db88375a9239bd18a9c1145d98f))
+* skipped linked images when navigating blocks by keyboard ([#1144](https://github.com/Automattic/newspack-blocks/issues/1144)) ([8975787](https://github.com/Automattic/newspack-blocks/commit/8975787776e4aef4c14b2ae26ac37fb2fb6e0dd0))
+
+
+### Features
+
+* add new subscribe pattern ([#1142](https://github.com/Automattic/newspack-blocks/issues/1142)) ([97d632e](https://github.com/Automattic/newspack-blocks/commit/97d632e3ed815d402bf1876d269cad87a572332b))
+* remove support for the Aside post format ([#1139](https://github.com/Automattic/newspack-blocks/issues/1139)) ([9f9cdf4](https://github.com/Automattic/newspack-blocks/commit/9f9cdf4a9f2119faf4cd698f305d58a4f0e4bcd3))
+
+# [1.52.0-alpha.1](https://github.com/Automattic/newspack-blocks/compare/v1.51.0...v1.52.0-alpha.1) (2022-06-02)
+
+
+### Bug Fixes
+
+* correct donate block tab spacing in editor ([#1153](https://github.com/Automattic/newspack-blocks/issues/1153)) ([c17221f](https://github.com/Automattic/newspack-blocks/commit/c17221fae28e651189893e6536471772b7b73a55))
+* disambiguate WP users vs. guest authors with same ID ([#1143](https://github.com/Automattic/newspack-blocks/issues/1143)) ([d3c5920](https://github.com/Automattic/newspack-blocks/commit/d3c5920ad0520976b2ff7b0b2ad9f89ab028bc3a))
+* echo closing link tags on sponsor bylines ([#1152](https://github.com/Automattic/newspack-blocks/issues/1152)) ([f80893f](https://github.com/Automattic/newspack-blocks/commit/f80893f271dfdf91a359278d5b2365f619bdad4b))
+* remove custom column block styles ([#1133](https://github.com/Automattic/newspack-blocks/issues/1133)) ([bd79783](https://github.com/Automattic/newspack-blocks/commit/bd797830364c2db88375a9239bd18a9c1145d98f))
+* skipped linked images when navigating blocks by keyboard ([#1144](https://github.com/Automattic/newspack-blocks/issues/1144)) ([8975787](https://github.com/Automattic/newspack-blocks/commit/8975787776e4aef4c14b2ae26ac37fb2fb6e0dd0))
+
+
+### Features
+
+* add new subscribe pattern ([#1142](https://github.com/Automattic/newspack-blocks/issues/1142)) ([97d632e](https://github.com/Automattic/newspack-blocks/commit/97d632e3ed815d402bf1876d269cad87a572332b))
+* remove support for the Aside post format ([#1139](https://github.com/Automattic/newspack-blocks/issues/1139)) ([9f9cdf4](https://github.com/Automattic/newspack-blocks/commit/9f9cdf4a9f2119faf4cd698f305d58a4f0e4bcd3))
+
+# [1.51.0](https://github.com/Automattic/newspack-blocks/compare/v1.50.1...v1.51.0) (2022-05-30)
+
+
+### Features
+
+* **homepage-posts:** query by post statuses ([#1114](https://github.com/Automattic/newspack-blocks/issues/1114)) ([7ec20a3](https://github.com/Automattic/newspack-blocks/commit/7ec20a39a562c9bdc90e4d10008f0b20113b9cf6)), closes [#38](https://github.com/Automattic/newspack-blocks/issues/38)
+
+# [1.51.0-alpha.2](https://github.com/Automattic/newspack-blocks/compare/v1.51.0-alpha.1...v1.51.0-alpha.2) (2022-05-25)
+
+
+### Bug Fixes
+
+* force release build ([f58a2ed](https://github.com/Automattic/newspack-blocks/commit/f58a2ed069e8f1f1a0521e502180671fc6d19e58))
+* update columns block styles for WP 6.0 ([#1141](https://github.com/Automattic/newspack-blocks/issues/1141)) ([0d9583e](https://github.com/Automattic/newspack-blocks/commit/0d9583e0e7dd6f185f2fbb921af249a2252bfe94))
+
+## [1.50.1](https://github.com/Automattic/newspack-blocks/compare/v1.50.0...v1.50.1) (2022-05-25)
+
+
+### Bug Fixes
+
+* force release build ([f58a2ed](https://github.com/Automattic/newspack-blocks/commit/f58a2ed069e8f1f1a0521e502180671fc6d19e58))
+* update columns block styles for WP 6.0 ([#1141](https://github.com/Automattic/newspack-blocks/issues/1141)) ([0d9583e](https://github.com/Automattic/newspack-blocks/commit/0d9583e0e7dd6f185f2fbb921af249a2252bfe94))
+
+## [1.50.1-hotfix.1](https://github.com/Automattic/newspack-blocks/compare/v1.50.0...v1.50.1-hotfix.1) (2022-05-25)
+
+
+### Bug Fixes
+
+* remove custom column block styles ([e08db2a](https://github.com/Automattic/newspack-blocks/commit/e08db2a7ea5eb73d454c53db5ed42f75b260ca86))
+
 # [1.50.0](https://github.com/Automattic/newspack-blocks/compare/v1.49.0...v1.50.0) (2022-05-18)
 
 

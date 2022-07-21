@@ -1,5 +1,6 @@
 @import '../../shared/sass/variables';
 @import '../../shared/sass/mixins';
+@import '../../shared/sass/preview';
 
 .wpnbha {
 	margin-bottom: 1em;
@@ -27,7 +28,9 @@
 	&.is-grid > div {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-between;
+		justify-content: flex-start;
+		flex-direction: row;
+		gap: 16px;
 		padding: 0;
 		list-style: none;
 	}

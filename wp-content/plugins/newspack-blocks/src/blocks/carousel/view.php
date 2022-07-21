@@ -76,9 +76,10 @@ function newspack_blocks_render_block_carousel( $attributes ) {
 			?>
 
 			<article data-post-id="<?php echo esc_attr( $post_id ); ?>" class="<?php echo esc_attr( implode( ' ', $article_classes ) . ' ' . $post_type ); ?>">
+				<?php echo Newspack_Blocks::get_post_status_label(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				<figure class="post-thumbnail">
 					<?php if ( $post_link ) : ?>
-					<a href="<?php echo esc_url( $post_link ); ?>" rel="bookmark">
+					<a href="<?php echo esc_url( $post_link ); ?>" rel="bookmark" tabindex="-1" aria-hidden="true">
 					<?php endif; ?>
 						<?php if ( $has_featured_image ) : ?>
 							<?php
@@ -183,7 +184,7 @@ function newspack_blocks_render_block_carousel( $attributes ) {
 										}
 										echo esc_html( $byline['name'] );
 										if ( '' !== $byline['url'] ) {
-											'</a>';
+											echo '</a>';
 										}
 										echo '</span>' . esc_html( $byline['sep'] );
 									}

@@ -133,11 +133,13 @@ export const avatarSizeOptions = [
 
 const AuthorProfile = ( { attributes, setAttributes } ) => {
 	const [ author, setAuthor ] = useState( null );
+	const [ suggestions, setSuggestions ] = useState( null );
 	const [ error, setError ] = useState( null );
 	const [ isLoading, setIsLoading ] = useState( false );
 	const [ maxItemsToSuggest, setMaxItemsToSuggest ] = useState( 0 );
 	const {
 		authorId,
+		isGuestAuthor,
 		showBio,
 		showSocial,
 		showEmail,
@@ -154,19 +156,20 @@ const AuthorProfile = ( { attributes, setAttributes } ) => {
 		if ( 0 !== authorId ) {
 			getAuthorById();
 		}
-	}, [ authorId, avatarHideDefault ] );
+	}, [ authorId, avatarHideDefault, isGuestAuthor ] );
 
 	const getAuthorById = async () => {
 		setError( null );
 		setIsLoading( true );
 		try {
 			const params = {
-				authorId,
+				author_id: authorId,
+				is_guest_author: isGuestAuthor ? 1 : 0,
 				fields: 'id,name,bio,email,social,avatar,url',
 			};
 
 			if ( avatarHideDefault ) {
-				params.avatarHideDefault = 1;
+				params.avatar_hide_default = 1;
 			}
 
 			const response = await apiFetch( {
@@ -365,6 +368,7 @@ const AuthorProfile = ( { attributes, setAttributes } ) => {
 				<SingleAuthor author={ author } attributes={ attributes } />
 			) : (
 				<Placeholder
+					className="newspack-blocks-author-profile"
 					icon={ <Icon icon={ postAuthor } /> }
 					label={ __( 'Author Profile', 'newspack-blocks' ) }
 				>
@@ -387,8 +391,11 @@ const AuthorProfile = ( { attributes, setAttributes } ) => {
 								'newspack-blocks'
 							) }
 							fetchSuggestions={ async ( search = null, offset = 0 ) => {
+								// Reset suggestions in state.
+								setSuggestions( null );
+
 								// If we already have a selected author, no need to fetch suggestions.
-								if ( authorId ) {
+								if ( authorId && ! error ) {
 									return [];
 								}
 
@@ -409,13 +416,38 @@ const AuthorProfile = ( { attributes, setAttributes } ) => {
 									setMaxItemsToSuggest( total );
 								}
 
-								return authors.map( _author => ( {
+								const _suggestions = authors.map( _author => ( {
 									value: _author.id,
 									label: decodeEntities( _author.name ) || __( '(no name)', 'newspack' ),
+									isGuestAuthor: _author.is_guest,
 								} ) );
+
+								setSuggestions( _suggestions );
+
+								return _suggestions;
 							} }
 							maxItemsToSuggest={ maxItemsToSuggest }
-							onChange={ items => setAttributes( { authorId: parseInt( items[ 0 ].value ) } ) }
+							onChange={ items => {
+								let selectionIsGuest = false;
+								const selection = items[ 0 ];
+
+								// We need to check whether the selected author is a guest author or not.
+								if ( suggestions ) {
+									suggestions.forEach( suggestion => {
+										if (
+											parseInt( selection?.value ) === parseInt( suggestion?.value ) &&
+											suggestion?.isGuestAuthor
+										) {
+											selectionIsGuest = true;
+										}
+									} );
+								}
+
+								setAttributes( {
+									authorId: parseInt( selection?.value || 0 ),
+									isGuestAuthor: selectionIsGuest,
+								} );
+							} }
 							postTypeLabel={ __( 'author', 'newspack-blocks' ) }
 							postTypeLabelPlural={ __( 'authors', 'newspack-blocks' ) }
 							selectedItems={ [] }
