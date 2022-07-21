@@ -28,7 +28,7 @@ class Initializer {
 	 *
 	 * @var string
 	 */
-	const PACKAGE_VERSION = '1.2.0';
+	const PACKAGE_VERSION = '1.7.2.1';
 
 	/**
 	 * Initialize My Jetapack
@@ -83,13 +83,14 @@ class Initializer {
 		/**
 		 * Acts as a feature flag, returning a boolean for whether we should show the licensing UI.
 		 *
-		 * @param bool $is_enabled Defaults to the JETPACK_ENABLE_MY_JETPACK_LICENSE when set, or false.
+		 * @param bool $is_enabled Defaults to true.
 		 *
 		 * @since 1.2.0
+		 * @since 1.5.0 Update default value to true.
 		 */
 		return apply_filters(
 			'jetpack_my_jetpack_should_enable_add_license_screen',
-			defined( 'JETPACK_ENABLE_MY_JETPACK_LICENSE' ) && JETPACK_ENABLE_MY_JETPACK_LICENSE
+			true
 		);
 	}
 
@@ -143,13 +144,12 @@ class Initializer {
 				'purchases'             => array(
 					'items' => array(),
 				),
-				'redirectUrl'           => admin_url( 'admin.php?page=my-jetpack' ),
+				'myJetpackUrl'          => admin_url( 'admin.php?page=my-jetpack' ),
 				'topJetpackMenuItemUrl' => Admin_Menu::get_top_level_menu_item_url(),
 				'siteSuffix'            => ( new Status() )->get_site_suffix(),
 				'myJetpackVersion'      => self::PACKAGE_VERSION,
 				'fileSystemWriteAccess' => self::has_file_system_write_access(),
 				'loadAddLicenseScreen'  => self::is_licensing_ui_enabled(),
-				'rawUrl'                => ( new Status() )->get_site_suffix(),
 				'adminUrl'              => esc_url( admin_url() ),
 			)
 		);

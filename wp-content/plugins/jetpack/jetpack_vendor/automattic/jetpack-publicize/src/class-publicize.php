@@ -91,7 +91,7 @@ class Publicize extends Publicize_Base {
 	 * Show a warning when Publicize does not have a connection.
 	 */
 	public function admin_page_warning() {
-		$jetpack   = Jetpack::init();
+		$jetpack   = \Jetpack::init();
 		$blog_name = get_bloginfo( 'blogname' );
 		if ( empty( $blog_name ) ) {
 			$blog_name = home_url( '/' );
@@ -309,7 +309,7 @@ class Publicize extends Publicize_Base {
 						break;
 					case 'empty_state':
 						/* translators: %s is the URL of the Jetpack admin page */
-						$error = sprintf( __( 'No user information was included in your request. Please make sure that your user account has connected to Jetpack. Connect your user account by going to the <a href="%s">Jetpack page</a> within wp-admin.', 'jetpack-publicize-pkg' ), Jetpack::admin_url() );
+						$error = sprintf( __( 'No user information was included in your request. Please make sure that your user account has connected to Jetpack. Connect your user account by going to the <a href="%s">Jetpack page</a> within wp-admin.', 'jetpack-publicize-pkg' ), \Jetpack::admin_url() );
 						break;
 					default:
 						$error = __( 'Something which should never happen, happened. Sorry about that. If you try again, maybe it will work.', 'jetpack-publicize-pkg' );
@@ -490,8 +490,10 @@ class Publicize extends Publicize_Base {
 	/**
 	 * Get social networks, either all available or only those that the site is connected to.
 	 *
-	 * @since 2.0.0
-	 * @since 6.6.0 Removed Path. Service closed October 2018.
+	 * @since 0.1.0
+	 * @since-jetpack 2.0.0
+	 *
+	 * @since-jetpack 6.6.0 Removed Path. Service closed October 2018.
 	 *
 	 * @param string    $filter Select the list of services that will be returned. Defaults to 'all', accepts 'connected'.
 	 * @param false|int $_blog_id Get services for a specific blog by ID, or set to false for current blog. Default false.
@@ -553,10 +555,8 @@ class Publicize extends Publicize_Base {
 			 *
 			 * Side-note: Possibly our most alliterative filter name.
 			 *
-			 * @module publicize
-			 *
 			 * @since 0.1.0 No longer defaults to true. Adds checks to not publicize based on different contexts.
-			 * @since 4.1.0
+			 * @since-jetpack 4.1.0
 			 *
 			 * @param bool $should_publicize Should the post be publicized? Default to true.
 			 * @param WP_POST $post Current Post object.
@@ -613,7 +613,8 @@ class Publicize extends Publicize_Base {
 	 * 1. A POST_DONE . 'all' postmeta flag, or
 	 * 2. if the post has already been published.
 	 *
-	 * @since 6.7.0
+	 * @since 0.1.0
+	 * @since-jetpack 6.7.0
 	 *
 	 * @param integer $post_id Optional. Post ID to query connection status for: will use current post if missing.
 	 *

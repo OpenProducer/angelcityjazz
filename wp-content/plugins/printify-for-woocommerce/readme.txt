@@ -1,7 +1,8 @@
 === Printify for WooCommerce ===
 Tags: woocommerce, printify, drop shipping, printing, print on demand
 Requires at least: 3.8
-Tested up to: 5.8
+Tested up to: 5.9
+Stable tag: 2.6
 
 Printify is a print on demand drop shipping platform for Wordpress users.
 
