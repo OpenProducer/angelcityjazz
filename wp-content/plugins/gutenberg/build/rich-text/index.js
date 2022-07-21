@@ -1,36 +1,36 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	// The require scope
 /******/ 	var __webpack_require__ = {};
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
@@ -39,68 +39,68 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "__UNSTABLE_LINE_SEPARATOR": function() { return /* reexport */ LINE_SEPARATOR; },
-  "__experimentalRichText": function() { return /* reexport */ __experimentalRichText; },
-  "__unstableCanIndentListItems": function() { return /* reexport */ canIndentListItems; },
-  "__unstableCanOutdentListItems": function() { return /* reexport */ canOutdentListItems; },
-  "__unstableChangeListType": function() { return /* reexport */ changeListType; },
-  "__unstableCreateElement": function() { return /* reexport */ createElement; },
-  "__unstableFormatEdit": function() { return /* reexport */ FormatEdit; },
-  "__unstableIndentListItems": function() { return /* reexport */ indentListItems; },
-  "__unstableInsertLineSeparator": function() { return /* reexport */ insertLineSeparator; },
-  "__unstableIsActiveListType": function() { return /* reexport */ isActiveListType; },
-  "__unstableIsEmptyLine": function() { return /* reexport */ isEmptyLine; },
-  "__unstableIsListRootSelected": function() { return /* reexport */ isListRootSelected; },
-  "__unstableOutdentListItems": function() { return /* reexport */ outdentListItems; },
-  "__unstableRemoveLineSeparator": function() { return /* reexport */ removeLineSeparator; },
-  "__unstableToDom": function() { return /* reexport */ toDom; },
-  "__unstableUseRichText": function() { return /* reexport */ useRichText; },
-  "applyFormat": function() { return /* reexport */ applyFormat; },
-  "concat": function() { return /* reexport */ concat; },
-  "create": function() { return /* reexport */ create; },
-  "getActiveFormat": function() { return /* reexport */ getActiveFormat; },
-  "getActiveObject": function() { return /* reexport */ getActiveObject; },
-  "getTextContent": function() { return /* reexport */ getTextContent; },
-  "insert": function() { return /* reexport */ insert; },
-  "insertObject": function() { return /* reexport */ insertObject; },
-  "isCollapsed": function() { return /* reexport */ isCollapsed; },
-  "isEmpty": function() { return /* reexport */ isEmpty; },
-  "join": function() { return /* reexport */ join; },
-  "registerFormatType": function() { return /* reexport */ registerFormatType; },
-  "remove": function() { return /* reexport */ remove; },
-  "removeFormat": function() { return /* reexport */ removeFormat; },
-  "replace": function() { return /* reexport */ replace_replace; },
-  "slice": function() { return /* reexport */ slice; },
-  "split": function() { return /* reexport */ split; },
-  "store": function() { return /* reexport */ store; },
-  "toHTMLString": function() { return /* reexport */ toHTMLString; },
-  "toggleFormat": function() { return /* reexport */ toggleFormat; },
-  "unregisterFormatType": function() { return /* reexport */ unregisterFormatType; },
-  "useAnchorRef": function() { return /* reexport */ useAnchorRef; }
+  "__UNSTABLE_LINE_SEPARATOR": () => (/* reexport */ LINE_SEPARATOR),
+  "__experimentalRichText": () => (/* reexport */ __experimentalRichText),
+  "__unstableCanIndentListItems": () => (/* reexport */ canIndentListItems),
+  "__unstableCanOutdentListItems": () => (/* reexport */ canOutdentListItems),
+  "__unstableChangeListType": () => (/* reexport */ changeListType),
+  "__unstableCreateElement": () => (/* reexport */ createElement),
+  "__unstableFormatEdit": () => (/* reexport */ FormatEdit),
+  "__unstableIndentListItems": () => (/* reexport */ indentListItems),
+  "__unstableInsertLineSeparator": () => (/* reexport */ insertLineSeparator),
+  "__unstableIsActiveListType": () => (/* reexport */ isActiveListType),
+  "__unstableIsEmptyLine": () => (/* reexport */ isEmptyLine),
+  "__unstableIsListRootSelected": () => (/* reexport */ isListRootSelected),
+  "__unstableOutdentListItems": () => (/* reexport */ outdentListItems),
+  "__unstableRemoveLineSeparator": () => (/* reexport */ removeLineSeparator),
+  "__unstableToDom": () => (/* reexport */ toDom),
+  "__unstableUseRichText": () => (/* reexport */ useRichText),
+  "applyFormat": () => (/* reexport */ applyFormat),
+  "concat": () => (/* reexport */ concat),
+  "create": () => (/* reexport */ create),
+  "getActiveFormat": () => (/* reexport */ getActiveFormat),
+  "getActiveObject": () => (/* reexport */ getActiveObject),
+  "getTextContent": () => (/* reexport */ getTextContent),
+  "insert": () => (/* reexport */ insert),
+  "insertObject": () => (/* reexport */ insertObject),
+  "isCollapsed": () => (/* reexport */ isCollapsed),
+  "isEmpty": () => (/* reexport */ isEmpty),
+  "join": () => (/* reexport */ join),
+  "registerFormatType": () => (/* reexport */ registerFormatType),
+  "remove": () => (/* reexport */ remove),
+  "removeFormat": () => (/* reexport */ removeFormat),
+  "replace": () => (/* reexport */ replace_replace),
+  "slice": () => (/* reexport */ slice),
+  "split": () => (/* reexport */ split),
+  "store": () => (/* reexport */ store),
+  "toHTMLString": () => (/* reexport */ toHTMLString),
+  "toggleFormat": () => (/* reexport */ toggleFormat),
+  "unregisterFormatType": () => (/* reexport */ unregisterFormatType),
+  "useAnchorRef": () => (/* reexport */ useAnchorRef)
 });
 
 // NAMESPACE OBJECT: ./packages/rich-text/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, {
-  "getFormatType": function() { return getFormatType; },
-  "getFormatTypeForBareElement": function() { return getFormatTypeForBareElement; },
-  "getFormatTypeForClassName": function() { return getFormatTypeForClassName; },
-  "getFormatTypes": function() { return getFormatTypes; }
+  "getFormatType": () => (getFormatType),
+  "getFormatTypeForBareElement": () => (getFormatTypeForBareElement),
+  "getFormatTypeForClassName": () => (getFormatTypeForClassName),
+  "getFormatTypes": () => (getFormatTypes)
 });
 
 // NAMESPACE OBJECT: ./packages/rich-text/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, {
-  "addFormatTypes": function() { return addFormatTypes; },
-  "removeFormatTypes": function() { return removeFormatTypes; }
+  "addFormatTypes": () => (addFormatTypes),
+  "removeFormatTypes": () => (removeFormatTypes)
 });
 
 ;// CONCATENATED MODULE: external ["wp","data"]
-var external_wp_data_namespaceObject = window["wp"]["data"];
+const external_wp_data_namespaceObject = window["wp"]["data"];
 ;// CONCATENATED MODULE: external "lodash"
-var external_lodash_namespaceObject = window["lodash"];
+const external_lodash_namespaceObject = window["lodash"];
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/store/reducer.js
 /**
  * External dependencies
@@ -127,7 +127,10 @@ function formatTypes() {
   switch (action.type) {
     case 'ADD_FORMAT_TYPES':
       return { ...state,
-        ...(0,external_lodash_namespaceObject.keyBy)(action.formatTypes, 'name')
+        // Key format types by their name.
+        ...action.formatTypes.reduce((newFormatTypes, type) => ({ ...newFormatTypes,
+          [type.name]: type
+        }), {})
       };
 
     case 'REMOVE_FORMAT_TYPES':
@@ -136,38 +139,64 @@ function formatTypes() {
 
   return state;
 }
-/* harmony default export */ var reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
+/* harmony default export */ const reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
   formatTypes
 }));
 
 ;// CONCATENATED MODULE: ./node_modules/rememo/es/rememo.js
 
 
-var LEAF_KEY, hasWeakMap;
+/** @typedef {(...args: any[]) => *[]} GetDependants */
+
+/** @typedef {() => void} Clear */
+
+/**
+ * @typedef {{
+ *   getDependants: GetDependants,
+ *   clear: Clear
+ * }} EnhancedSelector
+ */
+
+/**
+ * Internal cache entry.
+ *
+ * @typedef CacheNode
+ *
+ * @property {?CacheNode|undefined} [prev] Previous node.
+ * @property {?CacheNode|undefined} [next] Next node.
+ * @property {*[]} args Function arguments for cache entry.
+ * @property {*} val Function result.
+ */
+
+/**
+ * @typedef Cache
+ *
+ * @property {Clear} clear Function to clear cache.
+ * @property {boolean} [isUniqueByDependants] Whether dependants are valid in
+ * considering cache uniqueness. A cache is unique if dependents are all arrays
+ * or objects.
+ * @property {CacheNode?} [head] Cache head.
+ * @property {*[]} [lastDependants] Dependants from previous invocation.
+ */
 
 /**
  * Arbitrary value used as key for referencing cache object in WeakMap tree.
  *
- * @type {Object}
+ * @type {{}}
  */
-LEAF_KEY = {};
-
-/**
- * Whether environment supports WeakMap.
- *
- * @type {boolean}
- */
-hasWeakMap = typeof WeakMap !== 'undefined';
+var LEAF_KEY = {};
 
 /**
  * Returns the first argument as the sole entry in an array.
  *
- * @param {*} value Value to return.
+ * @template T
  *
- * @return {Array} Value returned as entry in array.
+ * @param {T} value Value to return.
+ *
+ * @return {[T]} Value returned as entry in array.
  */
-function arrayOf( value ) {
-	return [ value ];
+function arrayOf(value) {
+	return [value];
 }
 
 /**
@@ -178,18 +207,19 @@ function arrayOf( value ) {
  *
  * @return {boolean} Whether value is object-like.
  */
-function isObjectLike( value ) {
-	return !! value && 'object' === typeof value;
+function isObjectLike(value) {
+	return !!value && 'object' === typeof value;
 }
 
 /**
  * Creates and returns a new cache object.
  *
- * @return {Object} Cache object.
+ * @return {Cache} Cache object.
  */
 function createCache() {
+	/** @type {Cache} */
 	var cache = {
-		clear: function() {
+		clear: function () {
 			cache.head = null;
 		},
 	};
@@ -201,21 +231,21 @@ function createCache() {
  * Returns true if entries within the two arrays are strictly equal by
  * reference from a starting index.
  *
- * @param {Array}  a         First array.
- * @param {Array}  b         Second array.
+ * @param {*[]} a First array.
+ * @param {*[]} b Second array.
  * @param {number} fromIndex Index from which to start comparison.
  *
  * @return {boolean} Whether arrays are shallowly equal.
  */
-function isShallowEqual( a, b, fromIndex ) {
+function isShallowEqual(a, b, fromIndex) {
 	var i;
 
-	if ( a.length !== b.length ) {
+	if (a.length !== b.length) {
 		return false;
 	}
 
-	for ( i = fromIndex; i < a.length; i++ ) {
-		if ( a[ i ] !== b[ i ] ) {
+	for (i = fromIndex; i < a.length; i++) {
+		if (a[i] !== b[i]) {
 			return false;
 		}
 	}
@@ -231,31 +261,18 @@ function isShallowEqual( a, b, fromIndex ) {
  * dependant references remain the same. If getDependants returns a different
  * reference(s), the cache is cleared and the selector value regenerated.
  *
- * @param {Function} selector      Selector function.
- * @param {Function} getDependants Dependant getter returning an immutable
- *                                 reference or array of reference used in
- *                                 cache bust consideration.
+ * @template {(...args: *[]) => *} S
  *
- * @return {Function} Memoized selector.
+ * @param {S} selector Selector function.
+ * @param {GetDependants=} getDependants Dependant getter returning an array of
+ * references used in cache bust consideration.
  */
-/* harmony default export */ function rememo(selector, getDependants ) {
-	var rootCache, getCache;
+/* harmony default export */ function rememo(selector, getDependants) {
+	/** @type {WeakMap<*,*>} */
+	var rootCache;
 
-	// Use object source as dependant if getter not provided
-	if ( ! getDependants ) {
-		getDependants = arrayOf;
-	}
-
-	/**
-	 * Returns the root cache. If WeakMap is supported, this is assigned to the
-	 * root WeakMap cache set, otherwise it is a shared instance of the default
-	 * cache object.
-	 *
-	 * @return {(WeakMap|Object)} Root cache object.
-	 */
-	function getRootCache() {
-		return rootCache;
-	}
+	/** @type {GetDependants} */
+	var normalizedGetDependants = getDependants ? getDependants : arrayOf;
 
 	/**
 	 * Returns the cache for a given dependants array. When possible, a WeakMap
@@ -271,85 +288,93 @@ function isShallowEqual( a, b, fromIndex ) {
 	 *
 	 * @see isObjectLike
 	 *
-	 * @param {Array} dependants Selector dependants.
+	 * @param {*[]} dependants Selector dependants.
 	 *
-	 * @return {Object} Cache object.
+	 * @return {Cache} Cache object.
 	 */
-	function getWeakMapCache( dependants ) {
+	function getCache(dependants) {
 		var caches = rootCache,
 			isUniqueByDependants = true,
-			i, dependant, map, cache;
+			i,
+			dependant,
+			map,
+			cache;
 
-		for ( i = 0; i < dependants.length; i++ ) {
-			dependant = dependants[ i ];
+		for (i = 0; i < dependants.length; i++) {
+			dependant = dependants[i];
 
 			// Can only compose WeakMap from object-like key.
-			if ( ! isObjectLike( dependant ) ) {
+			if (!isObjectLike(dependant)) {
 				isUniqueByDependants = false;
 				break;
 			}
 
 			// Does current segment of cache already have a WeakMap?
-			if ( caches.has( dependant ) ) {
+			if (caches.has(dependant)) {
 				// Traverse into nested WeakMap.
-				caches = caches.get( dependant );
+				caches = caches.get(dependant);
 			} else {
 				// Create, set, and traverse into a new one.
 				map = new WeakMap();
-				caches.set( dependant, map );
+				caches.set(dependant, map);
 				caches = map;
 			}
 		}
 
 		// We use an arbitrary (but consistent) object as key for the last item
 		// in the WeakMap to serve as our running cache.
-		if ( ! caches.has( LEAF_KEY ) ) {
+		if (!caches.has(LEAF_KEY)) {
 			cache = createCache();
 			cache.isUniqueByDependants = isUniqueByDependants;
-			caches.set( LEAF_KEY, cache );
+			caches.set(LEAF_KEY, cache);
 		}
 
-		return caches.get( LEAF_KEY );
+		return caches.get(LEAF_KEY);
 	}
-
-	// Assign cache handler by availability of WeakMap
-	getCache = hasWeakMap ? getWeakMapCache : getRootCache;
 
 	/**
 	 * Resets root memoization cache.
 	 */
 	function clear() {
-		rootCache = hasWeakMap ? new WeakMap() : createCache();
+		rootCache = new WeakMap();
 	}
 
-	// eslint-disable-next-line jsdoc/check-param-names
+	/* eslint-disable jsdoc/check-param-names */
 	/**
 	 * The augmented selector call, considering first whether dependants have
 	 * changed before passing it to underlying memoize function.
 	 *
-	 * @param {Object} source    Source object for derivation.
-	 * @param {...*}   extraArgs Additional arguments to pass to selector.
+	 * @param {*}    source    Source object for derivation.
+	 * @param {...*} extraArgs Additional arguments to pass to selector.
 	 *
 	 * @return {*} Selector result.
 	 */
-	function callSelector( /* source, ...extraArgs */ ) {
+	/* eslint-enable jsdoc/check-param-names */
+	function callSelector(/* source, ...extraArgs */) {
 		var len = arguments.length,
-			cache, node, i, args, dependants;
+			cache,
+			node,
+			i,
+			args,
+			dependants;
 
 		// Create copy of arguments (avoid leaking deoptimization).
-		args = new Array( len );
-		for ( i = 0; i < len; i++ ) {
-			args[ i ] = arguments[ i ];
+		args = new Array(len);
+		for (i = 0; i < len; i++) {
+			args[i] = arguments[i];
 		}
 
-		dependants = getDependants.apply( null, args );
-		cache = getCache( dependants );
+		dependants = normalizedGetDependants.apply(null, args);
+		cache = getCache(dependants);
 
-		// If not guaranteed uniqueness by dependants (primitive type or lack
-		// of WeakMap support), shallow compare against last dependants and, if
-		// references have changed, destroy cache to recalculate result.
-		if ( ! cache.isUniqueByDependants ) {
-			if ( cache.lastDependants && ! isShallowEqual( dependants, cache.lastDependants, 0 ) ) {
+		// If not guaranteed uniqueness by dependants (primitive type), shallow
+		// compare against last dependants and, if references have changed,
+		// destroy cache to recalculate result.
+		if (!cache.isUniqueByDependants) {
+			if (
+				cache.lastDependants &&
+				!isShallowEqual(dependants, cache.lastDependants, 0)
+			) {
 				cache.clear();
 			}
 
@@ -357,9 +382,9 @@ function isShallowEqual( a, b, fromIndex ) {
 		}
 
 		node = cache.head;
-		while ( node ) {
+		while (node) {
 			// Check whether node arguments match arguments
-			if ( ! isShallowEqual( node.args, args, 1 ) ) {
+			if (!isShallowEqual(node.args, args, 1)) {
 				node = node.next;
 				continue;
 			}
@@ -367,16 +392,16 @@ function isShallowEqual( a, b, fromIndex ) {
 			// At this point we can assume we've found a match
 
 			// Surface matched node to head if not already
-			if ( node !== cache.head ) {
+			if (node !== cache.head) {
 				// Adjust siblings to point to each other.
-				node.prev.next = node.next;
-				if ( node.next ) {
+				/** @type {CacheNode} */ (node.prev).next = node.next;
+				if (node.next) {
 					node.next.prev = node.prev;
 				}
 
 				node.next = cache.head;
 				node.prev = null;
-				cache.head.prev = node;
+				/** @type {CacheNode} */ (cache.head).prev = node;
 				cache.head = node;
 			}
 
@@ -386,20 +411,20 @@ function isShallowEqual( a, b, fromIndex ) {
 
 		// No cached value found. Continue to insertion phase:
 
-		node = {
+		node = /** @type {CacheNode} */ ({
 			// Generate the result from original function
-			val: selector.apply( null, args ),
-		};
+			val: selector.apply(null, args),
+		});
 
 		// Avoid including the source object in the cache.
-		args[ 0 ] = null;
+		args[0] = null;
 		node.args = args;
 
 		// Don't need to check whether node is already head, since it would
 		// have been returned above already if it was
 
 		// Shift existing head down list
-		if ( cache.head ) {
+		if (cache.head) {
 			cache.head.prev = node;
 			node.next = cache.head;
 		}
@@ -409,11 +434,11 @@ function isShallowEqual( a, b, fromIndex ) {
 		return node.val;
 	}
 
-	callSelector.getDependants = getDependants;
+	callSelector.getDependants = normalizedGetDependants;
 	callSelector.clear = clear;
 	clear();
 
-	return callSelector;
+	return /** @type {S & EnhancedSelector} */ (callSelector);
 }
 
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/store/selectors.js
@@ -646,13 +671,8 @@ function normaliseFormats(value) {
 
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/apply-format.js
 /**
- * External dependencies
- */
-
-/**
  * Internal dependencies
  */
-
 
 /** @typedef {import('./create').RichTextValue} RichTextValue */
 
@@ -687,8 +707,13 @@ function applyFormat(value, format) {
   const newFormats = formats.slice(); // The selection is collapsed.
 
   if (startIndex === endIndex) {
-    const startFormat = (0,external_lodash_namespaceObject.find)(newFormats[startIndex], {
-      type: format.type
+    var _newFormats$startInde;
+
+    const startFormat = (_newFormats$startInde = newFormats[startIndex]) === null || _newFormats$startInde === void 0 ? void 0 : _newFormats$startInde.find(_ref => {
+      let {
+        type
+      } = _ref;
+      return type === format.type;
     }); // If the caret is at a format of the same type, expand start and end to
     // the edges of the format. This is useful to apply new attributes.
 
@@ -713,10 +738,10 @@ function applyFormat(value, format) {
 
     for (let index = startIndex; index < endIndex; index++) {
       if (newFormats[index]) {
-        newFormats[index] = newFormats[index].filter(_ref => {
+        newFormats[index] = newFormats[index].filter(_ref2 => {
           let {
             type
-          } = _ref;
+          } = _ref2;
           return type !== format.type;
         });
         const length = newFormats[index].length;
@@ -740,9 +765,12 @@ function applyFormat(value, format) {
     // Always revise active formats. This serves as a placeholder for new
     // inputs with the format so new input appears with the format applied,
     // and ensures a format of the same type uses the latest values.
-    activeFormats: [...(0,external_lodash_namespaceObject.reject)(activeFormats, {
-      type: format.type
-    }), format]
+    activeFormats: [...((activeFormats === null || activeFormats === void 0 ? void 0 : activeFormats.filter(_ref3 => {
+      let {
+        type
+      } = _ref3;
+      return type !== format.type;
+    })) || []), format]
   });
 }
 
@@ -1897,13 +1925,8 @@ function registerFormatType(name, settings) {
 
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/remove-format.js
 /**
- * External dependencies
- */
-
-/**
  * Internal dependencies
  */
-
 
 /** @typedef {import('./create').RichTextValue} RichTextValue */
 
@@ -1931,19 +1954,28 @@ function removeFormat(value, formatType) {
   // format.
 
   if (startIndex === endIndex) {
-    const format = (0,external_lodash_namespaceObject.find)(newFormats[startIndex], {
-      type: formatType
+    var _newFormats$startInde;
+
+    const format = (_newFormats$startInde = newFormats[startIndex]) === null || _newFormats$startInde === void 0 ? void 0 : _newFormats$startInde.find(_ref => {
+      let {
+        type
+      } = _ref;
+      return type === formatType;
     });
 
     if (format) {
-      while ((0,external_lodash_namespaceObject.find)(newFormats[startIndex], format)) {
+      while ((_newFormats$startInde2 = newFormats[startIndex]) !== null && _newFormats$startInde2 !== void 0 && _newFormats$startInde2.find(newFormat => newFormat === format)) {
+        var _newFormats$startInde2;
+
         filterFormats(newFormats, startIndex, formatType);
         startIndex--;
       }
 
       endIndex++;
 
-      while ((0,external_lodash_namespaceObject.find)(newFormats[endIndex], format)) {
+      while ((_newFormats$endIndex = newFormats[endIndex]) !== null && _newFormats$endIndex !== void 0 && _newFormats$endIndex.find(newFormat => newFormat === format)) {
+        var _newFormats$endIndex;
+
         filterFormats(newFormats, endIndex, formatType);
         endIndex++;
       }
@@ -1958,17 +1990,20 @@ function removeFormat(value, formatType) {
 
   return normaliseFormats({ ...value,
     formats: newFormats,
-    activeFormats: (0,external_lodash_namespaceObject.reject)(activeFormats, {
-      type: formatType
-    })
+    activeFormats: (activeFormats === null || activeFormats === void 0 ? void 0 : activeFormats.filter(_ref2 => {
+      let {
+        type
+      } = _ref2;
+      return type !== formatType;
+    })) || []
   });
 }
 
 function filterFormats(formats, index, formatType) {
-  const newFormats = formats[index].filter(_ref => {
+  const newFormats = formats[index].filter(_ref3 => {
     let {
       type
-    } = _ref;
+    } = _ref3;
     return type !== formatType;
   });
 
@@ -3086,7 +3121,7 @@ function applySelection(_ref6, current) {
 }
 
 ;// CONCATENATED MODULE: external ["wp","escapeHtml"]
-var external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
+const external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/to-html-string.js
 /**
  * WordPress dependencies
@@ -3229,9 +3264,9 @@ function createChildrenHTML() {
 }
 
 ;// CONCATENATED MODULE: external ["wp","a11y"]
-var external_wp_a11y_namespaceObject = window["wp"]["a11y"];
+const external_wp_a11y_namespaceObject = window["wp"]["a11y"];
 ;// CONCATENATED MODULE: external ["wp","i18n"]
-var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
+const external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/toggle-format.js
 /**
  * WordPress dependencies
@@ -3672,7 +3707,7 @@ function changeListType(value, newFormat) {
 }
 
 ;// CONCATENATED MODULE: external ["wp","element"]
-var external_wp_element_namespaceObject = window["wp"]["element"];
+const external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/component/use-anchor-ref.js
 /**
  * WordPress dependencies
@@ -3748,7 +3783,7 @@ function useAnchorRef(_ref) {
 }
 
 ;// CONCATENATED MODULE: external ["wp","compose"]
-var external_wp_compose_namespaceObject = window["wp"]["compose"];
+const external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/component/use-default-style.js
 /**
  * WordPress dependencies
@@ -3900,7 +3935,7 @@ function useCopyHandler(props) {
 }
 
 ;// CONCATENATED MODULE: external ["wp","keycodes"]
-var external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
+const external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/component/use-format-boundaries.js
 /**
  * WordPress dependencies
@@ -4197,6 +4232,7 @@ function updateFormats(_ref) {
 
 const INSERTION_INPUT_TYPES_TO_IGNORE = new Set(['insertParagraph', 'insertOrderedList', 'insertUnorderedList', 'insertHorizontalRule', 'insertLink']);
 const use_input_and_selection_EMPTY_ACTIVE_FORMATS = [];
+const PLACEHOLDER_ATTR_NAME = 'data-rich-text-placeholder';
 /**
  * If the selection is set on the placeholder element, collapse the selection to
  * the start (before the placeholder).
@@ -4217,7 +4253,7 @@ function fixPlaceholderSelection(defaultView) {
 
   const targetNode = anchorNode.childNodes[anchorOffset];
 
-  if (!targetNode || targetNode.nodeType !== targetNode.ELEMENT_NODE || !targetNode.getAttribute('data-rich-text-placeholder')) {
+  if (!targetNode || targetNode.nodeType !== targetNode.ELEMENT_NODE || !targetNode.hasAttribute(PLACEHOLDER_ATTR_NAME)) {
     return;
   }
 
@@ -4406,7 +4442,12 @@ function useInputAndSelection(props) {
       // this rerenders the component and might destroy internal browser
       // editing state.
 
-      ownerDocument.removeEventListener('selectionchange', handleSelectionChange);
+      ownerDocument.removeEventListener('selectionchange', handleSelectionChange); // Remove the placeholder. Since the rich text value doesn't update
+      // during composition, the placeholder doesn't get removed. There's
+      // no need to re-add it, when the value is updated on compositionend
+      // it will be re-added when the value is empty.
+
+      element.querySelector(`[${PLACEHOLDER_ATTR_NAME}]`).remove();
     }
 
     function onCompositionEnd() {
@@ -4555,78 +4596,6 @@ function useDelete(props) {
   }, []);
 }
 
-;// CONCATENATED MODULE: ./packages/rich-text/build-module/component/use-space.js
-/**
- * WordPress dependencies
- */
-
-
-/**
- * For some elements like BUTTON and SUMMARY, the space key doesn't insert a
- * space character in some browsers even though the element is editable. We have
- * to manually insert a space and prevent default behaviour.
- *
- * DO NOT limit this behaviour to specific tag names! It would mean that this
- * behaviour is not widely tested. If there's ever any problems, we should find
- * a different solution entirely or remove it entirely.
- */
-
-function useSpace() {
-  return (0,external_wp_compose_namespaceObject.useRefEffect)(element => {
-    function onKeyDown(event) {
-      // Don't insert a space if default behaviour is prevented.
-      if (event.defaultPrevented) {
-        return;
-      }
-
-      const {
-        keyCode,
-        altKey,
-        metaKey,
-        ctrlKey,
-        key
-      } = event; // Only consider the space key without modifiers pressed.
-
-      if (keyCode !== external_wp_keycodes_namespaceObject.SPACE || altKey || metaKey || ctrlKey) {
-        return;
-      } // Disregard character composition that involves the Space key.
-      //
-      // @see https://github.com/WordPress/gutenberg/issues/35086
-      //
-      // For example, to input a standalone diacritic (like ´ or `) using a
-      // keyboard with dead keys, one must first press the dead key and then
-      // press the Space key.
-      //
-      // Many operating systems handle this in such a way that the second
-      // KeyboardEvent contains the property `keyCode: 229`. According to the
-      // spec, 229 allows the system to indicate that an Input Method Editor
-      // (IDE) is processing some key input.
-      //
-      // However, Windows doesn't use `keyCode: 229` for dead key composition,
-      // instead emitting an event with values `keyCode: SPACE` and `key: '´'`.
-      // That is why checking the `key` property for values other than `SPACE`
-      // is important.
-      //
-      // This should serve as a reminder that the `KeyboardEvent.keyCode`
-      // attribute is officially deprecated and that we should consider more
-      // consistent interfaces.
-
-
-      if (key !== ' ') {
-        return;
-      }
-
-      event.target.ownerDocument.execCommand('insertText', false, ' ');
-      event.preventDefault();
-    }
-
-    element.addEventListener('keydown', onKeyDown);
-    return () => {
-      element.removeEventListener('keydown', onKeyDown);
-    };
-  }, []);
-}
-
 ;// CONCATENATED MODULE: ./packages/rich-text/build-module/component/index.js
 /**
  * WordPress dependencies
@@ -4637,7 +4606,6 @@ function useSpace() {
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -4872,7 +4840,7 @@ function useRichText(_ref) {
     handleChange,
     isSelected,
     onSelectionChange
-  }), useSpace(), (0,external_wp_compose_namespaceObject.useRefEffect)(() => {
+  }), (0,external_wp_compose_namespaceObject.useRefEffect)(() => {
     applyFromProps();
     didMount.current = true;
   }, [placeholder, ...__unstableDependencies])]);
