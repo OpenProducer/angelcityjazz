@@ -1,3 +1,164 @@
+# [1.86.0](https://github.com/Automattic/newspack-plugin/compare/v1.85.2...v1.86.0) (2022-07-11)
+
+
+### Bug Fixes
+
+* **reader-revenue:** disable WC email if module will send email ([#1709](https://github.com/Automattic/newspack-plugin/issues/1709)) ([48e1613](https://github.com/Automattic/newspack-plugin/commit/48e16134c45bb0482cd59e224ec9a84fd20520f6)), closes [#1699](https://github.com/Automattic/newspack-plugin/issues/1699)
+
+
+### Features
+
+* ads onboarding ([#1678](https://github.com/Automattic/newspack-plugin/issues/1678)) ([80c0bf4](https://github.com/Automattic/newspack-plugin/commit/80c0bf4561071ca701cb2d74e8a5d370487c97d8))
+* disable deactivate and delete for required plugins ([#1712](https://github.com/Automattic/newspack-plugin/issues/1712)) ([75afee8](https://github.com/Automattic/newspack-plugin/commit/75afee8a437abbaeabc593f1e7f67ec326654049))
+* **experimental:** magic links ([#1668](https://github.com/Automattic/newspack-plugin/issues/1668)) ([02d9f82](https://github.com/Automattic/newspack-plugin/commit/02d9f82ea83296818439f53c5fe2a1ae52a0116c))
+* **reader-revenue:** prevent creating duplicate stripe webhooks ([#1710](https://github.com/Automattic/newspack-plugin/issues/1710)) ([586e693](https://github.com/Automattic/newspack-plugin/commit/586e69311a689406b4657a349c6bd5b59e943719))
+
+# [1.86.0-alpha.3](https://github.com/Automattic/newspack-plugin/compare/v1.86.0-alpha.2...v1.86.0-alpha.3) (2022-07-08)
+
+
+### Bug Fixes
+
+* **donations:** numbers formatting if NRH is the platform ([924d6b9](https://github.com/Automattic/newspack-plugin/commit/924d6b93a8bbb57bb4e499949f5a54be8ad79208)), closes [#1650](https://github.com/Automattic/newspack-plugin/issues/1650)
+
+## [1.85.2](https://github.com/Automattic/newspack-plugin/compare/v1.85.1...v1.85.2) (2022-07-08)
+
+
+### Bug Fixes
+
+* **donations:** numbers formatting if NRH is the platform ([924d6b9](https://github.com/Automattic/newspack-plugin/commit/924d6b93a8bbb57bb4e499949f5a54be8ad79208)), closes [#1650](https://github.com/Automattic/newspack-plugin/issues/1650)
+
+## [1.85.1](https://github.com/Automattic/newspack-plugin/compare/v1.85.0...v1.85.1) (2022-07-07)
+
+
+### Bug Fixes
+
+* **amp-plus:** handle complianz-gdpr plugin ([0f7ee8a](https://github.com/Automattic/newspack-plugin/commit/0f7ee8a545216f048646c7e16f0e11ff420029af))
+
+# [1.85.0](https://github.com/Automattic/newspack-plugin/compare/v1.84.1...v1.85.0) (2022-06-27)
+
+
+### Bug Fixes
+
+* **ads:** always allow service account credentials ([#1694](https://github.com/Automattic/newspack-plugin/issues/1694)) ([5f1c55d](https://github.com/Automattic/newspack-plugin/commit/5f1c55df776cc1016dedc1f60c1d716f9c5776c7))
+* compare both IDs and labels for autocomplete selections ([#1679](https://github.com/Automattic/newspack-plugin/issues/1679)) ([cfec9b3](https://github.com/Automattic/newspack-plugin/commit/cfec9b30b00da9b6b6be9498b5461d2d1359f642))
+* deactivate Salesforce syncing if RR platform is not Newspack ([#1669](https://github.com/Automattic/newspack-plugin/issues/1669)) ([32b4768](https://github.com/Automattic/newspack-plugin/commit/32b476837e14c1616dd1a879046c30b8c0e17808))
+* oauth error handling ([#1687](https://github.com/Automattic/newspack-plugin/issues/1687)) ([902061c](https://github.com/Automattic/newspack-plugin/commit/902061c842ed621ec6e6090f87801edfb33ba389))
+
+
+### Features
+
+* **ads:** fixed height support for placements ([#1697](https://github.com/Automattic/newspack-plugin/issues/1697)) ([f71bb37](https://github.com/Automattic/newspack-plugin/commit/f71bb375e294dc50dda786f0aaef73822163e5d3))
+* refactor protected pages handling, and make donation page protected ([#1686](https://github.com/Automattic/newspack-plugin/issues/1686)) ([2b2abf8](https://github.com/Automattic/newspack-plugin/commit/2b2abf8c5d53535d0acb54c888fa74ec3d02ec09))
+* **rss:** add RSS Enhancements plugin to the core ([#1688](https://github.com/Automattic/newspack-plugin/issues/1688)) ([c38bfd6](https://github.com/Automattic/newspack-plugin/commit/c38bfd6864ba66e28e76c56a43c6a9d1f558c15a))
+* simplify components and use Gutenberg's ([#1676](https://github.com/Automattic/newspack-plugin/issues/1676)) ([39a2474](https://github.com/Automattic/newspack-plugin/commit/39a247459b4151901799093e8bcd311d4f97abe7))
+
+# [1.85.0-alpha.2](https://github.com/Automattic/newspack-plugin/compare/v1.85.0-alpha.1...v1.85.0-alpha.2) (2022-06-24)
+
+
+### Bug Fixes
+
+* set HTTPS transport mode to "beacon" for non-AMP GA ([e350d84](https://github.com/Automattic/newspack-plugin/commit/e350d84afdee385edc5a460c52bf87340d64dfa1))
+
+## [1.84.1](https://github.com/Automattic/newspack-plugin/compare/v1.84.0...v1.84.1) (2022-06-24)
+
+
+### Bug Fixes
+
+* set HTTPS transport mode to "beacon" for non-AMP GA ([e350d84](https://github.com/Automattic/newspack-plugin/commit/e350d84afdee385edc5a460c52bf87340d64dfa1))
+
+# [1.84.0](https://github.com/Automattic/newspack-plugin/compare/v1.83.3...v1.84.0) (2022-06-13)
+
+
+### Bug Fixes
+
+* **ads:** resolve conflicts from hotfix merge ([#1685](https://github.com/Automattic/newspack-plugin/issues/1685)) ([8ce12cd](https://github.com/Automattic/newspack-plugin/commit/8ce12cd3b898fd89ed51331c6d2ef298bbab7f05))
+* **reader-revenue:** initial order state with total of 0 ([7c30b09](https://github.com/Automattic/newspack-plugin/commit/7c30b09351cc2292726404bd3b7db95652bf1bc2))
+
+
+### Features
+
+* **ads:** handle gam default ad units ([#1654](https://github.com/Automattic/newspack-plugin/issues/1654)) ([321b98e](https://github.com/Automattic/newspack-plugin/commit/321b98e426bb74e03299878accab04ac8dcb7e08))
+* **analytics:** automatically link GA4 with Site Kit ([#1698](https://github.com/Automattic/newspack-plugin/issues/1698)) ([266135f](https://github.com/Automattic/newspack-plugin/commit/266135fb9de7e88ec3ca097b29d7988b4f2f817c))
+* reader registration on donate ([#1655](https://github.com/Automattic/newspack-plugin/issues/1655)) ([5821b57](https://github.com/Automattic/newspack-plugin/commit/5821b5785910baa14d7fcd774fad1dd34392e1ba))
+* remove theme selection from setup wizard ([#1656](https://github.com/Automattic/newspack-plugin/issues/1656)) ([94e4580](https://github.com/Automattic/newspack-plugin/commit/94e4580042ddf8d55b93ca199a1cb4d64d678ca4))
+
+# [1.84.0-alpha.5](https://github.com/Automattic/newspack-plugin/compare/v1.84.0-alpha.4...v1.84.0-alpha.5) (2022-06-10)
+
+
+### Features
+
+* **analytics:** automatically link GA4 with Site Kit ([#1698](https://github.com/Automattic/newspack-plugin/issues/1698)) ([266135f](https://github.com/Automattic/newspack-plugin/commit/266135fb9de7e88ec3ca097b29d7988b4f2f817c))
+
+# [1.84.0-alpha.4](https://github.com/Automattic/newspack-plugin/compare/v1.84.0-alpha.3...v1.84.0-alpha.4) (2022-06-07)
+
+
+### Bug Fixes
+
+* oauth error handling ([#1687](https://github.com/Automattic/newspack-plugin/issues/1687)) ([d2bfd9f](https://github.com/Automattic/newspack-plugin/commit/d2bfd9f163fe06b439009f8f2a885ea013c489af))
+
+## [1.83.3](https://github.com/Automattic/newspack-plugin/compare/v1.83.2...v1.83.3) (2022-06-07)
+
+
+### Bug Fixes
+
+* oauth error handling ([#1687](https://github.com/Automattic/newspack-plugin/issues/1687)) ([d2bfd9f](https://github.com/Automattic/newspack-plugin/commit/d2bfd9f163fe06b439009f8f2a885ea013c489af))
+
+## [1.83.3-hotfix.1](https://github.com/Automattic/newspack-plugin/compare/v1.83.2...v1.83.3-hotfix.1) (2022-06-07)
+
+
+### Bug Fixes
+
+* oauth error handling ([#1687](https://github.com/Automattic/newspack-plugin/issues/1687)) ([d2bfd9f](https://github.com/Automattic/newspack-plugin/commit/d2bfd9f163fe06b439009f8f2a885ea013c489af))
+
+## [1.83.2](https://github.com/Automattic/newspack-plugin/compare/v1.83.1...v1.83.2) (2022-06-02)
+
+
+### Bug Fixes
+
+* **ads:** handle units from disconnected gam ([#1684](https://github.com/Automattic/newspack-plugin/issues/1684)) ([62ffa2b](https://github.com/Automattic/newspack-plugin/commit/62ffa2b5fd1cdea802ff4421d0c68c3c36c09d81))
+
+## [1.83.2-hotfix.1](https://github.com/Automattic/newspack-plugin/compare/v1.83.1...v1.83.2-hotfix.1) (2022-06-02)
+
+
+### Bug Fixes
+
+* **ads:** handle units from disconnected gam ([a7236d7](https://github.com/Automattic/newspack-plugin/commit/a7236d7e194ce52168c29ab8387c10e3f0d2be7a))
+
+## [1.83.1](https://github.com/Automattic/newspack-plugin/compare/v1.83.0...v1.83.1) (2022-05-30)
+
+
+### Bug Fixes
+
+* force alpha release ([34971d8](https://github.com/Automattic/newspack-plugin/commit/34971d807e19641388ebbf65216ce0a9e7fede92))
+
+## [1.83.1-alpha.1](https://github.com/Automattic/newspack-plugin/compare/v1.83.0...v1.83.1-alpha.1) (2022-05-27)
+
+
+### Bug Fixes
+
+* force alpha release ([34971d8](https://github.com/Automattic/newspack-plugin/commit/34971d807e19641388ebbf65216ce0a9e7fede92))
+
+# [1.83.0](https://github.com/Automattic/newspack-plugin/compare/v1.82.2...v1.83.0) (2022-05-24)
+
+
+### Features
+
+* **amp:** add support for GA4 ([#1653](https://github.com/Automattic/newspack-plugin/issues/1653)) ([2beb990](https://github.com/Automattic/newspack-plugin/commit/2beb990d793710b6001526b5ce40c6405ca5edc8))
+
+## [1.82.2](https://github.com/Automattic/newspack-plugin/compare/v1.82.1...v1.82.2) (2022-05-23)
+
+
+### Bug Fixes
+
+* **rss-feeds:** skip Jetpack lazy loading on RSS feeds ([58c64bf](https://github.com/Automattic/newspack-plugin/commit/58c64bfc1e73654e135fcc162e2ea5a12e290599))
+
+## [1.82.2-hotfix.1](https://github.com/Automattic/newspack-plugin/compare/v1.82.1...v1.82.2-hotfix.1) (2022-05-23)
+
+
+### Bug Fixes
+
+* **rss-feeds:** skip Jetpack lazy loading on RSS feeds ([58c64bf](https://github.com/Automattic/newspack-plugin/commit/58c64bfc1e73654e135fcc162e2ea5a12e290599))
+
 ## [1.82.1](https://github.com/Automattic/newspack-plugin/compare/v1.82.0...v1.82.1) (2022-05-18)
 
 

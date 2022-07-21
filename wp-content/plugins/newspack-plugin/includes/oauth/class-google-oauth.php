@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class Google_OAuth {
 	const AUTH_DATA_META_NAME  = '_newspack_google_oauth';
+	const AUTH_CALLBACK        = 'newspack_google_oauth_callback';
 	const CSRF_TOKEN_NAMESPACE = 'google';
 
 	const REQUIRED_SCOPES = [
@@ -34,6 +35,7 @@ class Google_OAuth {
 	 */
 	public function __construct() {
 		add_action( 'rest_api_init', [ __CLASS__, 'register_api_endpoints' ] );
+		add_action( 'admin_init', [ __CLASS__, 'oauth_callback' ] );
 	}
 
 	/**
@@ -62,30 +64,6 @@ class Google_OAuth {
 				'permission_callback' => [ __CLASS__, 'permissions_check' ],
 			]
 		);
-		// Save Google OAuth2 details.
-		\register_rest_route(
-			NEWSPACK_API_NAMESPACE,
-			'/oauth/google/finish',
-			[
-				'methods'             => \WP_REST_Server::EDITABLE,
-				'callback'            => [ __CLASS__, 'api_google_auth_save_details' ],
-				'permission_callback' => [ __CLASS__, 'permissions_check' ],
-				'args'                => [
-					'access_token'  => [
-						'sanitize_callback' => 'sanitize_text_field',
-					],
-					'refresh_token' => [
-						'sanitize_callback' => 'sanitize_text_field',
-					],
-					'csrf_token'    => [
-						'sanitize_callback' => 'sanitize_text_field',
-					],
-					'expires_at'    => [
-						'sanitize_callback' => 'sanitize_text_field',
-					],
-				],
-			]
-		);
 		// Revoke Google OAuth2 details.
 		\register_rest_route(
 			NEWSPACK_API_NAMESPACE,
@@ -106,6 +84,7 @@ class Google_OAuth {
 	 */
 	public static function permissions_check() {
 		if ( ! current_user_can( 'manage_options' ) || ! self::is_oauth_configured() ) {
+			Logger::log( 'Fail: user failed permissions check.' );
 			return new \WP_Error(
 				'newspack_rest_forbidden',
 				esc_html__( 'You cannot use this resource.', 'newspack' ),
@@ -128,7 +107,24 @@ class Google_OAuth {
 		$saved_csrf_token = OAuth::retrieve_csrf_token( self::CSRF_TOKEN_NAMESPACE );
 
 		if ( $tokens['csrf_token'] !== $saved_csrf_token ) {
-			return new \WP_Error( 'newspack_google_oauth', __( 'Session token mismatch.', 'newspack' ) );
+			Logger::log( 'Failed saving credentials - CSRF token mismatch.' );
+			return new \WP_Error(
+				'newspack_google_oauth',
+				__( 'Session token mismatch.', 'newspack' ),
+				[
+					'status' => 403,
+				]
+			);
+		}
+		if ( ! isset( $tokens['access_token'], $tokens['expires_at'] ) ) {
+			Logger::log( 'Failed saving credentials - missing data.' );
+			return new \WP_Error(
+				'newspack_google_oauth',
+				__( 'Missing data.', 'newspack' ),
+				[
+					'status' => 403,
+				]
+			);
 		}
 
 		$auth                 = self::get_google_auth_saved_data();
@@ -138,6 +134,7 @@ class Google_OAuth {
 			$auth['refresh_token'] = $tokens['refresh_token'];
 		}
 		self::remove_credentials();
+		Logger::log( 'Saving credentials to WP option ' . self::AUTH_DATA_META_NAME );
 		return add_option( self::AUTH_DATA_META_NAME, $auth );
 	}
 
@@ -148,7 +145,7 @@ class Google_OAuth {
 		return [
 			'csrf_token'     => OAuth::generate_csrf_token( self::CSRF_TOKEN_NAMESPACE ),
 			'scope'          => implode( ' ', self::REQUIRED_SCOPES ),
-			'redirect_after' => admin_url( 'admin.php?page=newspack-connections-wizard' ),
+			'redirect_after' => add_query_arg( self::AUTH_CALLBACK, wp_create_nonce( self::AUTH_CALLBACK ), admin_url( 'index.php' ) ),
 		];
 	}
 
@@ -190,25 +187,64 @@ class Google_OAuth {
 	}
 
 	/**
-	 * Save credentials in user meta.
-	 *
-	 * @param WP_REST_Request $request Request.
-	 * @return WP_REST_Response Response.
+	 * OAuth callback.
 	 */
-	public static function api_google_auth_save_details( $request ) {
+	public static function oauth_callback() {
+		if ( ! isset( $_GET[ self::AUTH_CALLBACK ] ) ) {
+			return;
+		}
+
+		if ( ! wp_verify_nonce( sanitize_text_field( $_GET[ self::AUTH_CALLBACK ] ), self::AUTH_CALLBACK ) ) {
+			wp_die( esc_html__( 'Invalid nonce.', 'newspack' ) );
+			return;
+		}
+
+		if ( ! isset( $_REQUEST['csrf_token'] ) || ! isset( $_REQUEST['access_token'] ) || ! isset( $_REQUEST['expires_at'] ) ) {
+			wp_die( esc_html__( 'Invalid request', 'newspack' ) );
+			return;
+		}
+
+		Logger::log( 'Attempting to save credentials.' );
+
 		$auth_save_data = [
-			'access_token' => $request['access_token'],
-			'csrf_token'   => $request['csrf_token'],
-			'expires_at'   => $request['expires_at'],
+			'csrf_token'   => sanitize_text_field( $_REQUEST['csrf_token'] ),
+			'access_token' => sanitize_text_field( $_REQUEST['access_token'] ),
+			'expires_at'   => sanitize_text_field( $_REQUEST['expires_at'] ),
 		];
-		if ( isset( $request['refresh_token'] ) ) {
-			$auth_save_data['refresh_token'] = $request['refresh_token'];
+
+		if ( isset( $_REQUEST['refresh_token'] ) ) {
+			$auth_save_data['refresh_token'] = sanitize_text_field( $_REQUEST['refresh_token'] );
 		}
-		if ( self::save_auth_credentials( $auth_save_data ) ) {
-			return \rest_ensure_response( [ 'status' => 'ok' ] );
-		} else {
-			return new \WP_Error( 'newspack_google_oauth', __( 'Could not save auth data for user.', 'newspack' ) );
+
+		$auth_save_result = self::save_auth_credentials( $auth_save_data );
+
+		if ( is_wp_error( $auth_save_result ) ) {
+			Logger::log( 'Credentials saving resulted in an error: ' . $auth_save_result->get_error_message() );
+			wp_die( esc_html( $auth_save_result->get_error_message() ) );
+			return;
 		}
+		if ( ! $auth_save_result ) {
+			Logger::log( 'Failed saving credentials.' );
+			wp_die( esc_html__( 'Could not save auth data for user.', 'newspack' ) );
+			return;
+		}
+
+		Logger::log( 'Credentials saved.' );
+
+		/** Add success notice in case window is not closed automatically. */
+		add_action(
+			'admin_notices',
+			function() {
+				echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Successfully connected to Google account.', 'newspack' ) . '</p></div>';
+			}
+		);
+
+		/** Close window if it's a popup. */
+		?>
+		<script type="text/javascript">
+			if ( window.opener ) { window.close(); }
+		</script>
+		<?php
 	}
 
 	/**
@@ -217,24 +253,22 @@ class Google_OAuth {
 	 * @return WP_REST_Response Response.
 	 */
 	public static function api_google_auth_revoke() {
+		Logger::log( 'Revoking credentials…' );
 		$auth_data = self::get_google_auth_saved_data();
-		if ( ! isset( $auth_data['access_token'] ) ) {
+		if ( ! isset( $auth_data['refresh_token'] ) ) {
 			return new \WP_Error( 'newspack_google_oauth', __( 'Missing token for user.', 'newspack' ) );
 		}
-		if ( isset( $auth_data['refresh_token'] ) ) {
-			$token = $auth_data['refresh_token'];
-		} else {
-			$token = $auth_data['access_token'];
-		}
-
+		$token  = $auth_data['refresh_token'];
 		$result = \wp_safe_remote_post(
 			add_query_arg( [ 'token' => $token ], 'https://oauth2.googleapis.com/revoke' )
 		);
 		if ( 200 === $result['response']['code'] ) {
+			Logger::log( 'Revoking credentials success.' );
 			self::remove_credentials();
 			return \rest_ensure_response( [ 'status' => 'ok' ] );
 		} else {
-			return new \WP_Error( 'newspack_google_oauth', __( 'Could not save auth data for user.', 'newspack' ) );
+			Logger::log( 'Failed revoking credentials.' );
+			return new \WP_Error( 'newspack_google_oauth', __( 'Could not revoke credentials.', 'newspack' ) );
 		}
 	}
 
@@ -252,26 +286,18 @@ class Google_OAuth {
 		if ( is_wp_error( $user_info_data ) ) {
 			return $user_info_data;
 		}
-		return \rest_ensure_response(
-			[
-				'user_basic_info' => $user_info_data,
-			]
-		);
+		$response['user_basic_info'] = $user_info_data;
+		return \rest_ensure_response( $response );
 	}
 
 	/**
 	 * Get Google authentication details.
 	 */
 	public static function get_google_auth_saved_data() {
-		$is_permitted = self::permissions_check();
-		if ( true !== $is_permitted ) {
-			return false;
+		if ( ! self::permissions_check() ) {
+			return [];
 		}
-		$auth_data = get_option( self::AUTH_DATA_META_NAME, false );
-		if ( $auth_data ) {
-			return $auth_data;
-		}
-		return [];
+		return get_option( self::AUTH_DATA_META_NAME, [] );
 	}
 
 	/**
@@ -319,6 +345,7 @@ class Google_OAuth {
 				];
 			}
 		} else {
+			Logger::log( 'Failed retrieving user info – invalid credentials.' );
 			return new \WP_Error( 'newspack_google_oauth', __( 'Invalid Google credentials. Please reconnect.', 'newspack' ) );
 		}
 
@@ -333,6 +360,10 @@ class Google_OAuth {
 	 */
 	public static function get_oauth2_credentials() {
 		$auth_data = self::get_google_auth_saved_data();
+		if ( empty( $auth_data ) ) {
+			Logger::log( 'No credentials saved, OAuth credentials will not be returned.' );
+			return false;
+		}
 		if ( ! isset( $auth_data['access_token'] ) ) {
 			Logger::log( 'Access token is not set, OAuth credentials will not be returned.' );
 			return false;
@@ -364,7 +395,11 @@ class Google_OAuth {
 
 				if ( isset( $response_body->access_token ) ) {
 					Logger::log( 'Refreshed the token.' );
-					self::save_auth_credentials( $response_body );
+					$auth_save_result = self::save_auth_credentials( $response_body );
+					if ( is_wp_error( $auth_save_result ) ) {
+						Logger::log( 'Credentials saving resulted in an error: ' . $auth_save_result->get_error_message() );
+						return false;
+					}
 					$auth_data = self::get_google_auth_saved_data();
 				} else {
 					Logger::log( 'Access token missing from the response.' );
@@ -379,6 +414,8 @@ class Google_OAuth {
 		$oauth_object->setAccessToken( $auth_data['access_token'] );
 		if ( isset( $auth_data['refresh_token'] ) ) {
 			$oauth_object->setRefreshToken( $auth_data['refresh_token'] );
+		} else {
+			Logger::log( 'Refresh token missing in the credentials – the authorisation will have to be refreshed in an hour.' );
 		}
 		return $oauth_object;
 	}
@@ -387,6 +424,7 @@ class Google_OAuth {
 	 * Remove saved credentials.
 	 */
 	public static function remove_credentials() {
+		Logger::log( 'Removing stored credentials.' );
 		delete_option( self::AUTH_DATA_META_NAME );
 	}
 

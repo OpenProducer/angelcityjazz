@@ -25,13 +25,11 @@ final class Newspack_Popups {
 		'background_color'               => 'n_bc',
 		'display_title'                  => 'n_ti',
 		'hide_border'                    => 'n_hb',
-		'undismissible_prompt'           => 'n_u',
-		'dismiss_text'                   => 'n_dt',
-		'dismiss_text_alignment'         => 'n_da',
 		'frequency'                      => 'n_fr',
 		'overlay_color'                  => 'n_oc',
 		'overlay_opacity'                => 'n_oo',
 		'overlay_size'                   => 'n_os',
+		'no_overlay_background'          => 'n_bg',
 		'placement'                      => 'n_pl',
 		'trigger_type'                   => 'n_tt',
 		'trigger_delay'                  => 'n_td',
@@ -73,6 +71,7 @@ final class Newspack_Popups {
 			add_action( 'init', [ __CLASS__, 'register_cpt' ] );
 			add_action( 'init', [ __CLASS__, 'register_meta' ] );
 			add_action( 'init', [ __CLASS__, 'register_taxonomy' ] );
+			add_action( 'init', [ __CLASS__, 'disable_prompts_for_protected_pages' ] );
 			add_action( 'enqueue_block_editor_assets', [ __CLASS__, 'enqueue_block_editor_assets' ] );
 			add_action( 'customize_controls_enqueue_scripts', [ __CLASS__, 'enqueue_customizer_assets' ] );
 			add_filter( 'display_post_states', [ __CLASS__, 'display_post_states' ], 10, 2 );
@@ -292,36 +291,12 @@ final class Newspack_Popups {
 
 		\register_meta(
 			'post',
-			'undismissible_prompt',
+			'no_overlay_background',
 			[
 				'object_subtype' => self::NEWSPACK_POPUPS_CPT,
 				'show_in_rest'   => true,
 				'type'           => 'boolean',
 				'default'        => false,
-				'single'         => true,
-				'auth_callback'  => '__return_true',
-			]
-		);
-
-		\register_meta(
-			'post',
-			'dismiss_text',
-			[
-				'object_subtype' => self::NEWSPACK_POPUPS_CPT,
-				'show_in_rest'   => true,
-				'type'           => 'string',
-				'single'         => true,
-				'auth_callback'  => '__return_true',
-			]
-		);
-
-		\register_meta(
-			'post',
-			'dismiss_text_alignment',
-			[
-				'object_subtype' => self::NEWSPACK_POPUPS_CPT,
-				'show_in_rest'   => true,
-				'type'           => 'string',
 				'single'         => true,
 				'auth_callback'  => '__return_true',
 			]
@@ -571,8 +546,10 @@ final class Newspack_Popups {
 
 		if ( self::NEWSPACK_POPUPS_CPT !== $screen->post_type ) {
 			// It's not a popup CPT.
-			if ( 'page' === $screen->post_type || 'post' === $screen->post_type ) {
-				// But it's a page or post.
+
+			$supported_post_types = Newspack_Popups_Model::get_default_popup_post_types();
+			if ( in_array( $screen->post_type, $supported_post_types, true ) ) {
+				// But it's a supported post type.
 				\wp_enqueue_script(
 					'newspack-popups',
 					plugins_url( '../dist/documentSettings.js', __FILE__ ),
@@ -708,13 +685,6 @@ final class Newspack_Popups {
 	}
 
 	/**
-	 * Get the default dismiss text.
-	 */
-	public static function get_default_dismiss_text() {
-		return __( "I'm not interested", 'newspack' );
-	}
-
-	/**
 	 * Set default fields when Pop-up is created.
 	 *
 	 * @param int     $post_id ID of post being saved.
@@ -770,13 +740,11 @@ final class Newspack_Popups {
 			case 'overlay-center':
 			case 'overlay-top':
 			case 'overlay-bottom':
-				$dismiss_text = self::get_default_dismiss_text();
 				$trigger_type = 'time';
 				break;
 			case 'above-header':
 			case 'custom':
 			default:
-				$dismiss_text = null;
 				$trigger_type = 'scroll';
 				break;
 		}
@@ -784,11 +752,11 @@ final class Newspack_Popups {
 		update_post_meta( $post_id, 'background_color', '#FFFFFF' );
 		update_post_meta( $post_id, 'display_title', false );
 		update_post_meta( $post_id, 'hide_border', false );
-		update_post_meta( $post_id, 'dismiss_text', $dismiss_text );
 		update_post_meta( $post_id, 'frequency', $frequency );
 		update_post_meta( $post_id, 'overlay_color', '#000000' );
 		update_post_meta( $post_id, 'overlay_opacity', 30 );
 		update_post_meta( $post_id, 'overlay_size', $overlay_size );
+		update_post_meta( $post_id, 'no_overlay_background', false );
 		update_post_meta( $post_id, 'placement', $placement );
 		update_post_meta( $post_id, 'trigger_type', $trigger_type );
 		update_post_meta( $post_id, 'trigger_delay', 3 );
@@ -1194,6 +1162,28 @@ final class Newspack_Popups {
 		}
 
 		return $new_popup_id;
+	}
+
+	/**
+	 * Disable prompts by default if the given post ID is a protected page,
+	 * e.g. My Account, Donate, Privacy Policy, etc. other than the homepage or blog page.
+	 * Protected pages are defined in the \Newspack\Patches class.
+	 */
+	public static function disable_prompts_for_protected_pages() {
+		if ( class_exists( '\Newspack\Patches' ) ) {
+			$protected_page_ids = \Newspack\Patches::get_protected_page_ids();
+			$front_page_id      = intval( get_option( 'page_on_front', -1 ) );
+			$blog_posts_id      = intval( get_option( 'page_for_posts', -1 ) );
+			foreach ( $protected_page_ids as $page_id ) {
+				if (
+					$page_id !== $front_page_id &&
+					$page_id !== $blog_posts_id &&
+					! in_array( 'newspack_popups_has_disabled_popups', array_keys( get_post_meta( $page_id ) ), true )
+				) {
+					update_post_meta( $page_id, 'newspack_popups_has_disabled_popups', true );
+				}
+			}
+		}
 	}
 }
 Newspack_Popups::instance();

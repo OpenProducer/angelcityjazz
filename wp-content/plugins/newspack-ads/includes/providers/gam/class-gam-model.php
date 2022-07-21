@@ -8,6 +8,7 @@
 namespace Newspack_Ads\Providers;
 
 use Newspack_Ads\Providers\GAM_API;
+use Newspack_Ads\Placements;
 
 /**
  * Newspack Ads GAM Model Class.
@@ -34,18 +35,18 @@ final class GAM_Model {
 	public static $custom_post_type = 'newspack_ad_codes';
 
 	/**
-	 * Array of all unique div IDs used for ads.
+	 * Associative array of all ad slots that will be rendered on the page.
 	 *
 	 * @var array
 	 */
-	public static $ad_ids = [];
+	public static $slots = [];
 
 	/**
-	 * Array of all ad units configurations.
+	 * Whether GAM units were already synced.
 	 *
-	 * @var array|null Array or null if not yet initialized.
+	 * @var boolean Whether GAM units were already synced.
 	 */
-	public static $ad_units = null;
+	public static $synced = false;
 
 	/**
 	 * Initialize Google Ads Model
@@ -54,7 +55,8 @@ final class GAM_Model {
 	 * @return void
 	 */
 	public static function init() {
-		add_action( 'init', array( __CLASS__, 'register_ad_post_type' ) );
+		add_action( 'init', [ __CLASS__, 'register_ad_post_type' ] );
+		add_action( 'newspack_ads_activation_hook', [ __CLASS__, 'register_default_placements_units' ] );
 		GAM_API::set_network_code( get_option( self::OPTION_NAME_GAM_NETWORK_CODE, null ) );
 	}
 
@@ -75,6 +77,50 @@ final class GAM_Model {
 	}
 
 	/**
+	 * Register default ad units to placements
+	 */
+	public static function register_default_placements_units() {
+		$ad_units       = self::get_default_ad_units();
+		$placements_map = [
+			'global_below_header' => 'newspack_below_header',
+			'sticky'              => 'newspack_sticky_footer',
+			'sidebar_sidebar-1'   => [
+				'before' => 'newspack_sidebar_1',
+				'after'  => 'newspack_sidebar_2',
+			],
+			'scaip-1'             => 'newspack_in_article_1',
+			'scaip-2'             => 'newspack_in_article_2',
+			'scaip-3'             => 'newspack_in_article_3',
+		];
+		$default_data   = [
+			'enabled'  => true,
+			'provider' => 'gam',
+		];
+		foreach ( $placements_map as $placement => $ad_unit ) {
+			$should_update  = false;
+			$placement_data = Placements::get_placement_data( $placement );
+			$placement_data = wp_parse_args( $placement_data, $default_data );
+			if ( 'sidebar_sidebar-1' === $placement ) {
+				$placement_data['stick_to_top'] = true;
+			}
+			if ( ! is_array( $ad_unit ) && empty( $placement_data['ad_unit'] ) ) {
+				$should_update             = true;
+				$placement_data['ad_unit'] = $ad_unit;
+			} elseif ( is_array( $ad_unit ) ) {
+				foreach ( $ad_unit as $hook => $hook_ad_unit ) {
+					if ( ! isset( $placement_data['hooks'][ $hook ]['ad_unit'] ) || empty( $placement_data['hooks'][ $hook ]['ad_unit'] ) ) {
+						$should_update                               = true;
+						$placement_data['hooks'][ $hook ]['ad_unit'] = $hook_ad_unit;
+					}
+				}
+			}
+			if ( $should_update ) {
+				Placements::update_placement( $placement, $placement_data );
+			}
+		}
+	}
+
+	/**
 	 * Initial GAM setup.
 	 *
 	 * @return object|\WP_Error Setup results or error if setup fails.
@@ -92,7 +138,7 @@ final class GAM_Model {
 	/**
 	 * Get a single ad unit to display on the page.
 	 *
-	 * @param number $id     The id of the ad unit to retrieve.
+	 * @param string $id     The id of the ad unit to retrieve.
 	 * @param array  $config {
 	 *   Optional additional configuration parameters for the ad unit.
 	 *
@@ -104,7 +150,7 @@ final class GAM_Model {
 	 * @return object Prepared ad unit, with markup for injecting on a page.
 	 */
 	public static function get_ad_unit_for_display( $id, $config = array() ) {
-		if ( 0 === (int) $id ) {
+		if ( empty( $id ) ) {
 			return new \WP_Error(
 				'newspack_no_adspot_found',
 				\esc_html__( 'No such ad spot.', 'newspack' ),
@@ -114,46 +160,15 @@ final class GAM_Model {
 			);
 		}
 
-		$unique_id = $config['unique_id'] ?? uniqid();
-		$placement = $config['placement'] ?? '';
-		$context   = $config['context'] ?? '';
+		$unique_id    = $config['unique_id'] ?? uniqid();
+		$placement    = $config['placement'] ?? '';
+		$context      = $config['context'] ?? '';
+		$fixed_height = $config['fixed_height'] ?? false;
 
-		$ad_unit = \get_post( $id );
+		$ad_units = self::get_ad_units( false );
 
-		$prepared_ad_unit = [];
-
-		if ( is_a( $ad_unit, 'WP_Post' ) ) {
-			// Legacy ad units, saved as CPT. Ad unit ID is the post ID.
-			$prepared_ad_unit = [
-				'id'    => $ad_unit->ID,
-				'name'  => $ad_unit->post_title,
-				'code'  => \get_post_meta( $ad_unit->ID, self::CODE, true ),
-				'sizes' => self::sanitize_sizes( \get_post_meta( $ad_unit->ID, self::SIZES, true ) ),
-				'fluid' => (bool) \get_post_meta( $ad_unit->ID, self::FLUID, true ),
-			];
-		} else {
-			// Ad units saved in options table. Ad unit ID is the GAM Ad Unit ID.
-			$ad_units = self::get_synced_gam_ad_units();
-
-			foreach ( $ad_units as $unit ) {
-				if ( intval( $id ) === intval( $unit['id'] ) && 'ACTIVE' === $unit['status'] ) {
-					$ad_unit = $unit;
-					break;
-				}
-			}
-			if ( $ad_unit ) {
-				$prepared_ad_unit = [
-					'id'    => $ad_unit['id'],
-					'name'  => $ad_unit['name'],
-					'code'  => $ad_unit['code'],
-					'sizes' => self::sanitize_sizes( $ad_unit['sizes'] ),
-					'fluid' => isset( $ad_unit['fluid'] ) ? (bool) $ad_unit['fluid'] : false,
-				];
-			}
-		}
-
-		// Ad unit not found neither as the CPT nor in options table.
-		if ( ! isset( $prepared_ad_unit['id'] ) ) {
+		$index = array_search( $id, array_column( $ad_units, 'id' ) );
+		if ( false === $index ) {
 			return new \WP_Error(
 				'newspack_no_adspot_found',
 				\esc_html__( 'No such ad spot.', 'newspack' ),
@@ -162,13 +177,95 @@ final class GAM_Model {
 				)
 			);
 		}
+		$ad_unit = $ad_units[ $index ];
 
-		$prepared_ad_unit['placement'] = $placement;
-		$prepared_ad_unit['context']   = $context;
+		$ad_unit['placement']    = $placement;
+		$ad_unit['context']      = $context;
+		$ad_unit['fixed_height'] = $fixed_height;
 
-		$prepared_ad_unit['ad_code']     = self::get_ad_unit_code( $prepared_ad_unit, $unique_id );
-		$prepared_ad_unit['amp_ad_code'] = self::get_ad_unit_amp_code( $prepared_ad_unit, $unique_id );
-		return $prepared_ad_unit;
+		$ad_unit['ad_code']     = self::get_ad_unit_code( $ad_unit, $unique_id );
+		$ad_unit['amp_ad_code'] = self::get_ad_unit_amp_code( $ad_unit, $unique_id );
+		return $ad_unit;
+	}
+
+	/**
+	 * Get default ad units.
+	 *
+	 * @return array Array of ad units.
+	 */
+	public static function get_default_ad_units() {
+		$ad_units = [
+			'newspack_below_header'  => [
+				'name'  => \esc_html__( 'Newspack Below Header', 'newspack' ),
+				'sizes' => [
+					[ 320, 50 ],
+					[ 320, 100 ],
+					[ 728, 90 ],
+					[ 970, 90 ],
+					[ 970, 250 ],
+				],
+			],
+			'newspack_sticky_footer' => [
+				'name'  => \esc_html__( 'Newspack Sticky Footer', 'newspack' ),
+				'sizes' => [
+					[ 320, 50 ],
+					[ 320, 100 ],
+				],
+			],
+			'newspack_sidebar_1'     => [
+				'name'  => \esc_html__( 'Newspack Sidebar 1', 'newspack' ),
+				'sizes' => [
+					[ 300, 250 ],
+					[ 300, 600 ],
+				],
+			],
+			'newspack_sidebar_2'     => [
+				'name'  => \esc_html__( 'Newspack Sidebar 2', 'newspack' ),
+				'sizes' => [
+					[ 300, 250 ],
+					[ 300, 600 ],
+				],
+			],
+			'newspack_in_article_1'  => [
+				'name'  => \esc_html__( 'Newspack In-Article 1', 'newspack' ),
+				'sizes' => [
+					[ 728, 90 ],
+					[ 300, 250 ],
+				],
+			],
+			'newspack_in_article_2'  => [
+				'name'  => \esc_html__( 'Newspack In-Article 2', 'newspack' ),
+				'sizes' => [
+					[ 728, 90 ],
+					[ 300, 250 ],
+				],
+			],
+			'newspack_in_article_3'  => [
+				'name'  => \esc_html__( 'Newspack In-Article 3', 'newspack' ),
+				'sizes' => [
+					[ 728, 90 ],
+					[ 300, 250 ],
+				],
+			],
+		];
+		/**
+		 * Filters the default ad units.
+		 *
+		 * @param array $ad_units Array of ad units.
+		 */
+		$ad_units = apply_filters( 'newspack_ads_default_ad_units', $ad_units );
+		return array_map(
+			function( $id, $ad_unit ) {
+				$ad_unit['id']         = $id;
+				$ad_unit['code']       = $id;
+				$ad_unit['fluid']      = false;
+				$ad_unit['status']     = 'ACTIVE';
+				$ad_unit['is_default'] = true;
+				return $ad_unit;
+			},
+			array_keys( $ad_units ),
+			array_values( $ad_units )
+		);
 	}
 
 	/**
@@ -203,25 +300,28 @@ final class GAM_Model {
 
 	/**
 	 * Get the ad units.
+	 *
+	 * @param bool $sync Whether to attempt sync with connected GAM.
+	 *
+	 * @return array Array of ad units.
 	 */
-	public static function get_ad_units() {
-		if ( null !== self::$ad_units ) {
-			return self::$ad_units;
-		}
-		$ad_units = self::get_legacy_ad_units();
-		if ( self::is_gam_connected() ) {
-			$gam_ad_units = GAM_API::get_serialised_gam_ad_units();
-			if ( \is_wp_error( $gam_ad_units ) ) {
-				return $gam_ad_units;
+	public static function get_ad_units( $sync = true ) {
+		if ( $sync && ! self::$synced ) {
+			// Only sync once per execution.
+			if ( self::is_gam_connected() ) {
+				$gam_ad_units = GAM_API::get_serialised_gam_ad_units();
+				if ( ! \is_wp_error( $gam_ad_units ) && ! empty( $gam_ad_units ) ) {
+					self::sync_gam_settings( $gam_ad_units );
+					self::$synced = true;
+				}
 			}
-			$sync_result = self::sync_gam_settings( $gam_ad_units );
-			if ( \is_wp_error( $sync_result ) ) {
-				return $sync_result;
-			}
-			$ad_units = array_merge( $ad_units, $gam_ad_units );
 		}
-		self::$ad_units = $ad_units;
-		return self::$ad_units;
+		$ad_units = array_merge(
+			self::get_legacy_ad_units(),
+			self::get_synced_ad_units(),
+			self::get_default_ad_units()
+		);
+		return $ad_units;
 	}
 
 	/**
@@ -450,7 +550,7 @@ final class GAM_Model {
 	 *
 	 * @return array[] GAM items.
 	 */
-	private static function get_synced_gam_ad_units() {
+	public static function get_synced_ad_units() {
 		$gam_items = self::get_synced_gam_items();
 		if ( $gam_items ) {
 			return $gam_items['ad_units'];
@@ -484,25 +584,25 @@ final class GAM_Model {
 	 * @param string $unique_id The unique ID for this ad displayment.
 	 */
 	public static function get_ad_unit_code( $ad_unit, $unique_id = '' ) {
-		$sizes        = $ad_unit['sizes'];
 		$code         = $ad_unit['code'];
 		$network_code = self::get_active_network_code();
 		$unique_id    = $unique_id ?? uniqid();
-		if ( ! is_array( $sizes ) ) {
-			$sizes = [];
+
+		if ( ! is_array( $ad_unit['sizes'] ) ) {
+			$ad_unit['sizes'] = [];
 		}
 
 		// Remove all ad sizes greater than 600px wide for sticky ads.
 		if ( self::is_sticky( $ad_unit ) ) {
-			$sizes = array_filter(
-				$sizes,
+			$ad_unit['sizes'] = array_filter(
+				$ad_unit['sizes'],
 				function( $size ) {
 					return $size[0] < 600;
 				}
 			);
 		}
 
-		self::$ad_ids[ $unique_id ] = $ad_unit;
+		self::$slots[ $unique_id ] = $ad_unit;
 
 		$code = sprintf(
 			"<!-- /%s/%s --><div id='div-gpt-ad-%s-0'></div>",
@@ -520,25 +620,26 @@ final class GAM_Model {
 	 * @param string $unique_id Optional pre-defined unique ID for this ad displayment.
 	 */
 	public static function get_ad_unit_amp_code( $ad_unit, $unique_id = '' ) {
-		$sizes        = $ad_unit['sizes'];
 		$code         = $ad_unit['code'];
 		$network_code = self::get_active_network_code();
 		$targeting    = self::get_ad_targeting( $ad_unit );
 		$unique_id    = $unique_id ?? uniqid();
 
-		if ( ! is_array( $sizes ) ) {
-			$sizes = [];
+		if ( ! is_array( $ad_unit['sizes'] ) ) {
+			$ad_unit['sizes'] = [];
 		}
 
 		// Remove all ad sizes greater than 600px wide for sticky ads.
 		if ( self::is_sticky( $ad_unit ) ) {
-			$sizes = array_filter(
-				$sizes,
+			$ad_unit['sizes'] = array_filter(
+				$ad_unit['sizes'],
 				function( $size ) {
 					return $size[0] < 600;
 				}
 			);
 		}
+
+		$sizes = $ad_unit['sizes'];
 
 		$size_map = self::get_ad_unit_size_map( $ad_unit, $sizes );
 
@@ -555,7 +656,7 @@ final class GAM_Model {
 		$attrs      = [];
 		$multisizes = [];
 
-		if ( true === $ad_unit['fluid'] ) {
+		if ( isset( $ad_unit['fluid'] ) && true === $ad_unit['fluid'] ) {
 			$attrs['height'] = 'fluid';
 			$attrs['layout'] = 'fluid';
 			$multisizes[]    = 'fluid';
@@ -608,7 +709,7 @@ final class GAM_Model {
 
 	/**
 	 * Get size map for responsive ads.
-	 * 
+	 *
 	 * Gather up all of the ad sizes which should be displayed on the same
 	 * viewports. As a heuristic, each ad slot can safely display ads with a 30%
 	 * difference from slot's width. e.g. for the following setup: [[300,200],
@@ -630,7 +731,7 @@ final class GAM_Model {
 	public static function get_responsive_size_map( $sizes, $width_diff_ratio = 0.3, $width_threshold = 600 ) {
 
 		array_multisort( $sizes );
-	
+
 		// Each existing size's width is size map viewport.
 		$viewports = array_unique( array_column( $sizes, 0 ) );
 
@@ -828,7 +929,7 @@ final class GAM_Model {
 					function( $user ) {
 						return $user->user_login;
 					},
-					get_coauthors() 
+					get_coauthors()
 				);
 			} else {
 				$authors = [ get_the_author_meta( 'user_login' ) ];
@@ -836,7 +937,7 @@ final class GAM_Model {
 			if ( ! empty( $authors ) ) {
 				$targeting['author'] = array_map( 'sanitize_text_field', $authors );
 			}
-					
+
 			// Add post type to targeting.
 			$targeting['post_type'] = get_post_type();
 
