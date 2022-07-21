@@ -1,27 +1,30 @@
 === Tracking Code Manager ===
 Contributors: IntellyWP, Data443
-Tags: adwords remarketing, analytics conversion tracking, conversion pixel, conversion tracking, conversion tracking adwords, conversion tracking pixel, conversion tracking script,Facebook Ads, facebook conversion pixel, facebook custom audience, facebook retargeting, google adwords, google analytics web tracking code, google tag manager, html snippet, html snippets, html tracking code, javascript snippet, javascript snippets, header and footer, pay per click tracking, pixel tracking code, remarketing, retargeting, snippets, Tag Management, track conversion, track conversions, tracking code, tracking codes, tracking script, woocommerce, edd, easy digital downloads, wp ecommerce, wp e-commerce
+Tags: adwords remarketing, analytics conversion tracking, conversion pixel, conversion tracking, conversion tracking adwords, conversion tracking pixel, conversion tracking script,Facebook Ads, facebook conversion pixel, facebook custom audience, facebook retargeting, google adwords, google analytics web tracking code, google tag manager, html snippet, html snippets, html tracking code, javascript snippet, javascript snippets, header and footer, pay per click tracking, pixel tracking code, remarketing, retargeting, snippets, Tag Management, track conversion, track conversions, tracking code, tracking codes, tracking script, woocommerce, edd, easy digital downloads, wp ecommerce, wp e-commerce, gdpr, tracking gdpr, privacy
 Requires at least: 2.7
-Tested up to: 5.9
+Tested up to: 6.0
+Stable tag: 2.0.12
+Requires PHP: 5.6
 
 A plugin to manage ALL of your tracking code and conversion pixels. Compatible with Facebook Ads, Google Adwords, WooCommerce, Easy Digital Downloads, ..
 
 == Description ==
 
-**Tracking Code manager is a plugin that give you the ability to manage ALL your tracking code and scripts in one single page.**
+**Tracking Code manager is a plugin that give you the ability to manage ALL third party tracking codes and scripts in one single interface.**
 
 <p>This plugin is a service of <a href="https://www.data443.com" rel="nofollow ugc">Data443.com</a>.</p>
 
 <p>Data443 is a Data Security and Privacy Compliance company that is publicly traded <a href="https://finance.yahoo.com/quote/ATDS?p=ATD" rel="nofollow ugc">ATDS</a>.  We have been providing leading GDPR compliance products such as <a href="https://wordpress.org/plugins/gdpr-framework/" rel="nofollow ugc">WordPress GDPR Framework</a> and <a href="https://data443.com/products/data-identification-manager/" rel="nofollow ugc">Data Identification Manager</a>, Blockchain privacy, and enterprise cloud eDiscovery tools.</p>
 
+It doesn’t matter where you want to put the codes, because with Tracking Code Manager you can place the codes on any page, any location with complete freedom.  Maintain compliance with worldwide privacy laws by segmenting your pixel tracking, blocking by country or location if you wish.  Remove or update pixels quickly with a single mouse click.
 
-It doesn’t matter the place where you want to put your code, because with Tracking Code Manager you can put it wherever you want, with no restrictions.
+Very quickly add custom codes for world leading user enhancement platforms like Google Analytics, Facebook Custom Audiences, Facebook Retargeting, Google Remarketing, Zendesk, Live Chat tools, eye tracking analytics, popups, affiliate tracking pixels and so on...
 
-Let’s say you are using on your website Google Analytics, Facebook Custom Audiences, Facebook Retargeting, Google Remarketing, Zendesk, a Live Chat tool, eye tracking analytics, popups, affiliate tracking pixels and so on...
+For every single service you may use - or even test - you’ll have to put a script or a tracking pixel in the &lt;head&gt; or &lt;body&gt; tag of your WordPress site OR in some of its pages. Manually.  You may even break pages or themes!
 
-For every single service you use, you’ll have to put a script or a tracking pixel in the &lt;head&gt; or &lt;body&gt; tag of your WordPress site OR in some of its pages.
+Maintin privacy compliance for your users by removing tags for certain locations, pages or types of content.  Make advanced decisions based privacy laws that apply to your region!
 
-Tracking Code Manager plugin allows you to gather EVERY code and snippet displaying them exactly where you want, whether in the whole site or in specific pages and posts.
+Tracking Code Manager plugin allows you to gather EVERY code and snippet displaying them exactly where you want, whether in the whole site or in specific pages and posts. Very quickly, simply.  More importantly, you will be able to remove them just as quickly - without any fuss.
 
 > <strong>TRACK CONVERSION ON YOUR E-COMMERCE PLUGIN</strong><br>
 > When it comes to track conversions on a WordPress page it’s easy… but if it’s a "dynamic thank you page" is a big problem.<br><br>
@@ -31,25 +34,25 @@ Tracking Code Manager plugin allows you to gather EVERY code and snippet display
 
 = THE REAL PROBLEM =
 
-We are living in the SaaS era, where online services manage all kind of software, analysis and advanced tools. Since every one of them needs a script or a tracking code, why don’t we take it easy with the fast Tracking Code Manager plugin?
+Since almost every service requires some sort of tracking, update, javascript update or other customization - you can make it extremely simply with this plugin - the fast Tracking Code Manager plugin.
 
 = FORGET THE UPDATING PROBLEM =
 
-Putting the tracking code directly in the theme files, you risk to lose important trackings or external service integrations when it will be updated.
+Its very easy to break your site!  Putting the tracking code directly in the theme files, you risk to lose important trackings or external service integrations when it will be updated.  We have all been there!
 
-With Tracking Code Manager you can forget about this problem also if you will change your theme in the future.
+With Tracking Code Manager you can forget about this problem also if you will change your theme in the future.  Because we are external to the theme - you have reduced your risk between updates to WordPress and any themes or plugin updates.
 
 [youtube https://www.youtube.com/watch?v=shJG7Vf1nMg]
 
 [youtube https://www.youtube.com/watch?v=TDgoefbdtSI]
 
 > <strong>Premium version</strong><br>
-> If you need more advanced feature you can also try our PREMIUM version available in the link [http://intellywp.com/tracking-code-manager/](http://intellywp.com/tracking-code-manager/?utm_source=wordpress-org&utm_medium=plugin-page&utm_campaign=TCM). This is our official webpage, you will see the plugin in action, with the possibility to buy PREMIUM version and have full support.
+> If you need more advanced feature you can also try our PREMIUM version available in the link [http://intellywp.com/tracking-code-manager/](http://intellywp.com/tracking-code-manager/?utm_source=wordpress-org&utm_medium=plugin-page&utm_campaign=TCM). This is our official webpage, you will see the plugin in action, with the possibility to buy our PREMIUM version and which includes full support.
 
 == Installation ==
 
 1. Download
-2. Upload to your /wp-contents/plugins/ directory.
+2. Upload to your plugins/ directory.
 3. Activate the plugin through the 'Plugins' menu in WordPress.
 4. Put your tracking code, script or iframe in the plugin by going to the Settings =&gt; Tracking Code Manager menu
 
@@ -68,9 +71,9 @@ For documentation click here: [https://intellywp.com/docs/category/tracking-code
 
 Sure! Click on the link [http://intellywp.com/tracking-code-manager/](http://intellywp.com/tracking-code-manager/?utm_source=wordpress-org&utm_medium=plugin-page&utm_campaign=TCM) for a full explanation. This is our official webpage, you will see the plugin in action, with the possibility to buy PREMIUM version and have full support.
 
-= Will this plugin slow my website? =
+= Will this plugin slow down my website? =
 
-Absolutely not! Since this plugin is built with lightweight code, you won’t notice any difference in speed.
+Absolutely not! Since this plugin is built with lightweight code, and injects on the client side - no one will notice any difference in speed.
 
 = Can I put a tracking code or a script in ONE (maybe TWO?) specific page? =
 
@@ -78,7 +81,7 @@ Of course you can! You can choose to put the code in a single page, in some post
 
 = Can I track conversions? =
 
-Yep! This is one of the main reason to use this plugin! You can track your conversions by putting the conversion pixel or code ONLY inside the thank you page.
+Yep! This is one of the main reason to use this plugin! You can track your conversions by putting the conversion pixel or code ONLY inside the thank you page.  Save Money, track more specifically your campaigns and most importantly - GET MORE EFFICIENT with your sales.
 
 = Can I manage Facebook Retargeting and Custom Audiences? =
 
@@ -86,7 +89,7 @@ Yes! For example you can put Facebook Pixel inside a certain posts of your blog 
 
 = Will this plugin interferes with my Google Analytics plugin? =
 
-Nope! We tested the most famous Google Analytics plugins and it will not brake any of them.
+Nope! We tested the most famous Google Analytics plugins and it will not break any of the most popular ones!
 
 = Can I use unlimited tracking codes and conversion pixels? =
 
@@ -109,7 +112,41 @@ Have a look at the source code of your page (search for: Tracking Code Manager) 
 
 For detailed release notes, see our documentation here: [https://intellywp.com/docs/category/tracking-code-manager/](https://intellywp.com/docs/category/tracking-code-manager/).
 
-= 2.0.6 =
+= 2.0.12 =
+*Release Date - 2022-7-15*
+
+* IWP-466 Update contact email
+* IWP-467 Provide input fields to modify the code tag and attribute whitelist
+
+= 2.0.11 =
+*Release Date - 2022-7-13*
+
+* IWP-465 Fix issue with sanitizing image/video objects
+
+= 2.0.10 =
+*Release Date - 2022-7-12*
+
+* IWP-462 - Update select2 library
+* IWP-464 - Fix encoding of JavaScript operators after sanitization
+
+= 2.0.9 =
+*Release Date - 2022-7-11*
+
+* IWP-458 - Fix improper removal of an html tag
+* IWP-459 - Recognize the presence of the noscript tag
+* IWP-460 - Fix a bug that modified the displaying of posts and pages
+
+= 2.0.8 =
+*Release Date - 2022-7-8*
+
+* IWP-435 Include the Ace editor in the plugin
+
+= 2.0.7 =
+*Release Date - 2022-6-28*
+
+* IWP-435 Expanded input sanitization to user’s request headers
+
+= 2.0.6 = 
 *Release Date - 2022-4-7*
 
 * IWP-419 Fix conflict with WP Super Cache

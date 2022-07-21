@@ -441,6 +441,11 @@ TCMP.parseInt=function(value, defaultValue) {
     return value;
 }
 TCMP.replace=function(target, search, replacement) {
-    //return target.replace(new RegExp(search, 'g'), replacement);
-    return target.split(search).join(replacement);
+    try {
+        return target.split(search).join(replacement);
+    } catch (e) {
+        if (e) {
+            return target;
+        }
+    }
 }

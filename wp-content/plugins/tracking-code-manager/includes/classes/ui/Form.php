@@ -1,513 +1,488 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class TCMP_Form {
-    var $prefix='Form';
-    var $labels=TRUE;
-    var $leftLabels=TRUE;
-    var $newline;
+	var $prefix      = 'Form';
+	var $labels      = true;
+	var $left_labels = true;
+	var $newline;
 
-    var $tags=TRUE;
-    var $onlyPremium=TRUE;
-    var $leftTags=FALSE;
-    var $premium=FALSE;
-    var $tagNew=FALSE;
+	var $tags         = true;
+	var $only_premium = true;
+	var $left_tags    = false;
+	var $premium      = false;
+	var $tag_new      = false;
 
-    public function __construct() {
-    }
+	public function __construct() {
+	}
 
-    //args can be a string or an associative array if you want
-    private function getTextArgs($args, $defaults, $excludes=array()) {
-        $result=$args;
-        
-        if (is_string($excludes)) {
-            $excludes = explode(',', $excludes);
-        }
+	//args can be a string or an associative array if you want
+	private function get_text_args( $args, $defaults, $excludes = array() ) {
+		$result = $args;
 
-        if(is_array($result) && count($result)>0) {
-            $result='';
-            foreach($args as $k=>$v) {
-                if(count($excludes)==0 || !in_array($k, $excludes)) {
-                    $result.=' '.$k.'="'.$v.'"';
-                }
-            }
-        } elseif(!$args) {
-            $result='';
-        }
-        if(is_array($defaults) && count($defaults)>0) {
-            foreach($defaults as $k=>$v) {
-                if(count($excludes)==0 || !in_array($k, $excludes)) {
-                    if(stripos($result, $k.'=')===FALSE) {
-                        $result.=' '.$k.'="'.$v.'"';
-                    }
-                }
-            }
-        }
-        return $result;
-    }
+		if ( is_string( $excludes ) ) {
+			$excludes = explode( ',', $excludes );
+		}
 
-    public function tag($overridePremium=FALSE) {
-        global $tcmp;
-        /*
-            $premium=($overridePremium || $this->premium);
-            if((!$overridePremium && !$this->tags) || $tcmp->License->hasPremium() || ($this->onlyPremium && !$premium)) return;
+		if ( is_array( $result ) && count( $result ) > 0 ) {
+			$result = '';
+			foreach ( $args as $k => $v ) {
+				if ( 0 == count( $excludes ) || ! in_array( $k, $excludes, false ) ) {
+					$result .= ' ' . $k . '="' . $v . '"';
+				}
+			}
+		} elseif ( ! $args ) {
+			$result = '';
+		}
+		if ( is_array( $defaults ) && count( $defaults ) > 0 ) {
+			foreach ( $defaults as $k => $v ) {
+				if ( 0 == count( $excludes ) || ! in_array( $k, $excludes, false ) ) {
+					if ( false == stripos( $result, $k . '=' ) ) {
+						$result .= ' ' . $k . '="' . $v . '"';
+					}
+				}
+			}
+		}
+		return $result;
+	}
 
-            $tagClass='tcmp-tag-free';
-            $tagText='FREE';
-            if($premium) {
-                $tagClass='tcmp-tag-premium';
-                $tagText='<a href="'.TCMP_PAGE_PREMIUM.'" target="_new">PRO</a>';
-            }
-        */
-	    if(!$this->tags || !$this->tagNew) {
-            return;
-        }
+	public function tag( $override_premium = false ) {
+		if ( ! $this->tags || ! $this->tag_new ) {
+			return;
+		}
+		?>
+		<div style="float:left;" class="tcmp-tag tcmp-tag-free">NEW!</div>
+		<?php
+	}
 
-        $tagClass='tcmp-tag-free';
-        $tagText='NEW!';
-        ?>
-        <div style="float:left;" class="tcmp-tag <?php echo $tagClass?>"><?php echo $tagText?></div>
-        <?php
-    }
+	public function label( $name, $options = '' ) {
+		global $tcmp;
+		$defaults   = array( 'class' => '' );
+		$other_text = $this->get_text_args( $options, $defaults, array( 'label', 'id' ) );
 
-    public function label($name, $options='') {
-        global $tcmp;
-        $defaults=array('class'=>'');
-        $otherText=$this->getTextArgs($options, $defaults, array('label', 'id'));
+		$k = $this->prefix . '.' . $name;
+		if ( ! is_array( $options ) ) {
+			$options = array();
+		}
+		if ( isset( $options['label'] ) && $options['label'] ) {
+			$k = $options['label'];
+		}
 
-        $k=$this->prefix.'.'.$name;
-        if(!is_array($options)) {
-            $options=array();
-        }
-        if(isset($options['label']) && $options['label']) {
-            $k=$options['label'];
-        }
+		$label = $tcmp->lang->L( $k );
+		$for   = ( isset( $options['id'] ) ? $options['id'] : $name );
 
-        $label=$tcmp->Lang->L($k);
-        $for=(isset($options['id']) ? $options['id'] : $name);
+		//check if is a mandatory field by checking the .txt language file
+		$k = $this->prefix . '.' . $name . '.check';
+		if ( $tcmp->lang->H( $k ) ) {
+			$label .= ' (*)';
+		}
 
-        //check if is a mandatory field by checking the .txt language file
-        $k=$this->prefix.'.'.$name.'.check';
-        if($tcmp->Lang->H($k)) {
-            $label.=' (*)';
-        }
+		$a_class = '';
 
-        $aClass='';
-	/*
-        if($this->premium && !$tcmp->License->hasPremium()) {
-            $aClass='tcmp-label-disabled';
-        }
-	*/
-        ?>
-        <label for="<?php echo $for?>" <?php echo $otherText?> >
-            <?php if($this->leftTags) {
-                $this->tag();
-            }?>
-            <span style="float:left; margin-right:5px;" class="<?php echo $aClass?>"><?php echo $label?></span>
-            <?php if(!$this->leftTags) {
-                $this->tag();
-            }?>
-        </label>
-    <?php }
+		?>
+		<label for="<?php echo esc_attr( $for ); ?>" <?php echo wp_kses_post( $other_text ); ?> >
+			<?php
+			if ( $this->left_tags ) {
+				$this->tag();
+			}
+			?>
+			<span style="float:left; margin-right:5px;" class="<?php echo esc_attr( $a_class ); ?>"><?php echo wp_kses_post( $label ); ?></span>
+			<?php
+			if ( ! $this->left_tags ) {
+				$this->tag();
+			}
+			?>
+		</label>
+		<?php
+	}
 
-    public function leftInput($name, $options='') {
-        if(!$this->labels) return;
-        if($this->leftLabels) {
-            $this->label($name, $options);
-        }
+	public function left_input( $name, $options = '' ) {
+		if ( ! $this->labels ) {
+			return;
+		}
+		if ( $this->left_labels ) {
+			$this->label( $name, $options );
+		}
 
-        if($this->newline) {
-            $this->newline();
-        }
-    }
+		if ( $this->newline ) {
+			$this->newline();
+		}
+	}
 
-    public function newline() {
-        ?><div class="tcmp-form-newline"></div><?php
-    }
+	public function newline() {
+		?>
+		<div class="tcmp-form-newline"></div>
+		<?php
+	}
 
-    public function rightInput($name, $args='') {
-        if(!$this->labels) return;
-        if (!$this->leftLabels) {
-            $this->label($name, $args);
-        }
-        $this->newline();
-    }
+	public function right_input( $name, $args = '' ) {
+		if ( ! $this->labels ) {
+			return;
+		}
+		if ( ! $this->left_labels ) {
+			$this->label( $name, $args );
+		}
+		$this->newline();
+	}
 
-    public function formStarts($method='post', $action='', $args=NULL) {
-        //$this->tags=FALSE;
-        //$this->premium=FALSE;
+	public function form_starts( $method = 'post', $action = '', $args = null ) {
+		$defaults = array( 'class' => 'tcmp-form' );
+		$other    = $this->get_text_args( $args, $defaults );
+		?>
+		<form method="<?php echo esc_attr( $method ); ?>" action="<?php echo esc_attr( $action ); ?>" <?php echo wp_kses( $other, array() ); ?> >
+		<?php
+	}
 
-        //$defaults=array('style'=>'margin:1em 0; padding:1px 1em; background:#fff; border:1px solid #ccc;'
-        $defaults=array('class'=>'tcmp-form');
-        $other=$this->getTextArgs($args, $defaults);
-        ?>
-        <form method="<?php echo $method?>" action="<?php echo $action?>" <?php echo $other?> >
-    <?php }
+	public function form_ends() {
+		?>
+		</form>
+		<?php
+	}
 
-    public function formEnds() { ?>
-        </form>
-    <?php }
+	public function div_starts( $args = array() ) {
+		$defaults = array();
+		$other    = $this->get_text_args( $args, $defaults );
+		?>
+		<div <?php echo wp_kses( $other, array() ); ?>>
+		<?php
+	}
+	public function div_ends() {
+		?>
+		</div>
+		<div style="clear:both;"></div>
+		<?php
+	}
 
-    public function divStarts($args=array()) {
-        $defaults=array();
-        $other=$this->getTextArgs($args, $defaults);
-        ?>
-        <div <?php echo $other?>>
-    <?php }
-    public function divEnds() { ?>
-        </div>
-        <div style="clear:both;"></div>
-    <?php }
+	public function p( $message, $v1 = null, $v2 = null, $v3 = null, $v4 = null, $v5 = null ) {
+		global $tcmp;
+		?>
+		<p style="font-weight:bold;">
+			<?php
+			$tcmp->lang->P( $message, $v1, $v2, $v3, $v4, $v5 );
+			if ( $tcmp->lang->H( $message . 'Subtitle' ) ) {
+				?>
+				<br/>
+				<span style="font-weight:normal;">
+					<?php $tcmp->lang->P( $message . 'Subtitle', $v1, $v2, $v3, $v4, $v5 ); ?>
+				</span>
+			<?php } ?>
+		</p>
+		<?php
+	}
+	public function i( $message, $v1 = null, $v2 = null, $v3 = null, $v4 = null, $v5 = null ) {
+		global $tcmp;
+		?>
+		<i><?php $tcmp->lang->P( $message, $v1, $v2, $v3, $v4, $v5 ); ?></i>
+		<?php
+	}
 
-    public function p($message, $v1=NULL, $v2=NULL, $v3=NULL, $v4=NULL, $v5=NULL) {
-        global $tcmp;
-        ?>
-        <p style="font-weight:bold;">
-            <?php
-            $tcmp->Lang->P($message, $v1, $v2, $v3, $v4, $v5);
-            if($tcmp->Lang->H($message.'Subtitle')) { ?>
-                <br/>
-                <span style="font-weight:normal;">
-                    <?php $tcmp->Lang->P($message.'Subtitle', $v1, $v2, $v3, $v4, $v5)?>
-                </span>
-            <?php } ?>
-        </p>
-    <?php }
-    public function i($message, $v1=NULL, $v2=NULL, $v3=NULL, $v4=NULL, $v5=NULL) {
-        global $tcmp;
-        ?>
-        <i><?php $tcmp->Lang->P($message, $v1, $v2, $v3, $v4, $v5);?></i>
-    <?php }
+	public function editor( $name, $value = '', $options = null ) {
+		global $tcmp;
 
-    var $_aceEditorUsed=FALSE;
-    public function editor($name, $value='', $options=NULL) {
-        global $tcmp;
+		$defaults = array(
+			'editor'     => 'html',
+			'theme'      => 'monokai',
+			'ui-visible' => '',
+			'height'     => 350,
+			'width'      => 700,
+		);
+		$options  = $tcmp->utils->parseArgs( $options, $defaults );
+		$value    = $tcmp->utils->get( $value, $name, $value );
 
-        $defaults=array(
-            'editor'=>'html'
-            , 'theme'=>'monokai'
-            , 'ui-visible'=>''
-            , 'height'=>350
-            , 'width'=>700
-        );
-        $options=$tcmp->Utils->parseArgs($options, $defaults);
-        $value=$tcmp->Utils->get($value, $name , $value);
+		$args          = array(
+			'class' => 'tcmp-label',
+			'style' => 'width:auto;',
+		);
+		$this->newline = true;
+		$this->left_input( $name, $args );
 
-        $args=array('class'=>'tcmp-label', 'style'=>'width:auto;');
-        $this->newline=TRUE;
-        $this->leftInput($name, $args);
+		$id = $name;
+		switch ( $options['editor'] ) {
+			case 'wp':
+			case 'WordPress':
+				$settings = array(
+					'wpautop'          => true,
+					'media_buttons'    => true,
+					'drag_drop_upload' => false,
+					'editor_height'    => $options['height'],
+				);
+				wp_editor( $value, $id, $settings );
+				break;
+			case 'html':
+			case 'text':
+			case 'javascript':
+			case 'css':
+				$ace  = 'ACE_' . $id;
+				$text = $value;
+				$text = str_replace( '<', '&lt;', $text );
+				$text = str_replace( '>', '&gt;', $text );
+				?>
+				<div id="<?php echo esc_attr( $id ); ?>Ace" style="height:<?php echo esc_attr( $options['height'] ) + 50; ?>px; width: <?php echo esc_attr( $options['width'] ); ?>px;"><?php echo esc_html( $text ); ?></div>
+				<textarea id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $id ); ?>" ui-visible="<?php echo esc_attr( $options['ui-visible'] ); ?>" style="display: none;"></textarea>
 
-        $id=$name;
-        switch ($options['editor']) {
-            case 'wp':
-            case 'wordpress':
-                $settings=array(
-                    'wpautop'=>TRUE
-                    , 'media_buttons'=>TRUE
-                    , 'drag_drop_upload'=>FALSE
-                    , 'editor_height'=>$options['height']
-                );
-                wp_editor($value, $id, $settings);
-                ?>
-                <script>
-                    jQuery('#<?php echo $id?>').attr('ui-visible', '<?php echo $options['ui-visible']?>');
-                </script>
-                <?php
-                break;
-            case 'html':
-            case 'text':
-            case 'javascript':
-            case 'css':
-                if(!$this->_aceEditorUsed) { ?>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js" type="text/javascript" charset="utf-8"></script>
-                    <?php $this->_aceEditorUsed=TRUE;
-                }
+				<?php
+				break;
+		}
+		$this->newline = false;
+		$this->right_input( $name, $args );
+	}
 
-                $ace='ACE_'.$id;
-                $text=$value;
-                //$text=str_replace('&amp;', '&', $text);
-                $text=str_replace('<', '&lt;', $text);
-                $text=str_replace('>', '&gt;', $text);
-                ?>
-                <div id="<?php echo $id?>Ace" style="height:<?php echo $options['height']+50?>px; width: <?php echo $options['width']?>px;"><?php echo $text?></div>
-                <textarea id="<?php echo $id?>" name="<?php echo $id?>" ui-visible="<?php echo $options['ui-visible']?>" style="display: none;"></textarea>
-				<script>
-				jQuery.noConflict()(function($){
-					var text=$('#<?php echo $id?>Ace').html();
-					text=TCMP.replace(text, '&lt;', '<');
-					text=TCMP.replace(text, '&gt;', '>');
-					text=TCMP.replace(text, '&amp;', '&');
+	public function textarea( $name, $value = '', $args = null ) {
+		if ( is_array( $value ) && isset( $value[ $name ] ) ) {
+			$value = $value[ $name ];
+		}
+		$defaults = array(
+			'rows'  => 10,
+			'class' => 'tcmp-textarea',
+		);
+		$other    = $this->get_text_args( $args, $defaults );
 
-					var <?php echo $ace?>=ace.edit("<?php echo $id?>Ace");
-					<?php echo $ace?>.renderer.setShowGutter(false);
-					<?php echo $ace?>.setTheme("ace/theme/<?php echo $options['theme']?>");
-					<?php echo $ace?>.getSession().setMode("ace/mode/<?php echo $options['editor']?>");
-					<?php echo $ace?>.getSession().setUseSoftTabs(true);
-					<?php echo $ace?>.getSession().setUseWrapMode(true);
-					<?php echo $ace?>.session.setUseWorker(false)
-					<?php echo $ace?>.setValue(text);
+		$args          = array(
+			'class' => 'tcmp-label',
+			'style' => 'width:auto;',
+		);
+		$this->newline = true;
+		$this->left_input( $name, $args );
+		?>
+			<textarea dir="ltr" dirname="ltr" id="<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" <?php echo wp_kses( $other, array() ); ?> ><?php echo wp_kses_post( $value ); ?></textarea>
+		<?php
+		$this->newline = false;
+		$this->right_input( $name, $args );
+	}
 
-					$('#<?php echo $id?>Ace').focusout(function() {
-						var $hidden=$('#<?php echo $id?>');
-						var code=<?php echo $ace?>.getValue();
-						$hidden.val(code);
-					});
-					$('#<?php echo $id?>Ace').trigger('focusout');
-				});
-				</script>
-                <?php
-                break;
-        }
-        $this->newline=FALSE;
-        $this->rightInput($name, $args);
-    }
+	public function number( $name, $value = '', $options = null ) {
+		if ( ! $options ) {
+			$options = array();
+		}
+		$options['type']         = 'number';
+		$options['autocomplete'] = 'off';
+		$options['style']        = 'width:100px;';
+		if ( ! isset( $options['min'] ) ) {
+			$options['min'] = 0;
+		}
 
-    public function textarea($name, $value='', $args=NULL) {
-        if(is_array($value) && isset($value[$name])) {
-            $value=$value[$name];
-        }
-        $defaults=array('rows'=>10, 'class'=>'tcmp-textarea');
-        $other=$this->getTextArgs($args, $defaults);
+		return $this->text( $name, $value, $options );
+	}
 
-        $args=array('class'=>'tcmp-label', 'style'=>'width:auto;');
-        $this->newline=TRUE;
-        $this->leftInput($name, $args);
-        ?>
-            <textarea dir="ltr" dirname="ltr" id="<?php echo $name ?>" name="<?php echo $name?>" <?php echo $other?> ><?php echo $value ?></textarea>
-        <?php
-        $this->newline=FALSE;
-        $this->rightInput($name, $args);
-    }
+	public function text( $name, $value = '', $options = null ) {
+		if ( is_array( $value ) && isset( $value[ $name ] ) ) {
+			$value = $value[ $name ];
+		}
 
-    public function number($name, $value = '', $options = NULL)
-    {
-        if (!$options) {
-            $options = array();
-        }
-        $options['type'] = 'number';
-        $options['autocomplete'] = 'off';
-        $options['style'] = 'width:100px;';
-        if (!isset($options['min'])) {
-            $options['min'] = 0;
-        }
+		$type = 'text';
+		if ( isset( $options['type'] ) ) {
+			$type = $options['type'];
+		}
 
-        return $this->text($name, $value, $options);
-    }
+		$defaults = array( 'class' => 'tcmp-' . $type );
+		$other    = $this->get_text_args( $options, $defaults, 'type' );
 
-    public function text($name, $value = '', $options = NULL)
-    {
-        if (is_array($value) && isset($value[$name])) {
-            $value = $value[$name];
-        }
+		$args = array( 'class' => 'tcmp-label' );
+		$this->left_input( $name, $args );
+		?>
+			<input type="<?php echo esc_attr( $type ); ?>" id="<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $value ); ?>" <?php echo wp_kses( $other, array() ); ?> />
+		<?php
+		$this->right_input( $name, $args );
+	}
 
-        $type = 'text';
-        if (isset($options['type'])) {
-            $type = $options['type'];
-        }
+	public function hidden( $name, $value = '', $args = null ) {
+		if ( is_array( $value ) && isset( $value[ $name ] ) ) {
+			$value = $value[ $name ];
+		}
+		$defaults = array();
+		$other    = $this->get_text_args( $args, $defaults );
+		?>
+		<input type="hidden" id="<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $value ); ?>" <?php echo wp_kses( $other, array() ); ?> />
+		<?php
+	}
 
-        $defaults = array('class' => 'tcmp-'.$type);
-        $other = $this->getTextArgs($options, $defaults, 'type');
+	public function nonce( $action = -1, $name = '_wpnonce', $referer = true, $echo = true ) {
+		wp_nonce_field( $action, $name, $referer, $echo );
+	}
 
-        $args = array('class' => 'tcmp-label');
-        $this->leftInput($name, $args);
-        ?>
-            <input type="<?php echo $type?>" id="<?php echo $name ?>" name="<?php echo $name ?>" value="<?php echo $value ?>" <?php echo $other?> />
-        <?php
-        $this->rightInput($name, $args);
-    }
+	public function dropdown( $name, $value, $options, $multiple = false, $args = null ) {
+		global $tcmp;
+		if ( is_array( $value ) && isset( $value[ $name ] ) ) {
+			$value = $value[ $name ];
+		}
+		$defaults = array( 'class' => 'tcmp-select tcmTags tcmp-dropdown' );
+		$other    = $this->get_text_args( $args, $defaults );
 
-    public function hidden($name, $value='', $args=NULL) {
-        if(is_array($value) && isset($value[$name])) {
-            $value=$value[$name];
-        }
-        $defaults=array();
-        $other=$this->getTextArgs($args, $defaults);
-        ?>
-        <input type="hidden" id="<?php echo $name ?>" name="<?php echo $name ?>" value="<?php echo $value ?>" <?php echo $other?> />
-    <?php }
+		if ( ! is_array( $value ) ) {
+			$value = array( $value );
+		}
+		if ( is_string( $options ) ) {
+			$options = explode( ',', $options );
+		}
+		if ( is_array( $options ) && count( $options ) > 0 ) {
+			if ( ! isset( $options[0]['id'] ) ) {
+				//this is a normal array so I use the values for "id" field and the "name" into the txt file
+				$temp = array();
+				foreach ( $options as $v ) {
+					$temp[] = array(
+						'id'   => $v,
+						'name' => $tcmp->lang->L( $this->prefix . '.' . $name . '.' . $v ),
+					);
+				}
+				$options = $temp;
+			}
+		}
 
-    public function nonce($action=-1, $name='_wpnonce', $referer=true, $echo=true) {
-        wp_nonce_field($action, $name, $referer, $echo);
-    }
+		echo '<div id="' . esc_attr( $name ) . '-box">';
+		$args = array( 'class' => 'tcmp-label' );
+		$this->left_input( $name, $args );
+		?>
+			<select id="<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?><?php echo ( $multiple ? '[]' : '' ); ?>" <?php echo ( $multiple ? 'multiple' : '' ); ?> <?php echo wp_kses( $other, array() ); ?> >
+				<?php
+				foreach ( $options as $v ) {
+					$selected = '';
+					if ( in_array( $v['id'], $value, false ) ) {
+						$selected = ' selected="selected"';
+					}
+					?>
+					<option value="<?php echo esc_attr( $v['id'] ); ?>" <?php echo wp_kses( $selected, array() ); ?>><?php echo esc_html( $v['name'] ); ?></option>
+				<?php } ?>
+			</select>
+		<?php
+		$this->right_input( $name, $args );
+		echo '</div>';
+	}
 
-    public function dropdown($name, $value, $options, $multiple=FALSE, $args=NULL) {
-        global $tcmp;
-        if(is_array($value) && isset($value[$name])) {
-            $value=$value[$name];
-        }
-        $defaults=array('class'=>'tcmp-select tcmTags tcmp-dropdown');
-        $other=$this->getTextArgs($args, $defaults);
+	public function br() {
+		?>
+		<br/>
+		<?php
+	}
 
-        if(!is_array($value)) {
-            $value=array($value);
-        }
-        if(is_string($options)) {
-            $options=explode(',', $options);
-        }
-        if(is_array($options) && count($options)>0) {
-            if(!isset($options[0]['id'])) {
-                //this is a normal array so I use the values for "id" field and the "name" into the txt file
-                $temp=array();
-                foreach($options as $v) {
-                    $temp[]=array('id'=>$v, 'name'=>$tcmp->Lang->L($this->prefix.'.'.$name.'.'.$v));
-                }
-                $options=$temp;
-            }
-        }
+	public function submit( $value = '', $args = null ) {
+		global $tcmp;
+		$defaults = array();
+		$other    = $this->get_text_args( $args, $defaults );
+		if ( '' == $value ) {
+			$value = 'Send';
+		}
+		$this->newline();
+		?>
+			<input type="submit" class="button-primary tcmp-button tcmp-submit" value="<?php $tcmp->lang->P( $value ); ?>" <?php echo wp_kses( $other, array() ); ?>/>
+		<?php
+	}
 
-        echo "<div id=\"$name-box\">";
-        $args=array('class'=>'tcmp-label');
-        $this->leftInput($name, $args);
-        ?>
-            <select id="<?php echo $name ?>" name="<?php echo $name?><?php echo ($multiple ? '[]' : '')?>" <?php echo ($multiple ? 'multiple' : '')?> <?php echo $other?> >
-                <?php
-                foreach($options as $v) {
-                    $selected='';
-                    if(in_array($v['id'], $value)) {
-                        $selected=' selected="selected"';
-                    }
-                    ?>
-                    <option value="<?php echo $v['id']?>" <?php echo $selected?>><?php echo $v['name']?></option>
-                <?php } ?>
-            </select>
-        <?php
-        $this->rightInput($name, $args);
-        echo '</div>';
-    }
+	public function delete( $id, $action = 'delete', $args = null ) {
+		global $tcmp;
+		$defaults = array();
+		$other    = $this->get_text_args( $args, $defaults );
+		?>
+			<input type="button" class="button tcmp-button" value="<?php $tcmp->lang->P( 'Delete?' ); ?>" onclick="if (confirm('<?php $tcmp->lang->P( 'Question.DeleteQuestion' ); ?>') ) window.location='<?php echo TCMP_TAB_MANAGER_URI; ?>&action=<?php echo esc_attr( $action ); ?>&id=<?php echo esc_attr( $id ); ?>&amp;tcmp_nonce=<?php echo esc_attr( wp_create_nonce( 'tcmp_delete' ) ); ?>';" <?php echo wp_kses( $other, array() ); ?> />
+			&nbsp;
+		<?php
+	}
 
-    public function br() { ?>
-        <br/>
-    <?php }
-    
-    public function submit($value='', $args=NULL) {
-        global $tcmp;
-        $defaults=array();
-        $other=$this->getTextArgs($args, $defaults);
-        if($value=='') {
-            $value='Send';
-        }
-        $this->newline();
-        ?>
-            <input type="submit" class="button-primary tcmp-button tcmp-submit" value="<?php $tcmp->Lang->P($value)?>" <?php echo $other?>/>
-    <?php }
+	public function radio( $name, $current = 1, $value = 1, $options = null ) {
+		if ( ! is_array( $options ) ) {
+			$options = array();
+		}
+		$options['radio'] = true;
+		$options['id']    = $name . '_' . $value;
+		return $this->checkbox( $name, $current, $value, $options );
+	}
+	public function checkbox( $name, $current = 1, $value = 1, $options = null ) {
+		global $tcmp;
+		if ( is_array( $current ) && isset( $current[ $name ] ) ) {
+			$current = $current[ $name ];
+		}
 
-    public function delete($id, $action='delete', $args=NULL) {
-        global $tcmp;
-        $defaults=array();
-        $other=$this->getTextArgs($args, $defaults);
-        ?>
-            <input type="button" class="button tcmp-button" value="<?php $tcmp->Lang->P('Delete?')?>" onclick="if (confirm('<?php $tcmp->Lang->P('Question.DeleteQuestion')?>') ) window.location='<?php echo TCMP_TAB_MANAGER_URI?>&action=<?php echo $action?>&id=<?php echo $id ?>&amp;tcmp_nonce=<?php echo esc_attr(wp_create_nonce('tcmp_delete')); ?>';" <?php echo $other?> />
-            &nbsp;
-        <?php
-    }
+		if ( ! is_array( $options ) ) {
+			$options = array();
+		}
 
-    public function radio($name, $current=1, $value=1, $options=NULL) {
-        if(!is_array($options)) {
-            $options=array();
-        }
-        $options['radio']=TRUE;
-        $options['id']=$name.'_'.$value;
-        return $this->checkbox($name, $current, $value, $options);
-    }
-    public function checkbox($name, $current=1, $value=1, $options=NULL) {
-        global $tcmp;
-        if(is_array($current) && isset($current[$name])) {
-            $current=$current[$name];
-        }
+		$label = $name;
+		$type  = 'checkbox';
+		if ( isset( $options['radio'] ) && $options['radio'] ) {
+			$type   = 'radio';
+			$label .= '_' . $value;
+		}
 
-        /*
-            $defaults=array('class'=>'tcmp-checkbox', 'style'=>'margin:0px; margin-right:4px;');
-            if($this->premium && !$tcmp->License->hasPremium()) {
-                $defaults['disabled']='disabled';
-                $value='';
-            }
-        */
-        if(!is_array($options)) {
-            $options=array();
-        }
+		$defaults          = array(
+			'class' => 'tcmp-checkbox',
+			'style' => 'margin:0px; margin-right:4px;',
+			'id'    => $name,
+		);
+		$other             = $this->get_text_args( $options, $defaults, array( 'radio', 'label' ) );
+		$prev              = $this->left_labels;
+		$this->left_labels = false;
 
-        $label=$name;
-        $type='checkbox';
-        if(isset($options['radio']) && $options['radio']) {
-            $type='radio';
-            $label.='_'.$value;
-        }
+		$label   = ( isset( $options['label'] ) ? $options['label'] : $this->prefix . '.' . $label );
+		$id      = ( isset( $options['id'] ) ? $options['id'] : $name );
+		$options = array(
+			'class' => '',
+			'style' => 'margin-top:-1px;',
+			'label' => $label,
+			'id'    => $id,
+		);
+		$this->left_input( $name, $options );
+		?>
+			<input type="<?php echo esc_attr( $type ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $value ); ?>" <?php echo( $current == $value ? 'checked="checked"' : '' ); ?> <?php echo wp_kses( $other, array() ); ?> >
+		<?php
+		$this->right_input( $name, $options );
+		$this->left_labels = $prev;
+	}
 
-        $defaults=array(
-            'class'=>'tcmp-checkbox'
-            , 'style'=>'margin:0px; margin-right:4px;'
-            , 'id'=>$name
-        );
-        $other=$this->getTextArgs($options, $defaults, array('radio', 'label'));
-        $prev=$this->leftLabels;
-        $this->leftLabels=FALSE;
+	public function check_text( $name_active, $name_text, $value ) {
+		global $tcmp;
 
-        $label=(isset($options['label']) ? $options['label'] : $this->prefix.'.'.$label);
-        $id=(isset($options['id']) ? $options['id'] : $name);
-        $options=array(
-            'class'=>''
-            , 'style'=>'margin-top:-1px;'
-            , 'label'=>$label
-            , 'id'=>$id
-        );
-        $this->leftInput($name, $options);
-        ?>
-            <input type="<?php echo $type ?>" name="<?php echo $name?>" value="<?php echo $value?>" <?php echo($current==$value ? 'checked="checked"' : '') ?> <?php echo $other?> >
-    <?php
-        $this->rightInput($name, $options);
-        $this->leftLabels=$prev;
-    }
+		$args = array(
+			'class'           => 'tcmp-hideShow tcmp-checkbox',
+			'tcmp-hideIfTrue' => 'false',
+			'tcmp-hideShow'   => $name_text . 'Text',
+		);
+		$this->checkbox( $name_active, $value, 1, $args );
+		if ( $this->premium ) {
+			return;
+		}
+		?>
+		<div id="<?php echo esc_attr( $name_text ); ?>Text" style="float:left;">
+			<?php
+			$prev         = $this->labels;
+			$this->labels = false;
+			$args         = array();
+			$this->text( $name_text, $value, $args );
+			$this->labels = $prev;
+			?>
+		</div>
+		<?php
+	}
 
-    public function checkText($nameActive, $nameText, $value) {
-        global $tcmp;
-
-        $args=array('class'=>'tcmp-hideShow tcmp-checkbox'
-        , 'tcmp-hideIfTrue'=>'false'
-        , 'tcmp-hideShow'=>$nameText.'Text');
-        $this->checkbox($nameActive, $value, 1, $args);
-        if($this->premium) {
-            return;
-        }
-        ?>
-        <div id="<?php echo $nameText?>Text" style="float:left;">
-            <?php
-            $prev=$this->labels;
-            $this->labels=FALSE;
-            $args=array();
-            $this->text($nameText, $value, $args);
-            $this->labels=$prev;
-            ?>
-        </div>
-    <?php }
-
-    //create a checkbox with a left select visible only when the checkbox is selected
-    public function checkSelect($nameActive, $nameArray, $value, $values, $options=NULL) {
-        global $tcmp;
-        ?>
-        <div id="<?php echo $nameArray?>Box" style="float:left;">
-            <?php
-            $defaults=array(
-                'class'=>'tcmp-hideShow tcmp-checkbox'
-                , 'tcmp-hideIfTrue'=>'false'
-                , 'tcmp-hideShow'=>$nameArray.'Tags'
-            );
-            $options=$tcmp->Utils->parseArgs($options, $defaults);
-            $this->checkbox($nameActive, $value, 1, $options);
-            /*if(!$this->premium || $tcmp->License->hasPremium()) { ?>*/
-            if(TRUE) { ?>
-                <div id="<?php echo $nameArray?>Tags" style="float:left;">
-                    <?php
-                    $prev=$this->labels;
-                    $this->labels=FALSE;
-                    $options=array('class'=>'tcmp-select tcmLineTags');
-                    $this->dropdown($nameArray, $value, $values, TRUE, $options);
-                    $this->labels=$prev;
-                    ?>
-                </div>
-            <?php } ?>
-        </div>
-    <?php
-        $this->newline();
-    }
+	//create a checkbox with a left select visible only when the checkbox is selected
+	public function check_select( $name_active, $name_array, $value, $values, $options = null ) {
+		global $tcmp;
+		?>
+		<div id="<?php echo esc_attr( $name_array ); ?>Box" style="float:left;">
+			<?php
+			$defaults = array(
+				'class'           => 'tcmp-hideShow tcmp-checkbox',
+				'tcmp-hideIfTrue' => 'false',
+				'tcmp-hideShow'   => $name_array . 'Tags',
+			);
+			$options  = $tcmp->utils->parseArgs( $options, $defaults );
+			$this->checkbox( $name_active, $value, 1, $options );
+			/*if(!$this->premium || $tcmp->License->hasPremium()) { ?>*/
+			if ( true ) {
+				?>
+				<div id="<?php echo esc_attr( $name_array ); ?>Tags" style="float:left;">
+					<?php
+					$prev         = $this->labels;
+					$this->labels = false;
+					$options      = array( 'class' => 'tcmp-select tcmLineTags' );
+					$this->dropdown( $name_array, $value, $values, true, $options );
+					$this->labels = $prev;
+					?>
+				</div>
+			<?php } ?>
+		</div>
+		<?php
+		$this->newline();
+	}
 }

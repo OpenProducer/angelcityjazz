@@ -102,3 +102,12 @@ jQuery(function() {
         }
     }
 });
+
+jQuery(function() {
+    jQuery(".starrr").starrr();
+    jQuery('#tcmp-rate').on('starrr:change', function(e, value){
+        var url='https://wordpress.org/support/view/plugin-reviews/tracking-code-manager?rate=5#postform';
+        window.open(url);
+    });
+    jQuery('#rate-box').show();
+});

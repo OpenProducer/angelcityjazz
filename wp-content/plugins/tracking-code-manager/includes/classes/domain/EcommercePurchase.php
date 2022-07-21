@@ -1,16 +1,18 @@
 <?php
-if (!defined('ABSPATH')) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 class TCMP_EcommercePurchase {
-    var $orderId;
-    var $currency;
+	var $order_id;
+	var $currency;
 
-    var $userId;
-    var $fullname;
-    var $email;
+	var $user_id;
+	var $fullname;
+	var $email;
 
-    var $products=array();
+	var $products = array();
 
-    var $amount;
-    var $total;
-    var $tax;
+	var $amount;
+	var $total;
+	var $tax;
 }

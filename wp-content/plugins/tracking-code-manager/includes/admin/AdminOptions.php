@@ -1,30 +1,43 @@
 <?php
 function tcmp_ui_admin_options() {
-    global $tcmp;
+	global $tcmp;
 
-    ?>
-    <div style="float:left; min-width:750px">
+	?>
+	<div style="float:left; min-width:750px">
 
-    <?php
+	<?php
 
-    $tcmp->Form->prefix = 'AdminOptions';
-    $tcmp->Form->formStarts();
+	$tcmp->form->prefix = 'AdminOptions';
+	$tcmp->form->form_starts();
 
-    if ($tcmp->Check->nonce('tcmp_admin_options')) {
-        $tcmp->Options->setModifySuperglobalVariable($tcmp->Utils->iqs('checkbox'));
-    }
+	if ( $tcmp->check->nonce( 'tcmp_admin_options' ) ) {
+		$tcmp->options->setModifySuperglobalVariable( $tcmp->utils->iqs( 'checkbox' ) );
+		$tcmp->options->setAdditionalRecognizedTags( $tcmp->utils->qs( 'tags' ) );
+		$tcmp->options->setAdditionalRecognizedAttributes( $tcmp->utils->qs( 'attributes' ) );
+		tcmp_add_additional_tags_atts();
+	}
 
-    $tcmp->Form->p(__('Enable option to change cache behavior'));
-    
-    $modify = $tcmp->Options->getModifySuperglobalVariable();
-    
-    $tcmp->Form->checkbox('checkbox', $modify);
-    $tcmp->Form->p('NOTE: From time to time, Support may recommend the superglobal switch to be turned on. Please do not turn it on unless support gives you direction to do so.');
+	$tcmp->form->p( __( 'Add additional tags and/or attributes to the code whitelist' ) );
 
-    $tcmp->Form->nonce('tcmp_admin_options');
-    $tcmp->Form->br();
-    $tcmp->Form->submit('Save');
-    $tcmp->Form->formEnds();
+	$tags = $tcmp->options->getAdditionalRecognizedTags();
+	$attributes = $tcmp->options->getAdditionalRecognizedAttributes();
 
-    ?> </div> <?php
+	$tcmp->form->textarea('tags', $tags, array('rows' => 2,));
+	$tcmp->form->textarea('attributes', $attributes, array('rows' => 2,));
+
+	$tcmp->form->p( __( 'Enable option to change cache behavior' ) );
+
+	$modify = $tcmp->options->getModifySuperglobalVariable();
+
+	$tcmp->form->checkbox( 'checkbox', $modify );
+	$tcmp->form->p( 'NOTE: From time to time, Support may recommend the superglobal switch to be turned on. Please do not turn it on unless support gives you direction to do so.' );
+
+	$tcmp->form->nonce( 'tcmp_admin_options' );
+	$tcmp->form->br();
+	$tcmp->form->submit( 'Save' );
+	$tcmp->form->form_ends();
+
+	?>
+	</div> 
+	<?php
 }

@@ -1,57 +1,57 @@
 <?php
 function tcmp_ui_track() {
-    global $tcmp;
+	global $tcmp;
 
-    $track=TCMP_SQS('track', '');
-    if($track!='') {
-        $track=intval($track);
-        $tcmp->Options->setTrackingEnable($track);
-        $tcmp->Tracking->sendTracking(TRUE);
-    }
+	$track = tcmp_sqs( 'track', '' );
+	if ( '' != $track ) {
+		$track = intval( $track );
+		$tcmp->options->setTrackingEnable( $track );
+		$tcmp->tracking->sendTracking( true );
+	}
 
-    $uri=TCMP_TAB_SETTINGS_URI.'&track=';
-    if($tcmp->Options->isTrackingEnable()) {
-        $uri.='0';
-        $tcmp->Options->pushSuccessMessage('EnableAllowTrackingNotice', $uri);
-    } else {
-        $uri.='1';
-        $tcmp->Options->pushErrorMessage('DisableAllowTrackingNotice', $uri);
-    }
-    $tcmp->Options->writeMessages();
+	$uri = TCMP_TAB_SETTINGS_URI . '&track=';
+	if ( $tcmp->options->isTrackingEnable() ) {
+		$uri .= '0';
+		$tcmp->options->pushSuccessMessage( 'EnableAllowTrackingNotice', $uri );
+	} else {
+		$uri .= '1';
+		$tcmp->options->pushErrorMessage( 'DisableAllowTrackingNotice', $uri );
+	}
+	$tcmp->options->writeMessages();
 }
 function tcmp_ui_settings() {
-    global $tcmp;
+	global $tcmp;
 
-    $tcmp->Form->prefix='License';
-    if($tcmp->Check->nonce('tcmp_license')) {
-        $options=$tcmp->Options->getMetaboxPostTypes();
-        foreach ($options as $k => $v) {
-            $v=TCMP_ISQS('metabox_' . $k, 0);
-            $options[$k]=$v;
-        }
-        $tcmp->Options->setMetaboxPostTypes($options);
+	$tcmp->form->prefix = 'License';
+	if ( $tcmp->check->nonce( 'tcmp_license' ) ) {
+		$options = $tcmp->options->getMetaboxPostTypes();
+		foreach ( $options as $k => $v ) {
+			$v             = tcmp_isqs( 'metabox_' . $k, 0 );
+			$options[ $k ] = $v;
+		}
+		$tcmp->options->setMetaboxPostTypes( $options );
 
-        $tcmp->Options->setHookPriority($tcmp->Utils->iqs('tcmpHookPriority', TCMP_HOOK_PRIORITY_DEFAULT));
-    }
+		$tcmp->options->setHookPriority( $tcmp->utils->iqs( 'tcmpHookPriority', TCMP_HOOK_PRIORITY_DEFAULT ) );
+	}
 
-    $tcmp->Form->formStarts();
-    $tcmp->Form->prefix = 'Priority';
-    $tcmp->Form->p('PrioritySection');
-    $tcmp->Form->number('tcmpHookPriority', $tcmp->Options->getHookPriority());
+	$tcmp->form->form_starts();
+	$tcmp->form->prefix = 'Priority';
+	$tcmp->form->p( 'PrioritySection' );
+	$tcmp->form->number( 'tcmpHookPriority', $tcmp->options->getHookPriority() );
 
-    $tcmp->Form->prefix='License';
-    $tcmp->Form->p('MetaboxSection');
-    $metaboxes=$tcmp->Options->getMetaboxPostTypes();
+	$tcmp->form->prefix = 'License';
+	$tcmp->form->p( 'MetaboxSection' );
+	$metaboxes = $tcmp->options->getMetaboxPostTypes();
 
-    $types=$tcmp->Utils->query(TCMP_QUERY_POST_TYPES);
-    foreach ($types as $v) {
-        $v=$v['id'];
-        //$tcmp->Form->tags=TRUE;
-        //$tcmp->Form->premium=!in_array($v, array('post', 'page'));
-        $tcmp->Form->checkbox('metabox_'.$v, $metaboxes[$v]);
-    }
-    $tcmp->Form->nonce('tcmp_license');
-    $tcmp->Form->br();
-    $tcmp->Form->submit('Save');
-    $tcmp->Form->formEnds();
+	$types = $tcmp->utils->query( TCMP_QUERY_POST_TYPES );
+	foreach ( $types as $v ) {
+		$v = $v['id'];
+		//$tcmp->form->tags=TRUE;
+		//$tcmp->form->premium=!in_array($v, array('post', 'page'));
+		$tcmp->form->checkbox( 'metabox_' . $v, $metaboxes[ $v ] );
+	}
+	$tcmp->form->nonce( 'tcmp_license' );
+	$tcmp->form->br();
+	$tcmp->form->submit( 'Save' );
+	$tcmp->form->form_ends();
 }

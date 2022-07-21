@@ -1,38 +1,38 @@
 <?php
 class TCMP_Singleton {
-    var $Lang;
-    var $Utils;
-    var $Form;
-    var $Check;
-    var $Options;
-    var $Log;
-    var $Cron;
-    var $Tracking;
-    var $Manager;
-    var $Ecommerce;
-    var $Plugin;
-    var $Tabs;
-    var $BodyWritten;
+	var $lang;
+	var $utils;
+	var $form;
+	var $check;
+	var $options;
+	var $log;
+	var $cron;
+	var $tracking;
+	var $manager;
+	var $ecommerce;
+	var $plugin;
+	var $tabs;
+	var $body_written;
 
-    function __construct() {
-        $this->Lang=new TCMP_Language();
-        $this->Tabs=new TCMP_Tabs();
-        $this->Utils=new TCMP_Utils();
-        $this->Form=new TCMP_Form();
-        $this->Check=new TCMP_Check();
-        $this->Options=new TCMP_Options();
-        $this->Log=new TCMP_Logger();
-        $this->Cron=new TCMP_Cron();
-        $this->Tracking=new TCMP_Tracking();
-        $this->Manager=new TCMP_Manager();
-        $this->Ecommerce=new TCMP_Ecommerce();
-        $this->Plugin=new TCMP_Plugin();
-        $this->BodyWritten = false;
-    }
-    public function init() {
-        $this->Lang->load('tcmp', TCMP_PLUGIN_DIR.'languages/Lang.txt');
-        $this->Tabs->init();
-        $this->Cron->init();
-        $this->Manager->init();
-    }
+	function __construct() {
+		$this->lang         = new TCMP_Language();
+		$this->tabs         = new TCMP_Tabs();
+		$this->utils        = new TCMP_Utils();
+		$this->form         = new TCMP_Form();
+		$this->check        = new TCMP_Check();
+		$this->options      = new TCMP_Options();
+		$this->log          = new TCMP_Logger();
+		$this->cron         = new TCMP_Cron();
+		$this->tracking     = new TCMP_Tracking();
+		$this->manager      = new TCMP_Manager();
+		$this->ecommerce    = new TCMP_Ecommerce();
+		$this->plugin       = new TCMP_Plugin();
+		$this->body_written = false;
+	}
+	public function init() {
+		$this->lang->load( 'tcmp', TCMP_PLUGIN_DIR . 'languages/Lang.txt' );
+		$this->tabs->init();
+		$this->cron->init();
+		$this->manager->init();
+	}
 }
