@@ -1,10 +1,28 @@
 # Changelog
 
+## 8.10.0 - 2022-07-07
+* [#1319](https://github.com/stripe/stripe-php/pull/1319) API Updates
+  * Add support for `currency_options` on `Coupon` and `Price`
+  * Add support for `currency` on `Subscription`
+* [#1318](https://github.com/stripe/stripe-php/pull/1318) API Updates
+  * Add support for new values financial_connections.account.created, financial_connections.account.deactivated, financial_connections.account.disconnected, financial_connections.account.reactivated, and financial_connections.account.refreshed_balance on `Event`.
+
+## 8.9.0 - 2022-06-29
+* [#1316](https://github.com/stripe/stripe-php/pull/1316) API Updates
+  * Add support for `deliver_card`, `fail_card`, `return_card`, and `ship_card` test helper methods on resource `Issuing.Card`
+  * Add support for `subtotal_excluding_tax` on `CreditNote` and `Invoice`
+  * Add support for `amount_excluding_tax` and `unit_amount_excluding_tax` on `CreditNoteLineItem` and `InvoiceLineItem`
+  * Add support for `total_excluding_tax` on `Invoice`
+  * Change type of `PaymentLink.payment_method_types[]` from `literal('card')` to `enum`
+  * Add support for `promptpay` on `PaymentMethod`
+  * Add support for new value `promptpay` on enum `PaymentMethod.type`
+  * Add support for `hosted_regulatory_receipt_url` and `reversal_details` on `Treasury.ReceivedCredit` and `Treasury.ReceivedDebit`
+
 ## 8.8.0 - 2022-06-23
 * [#1302](https://github.com/stripe/stripe-php/pull/1302) API Updates
   * Add support for `custom_unit_amount` on `Price`
 * [#1301](https://github.com/stripe/stripe-php/pull/1301) API Updates
-  
+
   Documentation updates.
 
 ## 8.7.0 - 2022-06-17
@@ -17,7 +35,7 @@
 * [#1302](https://github.com/stripe/stripe-php/pull/1302) API Updates
   * Add support for `custom_unit_amount` on `Price`
 * [#1301](https://github.com/stripe/stripe-php/pull/1301) API Updates
-  
+
   Documentation updates.
 
 ## 8.6.0 - 2022-06-08

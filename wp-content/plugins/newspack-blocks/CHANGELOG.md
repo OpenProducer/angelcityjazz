@@ -1,3 +1,53 @@
+# [1.55.0](https://github.com/Automattic/newspack-blocks/compare/v1.54.1...v1.55.0) (2022-08-10)
+
+
+### Bug Fixes
+
+* check that grecaptcha library exists before using its methods ([97b7832](https://github.com/Automattic/newspack-blocks/commit/97b783251c0f1f8d9d6921b6fc6453757a442bd1))
+* esc user-inputted key value before appending to URL ([be1acb1](https://github.com/Automattic/newspack-blocks/commit/be1acb15e424f1077ad6b54d9688f182e0c49600))
+* phpcs lint ([cd8fe6f](https://github.com/Automattic/newspack-blocks/commit/cd8fe6f3c7b2529adc00f17b2e8ba354ebb611be))
+* replace hardcoded test secret key ([4fd9d8f](https://github.com/Automattic/newspack-blocks/commit/4fd9d8fecb718918da41f08330eb51edf747c858))
+
+
+### Features
+
+* use reCaptcha v3 to secure Stripe donate forms ([e3c6639](https://github.com/Automattic/newspack-blocks/commit/e3c6639a066694f15404ec2c9910c71509143fec))
+
+## [1.54.1](https://github.com/Automattic/newspack-blocks/compare/v1.54.0...v1.54.1) (2022-07-29)
+
+
+### Bug Fixes
+
+* **donate-block:** handle default frequency from attributes ([4de797a](https://github.com/Automattic/newspack-blocks/commit/4de797a396c7ca3f7f07416c44a9f87a8ce37af1))
+
+# [1.54.0](https://github.com/Automattic/newspack-blocks/compare/v1.53.1...v1.54.0) (2022-07-26)
+
+
+### Bug Fixes
+
+* resolve merge conflict with release ([#1199](https://github.com/Automattic/newspack-blocks/issues/1199)) ([ce82826](https://github.com/Automattic/newspack-blocks/commit/ce82826fdabda6a68caf9c65eae46b762caf6eef))
+
+
+### Features
+
+* **donate-block:** amounts and frequencies customisation ([#1191](https://github.com/Automattic/newspack-blocks/issues/1191)) ([99d967f](https://github.com/Automattic/newspack-blocks/commit/99d967f46f7a0da2f8f74ad799456193252ffc31))
+* homepage posts patterns with ad unit ([#1170](https://github.com/Automattic/newspack-blocks/issues/1170)) ([a2e652e](https://github.com/Automattic/newspack-blocks/commit/a2e652ebe363adcd7e15484bf5b72b7d6d63bc38))
+* support new sponsor options to show authors and categories ([#1156](https://github.com/Automattic/newspack-blocks/issues/1156)) ([67e8834](https://github.com/Automattic/newspack-blocks/commit/67e8834e5a1bfe0dbe1d3eb9d899be412c3197ac))
+
+# [1.54.0-alpha.1](https://github.com/Automattic/newspack-blocks/compare/v1.53.1...v1.54.0-alpha.1) (2022-07-14)
+
+
+### Bug Fixes
+
+* resolve merge conflict with release ([#1199](https://github.com/Automattic/newspack-blocks/issues/1199)) ([ce82826](https://github.com/Automattic/newspack-blocks/commit/ce82826fdabda6a68caf9c65eae46b762caf6eef))
+
+
+### Features
+
+* **donate-block:** amounts and frequencies customisation ([#1191](https://github.com/Automattic/newspack-blocks/issues/1191)) ([99d967f](https://github.com/Automattic/newspack-blocks/commit/99d967f46f7a0da2f8f74ad799456193252ffc31))
+* homepage posts patterns with ad unit ([#1170](https://github.com/Automattic/newspack-blocks/issues/1170)) ([a2e652e](https://github.com/Automattic/newspack-blocks/commit/a2e652ebe363adcd7e15484bf5b72b7d6d63bc38))
+* support new sponsor options to show authors and categories ([#1156](https://github.com/Automattic/newspack-blocks/issues/1156)) ([67e8834](https://github.com/Automattic/newspack-blocks/commit/67e8834e5a1bfe0dbe1d3eb9d899be412c3197ac))
+
 ## [1.53.1](https://github.com/Automattic/newspack-blocks/compare/v1.53.0...v1.53.1) (2022-07-05)
 
 
