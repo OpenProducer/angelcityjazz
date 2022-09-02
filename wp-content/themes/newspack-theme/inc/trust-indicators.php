@@ -114,7 +114,6 @@ function newspack_trust_indicators_output_author_info() {
 }
 add_action( 'newspack_theme_below_archive_title', 'newspack_trust_indicators_output_author_info' );
 
-
 /**
  * Adds author title to the_archive_title().
  */
@@ -129,6 +128,16 @@ function newspack_trust_indicators_output_author_job_title( $title ) {
 	return $title;
 }
 add_filter( 'get_the_archive_title', 'newspack_trust_indicators_output_author_job_title' );
+
+/**
+ * Gets author role to add to single post author bios.
+ */
+function newspack_trust_indicators_job_title_single( $author_ID ) {
+	if ( '' !== $author_ID ) {
+		$role = get_user_meta( $author_ID, 'title', true );
+		return $role;
+	}
+}
 
 /**
  * Output location and expertise info on author archive pages.
