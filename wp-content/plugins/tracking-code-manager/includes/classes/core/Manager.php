@@ -309,18 +309,19 @@ class TCMP_Manager {
 		global $tcmp;
 
 		$text = '';
+		$position_text = '';
 		switch ( $position ) {
 			case TCMP_POSITION_HEAD:
-				$text = 'HEAD';
+				$position_text = 'HEAD';
 				break;
 			case TCMP_POSITION_BODY:
-				$text = 'BODY';
+				$position_text = 'BODY';
 				break;
 			case TCMP_POSITION_FOOTER:
-				$text = 'FOOTER';
+				$position_text = 'FOOTER';
 				break;
 			case TCMP_POSITION_CONVERSION:
-				$text = 'CONVERSION';
+				$position_text = 'CONVERSION';
 				break;
 		}
 
@@ -329,125 +330,132 @@ class TCMP_Manager {
 		$codes = $tcmp->manager->get_codes( $position, $post, $args );
 		if ( is_array( $codes ) && count( $codes ) > 0 ) {
 			$version = TCMP_PLUGIN_VERSION;
-			ob_start();
-			echo "\n<!--BEGIN: TRACKING CODE (v$version) MANAGER BY INTELLYWP.COM IN $text//-->";
+			$text = "\n<!--BEGIN: TRACKING CODE MANAGER (v$version) BY INTELLYWP.COM IN $position_text//-->";
 			foreach ( $codes as $v ) {
-				echo "\n$v";
+				$text .= "\n$v";
 			}
-			echo "\n<!--END: https://wordpress.org/plugins/tracking-code-manager IN $text//-->";
-			$text = ob_get_contents();
-			ob_end_clean();
+			$text .= "\n<!--END: https://wordpress.org/plugins/tracking-code-manager IN $position_text//-->";
 
 			$purchase = $tcmp->options->getEcommercePurchase();
 			if ( false != $purchase && intval( $tcmp->options->getLicenseSiteCount() ) > 0 ) {
-				//retrieve user data
-				$purchase->user_id = intval( $purchase->user_id );
-				if ( $purchase->user_id > 0 ) {
-					$user = get_user_by( 'id', $purchase->user_id );
-					if ( ! is_null( $user ) && false != $user && get_class( $user ) == 'WP_User' ) {
-						/* @var $user WP_User */
-						$purchase->email    = $user->user_email;
-						$purchase->fullname = $user->user_firstname;
-						if ( '' != $user->user_lastname ) {
-							$purchase->fullname .= ' ' . $user->user_lastname;
-						}
-					}
-				}
-
-				$purchase->total  = floatval( $purchase->total );
-				$purchase->amount = floatval( $purchase->amount );
-				$purchase->tax    = floatval( $purchase->tax );
-
-				$fields = array(
-					'ORDERID'  => $purchase->order_id,
-					'CURRENCY' => $purchase->currency,
-					'FULLNAME' => $purchase->fullname,
-					'EMAIL'    => $purchase->email,
-					'PRODUCTS' => $purchase->products,
-					'AMOUNT'   => $purchase->amount,
-					'TOTAL'    => $purchase->total,
-					'TAX'      => $purchase->tax,
-				);
-
-				$sep      = '@@';
-				$buffer   = '';
-				$previous = 0;
-				$start    = strpos( $text, $sep );
-				if ( false == $start ) {
-					$buffer = $text;
-				} else {
-					while ( false != $start ) {
-						$buffer .= $tcmp->utils->substr( $text, $previous, $start );
-						$end     = strpos( $text, $sep, $start + strlen( $sep ) );
-						if ( false != $end ) {
-							$code = $tcmp->utils->substr( $text, $start + strlen( $sep ), $end );
-							$code = $tcmp->utils->to_array( $code );
-							if ( 1 == count( $code ) ) {
-								$code[] = '';
-							}
-
-							$v = false;
-							if ( isset( $fields[ $code[0] ] ) ) {
-								$v = $fields[ $code[0] ];
-							}
-							if ( is_null( $v ) || false == $v ) {
-								$v = $code[1];
-							}
-							if ( is_numeric( $v ) ) {
-								$v = floatval( $v );
-								$v = round( $v, 2 );
-								switch ( $code[0] ) {
-									case 'TOTAL':
-									case 'AMOUNT':
-									case 'TAX':
-										$v = number_format( $v, 2, '.', '' );
-										break;
-									default:
-										$v = intval( $v );
-										break;
-								}
-							} elseif ( is_array( $v ) ) {
-								$a = '';
-								foreach ( $v as $t ) {
-									$t = str_replace( ',', '', $t );
-									if ( '' != $a ) {
-										$a .= ',';
-									}
-									$a .= $t;
-								}
-								$v = $a;
-							}
-							$v       = str_replace( "'", '', $v );
-							$v       = str_replace( '"', '', $v );
-							$buffer .= $v;
-
-							$previous = $end + strlen( $sep );
-							$start    = strpos( $text, $sep, $previous );
-						} else {
-							$buffer  .= $tcmp->utils->substr( $text, $start );
-							$previous = false;
-							$start    = false;
-						}
-					}
-
-					if ( false != $previous && $previous < strlen( $text ) ) {
-						$code    = $tcmp->utils->substr( $text, $previous );
-						$buffer .= $code;
-					}
-				}
-				$text = $buffer;
+				$text = $this->insert_dynamic_conversion_values( $purchase, $text );
 			}
 			echo $this->esc_js_code( $text );
 		}
 	}
 
 	private function esc_js_code( $text ) {
+		global $tcmp;
 		global $tcmp_allowed_html_tags;
-		$text = wp_kses( $text, $tcmp_allowed_html_tags );
+
+		if ( ! $tcmp->options->getSkipCodeSanitization() ) {
+			$text = wp_kses( $text, $tcmp_allowed_html_tags );
+		}
 		$text = str_replace( '&lt;', '<', $text );
 		$text = str_replace( '&gt;', '>', $text );
 		$text = str_replace( '&amp;', '&', $text );
+		$text = str_replace( '&quot;', '"', $text );
+		$text = str_replace( '&#039;', "'", $text );
 		return $text;
+	}
+
+	private function insert_dynamic_conversion_values( $purchase, $text ) {
+		global $tcmp;
+		$purchase->user_id = intval( $purchase->user_id );
+		if ( $purchase->user_id > 0 ) {
+			$user = get_user_by( 'id', $purchase->user_id );
+			if ( ! is_null( $user ) && false != $user && get_class( $user ) == 'WP_User' ) {
+				/* @var $user WP_User */
+				$purchase->email    = $user->user_email;
+				$purchase->fullname = $user->user_firstname;
+				if ( '' != $user->user_lastname ) {
+					$purchase->fullname .= ' ' . $user->user_lastname;
+				}
+			}
+		}
+
+		$purchase->total  = floatval( $purchase->total );
+		$purchase->amount = floatval( $purchase->amount );
+		$purchase->tax    = floatval( $purchase->tax );
+
+		$fields = array(
+			'ORDERID'  => $purchase->order_id,
+			'CURRENCY' => $purchase->currency,
+			'FULLNAME' => $purchase->fullname,
+			'EMAIL'    => $purchase->email,
+			'PRODUCTS' => $purchase->products,
+			'AMOUNT'   => $purchase->amount,
+			'TOTAL'    => $purchase->total,
+			'TAX'      => $purchase->tax,
+		);
+
+		$sep      = '@@';
+		$buffer   = '';
+		$previous = 0;
+		$start    = strpos( $text, $sep );
+		if ( false == $start ) {
+			$buffer = $text;
+		} else {
+			while ( false != $start ) {
+				$buffer .= $tcmp->utils->substr( $text, $previous, $start );
+				$end     = strpos( $text, $sep, $start + strlen( $sep ) );
+				if ( false != $end ) {
+					$code = $tcmp->utils->substr( $text, $start + strlen( $sep ), $end );
+					$code = $tcmp->utils->to_array( $code );
+					if ( 1 == count( $code ) ) {
+						$code[] = '';
+					}
+
+					$v = false;
+					if ( isset( $fields[ $code[0] ] ) ) {
+						$v = $fields[ $code[0] ];
+					}
+					if ( is_null( $v ) || false == $v ) {
+						$v = $code[1];
+					}
+					if ( is_numeric( $v ) ) {
+						$v = floatval( $v );
+						$v = round( $v, 2 );
+						switch ( $code[0] ) {
+							case 'TOTAL':
+							case 'AMOUNT':
+							case 'TAX':
+								$v = number_format( $v, 2, '.', '' );
+								break;
+							default:
+								$v = intval( $v );
+								break;
+						}
+					} elseif ( is_array( $v ) ) {
+						$a = '';
+						foreach ( $v as $t ) {
+							$t = str_replace( ',', '', $t );
+							if ( '' != $a ) {
+								$a .= ',';
+							}
+							$a .= $t;
+						}
+						$v = $a;
+					}
+					$v       = str_replace( "'", '', $v );
+					$v       = str_replace( '"', '', $v );
+					$buffer .= $v;
+
+					$previous = $end + strlen( $sep );
+					$start    = strpos( $text, $sep, $previous );
+				} else {
+					$buffer  .= $tcmp->utils->substr( $text, $start );
+					$previous = false;
+					$start    = false;
+				}
+			}
+
+			if ( false != $previous && $previous < strlen( $text ) ) {
+				$code    = $tcmp->utils->substr( $text, $previous );
+				$buffer .= $code;
+			}
+		}
+		return $buffer;
 	}
 
 	//return snippets that match with options

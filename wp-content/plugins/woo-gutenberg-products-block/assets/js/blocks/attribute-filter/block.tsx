@@ -2,8 +2,11 @@
  * External dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
-import { speak } from '@wordpress/a11y';
-import { usePrevious, useShallowEqual } from '@woocommerce/base-hooks';
+import {
+	usePrevious,
+	useShallowEqual,
+	useBorderProps,
+} from '@woocommerce/base-hooks';
 import {
 	useCollection,
 	useQueryStateByKey,
@@ -12,13 +15,12 @@ import {
 } from '@woocommerce/base-context/hooks';
 import { useCallback, useEffect, useState, useMemo } from '@wordpress/element';
 import CheckboxList from '@woocommerce/base-components/checkbox-list';
-import DropdownSelector from '@woocommerce/base-components/dropdown-selector';
 import Label from '@woocommerce/base-components/filter-element-label';
+import FilterResetButton from '@woocommerce/base-components/filter-reset-button';
 import FilterSubmitButton from '@woocommerce/base-components/filter-submit-button';
 import isShallowEqual from '@wordpress/is-shallow-equal';
 import { decodeEntities } from '@wordpress/html-entities';
 import { Notice } from 'wordpress-components';
-import classNames from 'classnames';
 import { getSettingWithCoercion } from '@woocommerce/settings';
 import { getQueryArgs, removeQueryArgs } from '@wordpress/url';
 import {
@@ -28,11 +30,15 @@ import {
 	isString,
 	objectHasProp,
 } from '@woocommerce/types';
+import { Icon, chevronDown } from '@wordpress/icons';
 import {
 	changeUrl,
 	PREFIX_QUERY_ARG_FILTER_TYPE,
 	PREFIX_QUERY_ARG_QUERY_TYPE,
 } from '@woocommerce/utils';
+import { difference } from 'lodash';
+import FormTokenField from '@woocommerce/base-components/form-token-field';
+import classNames from 'classnames';
 
 /**
  * Internal dependencies
@@ -40,7 +46,6 @@ import {
 import { getAttributeFromID } from '../../utils/attributes';
 import { updateAttributeFilter } from '../../utils/attributes-query';
 import { previewAttributeObject, previewOptions } from './preview';
-import { useBorderProps } from '../../hooks/style-attributes';
 import './style.scss';
 import {
 	formatParams,
@@ -48,6 +53,8 @@ import {
 	areAllFiltersRemoved,
 	isQueryArgsEqual,
 	parseTaxonomyToGenerateURL,
+	formatSlug,
+	generateUniqueId,
 } from './utils';
 import { BlockAttributes, DisplayOption } from './types';
 
@@ -106,6 +113,13 @@ const AttributeFilterBlock = ( {
 	);
 
 	const [ checked, setChecked ] = useState( initialFilters );
+
+	/*
+		FormTokenField forces the dropdown to reopen on reset, so we create a unique ID to use as the components key.
+		This will force the component to remount on reset when we change this value.
+		More info: https://github.com/woocommerce/woocommerce-blocks/pull/6920#issuecomment-1222402482
+	 */
+	const [ remountKey, setRemountKey ] = useState( generateUniqueId() );
 
 	const [ displayedOptions, setDisplayedOptions ] = useState<
 		DisplayOption[]
@@ -206,6 +220,7 @@ const AttributeFilterBlock = ( {
 				const count = filteredTerm ? filteredTerm.count : 0;
 
 				return {
+					formattedValue: formatSlug( term.slug ),
 					value: term.slug,
 					name: decodeEntities( term.name ),
 					label: (
@@ -214,6 +229,9 @@ const AttributeFilterBlock = ( {
 							count={ blockAttributes.showCounts ? count : null }
 						/>
 					),
+					textLabel: blockAttributes.showCounts
+						? `${ decodeEntities( term.name ) } (${ count })`
+						: decodeEntities( term.name ),
 				};
 			} )
 			.filter( ( option ): option is DisplayOption => !! option );
@@ -374,75 +392,11 @@ const AttributeFilterBlock = ( {
 	 */
 	const onChange = useCallback(
 		( checkedValue ) => {
-			const getFilterNameFromValue = ( filterValue: string ) => {
-				const result = displayedOptions.find(
-					( option ) => option.value === filterValue
-				);
-
-				if ( result ) {
-					return result.name;
-				}
-			};
-
-			const announceFilterChange = ( {
-				filterAdded,
-				filterRemoved,
-			}: {
-				filterAdded?: string | null;
-				filterRemoved?: string | null;
-			} ) => {
-				const filterAddedName = filterAdded
-					? getFilterNameFromValue( filterAdded )
-					: null;
-				const filterRemovedName = filterRemoved
-					? getFilterNameFromValue( filterRemoved )
-					: null;
-				if ( filterAddedName && filterRemovedName ) {
-					speak(
-						sprintf(
-							/* translators: %1$s and %2$s are attribute terms (for example: 'red', 'blue', 'large'...). */
-							__(
-								'%1$s filter replaced with %2$s.',
-								'woo-gutenberg-products-block'
-							),
-							filterAddedName,
-							filterRemovedName
-						)
-					);
-				} else if ( filterAddedName ) {
-					speak(
-						sprintf(
-							/* translators: %s attribute term (for example: 'red', 'blue', 'large'...) */
-							__(
-								'%s filter added.',
-								'woo-gutenberg-products-block'
-							),
-							filterAddedName
-						)
-					);
-				} else if ( filterRemovedName ) {
-					speak(
-						sprintf(
-							/* translators: %s attribute term (for example: 'red', 'blue', 'large'...) */
-							__(
-								'%s filter removed.',
-								'woo-gutenberg-products-block'
-							),
-							filterRemovedName
-						)
-					);
-				}
-			};
-
 			const previouslyChecked = checked.includes( checkedValue );
 			let newChecked;
 
 			if ( ! multiple ) {
 				newChecked = previouslyChecked ? [] : [ checkedValue ];
-				const filterAdded = previouslyChecked ? null : checkedValue;
-				const filterRemoved =
-					checked.length === 1 ? checked[ 0 ] : null;
-				announceFilterChange( { filterAdded, filterRemoved } );
 			} else {
 				newChecked = checked.filter(
 					( value ) => value !== checkedValue
@@ -451,15 +405,12 @@ const AttributeFilterBlock = ( {
 				if ( ! previouslyChecked ) {
 					newChecked.push( checkedValue );
 					newChecked.sort();
-					announceFilterChange( { filterAdded: checkedValue } );
-				} else {
-					announceFilterChange( { filterRemoved: checkedValue } );
 				}
 			}
 
 			updateCheckedFilters( newChecked );
 		},
-		[ checked, displayedOptions, multiple, updateCheckedFilters ]
+		[ checked, multiple, updateCheckedFilters ]
 	);
 
 	/**
@@ -490,7 +441,7 @@ const AttributeFilterBlock = ( {
 	] );
 
 	/**
-	 * Try get the current attribute filter from the URl.
+	 * Try to get the current attribute filter from the URl.
 	 */
 	useEffect( () => {
 		if ( hasSetFilterDefaultsFromUrl || attributeTermsLoading ) {
@@ -570,20 +521,109 @@ const AttributeFilterBlock = ( {
 				className={ `wc-block-attribute-filter style-${ blockAttributes.displayStyle }` }
 			>
 				{ blockAttributes.displayStyle === 'dropdown' ? (
-					<DropdownSelector
-						attributeLabel={ attributeObject.label }
-						checked={ checked }
-						className={ classNames(
-							'wc-block-attribute-filter-dropdown',
-							borderProps.className
+					<>
+						<FormTokenField
+							key={ remountKey }
+							className={ classNames( borderProps.className, {
+								'single-selection': ! multiple,
+							} ) }
+							style={ {
+								...borderProps.style,
+								borderStyle: 'none',
+							} }
+							suggestions={ displayedOptions
+								.filter(
+									( option ) =>
+										! checked.includes( option.value )
+								)
+								.map( ( option ) => option.formattedValue ) }
+							disabled={ isDisabled }
+							placeholder={ sprintf(
+								/* translators: %s attribute name. */
+								__(
+									'Select %s',
+									'woo-gutenberg-products-block'
+								),
+								attributeObject.label
+							) }
+							onChange={ ( tokens: string[] ) => {
+								if ( ! multiple && tokens.length > 1 ) {
+									tokens = [ tokens[ tokens.length - 1 ] ];
+								}
+
+								tokens = tokens.map( ( token ) => {
+									const displayOption = displayedOptions.find(
+										( option ) =>
+											option.formattedValue === token
+									);
+
+									return displayOption
+										? displayOption.value
+										: token;
+								} );
+
+								const added = difference( tokens, checked );
+
+								if ( added.length === 1 ) {
+									return onChange( added[ 0 ] );
+								}
+
+								const removed = difference( checked, tokens );
+								if ( removed.length === 1 ) {
+									onChange( removed[ 0 ] );
+								}
+							} }
+							value={ checked }
+							displayTransform={ ( value: string ) => {
+								const result = displayedOptions.find(
+									( option ) =>
+										[
+											option.value,
+											option.formattedValue,
+										].includes( value )
+								);
+								return result ? result.textLabel : value;
+							} }
+							saveTransform={ formatSlug }
+							messages={ {
+								added: sprintf(
+									/* translators: %s is the attribute label. */
+									__(
+										'%s filter added.',
+										'woo-gutenberg-products-block'
+									),
+									attributeObject.label
+								),
+								removed: sprintf(
+									/* translators: %s is the attribute label. */
+									__(
+										'%s filter removed.',
+										'woo-gutenberg-products-block'
+									),
+									attributeObject.label
+								),
+								remove: sprintf(
+									/* translators: %s is the attribute label. */
+									__(
+										'Remove %s filter.',
+										'woo-gutenberg-products-block'
+									),
+									attributeObject.label.toLocaleLowerCase()
+								),
+								__experimentalInvalid: sprintf(
+									/* translators: %s is the attribute label. */
+									__(
+										'Invalid %s filter.',
+										'woo-gutenberg-products-block'
+									),
+									attributeObject.label.toLocaleLowerCase()
+								),
+							} }
+						/>
+						{ multiple && (
+							<Icon icon={ chevronDown } size={ 30 } />
 						) }
-						style={ { ...borderProps.style, borderStyle: 'none' } }
-						inputLabel={ blockAttributes.heading }
-						isLoading={ isLoading }
-						multiple={ multiple }
-						onChange={ onChange }
-						options={ displayedOptions }
-					/>
+					</>
 				) : (
 					<CheckboxList
 						className={ 'wc-block-attribute-filter-list' }
@@ -594,10 +634,29 @@ const AttributeFilterBlock = ( {
 						isDisabled={ isDisabled }
 					/>
 				) }
+			</div>
+			<div className="wc-block-attribute-filter__actions">
+				{ checked.length > 0 && (
+					<FilterResetButton
+						onClick={ () => {
+							setChecked( [] );
+							setRemountKey( generateUniqueId() );
+							if ( hasSetFilterDefaultsFromUrl ) {
+								onSubmit( [] );
+							}
+						} }
+						screenReaderLabel={ __(
+							'Reset attribute filter',
+							'woo-gutenberg-products-block'
+						) }
+					/>
+				) }
 				{ blockAttributes.showFilterButton && (
 					<FilterSubmitButton
 						className="wc-block-attribute-filter__button"
-						disabled={ isLoading || isDisabled }
+						disabled={
+							isLoading || isDisabled || checked.length === 0
+						}
 						onClick={ () => onSubmit( checked ) }
 					/>
 				) }

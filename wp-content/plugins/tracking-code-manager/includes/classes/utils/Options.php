@@ -118,15 +118,16 @@ class TCMP_Options {
 	}
 
 	public function recursive_wp_kses( $array ) {
+		global $tcmp_allowed_html_tags;
 		foreach ( $array as $key => &$value ) {
 			if ( is_array( $value ) ) {
 				$value = $this->recursive_wp_kses( $value );
+			} elseif ( 'code' == $key ) {
+				if ( ! $this->getSkipCodeSanitization() ) {
+					$value = wp_kses( $value, $tcmp_allowed_html_tags );
+				}
 			} elseif ( is_string( $value ) ) {
-				global $tcmp_allowed_html_tags;
 				$value = wp_kses( $value, $tcmp_allowed_html_tags );
-				$value = str_replace( '&lt;', '<', $value );
-				$value = str_replace( '&gt;', '>', $value );
-				$value = str_replace( '&amp;', '&', $value );
 			} else {
 				// do nothing ... could be a video or graphics object
 			}
@@ -459,10 +460,10 @@ class TCMP_Options {
 
 	// Add additional recognized tags and attributes
 	public function getAdditionalRecognizedTags() {
-		return $this->getOption( 'additionalRecognizedTags', 'script' );
+		return $this->getOption( 'additionalRecognizedTags', '' );
 	}
 	public function getAdditionalRecognizedAttributes() {
-		return $this->getOption( 'additionalRecognizedAttributes', 'data-cbid,data-blockingmode' );
+		return $this->getOption( 'additionalRecognizedAttributes', '' );
 	}
 	public function setAdditionalRecognizedTags( $text ) {
 		if (is_string($text)) {
@@ -496,5 +497,19 @@ class TCMP_Options {
 
 	public function setHookPriority( $value ) {
 		 $this->setOption( 'HookPriority', $value );
+	}
+
+	// Skip Code Sanitization
+	public function getSkipCodeSanitization() {
+		return $this->getOption( 'SkipCodeSanitization', false );
+	}
+
+	public function setSkipCodeSanitization( $value ) {
+		global $tcmp;
+		if ( $tcmp->utils->isTrue( $value ) ) {
+			$this->setOption( 'SkipCodeSanitization', true );
+		} else {
+			$this->setOption( 'SkipCodeSanitization', false );
+		}
 	}
 }

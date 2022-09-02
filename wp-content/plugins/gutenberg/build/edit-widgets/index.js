@@ -1237,10 +1237,6 @@ const external_wp_compose_namespaceObject = window["wp"]["compose"];
  * WordPress dependencies
  */
 
-/**
- * WordPress dependencies
- */
-
 
 
 
@@ -1442,7 +1438,9 @@ const external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
 
 function transformWidgetToBlock(widget) {
   if (widget.id_base === 'block') {
-    const parsedBlocks = (0,external_wp_blocks_namespaceObject.parse)(widget.instance.raw.content);
+    const parsedBlocks = (0,external_wp_blocks_namespaceObject.parse)(widget.instance.raw.content, {
+      __unstableSkipAutop: true
+    });
 
     if (!parsedBlocks.length) {
       return (0,external_wp_widgets_namespaceObject.addWidgetIdToBlock)((0,external_wp_blocks_namespaceObject.createBlock)('core/paragraph', {}, []), widget.id);
@@ -2984,10 +2982,10 @@ const ENABLE_EXPERIMENTAL_FSE_BLOCKS = false;
 
 
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -3000,30 +2998,25 @@ function WidgetAreasBlockEditorProvider(_ref) {
     children,
     ...props
   } = _ref;
+  const mediaPermissions = (0,external_wp_coreData_namespaceObject.useResourcePermissions)('media');
   const {
-    hasUploadPermissions,
     reusableBlocks,
     isFixedToolbarActive,
     keepCaretInsideBlock
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    var _select$canUser;
-
-    return {
-      hasUploadPermissions: (_select$canUser = select(external_wp_coreData_namespaceObject.store).canUser('create', 'media')) !== null && _select$canUser !== void 0 ? _select$canUser : true,
-      widgetAreas: select(store_store).getWidgetAreas(),
-      widgets: select(store_store).getWidgets(),
-      reusableBlocks: ALLOW_REUSABLE_BLOCKS ? select(external_wp_coreData_namespaceObject.store).getEntityRecords('postType', 'wp_block') : [],
-      isFixedToolbarActive: !!select(external_wp_preferences_namespaceObject.store).get('core/edit-widgets', 'fixedToolbar'),
-      keepCaretInsideBlock: !!select(external_wp_preferences_namespaceObject.store).get('core/edit-widgets', 'keepCaretInsideBlock')
-    };
-  }, []);
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => ({
+    widgetAreas: select(store_store).getWidgetAreas(),
+    widgets: select(store_store).getWidgets(),
+    reusableBlocks: ALLOW_REUSABLE_BLOCKS ? select(external_wp_coreData_namespaceObject.store).getEntityRecords('postType', 'wp_block') : [],
+    isFixedToolbarActive: !!select(external_wp_preferences_namespaceObject.store).get('core/edit-widgets', 'fixedToolbar'),
+    keepCaretInsideBlock: !!select(external_wp_preferences_namespaceObject.store).get('core/edit-widgets', 'keepCaretInsideBlock')
+  }), []);
   const {
     setIsInserterOpened
   } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
   const settings = (0,external_wp_element_namespaceObject.useMemo)(() => {
     let mediaUploadBlockEditor;
 
-    if (hasUploadPermissions) {
+    if (mediaPermissions.canCreate) {
       mediaUploadBlockEditor = _ref2 => {
         let {
           onError,
@@ -3050,7 +3043,7 @@ function WidgetAreasBlockEditorProvider(_ref) {
       templateLock: 'all',
       __experimentalSetIsInserterOpened: setIsInserterOpened
     };
-  }, [blockEditorSettings, isFixedToolbarActive, keepCaretInsideBlock, hasUploadPermissions, reusableBlocks, setIsInserterOpened]);
+  }, [blockEditorSettings, isFixedToolbarActive, keepCaretInsideBlock, mediaPermissions.canCreate, reusableBlocks, setIsInserterOpened]);
   const widgetAreaId = use_last_selected_widget_area();
   const [blocks, onInput, onChange] = (0,external_wp_coreData_namespaceObject.useEntityBlockEditor)(KIND, POST_TYPE, {
     id: buildWidgetAreasPostId()
@@ -3449,6 +3442,7 @@ function UndoButton() {
 
 
 function RedoButton() {
+  const shortcut = (0,external_wp_keycodes_namespaceObject.isAppleOS)() ? external_wp_keycodes_namespaceObject.displayShortcut.primaryShift('z') : external_wp_keycodes_namespaceObject.displayShortcut.primary('y');
   const hasRedo = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_coreData_namespaceObject.store).hasRedo(), []);
   const {
     redo
@@ -3456,7 +3450,7 @@ function RedoButton() {
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarButton, {
     icon: !(0,external_wp_i18n_namespaceObject.isRTL)() ? library_redo : library_undo,
     label: (0,external_wp_i18n_namespaceObject.__)('Redo'),
-    shortcut: external_wp_keycodes_namespaceObject.displayShortcut.primaryShift('z') // If there are no undo levels we don't want to actually disable this
+    shortcut: shortcut // If there are no undo levels we don't want to actually disable this
     // button, because it will remove focus for keyboard users.
     // See: https://github.com/WordPress/gutenberg/issues/3486
     ,

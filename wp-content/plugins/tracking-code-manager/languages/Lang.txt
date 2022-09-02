@@ -3,6 +3,7 @@ AboutText1=We are Stefan and Alex, two guys in love with Wordpress, coding and m
 AboutText2=Feel free to reach us by the feedback form below.
 AboutTitle=We make Intelly plugins for your Intelly site
 AdminOptions.checkbox=Modify Superglobal Variable
+AdminOptions.skipCodeSanitization=Skip code sanitization (check this if the code is not inserted correctly)
 AdminOptions.tags=Tags <small>(separate multiple values with a comma)</small>
 AdminOptions.attributes=Attributes <small>(separate multiple values with a comma)</small>
 Actions=

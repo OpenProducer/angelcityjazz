@@ -6,7 +6,7 @@ Description: A plugin to manage ALL your tracking code and conversion pixels, si
 Author: Data443
 Author URI: https://data443.com/
 Email: support@data443.com
-Version: 2.0.12
+Version: 2.0.15
 Requires at least: 3.6.0
 Requires PHP: 5.6
 */
@@ -27,7 +27,7 @@ define( 'TCMP_PLUGIN_PREFIX', 'TCMP_' );
 define( 'TCMP_PLUGIN_FILE', __FILE__ );
 define( 'TCMP_PLUGIN_SLUG', 'tracking-code-manager' );
 define( 'TCMP_PLUGIN_NAME', 'Tracking Code Manager' );
-define( 'TCMP_PLUGIN_VERSION', '2.0.12' );
+define( 'TCMP_PLUGIN_VERSION', '2.0.15' );
 define( 'TCMP_PLUGIN_AUTHOR', 'IntellyWP' );
 
 define( 'TCMP_PLUGIN_DIR', dirname( __FILE__ ) . '/' );
@@ -89,106 +89,13 @@ define( 'TCMP_SNIPPETS_LIMIT', 6 );
 include_once( dirname( __FILE__ ) . '/autoload.php' );
 tcmp_include_php( dirname( __FILE__ ) . '/includes/' );
 
-global $tcmp_allowed_html_tags;
-$tcmp_allowed_atts                  = array(
-	'align'          => array(),
-	'class'          => array(),
-	'type'           => array(),
-	'id'             => array(),
-	'dir'            => array(),
-	'lang'           => array(),
-	'style'          => array(),
-	'xml:lang'       => array(),
-	'src'            => array(),
-	'alt'            => array(),
-	'href'           => array(),
-	'rel'            => array(),
-	'rev'            => array(),
-	'target'         => array(),
-	'novalidate'     => array(),
-	'type'           => array(),
-	'value'          => array(),
-	'name'           => array(),
-	'tabindex'       => array(),
-	'action'         => array(),
-	'method'         => array(),
-	'for'            => array(),
-	'width'          => array(),
-	'height'         => array(),
-	'data'           => array(),
-	'title'          => array(),
-	'async'          => array(),
-	'loading'        => array(),
-	'referrerpolicy' => array(),
-	'sandbox'        => array(),
-	'crossorigin'    => array(),
-	'defer'          => array(),
-	'integrity'      => array(),
-	'nomodule'       => array(),
-	'onload'         => array(),
-);
-$tcmp_allowed_html_tags['form']     = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['label']    = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['input']    = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['textarea'] = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['iframe']   = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['script']   = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['noscript'] = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['style']    = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['strong']   = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['small']    = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['table']    = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['span']     = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['abbr']     = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['code']     = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['pre']      = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['div']      = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['img']      = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['h1']       = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['h2']       = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['h3']       = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['h4']       = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['h5']       = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['h6']       = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['ol']       = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['ul']       = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['li']       = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['em']       = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['hr']       = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['br']       = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['tr']       = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['td']       = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['p']        = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['a']        = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['b']        = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['i']        = $tcmp_allowed_atts;
-$tcmp_allowed_html_tags['body']     = $tcmp_allowed_atts;
-
 global $tcmp;
 $tcmp = new TCMP_Singleton();
 $tcmp->init();
 
-function tcmp_add_additional_tags_atts() {
-	global $tcmp;
-	global $tcmp_allowed_html_tags;
-	global $tcmp_allowed_atts;
-	$tags = explode( ",", sanitize_text_field( $tcmp->options->getAdditionalRecognizedTags() ) );
-	$attrs = explode( ",", sanitize_text_field( $tcmp->options->getAdditionalRecognizedAttributes() ) );
+include_once( dirname( __FILE__ ) . '/tcmp_free_wp_kses_tags_attrs.php' );
 
-	foreach ( $tags as $tag ) {
-		$tag = trim( $tag );
-		$current_attrs = $tcmp_allowed_html_tags[$tag];
-		foreach ( $attrs as $k ) {
-			$k = trim( $k );
-			if ( !isset( $current_attrs[$k]) ) {
-				$current_attrs[$k] = array();
-			}
-		}
-		$tcmp_allowed_html_tags[$tag] = $current_attrs;
-	}
-}
-
-tcmp_add_additional_tags_atts();
+tcmp_free_add_additional_tags_atts();
 
 function tcmp_qs( $name, $default = '' ) {
 	global $tcmp;

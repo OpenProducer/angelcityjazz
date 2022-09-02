@@ -1655,10 +1655,6 @@ const FullscreenMode = _ref => {
  * WordPress dependencies
  */
 
-/**
- * WordPress dependencies
- */
-
 
 
 
@@ -3807,12 +3803,14 @@ function VisualEditor(_ref2) {
   } = (0,external_wp_data_namespaceObject.useSelect)(external_wp_editor_namespaceObject.store);
   const hasMetaBoxes = (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).hasMetaBoxes(), []);
   const {
+    themeHasDisabledLayoutStyles,
     themeSupportsLayout,
     assets
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const _settings = select(external_wp_blockEditor_namespaceObject.store).getSettings();
 
     return {
+      themeHasDisabledLayoutStyles: _settings.disableLayoutStyles,
       themeSupportsLayout: _settings.supportsLayout,
       assets: _settings.__unstableResolvedAssets
     };
@@ -3857,7 +3855,6 @@ function VisualEditor(_ref2) {
   const ref = (0,external_wp_element_namespaceObject.useRef)();
   const contentRef = (0,external_wp_compose_namespaceObject.useMergeRefs)([ref, (0,external_wp_blockEditor_namespaceObject.__unstableUseClipboardHandler)(), (0,external_wp_blockEditor_namespaceObject.__unstableUseTypewriter)(), (0,external_wp_blockEditor_namespaceObject.__unstableUseTypingObserver)(), (0,external_wp_blockEditor_namespaceObject.__unstableUseBlockSelectionClearer)()]);
   const blockSelectionClearerRef = (0,external_wp_blockEditor_namespaceObject.__unstableUseBlockSelectionClearer)();
-  const [, RecursionProvider] = (0,external_wp_blockEditor_namespaceObject.__experimentalUseNoRecursiveRenders)(wrapperUniqueId, wrapperBlockName);
   const layout = (0,external_wp_element_namespaceObject.useMemo)(() => {
     if (isTemplateMode) {
       return {
@@ -3866,11 +3863,19 @@ function VisualEditor(_ref2) {
     }
 
     if (themeSupportsLayout) {
-      return defaultLayout;
-    }
+      // We need to ensure support for wide and full alignments,
+      // so we add the constrained type.
+      return { ...defaultLayout,
+        type: 'constrained'
+      };
+    } // Set default layout for classic themes so all alignments are supported.
 
-    return undefined;
+
+    return {
+      type: 'default'
+    };
   }, [isTemplateMode, themeSupportsLayout, defaultLayout]);
+  const blockListLayoutClass = themeSupportsLayout ? 'is-layout-constrained' : 'is-layout-flow';
   const titleRef = (0,external_wp_element_namespaceObject.useRef)();
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     var _titleRef$current;
@@ -3911,17 +3916,20 @@ function VisualEditor(_ref2) {
     style: {
       paddingBottom
     }
-  }, themeSupportsLayout && !isTemplateMode && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalLayoutStyle, {
+  }, themeSupportsLayout && !themeHasDisabledLayoutStyles && !isTemplateMode && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalLayoutStyle, {
     selector: ".edit-post-visual-editor__post-title-wrapper, .block-editor-block-list__layout.is-root-container",
-    layout: defaultLayout,
+    layout: layout,
     layoutDefinitions: defaultLayout === null || defaultLayout === void 0 ? void 0 : defaultLayout.definitions
   }), !isTemplateMode && (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "edit-post-visual-editor__post-title-wrapper",
     contentEditable: false
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.PostTitle, {
     ref: titleRef
-  })), (0,external_wp_element_namespaceObject.createElement)(RecursionProvider, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockList, {
-    className: isTemplateMode ? 'wp-site-blocks' : 'is-layout-flow' // Ensure root level blocks receive default/flow blockGap styling rules.
+  })), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalRecursionProvider, {
+    blockName: wrapperBlockName,
+    uniqueId: wrapperUniqueId
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockList, {
+    className: isTemplateMode ? 'wp-site-blocks' : blockListLayoutClass // Ensure root level blocks receive default/flow blockGap styling rules.
     ,
     __experimentalLayout: layout
   }))))), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__unstableBlockSettingsMenuFirstItem, null, _ref3 => {
@@ -5408,7 +5416,8 @@ function HeaderToolbar() {
     label: (0,external_wp_i18n_namespaceObject.__)('List View'),
     onClick: toggleListView,
     shortcut: listViewShortcut,
-    showTooltip: !showIconLabels
+    showTooltip: !showIconLabels,
+    variant: showIconLabels ? 'tertiary' : undefined
   }));
   const openInserter = (0,external_wp_element_namespaceObject.useCallback)(() => {
     if (isInserterOpened) {
@@ -5418,6 +5427,11 @@ function HeaderToolbar() {
       setIsInserterOpened(true);
     }
   }, [isInserterOpened, setIsInserterOpened]);
+  /* translators: button label text should, if possible, be under 16 characters. */
+
+  const longLabel = (0,external_wp_i18n_namespaceObject._x)('Toggle block inserter', 'Generic label for block inserter button');
+
+  const shortLabel = !isInserterOpened ? (0,external_wp_i18n_namespaceObject.__)('Add') : (0,external_wp_i18n_namespaceObject.__)('Close');
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.NavigableToolbar, {
     className: "edit-post-header-toolbar",
     "aria-label": toolbarAriaLabel
@@ -5432,13 +5446,10 @@ function HeaderToolbar() {
     onMouseDown: preventDefault,
     onClick: openInserter,
     disabled: !isInserterEnabled,
-    icon: library_plus
-    /* translators: button label text should, if possible, be under 16
-    characters. */
-    ,
-    label: (0,external_wp_i18n_namespaceObject._x)('Toggle block inserter', 'Generic label for block inserter button'),
+    icon: library_plus,
+    label: showIconLabels ? shortLabel : longLabel,
     showTooltip: !showIconLabels
-  }, showIconLabels && (!isInserterOpened ? (0,external_wp_i18n_namespaceObject.__)('Add') : (0,external_wp_i18n_namespaceObject.__)('Close'))), (isWideViewport || !showIconLabels) && (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, isLargeViewport && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
+  }), (isWideViewport || !showIconLabels) && (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, isLargeViewport && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
     as: external_wp_blockEditor_namespaceObject.ToolSelector,
     showTooltip: !showIconLabels,
     variant: showIconLabels ? 'tertiary' : undefined,
@@ -5966,7 +5977,7 @@ function DeleteTemplate() {
     onClick: () => {
       setShowConfirmDialog(true);
     },
-    info: isRevertable ? (0,external_wp_i18n_namespaceObject.__)('Restore template to default state') : undefined
+    info: isRevertable ? (0,external_wp_i18n_namespaceObject.__)('Use the template as supplied by the theme.') : undefined
   }, isRevertable ? (0,external_wp_i18n_namespaceObject.__)('Clear customizations') : (0,external_wp_i18n_namespaceObject.__)('Delete template')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalConfirmDialog, {
     isOpen: showConfirmDialog,
     onConfirm: onDelete,
@@ -6973,19 +6984,24 @@ function PostTemplateForm(_ref) {
     canCreate,
     canEdit
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      canUser,
+      getEntityRecord,
+      getEntityRecords
+    } = select(external_wp_coreData_namespaceObject.store);
     const editorSettings = select(external_wp_editor_namespaceObject.store).getEditorSettings();
-    const siteSettings = select(external_wp_coreData_namespaceObject.store).getEntityRecord('root', 'site');
+    const siteSettings = canUser('read', 'settings') ? getEntityRecord('root', 'site') : undefined;
 
     const _isPostsPage = select(external_wp_editor_namespaceObject.store).getCurrentPostId() === (siteSettings === null || siteSettings === void 0 ? void 0 : siteSettings.page_for_posts);
 
-    const canCreateTemplates = select(external_wp_coreData_namespaceObject.store).canUser('create', 'templates');
+    const canCreateTemplates = canUser('create', 'templates');
     return {
       isPostsPage: _isPostsPage,
       availableTemplates: editorSettings.availableTemplates,
-      fetchedTemplates: select(external_wp_coreData_namespaceObject.store).getEntityRecords('postType', 'wp_template', {
+      fetchedTemplates: canCreateTemplates ? getEntityRecords('postType', 'wp_template', {
         post_type: select(external_wp_editor_namespaceObject.store).getCurrentPostType(),
         per_page: -1
-      }),
+      }) : undefined,
       selectedTemplateSlug: select(external_wp_editor_namespaceObject.store).getEditedPostAttribute('template'),
       canCreate: canCreateTemplates && !_isPostsPage && editorSettings.supportsTemplateMode,
       canEdit: canCreateTemplates && editorSettings.supportsTemplateMode && !!select(store_store).getEditedPostTemplate()
@@ -7063,6 +7079,7 @@ function PostTemplateForm(_ref) {
  */
 
 
+
 function PostTemplate() {
   const anchorRef = (0,external_wp_element_namespaceObject.useRef)();
   const isVisible = (0,external_wp_data_namespaceObject.useSelect)(select => {
@@ -7078,7 +7095,11 @@ function PostTemplate() {
     const settings = select(external_wp_editor_namespaceObject.store).getEditorSettings();
     const hasTemplates = !!settings.availableTemplates && Object.keys(settings.availableTemplates).length > 0;
 
-    if (!hasTemplates && !settings.supportsTemplateMode) {
+    if (hasTemplates) {
+      return true;
+    }
+
+    if (!settings.supportsTemplateMode) {
       return false;
     }
 
@@ -7128,24 +7149,20 @@ function PostTemplateToggle(_ref3) {
     onClick
   } = _ref3;
   const templateTitle = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    var _select$getEntityReco;
+    var _template$title;
 
     const templateSlug = select(external_wp_editor_namespaceObject.store).getEditedPostAttribute('template');
-    const settings = select(external_wp_editor_namespaceObject.store).getEditorSettings();
+    const {
+      supportsTemplateMode,
+      availableTemplates
+    } = select(external_wp_editor_namespaceObject.store).getEditorSettings();
 
-    if (settings.availableTemplates[templateSlug]) {
-      return settings.availableTemplates[templateSlug];
+    if (!supportsTemplateMode && availableTemplates[templateSlug]) {
+      return availableTemplates[templateSlug];
     }
 
-    const template = (_select$getEntityReco = select(external_wp_coreData_namespaceObject.store).getEntityRecords('postType', 'wp_template', {
-      per_page: -1
-    })) === null || _select$getEntityReco === void 0 ? void 0 : _select$getEntityReco.find(_ref4 => {
-      let {
-        slug
-      } = _ref4;
-      return slug === templateSlug;
-    });
-    return template === null || template === void 0 ? void 0 : template.title.rendered;
+    const template = select(store_store).getEditedPostTemplate();
+    return (_template$title = template === null || template === void 0 ? void 0 : template.title) !== null && _template$title !== void 0 ? _template$title : template === null || template === void 0 ? void 0 : template.slug;
   }, []);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
     className: "edit-post-post-template__toggle",
@@ -9113,6 +9130,7 @@ function Editor(_ref) {
     hasFixedToolbar,
     focusMode,
     hasReducedUI,
+    hasInlineToolbar,
     hasThemeStyles,
     post,
     preferredStyleVariations,
@@ -9134,7 +9152,8 @@ function Editor(_ref) {
     const {
       getEntityRecord,
       getPostType,
-      getEntityRecords
+      getEntityRecords,
+      canUser
     } = select(external_wp_coreData_namespaceObject.store);
     const {
       getEditorSettings
@@ -9158,17 +9177,19 @@ function Editor(_ref) {
 
     const supportsTemplateMode = getEditorSettings().supportsTemplateMode;
     const isViewable = (_getPostType$viewable = (_getPostType = getPostType(postType)) === null || _getPostType === void 0 ? void 0 : _getPostType.viewable) !== null && _getPostType$viewable !== void 0 ? _getPostType$viewable : false;
+    const canEditTemplate = canUser('create', 'templates');
     return {
       hasFixedToolbar: isFeatureActive('fixedToolbar') || __experimentalGetPreviewDeviceType() !== 'Desktop',
       focusMode: isFeatureActive('focusMode'),
       hasReducedUI: isFeatureActive('reducedUI'),
+      hasInlineToolbar: isFeatureActive('inlineToolbar'),
       hasThemeStyles: isFeatureActive('themeStyles'),
       preferredStyleVariations: select(external_wp_preferences_namespaceObject.store).get('core/edit-post', 'preferredStyleVariations'),
       hiddenBlockTypes: getHiddenBlockTypes(),
       blockTypes: getBlockTypes(),
       keepCaretInsideBlock: isFeatureActive('keepCaretInsideBlock'),
       isTemplateMode: isEditingTemplate(),
-      template: supportsTemplateMode && isViewable ? getEditedPostTemplate() : null,
+      template: supportsTemplateMode && isViewable && canEditTemplate ? getEditedPostTemplate() : null,
       post: postObject
     };
   }, [postType, postId]);
@@ -9185,6 +9206,7 @@ function Editor(_ref) {
       hasFixedToolbar,
       focusMode,
       hasReducedUI,
+      hasInlineToolbar,
       // This is marked as experimental to give time for the quick inserter to mature.
       __experimentalSetIsInserterOpened: setIsInserterOpened,
       keepCaretInsideBlock,
@@ -9242,18 +9264,13 @@ function Editor(_ref) {
 
 
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
 
 
 
 
-
-const isEverySelectedBlockAllowed = (selected, allowed) => (0,external_lodash_namespaceObject.difference)(selected, allowed).length === 0;
+const isEverySelectedBlockAllowed = (selected, allowed) => selected.filter(id => !allowed.includes(id)).length === 0;
 /**
  * Plugins may want to add an item to the menu either for every block
  * or only for the specific ones provided in the `allowedBlocks` component property.

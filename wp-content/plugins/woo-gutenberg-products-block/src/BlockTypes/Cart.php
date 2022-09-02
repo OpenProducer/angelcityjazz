@@ -155,21 +155,23 @@ class Cart extends AbstractBlock {
 	 */
 	protected function enqueue_data( array $attributes = [] ) {
 		parent::enqueue_data( $attributes );
+		if ( wc_shipping_enabled() ) {
+			$this->asset_data_registry->add(
+				'shippingCountries',
+				function() {
+					return $this->deep_sort_with_accents( WC()->countries->get_shipping_countries() );
+				},
+				true
+			);
+			$this->asset_data_registry->add(
+				'shippingStates',
+				function() {
+					return $this->deep_sort_with_accents( WC()->countries->get_shipping_country_states() );
+				},
+				true
+			);
+		}
 
-		$this->asset_data_registry->add(
-			'shippingCountries',
-			function() {
-				return $this->deep_sort_with_accents( WC()->countries->get_shipping_countries() );
-			},
-			true
-		);
-		$this->asset_data_registry->add(
-			'shippingStates',
-			function() {
-				return $this->deep_sort_with_accents( WC()->countries->get_shipping_country_states() );
-			},
-			true
-		);
 		$this->asset_data_registry->add(
 			'countryLocale',
 			function() {
@@ -245,5 +247,32 @@ class Cart extends AbstractBlock {
 		$vendor_chunks = $this->get_chunks_paths( 'vendors--cart-blocks' );
 
 		$this->register_chunk_translations( array_merge( $chunks, $vendor_chunks ) );
+	}
+
+	/**
+	 * Get list of Cart block & its inner-block types.
+	 *
+	 * @return array;
+	 */
+	public static function get_cart_block_types() {
+		return [
+			'Cart',
+			'CartOrderSummaryTaxesBlock',
+			'CartOrderSummarySubtotalBlock',
+			'FilledCartBlock',
+			'EmptyCartBlock',
+			'CartTotalsBlock',
+			'CartItemsBlock',
+			'CartLineItemsBlock',
+			'CartOrderSummaryBlock',
+			'CartExpressPaymentBlock',
+			'ProceedToCheckoutBlock',
+			'CartAcceptedPaymentMethodsBlock',
+			'CartOrderSummaryCouponFormBlock',
+			'CartOrderSummaryDiscountBlock',
+			'CartOrderSummaryFeeBlock',
+			'CartOrderSummaryHeadingBlock',
+			'CartOrderSummaryShippingBlock',
+		];
 	}
 }

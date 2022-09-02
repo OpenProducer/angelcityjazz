@@ -11,10 +11,12 @@ function tcmp_ui_admin_options() {
 	$tcmp->form->form_starts();
 
 	if ( $tcmp->check->nonce( 'tcmp_admin_options' ) ) {
+		$tcmp->options->setSkipCodeSanitization( $tcmp->utils->iqs( 'skipCodeSanitization' ) );
 		$tcmp->options->setModifySuperglobalVariable( $tcmp->utils->iqs( 'checkbox' ) );
 		$tcmp->options->setAdditionalRecognizedTags( $tcmp->utils->qs( 'tags' ) );
 		$tcmp->options->setAdditionalRecognizedAttributes( $tcmp->utils->qs( 'attributes' ) );
-		tcmp_add_additional_tags_atts();
+		tcmp_free_add_additional_tags_atts();
+		$tcmp->options->writeMessages();
 	}
 
 	$tcmp->form->p( __( 'Add additional tags and/or attributes to the code whitelist' ) );
@@ -22,8 +24,14 @@ function tcmp_ui_admin_options() {
 	$tags = $tcmp->options->getAdditionalRecognizedTags();
 	$attributes = $tcmp->options->getAdditionalRecognizedAttributes();
 
-	$tcmp->form->textarea('tags', $tags, array('rows' => 2,));
-	$tcmp->form->textarea('attributes', $attributes, array('rows' => 2,));
+	$tcmp->form->textarea( 'tags', $tags, array('rows' => 2) );
+	$tcmp->form->textarea( 'attributes', $attributes, array('rows' => 2) );
+
+	$tcmp->form->p( __( 'Skip the Sanitization of all Tracking Codes' ) );
+
+	$skip = $tcmp->options->getSkipCodeSanitization();
+
+	$tcmp->form->checkbox( 'skipCodeSanitization', $skip );
 
 	$tcmp->form->p( __( 'Enable option to change cache behavior' ) );
 
