@@ -1,11 +1,6 @@
-@use '../mixins/utilities';
-@use '../variables-site/colors';
-@use '../variables-site/fonts';
-@use '../variables-site/structure';
-
 // Index/archive navigation
 .pagination {
-	margin: #{3 * structure.$size__spacing-unit} 0;
+	margin: #{3 * $size__spacing-unit} 0;
 
 	.nav-links {
 		display: flex;
@@ -14,10 +9,9 @@
 
 		> * {
 			background-color: #eee;
-			margin-right: #{0.5 * structure.$size__spacing-unit};
-			/* stylelint-disable-next-line */
-			padding: #{0.5 * structure.$size__spacing-unit} #{0.75 * structure.$size__spacing-unit} #{0.25 *
-				structure.$size__spacing-unit};
+			margin-right: #{0.5 * $size__spacing-unit};
+			padding: #{0.5 * $size__spacing-unit} #{0.75 * $size__spacing-unit} #{0.25 *
+				$size__spacing-unit};
 
 			&:last-child {
 				margin-right: 0;
@@ -40,7 +34,7 @@
 			}
 
 			&.current {
-				background-color: colors.$color__text-light;
+				background-color: $color__text-light;
 				color: #fff;
 			}
 		}
@@ -65,7 +59,7 @@
 			display: none;
 		}
 
-		@include utilities.media( tablet ) {
+		@include media( tablet ) {
 			margin-left: 0 auto;
 			padding: 0;
 		}
@@ -74,7 +68,7 @@
 
 // Query block navigation
 .wp-block-query-pagination {
-	margin: #{3 * structure.$size__spacing-unit} 0;
+	margin: #{3 * $size__spacing-unit} 0;
 
 	&,
 	.wp-block-query-pagination-numbers {
@@ -85,8 +79,8 @@
 
 	span,
 	a {
-		margin-right: #{0.25 * structure.$size__spacing-unit};
-		padding: #{0.5 * structure.$size__spacing-unit} #{0.75 * structure.$size__spacing-unit};
+		margin-right: #{0.25 * $size__spacing-unit};
+		padding: #{0.5 * $size__spacing-unit} #{0.75 * $size__spacing-unit};
 		text-decoration: none;
 
 		&:last-child {
@@ -105,7 +99,7 @@
 	}
 
 	.current {
-		background-color: colors.$color__text-light;
+		background-color: $color__text-light;
 		color: #fff;
 	}
 }
@@ -125,14 +119,14 @@
 	.nav-next {
 		min-width: 50%;
 		width: 100%;
-		font-family: fonts.$font__heading;
+		font-family: $font__heading;
 		font-weight: bold;
-		padding: #{0.5 * structure.$size__spacing-unit} 0;
+		padding: #{0.5 * $size__spacing-unit} 0;
 
 		.secondary-text {
 			display: none;
 
-			@include utilities.media( tablet ) {
+			@include media( tablet ) {
 				display: inline;
 			}
 		}

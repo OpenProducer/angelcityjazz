@@ -1,9 +1,5 @@
-@use '../variables-site/colors';
-@use '../variables-site/fonts';
-@use '../variables-site/structure';
-
 .wp-caption {
-	margin-bottom: calc( 1.5 * #{structure.$size__spacing-unit} );
+	margin-bottom: calc( 1.5 * #{$size__spacing-unit} );
 }
 
 .wp-caption img[class*='wp-image-'] {
@@ -14,7 +10,7 @@
 
 figcaption,
 .wp-caption-text {
-	color: colors.$color__text-light;
+	color: $color__text-light;
 	margin: 0 auto;
 	padding: 0;
 	text-align: left;
@@ -30,9 +26,9 @@ figcaption,
 figcaption,
 .wp-caption-text,
 .amp-image-lightbox-caption {
-	font-size: fonts.$font__size-xs;
-	font-family: fonts.$font__heading;
-	line-height: fonts.$font__line-height-pre;
+	font-size: $font__size-xs;
+	font-family: $font__heading;
+	line-height: $font__line-height-pre;
 }
 
 /* Hack to address a bug that affects caption positioning in Safari only. Targets Safari 9+ only. */

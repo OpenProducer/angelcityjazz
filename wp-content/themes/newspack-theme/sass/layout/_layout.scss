@@ -1,6 +1,3 @@
-@use '../mixins/utilities';
-@use '../variables-site/structure';
-
 /** === Layout === */
 
 .wrapper {
@@ -9,25 +6,24 @@
 	justify-content: space-between;
 	margin: auto;
 	max-width: 90vw;
-	width: structure.$size__site-main;
+	width: $size__site-main;
 
-	@include utilities.media( tablet ) {
+	@include media( tablet ) {
 		flex-wrap: nowrap;
 	}
 }
 
 .site-content {
 	min-height: 30vh;
-	margin-top: #{1.5 * structure.$size__spacing-unit};
+	margin-top: #{1.5 * $size__spacing-unit};
 
-	@include utilities.media( tablet ) {
-		margin-top: #{4 * structure.$size__spacing-unit};
+	@include media( tablet ) {
+		margin-top: #{4 * $size__spacing-unit};
 	}
 }
 
 .post-template-single-feature,
 .page-template-single-feature,
-.page-template-no-header-footer,
 .post-template-single-wide,
 .page-template-single-wide,
 .newspack-front-page {
@@ -39,17 +35,17 @@
 #primary {
 	margin: auto;
 	max-width: 90vw;
-	width: structure.$size__site-main;
+	width: $size__site-main;
 }
 
 #secondary {
-	margin-top: structure.$size__spacing-unit;
+	margin-top: $size__spacing-unit;
 }
 
 .single,
 .page:not( .newspack-front-page ) {
 	&.has-sidebar #main {
-		@include utilities.media( tablet ) {
+		@include media( tablet ) {
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: space-between;
@@ -61,7 +57,7 @@
 .blog,
 .search {
 	&.has-sidebar #primary {
-		@include utilities.media( tablet ) {
+		@include media( tablet ) {
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: space-between;
@@ -74,7 +70,7 @@
 .search #main,
 .page .main-content,
 .single .main-content {
-	@include utilities.media( tablet ) {
+	@include media( tablet ) {
 		width: 65%;
 	}
 }
@@ -84,11 +80,11 @@
 .search #secondary,
 .page #secondary,
 .single #secondary {
-	@include utilities.media( tablet ) {
-		width: calc( 35% - #{2 * structure.$size__spacing-unit} );
+	@include media( tablet ) {
+		width: calc( 35% - #{2 * $size__spacing-unit} );
 	}
-	@include utilities.media( desktop ) {
-		width: calc( 35% - #{3 * structure.$size__spacing-unit} );
+	@include media( desktop ) {
+		width: calc( 35% - #{3 * $size__spacing-unit} );
 	}
 }
 
@@ -99,7 +95,6 @@
 // Single-column layouts
 .post-template-single-feature .main-content,
 .page-template-single-feature .main-content,
-.page-template-no-header-footer .main-content,
 .archive-one-column #main,
 .newspack-front-page.page-template-single-feature .site-main {
 	margin-left: auto;
@@ -108,9 +103,8 @@
 	width: 100%;
 }
 
-@include utilities.media( tablet ) {
+@include media( tablet ) {
 	.page-template-single-feature .entry-header,
-	.page-template-no-header-footer .entry-header,
 	.archive.archive-one-column .page-header {
 		margin-left: auto;
 		margin-right: auto;
@@ -130,28 +124,12 @@
 		width: 100%;
 	}
 
-	@include utilities.media( tablet ) {
+	@include media( tablet ) {
 		.author-bio,
 		.comments-area {
 			margin-left: auto;
 			margin-right: auto;
 			width: 65%;
-		}
-	}
-}
-
-/* 'No Header or Fotoer' page template */
-.page-template-no-header-footer {
-	&,
-	&.hide-page-title {
-		.site-content {
-			margin-top: 0;
-		}
-	}
-
-	&:not( .hide-page-title ):not( [class*='single-featured-image-'] ) {
-		.entry-header {
-			margin-top: structure.$size__spacing-unit;
 		}
 	}
 }

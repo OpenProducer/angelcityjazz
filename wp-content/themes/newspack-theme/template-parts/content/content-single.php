@@ -75,8 +75,7 @@ if ( function_exists( 'newspack_get_all_sponsors' ) ) {
 	</footer><!-- .entry-footer -->
 
 	<?php
-	$show_author = ! empty( $native_sponsors ) ? newspack_display_sponsors_and_authors( $native_sponsors ) : true;
-	if ( $show_author && ! is_singular( 'attachment' ) ) :
+	if ( empty( $native_sponsors ) && ! is_singular( 'attachment' ) ) :
 		get_template_part( 'template-parts/post/author', 'bio' );
 	endif;
 	?>

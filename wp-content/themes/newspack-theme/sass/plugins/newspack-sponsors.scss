@@ -1,23 +1,18 @@
-@use '../variables-site/variables-site';
-@use '../mixins/mixins-master';
-@use '../mixins/utilities';
-@use '../variables-site/colors';
-@use '../variables-site/fonts';
-@use '../variables-site/structure';
+@import '../variables-site/variables-site';
+@import '../mixins/mixins-master';
 
 // Category replacement - tag
 .sponsor-label {
 	align-items: stretch;
 	display: inline-flex;
-	margin-right: 0.5rem;
 	position: relative;
 
 	button {
 		align-items: center;
 		background: transparent;
-		color: colors.$color__text-light;
+		color: $color__text-light;
 		display: inline-flex;
-		margin-left: #{0.15 * structure.$size__spacing-unit};
+		margin-left: #{0.25 * $size__spacing-unit};
 		padding: 0;
 		position: relative;
 
@@ -36,9 +31,7 @@
 	}
 
 	&::before,
-	&::after,
-	+ .cat-links::before,
-	+ .cat-links::after {
+	&::after {
 		display: none;
 	}
 }
@@ -47,8 +40,8 @@
 .sponsor-label,
 amp-script .sponsor-label {
 	.flag {
-		background: colors.$color__highlight;
-		color: colors.$color__text-main;
+		background: $color__highlight;
+		color: $color__text-main;
 		line-height: 1;
 		padding: 0.3em 0.5em;
 		text-transform: uppercase;
@@ -64,9 +57,9 @@ amp-script .sponsor-label {
 	font-weight: normal;
 	left: -9999em;
 	letter-spacing: 0;
-	line-height: fonts.$font__line-height-body;
+	line-height: $font__line-height-body;
 	opacity: 0;
-	padding: #{0.75 * structure.$size__spacing-unit} structure.$size__spacing-unit;
+	padding: #{0.75 * $size__spacing-unit} $size__spacing-unit;
 	position: absolute;
 	transition: opacity 0.2s;
 	text-transform: none;
@@ -99,95 +92,23 @@ amp-script .sponsor-label {
 	align-items: center;
 	display: inline-flex;
 	line-height: 1;
-	margin-right: #{0.25 * structure.$size__spacing-unit};
-
-	@include utilities.media( mobile ) {
-		border-right: 1px solid colors.$color__border;
-		margin: 0 #{0.75 * structure.$size__spacing-unit} 0 0;
+	@include media( mobile ) {
+		border-right: 1px solid $color__border;
+		margin: 0 #{0.75 * $size__spacing-unit} 0 0;
 	}
 
 	> * {
-		margin-right: #{0.75 * structure.$size__spacing-unit};
+		margin-right: #{0.75 * $size__spacing-unit};
 	}
 }
 
 .entry-sponsor {
-	align-items: center;
-	display: flex;
-	flex-wrap: wrap;
+	align-items: stretch;
+	display: inline-flex;
 }
 
 .sponsor-byline .author {
 	font-weight: bold;
-}
-
-/* Single Posts */
-
-.single {
-	.sponsor-byline > span:first-child {
-		display: inline;
-	}
-
-	// When categories are visible
-	&.sponsors-show-cats .sponsor-label {
-		display: inline-flex;
-	}
-
-	.sponsor-label + .cat-links {
-		display: inline-block;
-	}
-
-	// When authors are visible
-	&.sponsors-show-authors .entry-subhead {
-		flex-wrap: wrap;
-
-		.sponsor-logos {
-			@include utilities.media( mobile ) {
-				border-right: 0;
-				margin-right: 0;
-			}
-		}
-
-		.sponsor-byline {
-			font-size: fonts.$font__size-sm;
-
-			@include utilities.media( desktop ) {
-				> span:first-child {
-					display: block;
-				}
-			}
-
-			.author {
-				color: inherit;
-				font-weight: normal;
-			}
-		}
-	}
-
-	.entry-meta + .entry-sponsor {
-		flex-grow: 0;
-		margin-right: structure.$size__spacing-unit;
-
-		@include utilities.media( notdesktop ) {
-			order: 10;
-			margin-top: 1rem;
-			width: 100%;
-		}
-
-		+ .sharedaddy {
-			margin-top: structure.$size__spacing-unit;
-
-			@include utilities.media( desktop ) {
-				border-left: 1px solid colors.$color__border;
-				margin-top: 0;
-				padding-left: 1rem;
-			}
-		}
-	}
-
-	&.single-featured-image-default .sponsor-byline {
-		margin-right: 0;
-	}
 }
 
 // Featured image beside/behind adjustments
@@ -197,6 +118,18 @@ amp-script .sponsor-label {
 		align-items: center;
 	}
 
+	.sponsor-label button {
+		color: inherit;
+	}
+
+	.sponsor-logos {
+		margin-right: 0;
+
+		@include media( mobile ) {
+			border: 0;
+			padding-right: 0;
+		}
+	}
 	.sponsor-byline {
 		color: inherit;
 	}
@@ -207,39 +140,12 @@ amp-script .sponsor-label {
 		background: rgba( 0, 0, 0, 0.95 );
 	}
 
-	.sponsor-label button {
-		color: inherit;
-
-		::after {
-			border-bottom-color: rgba( 0, 0, 0, 0.95 );
-		}
+	.sponsor-label button::after {
+		border-bottom-color: rgba( 0, 0, 0, 0.95 );
 	}
 
-	.entry-meta + .entry-sponsor .byline {
-		margin-right: 0;
-	}
-}
-
-.featured-image-beside {
-	.entry-meta + .entry-sponsor + .sharedaddy {
-		border: 0;
-		padding: 0;
-	}
-
-	@include utilities.media( tablet ) {
-		.sponsor-label button {
-			color: inherit;
-		}
-
-		.sponsor-logos {
-			border: 0;
-		}
-	}
-}
-
-.single:not( .sponsors-show-authors ) .featured-image-beside {
-	.posted-on {
-		display: block;
+	.sponsor-logos {
+		margin: 0;
 	}
 }
 
@@ -260,33 +166,6 @@ amp-script .sponsor-label {
 	}
 }
 
-// Sponsor bio when author bio is visible
-.sponsors-show-authors {
-	.sponsor-bio {
-		border: solid colors.$color__border;
-		border-width: 2px 0 1px;
-		padding: structure.$size__spacing-unit 0;
-
-		+ .sponsor-bio {
-			border-top: 0;
-			margin-top: -32px;
-		}
-
-		h2 {
-			color: inherit;
-			font-size: fonts.$font__size-sm;
-			border: 0;
-			margin: 0;
-			padding: 0;
-
-			&::before,
-			&::after {
-				display: none;
-			}
-		}
-	}
-}
-
 // Archives
 .search,
 .archive,
@@ -297,14 +176,10 @@ amp-script .sponsor-label {
 		}
 
 		.sponsor-label {
-			display: inline-flex;
+			display: flex;
 			font-size: 65%;
 		}
 	}
-}
-
-.search article .sponsor-label + .cat-links {
-	display: inline-block;
 }
 
 .sponsor-label + .page-title {
@@ -316,7 +191,7 @@ amp-script .sponsor-label {
 }
 
 .sponsor-archive {
-	@include utilities.media( mobile ) {
+	@include media( mobile ) {
 		display: flex;
 		.entry-meta,
 		.author {
@@ -324,23 +199,23 @@ amp-script .sponsor-label {
 		}
 	}
 
-	@include utilities.media( desktop ) {
+	@include media( desktop ) {
 		align-items: center;
 	}
 
 	.details {
 		align-items: center;
 		display: flex;
-		@include utilities.media( mobile ) {
+		@include media( mobile ) {
 			display: block;
 			flex-shrink: 0;
-			margin-right: #{1.5 * structure.$size__spacing-unit};
+			margin-right: #{1.5 * $size__spacing-unit};
 		}
 
 		img {
-			margin: 0 structure.$size__spacing-unit structure.$size__spacing-unit 0;
+			margin: 0 $size__spacing-unit $size__spacing-unit 0;
 
-			@include utilities.media( mobile ) {
+			@include media( mobile ) {
 				margin: 0;
 			}
 		}
@@ -358,7 +233,7 @@ amp-script .sponsor-label {
 	}
 
 	+ .sponsor-archive {
-		margin-top: #{1.5 * structure.$size__spacing-unit};
+		margin-top: #{1.5 * $size__spacing-unit};
 	}
 }
 
@@ -372,16 +247,16 @@ amp-script .sponsor-label {
 // Underwritten content
 .sponsor-uw-info {
 	align-items: center;
-	background: colors.$color__background-pre;
-	border: 1px solid colors.$color__border;
-	border-left: 4px solid colors.$color__primary;
+	background: $color__background-pre;
+	border: 1px solid $color__border;
+	border-left: 4px solid $color__primary;
 	display: flex;
 	font-size: 80%;
-	padding: structure.$size__spacing-unit;
+	padding: $size__spacing-unit;
 
 	.logo {
 		flex-shrink: 0;
-		margin-right: #{1.5 * structure.$size__spacing-unit};
+		margin-right: #{1.5 * $size__spacing-unit};
 	}
 
 	.info {
@@ -396,22 +271,36 @@ amp-script .sponsor-label {
 }
 
 // Newspack Blocks
-/* stylelint-disable selector-type-no-unknown */
+/* stylelint-disable selector-type-no-unknown  */
 .wpnbha,
 amp-script .wpnbha,
-.wpnbpc,
-amp-script .wpnbpc {
+.wp-block-newspack-blocks-carousel,
+amp-script .wp-block-newspack-blocks-carousel {
+	.sponsor-label {
+		display: flex;
+	}
+
 	.sponsor-logos {
 		border: 0;
-		margin: 0;
-
-		> * {
-			margin: 0;
-		}
+		padding: 0;
 	}
 }
-/* stylelint-enable */
 
-.wpnbpc .sponsor-byline {
-	color: #fff;
+.wpnbha,
+amp-script .wpnbha {
+	.sponsor-logos {
+		margin: #{0.125 * $size__spacing-unit} 0 #{0.25 * $size__spacing-unit};
+		width: 100%;
+	}
+}
+/* stylelint-enable  */
+
+.wp-block-newspack-blocks-carousel {
+	.sponsor-byline {
+		color: #fff;
+	}
+
+	.sponsor-logos {
+		margin: 0;
+	}
 }

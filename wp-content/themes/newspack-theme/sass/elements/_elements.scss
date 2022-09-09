@@ -1,7 +1,3 @@
-@use 'sass:meta';
-@use '../variables-site/colors';
-@use '../variables-site/structure';
-
 html {
 	box-sizing: border-box;
 }
@@ -13,7 +9,7 @@ html {
 }
 
 body {
-	background-color: colors.$color__background-body;
+	background-color: $color__background-body;
 }
 
 h1,
@@ -22,16 +18,16 @@ h3,
 h4,
 h5,
 h6 {
-	margin: structure.$size__spacing-unit 0;
+	margin: $size__spacing-unit 0;
 }
 
 hr {
-	background-color: colors.$color__text-light;
+	background-color: $color__text-light;
 	border: 0;
 	height: 2px;
 }
 
-@include meta.load-css( 'lists' );
+@import 'lists';
 
 img {
 	height: auto;
@@ -45,12 +41,12 @@ figure {
 
 blockquote {
 	> p {
-		margin: 0 0 structure.$size__spacing-unit;
+		margin: 0 0 $size__spacing-unit;
 	}
 
 	cite {
-		color: colors.$color__text-light;
+		color: $color__text-light;
 	}
 }
 
-@include meta.load-css( 'tables' );
+@import 'tables';

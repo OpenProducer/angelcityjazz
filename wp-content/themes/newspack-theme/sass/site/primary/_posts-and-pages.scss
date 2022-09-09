@@ -1,8 +1,3 @@
-@use '../../mixins/utilities';
-@use '../../variables-site/colors';
-@use '../../variables-site/fonts';
-@use '../../variables-site/structure';
-
 .sticky {
 	display: block;
 }
@@ -17,11 +12,11 @@
 
 .page-links {
 	clear: both;
-	margin: 0 0 calc( 1.5 * #{structure.$size__spacing-unit} );
+	margin: 0 0 calc( 1.5 * #{$size__spacing-unit} );
 }
 
 .entry {
-	margin-top: calc( 6 * #{structure.$size__spacing-unit} );
+	margin-top: calc( 6 * #{$size__spacing-unit} );
 
 	&:first-of-type {
 		margin-top: 0;
@@ -34,18 +29,18 @@
 }
 
 .entry-title {
-	font-size: fonts.$font__size-xxl;
+	font-size: $font__size-xxl;
 	margin: 0;
 
-	@include utilities.media( desktop ) {
-		font-size: fonts.$font__size-xxxl;
+	@include media( desktop ) {
+		font-size: $font__size-xxxl;
 	}
 
 	a {
 		color: inherit;
 
 		&:hover {
-			color: colors.$color__text-hover;
+			color: $color__text-hover;
 		}
 	}
 }
@@ -53,7 +48,7 @@
 .newspack-post-subtitle {
 	margin-bottom: 1.3em;
 	font-style: italic;
-	@include utilities.media( mobile ) {
+	@include media( mobile ) {
 		margin-bottom: 2.3em;
 	}
 
@@ -64,7 +59,7 @@
 }
 
 .article-summary {
-	background: colors.$color__background-pre;
+	background: $color__background-pre;
 	font-size: 0.9rem;
 	padding: 1.5rem;
 
@@ -83,11 +78,11 @@
 
 body.page {
 	.entry-title {
-		font-size: fonts.$font__size-xl;
+		font-size: $font__size-xl;
 		margin: 0;
 
-		@include utilities.media( desktop ) {
-			font-size: fonts.$font__size-xxl;
+		@include media( desktop ) {
+			font-size: $font__size-xxl;
 		}
 	}
 }
@@ -96,8 +91,8 @@ body.page {
 .cat-links,
 amp-script .cat-links {
 	display: block;
-	font-size: fonts.$font__size-xs;
-	margin: 0 0 #{0.75 * structure.$size__spacing-unit};
+	font-size: $font__size-xs;
+	margin: 0 0 #{0.75 * $size__spacing-unit};
 }
 /* stylelint-enable */
 
@@ -108,26 +103,26 @@ amp-script .cat-links {
 
 	span:first-child {
 		font-weight: bold;
-		font-size: fonts.$font__size-sm;
-		margin-right: structure.$size__spacing-unit;
+		font-size: $font__size-sm;
+		margin-right: $size__spacing-unit;
 	}
 
 	a {
-		font-size: fonts.$font__size-xs;
+		font-size: $font__size-xs;
 	}
 }
 
 .entry-meta,
 .entry-footer {
-	color: colors.$color__text-light;
+	color: $color__text-light;
 }
 
 .entry-meta {
-	margin-bottom: #{0.25 * structure.$size__spacing-unit};
+	margin-bottom: #{0.25 * $size__spacing-unit};
 
 	.author-avatar:not( :empty ) {
 		float: left;
-		margin-right: #{structure.$size__spacing-unit * 0.5};
+		margin-right: #{$size__spacing-unit * 0.5};
 	}
 
 	.byline {
@@ -138,15 +133,15 @@ amp-script .cat-links {
 		}
 
 		a {
-			color: colors.$color__primary;
+			color: $color__primary;
 			text-decoration: none;
 
 			&:visited {
-				color: colors.$color__primary;
+				color: $color__primary;
 			}
 
 			&:hover {
-				color: colors.$color__primary-variation;
+				color: $color__primary-variation;
 			}
 		}
 	}
@@ -154,7 +149,7 @@ amp-script .cat-links {
 	.posted-on {
 		a,
 		a:visited {
-			color: colors.$color__text-light;
+			color: $color__text-light;
 		}
 	}
 
@@ -164,10 +159,9 @@ amp-script .cat-links {
 }
 
 .entry-footer {
-	margin: structure.$size__spacing-unit 0 #{3 * structure.$size__spacing-unit};
-
+	margin: $size__spacing-unit 0 #{3 * $size__spacing-unit};
 	> span {
-		margin-right: structure.$size__spacing-unit;
+		margin-right: $size__spacing-unit;
 		display: inline-block;
 
 		&:last-child {
@@ -176,14 +170,14 @@ amp-script .cat-links {
 	}
 
 	a {
-		color: colors.$color__primary;
+		color: $color__primary;
 	}
 
 	.edit-link {
-		font-size: fonts.$font__size-sm;
+		font-size: $font__size-sm;
 
 		svg {
-			margin: 0 #{0.25 * structure.$size__spacing-unit} 0 0;
+			margin: 0 #{0.25 * $size__spacing-unit} 0 0;
 		}
 	}
 }
@@ -224,7 +218,7 @@ amp-script .cat-links {
 		color: inherit;
 		display: block;
 		font-size: 0.8em;
-		@include utilities.link-transition;
+		@include link-transition;
 		margin: 0.5em 0;
 	}
 
@@ -233,7 +227,7 @@ amp-script .cat-links {
 
 		&:hover,
 		&:active {
-			color: colors.$color__link-hover;
+			color: $color__link-hover;
 			text-decoration: none;
 		}
 	}
@@ -245,11 +239,11 @@ amp-script .cat-links {
 	h5,
 	h6 {
 		a {
-			color: colors.$color__text-main;
+			color: $color__text-main;
 			text-decoration: none;
 
 			&:visited {
-				color: colors.$color__text-main;
+				color: $color__text-main;
 			}
 		}
 	}
@@ -262,13 +256,13 @@ amp-script .cat-links {
 
 	// Page links
 	.page-links a {
-		margin: calc( 0.5 * #{structure.$size__spacing-unit} );
+		margin: calc( 0.5 * #{$size__spacing-unit} );
 		text-decoration: none;
 	}
 
 	// Classic editor audio embeds.
 	.wp-audio-shortcode {
-		max-width: calc( 100vw - ( 2 * #{structure.$size__spacing-unit} ) );
+		max-width: calc( 100vw - ( 2 * #{$size__spacing-unit} ) );
 	}
 }
 
@@ -278,7 +272,7 @@ amp-script .cat-links {
 
 		&,
 		&:hover {
-			color: colors.$color__background-body;
+			color: $color__background-body;
 		}
 	}
 }
@@ -287,7 +281,7 @@ amp-script .cat-links {
 
 .single {
 	.entry-header {
-		padding: 0 0 structure.$size__spacing-unit;
+		padding: 0 0 $size__spacing-unit;
 	}
 
 	&:not( .has-large-featured-image ) .entry-header {
@@ -295,30 +289,30 @@ amp-script .cat-links {
 	}
 
 	.entry-title {
-		font-size: fonts.$font__size-xl;
+		font-size: $font__size-xl;
 		margin: 0 0 0.5em;
 
 		&--with-subtitle {
-			margin-bottom: #{0.3 * structure.$size__spacing-unit};
+			margin-bottom: #{0.3 * $size__spacing-unit};
 		}
 
-		@include utilities.media( mobile ) {
-			font-size: fonts.$font__size-xxl;
+		@include media( mobile ) {
+			font-size: $font__size-xxl;
 		}
 
-		@include utilities.media( tablet ) {
-			font-size: fonts.$font__size-xxxl;
+		@include media( tablet ) {
+			font-size: $font__size-xxxl;
 		}
 
-		@include utilities.media( desktop ) {
-			font-size: fonts.$font__size-xxxxl;
+		@include media( desktop ) {
+			font-size: $font__size-xxxxl;
 		}
 	}
 
 	.entry-meta {
-		margin-bottom: #{0.5 * structure.$size__spacing-unit};
+		margin-bottom: #{0.5 * $size__spacing-unit};
 
-		@include utilities.media( mobile ) {
+		@include media( mobile ) {
 			margin-bottom: 0;
 		}
 	}
@@ -329,10 +323,10 @@ amp-script .cat-links {
 	}
 
 	.main-content > .post-thumbnail:first-child {
-		margin-top: #{2 * structure.$size__spacing-unit};
+		margin-top: #{2 * $size__spacing-unit};
 	}
 
-	@include utilities.media( mobile ) {
+	@include media( mobile ) {
 		.entry-subhead {
 			align-items: center;
 			display: flex;
@@ -349,12 +343,12 @@ amp-script .cat-links {
 .entry-subhead,
 .comment-list {
 	.avatar {
-		height: #{1.75 * structure.$size__spacing-unit};
-		width: #{1.75 * structure.$size__spacing-unit};
+		height: #{1.75 * $size__spacing-unit};
+		width: #{1.75 * $size__spacing-unit};
 
-		@include utilities.media( tablet ) {
-			height: #{2.25 * structure.$size__spacing-unit};
-			width: #{2.25 * structure.$size__spacing-unit};
+		@include media( tablet ) {
+			height: #{2.25 * $size__spacing-unit};
+			width: #{2.25 * $size__spacing-unit};
 		}
 	}
 }
@@ -364,13 +358,8 @@ div.sharedaddy .sd-social h3.sd-title,
 	display: none;
 }
 
-div.sharedaddy {
-	min-height: 32px;
-}
-
 .sd-content {
 	margin-bottom: -0.7em; // offsets Jetpack's default styles w/out using !important
-
 	ul li {
 		margin-bottom: 0;
 	}
@@ -379,8 +368,8 @@ div.sharedaddy {
 .post-navigation {
 	border-width: 1px 0;
 	border-style: solid;
-	border-color: colors.$color__border;
-	margin: #{2 * structure.$size__spacing-unit} 0 structure.$size__spacing-unit;
+	border-color: $color__border;
+	margin: #{2 * $size__spacing-unit} 0 $size__spacing-unit;
 
 	a {
 		color: #111;
@@ -392,16 +381,16 @@ div.sharedaddy {
 
 	.nav-previous,
 	.nav-next {
-		margin: #{1.5 * structure.$size__spacing-unit} 0;
+		margin: #{1.5 * $size__spacing-unit} 0;
 	}
 
 	.meta-nav {
-		color: colors.$color__text-light;
+		color: $color__text-light;
 		display: block;
-		margin: 0 0 #{0.25 * structure.$size__spacing-unit};
+		margin: 0 0 #{0.25 * $size__spacing-unit};
 	}
 
-	@include utilities.media( tablet ) {
+	@include media( tablet ) {
 		.nav-links {
 			display: flex;
 			flex-wrap: wrap;
@@ -410,8 +399,8 @@ div.sharedaddy {
 
 		.nav-previous,
 		.nav-next {
-			margin: #{2 * structure.$size__spacing-unit} 0;
-			width: calc( 50% - #{2 * structure.$size__spacing-unit} );
+			margin: #{2 * $size__spacing-unit} 0;
+			width: calc( 50% - #{2 * $size__spacing-unit} );
 		}
 
 		.nav-next {
@@ -424,7 +413,7 @@ div.sharedaddy {
 .page {
 	.entry-header + .post-thumbnail,
 	.main-content > .post-thumbnail:first-child {
-		margin-top: #{1.5 * structure.$size__spacing-unit};
+		margin-top: #{1.5 * $size__spacing-unit};
 	}
 }
 
@@ -435,8 +424,8 @@ div.sharedaddy {
 .hide-page-title {
 	.site-content {
 		margin-top: 0;
-		@include utilities.media( tablet ) {
-			margin-top: #{0.5 * structure.$size__spacing-unit};
+		@include media( tablet ) {
+			margin-top: #{0.5 * $size__spacing-unit};
 		}
 	}
 }
@@ -451,8 +440,8 @@ div.sharedaddy {
 	.site-content {
 		margin-top: 0;
 
-		@include utilities.media( tablet ) {
-			margin-top: #{0.5 * structure.$size__spacing-unit};
+		@include media( tablet ) {
+			margin-top: #{0.5 * $size__spacing-unit};
 		}
 	}
 
@@ -465,14 +454,14 @@ div.sharedaddy {
 
 .author-bio {
 	display: flex;
-	margin: calc( 2 * #{structure.$size__spacing-unit} ) auto structure.$size__spacing-unit;
+	margin: calc( 2 * #{$size__spacing-unit} ) auto $size__spacing-unit;
 
 	.avatar {
 		height: 60px;
-		margin-right: structure.$size__spacing-unit;
+		margin-right: $size__spacing-unit;
 		width: 60px;
 
-		@include utilities.media( mobile ) {
+		@include media( mobile ) {
 			height: 80px;
 			width: 80px;
 		}
@@ -488,7 +477,7 @@ div.sharedaddy {
 
 	.author-bio-text {
 		width: calc( 100% - 60px - 1em );
-		@include utilities.media( mobile ) {
+		@include media( mobile ) {
 			width: calc( 100% - 80px - 1em );
 		}
 	}
@@ -496,13 +485,13 @@ div.sharedaddy {
 	h2 {
 		font-size: 1em;
 		span {
-			color: colors.$color__text-light;
+			color: $color__text-light;
 			display: block;
-			font-size: fonts.$font__size-sm;
+			font-size: $font__size-sm;
 			margin: 0.25em 0 0 0;
 			text-transform: none;
 
-			@include utilities.media( mobile ) {
+			@include media( mobile ) {
 				display: inline;
 				margin: 0 0 0 0.5em;
 			}
@@ -515,27 +504,26 @@ div.sharedaddy {
 	}
 
 	.author-link {
-		color: colors.$color__primary;
-		font-size: fonts.$font__size-sm;
+		color: $color__primary;
+		font-size: $font__size-sm;
 		font-weight: bold;
 		text-decoration: none;
 
 		&:hover {
-			color: colors.$color__primary-variation;
+			color: $color__primary-variation;
 		}
 	}
 }
 
 .author-meta {
-	color: colors.$color__text-light;
-	font-size: fonts.$font__size-xs;
-
+	color: $color__text-light;
+	font-size: $font__size-xs;
 	a {
 		color: inherit;
 		text-decoration: none;
 
 		&:hover {
-			color: colors.$color__text-main;
+			color: $color__text-main;
 		}
 	}
 
@@ -548,16 +536,15 @@ div.sharedaddy {
 		}
 	}
 
-	@include utilities.media( desktop ) {
+	@include media( desktop ) {
 		align-items: center;
 		display: flex;
 		.author-social-links {
 			margin-top: 0;
-
 			&:not( :first-child ) {
-				border-left: 1px solid colors.$color__border;
-				margin-left: structure.$size__spacing-unit;
-				padding-left: structure.$size__spacing-unit;
+				border-left: 1px solid $color__border;
+				margin-left: $size__spacing-unit;
+				padding-left: $size__spacing-unit;
 			}
 		}
 	}
@@ -572,15 +559,15 @@ div.sharedaddy {
 	padding: 0;
 
 	&:not( :first-child ) {
-		margin-top: #{0.33 * structure.$size__spacing-unit};
+		margin-top: #{0.33 * $size__spacing-unit};
 	}
 
 	li {
-		margin-right: #{0.33 * structure.$size__spacing-unit};
+		margin-right: #{0.33 * $size__spacing-unit};
 	}
 
 	a:visited {
-		color: colors.$color__text-light;
+		color: $color__text-light;
 	}
 }
 
@@ -593,7 +580,7 @@ div.sharedaddy {
 }
 
 .featured-image-behind {
-	background-color: colors.$color__text-main;
+	background-color: $color__text-main;
 	display: flex;
 	margin: 0 calc( 50% - 50vw );
 	min-height: calc( 90vh - 60px );
@@ -604,7 +591,7 @@ div.sharedaddy {
 		min-height: calc( 100vh - 106px );
 	}
 
-	@include utilities.media( tablet ) {
+	@include media( tablet ) {
 		min-height: calc( 100vh - 220px );
 
 		.admin-bar & {
@@ -655,7 +642,7 @@ div.sharedaddy {
 	.entry-header {
 		align-self: flex-end;
 		color: #fff;
-		margin: #{4 * structure.$size__spacing-unit} auto #{2 * structure.$size__spacing-unit};
+		margin: #{4 * $size__spacing-unit} auto #{2 * $size__spacing-unit};
 		max-width: 90vw;
 		position: relative;
 		z-index: 2;
@@ -678,14 +665,14 @@ div.sharedaddy {
 
 	.entry-meta .byline {
 		display: inline-block;
-		margin-right: structure.$size__spacing-unit;
+		margin-right: $size__spacing-unit;
 	}
 }
 
-@include utilities.media( tablet ) {
+@include media( tablet ) {
 	.page .featured-image-behind {
 		.entry-header {
-			margin-bottom: #{3 * structure.$size__spacing-unit};
+			margin-bottom: #{3 * $size__spacing-unit};
 		}
 	}
 }
@@ -697,19 +684,19 @@ div.sharedaddy {
 
 .featured-image-behind + figcaption,
 .featured-image-beside figcaption {
-	margin: #{0.25 * structure.$size__spacing-unit} auto 0;
+	margin: #{0.25 * $size__spacing-unit} auto 0;
 	width: 1200px;
 	max-width: 100%;
 }
 
-@include utilities.media( tablet ) {
+@include media( tablet ) {
 	.single-featured-image-beside .site-content {
 		margin-top: 0;
 	}
 
 	// Header - default background
 	.h-db .featured-image-beside {
-		background-color: colors.$color__primary;
+		background-color: $color__primary;
 	}
 
 	// Header - solid background
@@ -764,12 +751,11 @@ div.sharedaddy {
 		.entry-header {
 			margin-left: auto;
 			max-width: 90%;
-			padding: #{2 * structure.$size__spacing-unit} #{0.5 * structure.$size__spacing-unit}
-				structure.$size__spacing-unit 0;
+			padding: #{2 * $size__spacing-unit} #{0.5 * $size__spacing-unit} $size__spacing-unit 0;
 			width: 600px;
 
-			@include utilities.media( desktop ) {
-				padding-right: structure.$size__spacing-unit;
+			@include media( desktop ) {
+				padding-right: $size__spacing-unit;
 			}
 
 			a,
@@ -788,11 +774,11 @@ div.sharedaddy {
 			}
 
 			.entry-meta {
-				margin-bottom: structure.$size__spacing-unit;
+				margin-bottom: $size__spacing-unit;
 
 				.byline {
 					display: inline-block;
-					margin-right: structure.$size__spacing-unit;
+					margin-right: $size__spacing-unit;
 				}
 			}
 
@@ -802,7 +788,7 @@ div.sharedaddy {
 		}
 
 		.entry-title {
-			font-size: fonts.$font__size-xxl;
+			font-size: $font__size-xxl;
 		}
 
 		figcaption {
@@ -825,7 +811,7 @@ div.sharedaddy {
 			> span {
 				display: inline-block;
 				max-width: 780px;
-				padding: #{2 * structure.$size__spacing-unit} structure.$size__spacing-unit structure.$size__spacing-unit;
+				padding: #{2 * $size__spacing-unit} $size__spacing-unit $size__spacing-unit;
 				position: relative;
 			}
 
@@ -843,7 +829,7 @@ div.sharedaddy {
 
 	// Header - subpage short
 	.h-sub .featured-image-beside .entry-header {
-		padding-top: #{4 * structure.$size__spacing-unit};
+		padding-top: #{4 * $size__spacing-unit};
 	}
 }
 
@@ -858,11 +844,11 @@ div.sharedaddy {
 	width: 100%;
 
 	.post-thumbnail {
-		margin: 0 calc( 50% - 50vw ) structure.$size__spacing-unit;
+		margin: 0 calc( 50% - 50vw ) $size__spacing-unit;
 		width: 100vw;
 
-		@include utilities.media( tablet ) {
-			margin-bottom: #{2 * structure.$size__spacing-unit};
+		@include media( tablet ) {
+			margin-bottom: #{2 * $size__spacing-unit};
 		}
 	}
 
@@ -871,7 +857,7 @@ div.sharedaddy {
 	}
 
 	figcaption {
-		margin: #{0.25 * structure.$size__spacing-unit} auto 0;
+		margin: #{0.25 * $size__spacing-unit} auto 0;
 		max-width: 90vw;
 		width: 1200px;
 	}
@@ -885,22 +871,22 @@ div.sharedaddy {
 	}
 
 	a {
-		font: bold fonts.$font__size-base fonts.$font__heading;
+		font: bold $font__size-base $font__heading;
 		text-decoration: none;
 	}
 
 	.jp-related-posts-i2__post-date,
 	.jp-related-posts-i2__post-context {
-		font-size: fonts.$font__size-xs;
+		font-size: $font__size-xs;
 	}
 }
 
 .entry-content .jp-relatedposts-i2 a,
 .entry-content .jp-relatedposts-i2 a:visited {
-	color: colors.$color__text-main;
+	color: $color__text-main;
 }
 
-@include utilities.media( mobile ) {
+@include media( mobile ) {
 	.jp-related-posts-i2__row {
 		margin: 0 -10px;
 	}
@@ -909,10 +895,9 @@ div.sharedaddy {
 .jp-relatedposts-i2,
 #jp-relatedposts.jp-relatedposts {
 	clear: both;
-	font-family: fonts.$font__heading;
-
+	font-family: $font__heading;
 	.jp-relatedposts-headline {
-		font: bold fonts.$font__size-xs fonts.$font__heading;
+		font: bold $font__size-xs $font__heading;
 		em::before {
 			display: none;
 		}
@@ -924,21 +909,20 @@ div.sharedaddy {
 		opacity: 1;
 		width: 100%;
 
-		@include utilities.media( tablet ) {
+		@include media( tablet ) {
 			width: 33.3%;
 		}
 
 		.jp-relatedposts-post-img {
-			margin-bottom: #{0.5 * structure.$size__spacing-unit};
+			margin-bottom: #{0.5 * $size__spacing-unit};
 		}
 
 		.jp-relatedposts-post-title {
-			line-height: fonts.$font__line-height-heading;
-			margin-bottom: #{0.25 * structure.$size__spacing-unit};
-
+			line-height: $font__line-height-heading;
+			margin-bottom: #{0.25 * $size__spacing-unit};
 			a {
-				color: colors.$color__text-main;
-				font-size: fonts.$font__size-base;
+				color: $color__text-main;
+				font-size: $font__size-base;
 				font-weight: bold;
 			}
 		}
@@ -949,6 +933,6 @@ div.sharedaddy {
 		}
 	}
 	.jp-reltaedposts-post-title {
-		font-family: fonts.$font__heading;
+		font-family: $font__heading;
 	}
 }

@@ -1,20 +1,16 @@
-@use '../variables-site/variables-site';
-@use '../mixins/mixins-master';
-@use '../mixins/utilities';
-@use '../variables-site/colors';
-@use '../variables-site/fonts';
-@use '../variables-site/structure';
+@import '../variables-site/variables-site';
+@import '../mixins/mixins-master';
 
 .trust-label {
 	display: block;
 	font-size: 90%;
 
-	@include utilities.media( mobile ) {
+	@include media( mobile ) {
 		display: inline;
-		margin-left: structure.$size__spacing-unit;
+		margin-left: $size__spacing-unit;
 	}
 	svg {
-		margin-right: #{0.1 * structure.$size__spacing-unit};
+		margin-right: #{0.1 * $size__spacing-unit};
 		position: relative;
 		top: 5px;
 	}
@@ -23,7 +19,7 @@
 .single .cat-links {
 	vertical-align: middle;
 	.type-of-work {
-		color: colors.$color__text-main;
+		color: $color__text-main;
 		margin-right: 0.5em;
 	}
 }
@@ -35,7 +31,7 @@
 	width: 100%;
 
 	svg {
-		margin-right: #{0.25 * structure.$size__spacing-unit};
+		margin-right: #{0.25 * $size__spacing-unit};
 	}
 }
 
@@ -51,7 +47,7 @@
 
 	.author-job-title {
 		display: block;
-		margin-top: #{0.25 * structure.$size__spacing-unit};
+		margin-top: #{0.25 * $size__spacing-unit};
 	}
 
 	.author-meta.trust-indicators {
@@ -74,7 +70,7 @@
 .author-additional-infos {
 	display: flex;
 	flex-wrap: wrap;
-	font-size: fonts.$font__size-sm;
+	font-size: $font__size-sm;
 }
 
 .author-additional-info {
@@ -108,12 +104,12 @@
 .featured-image-beside {
 	.trust-label {
 		display: block;
-		margin: #{0.25 * structure.$size__spacing-unit} 0 0;
+		margin: #{0.25 * $size__spacing-unit} 0 0;
 		width: 100%;
 	}
 }
 
-@include utilities.media( mobile ) {
+@include media( mobile ) {
 	.author-additional-info {
 		width: 50%;
 	}

@@ -1,8 +1,3 @@
-@use '../mixins/utilities';
-@use '../variables-site/colors';
-@use '../variables-site/fonts';
-@use '../variables-site/structure';
-
 /** === Tertiary menu === */
 
 .nav3 {
@@ -21,7 +16,7 @@
 	a {
 		color: inherit;
 		display: inline-block;
-		padding: #{0.25 * structure.$size__spacing-unit} 0;
+		padding: #{0.25 * $size__spacing-unit} 0;
 
 		&:hover {
 			opacity: 0.75;
@@ -29,10 +24,10 @@
 	}
 
 	.menu-highlight a {
-		border: 1px solid currentcolor;
+		border: 1px solid currentColor;
 		font-weight: bold;
-		padding-left: #{structure.$size__spacing-unit * 0.5};
-		padding-right: #{structure.$size__spacing-unit * 0.5};
+		padding-left: #{$size__spacing-unit * 0.5};
+		padding-right: #{$size__spacing-unit * 0.5};
 	}
 }
 
@@ -40,13 +35,13 @@
 body.h-db.h-dh .site-header {
 	.nav3 {
 		.menu-highlight a {
-			background-color: colors.$color__primary;
+			background-color: $color__primary;
 			border: 0;
-			color: colors.$color__background-body;
+			color: $color__background-body;
 
 			&:hover {
-				background-color: colors.$color__text-main;
-				color: colors.$color__background-body;
+				background-color: $color__text-main;
+				color: $color__background-body;
 			}
 		}
 	}
@@ -54,28 +49,28 @@ body.h-db.h-dh .site-header {
 
 // Styles for when menu items appear in the site-header.
 .site-header .nav3 {
-	@include utilities.media( tablet ) {
+	@include media( tablet ) {
 		text-align: right;
 	}
 
 	li {
 		display: inline-block;
-		font-size: fonts.$font__size-xs;
+		font-size: $font__size-xs;
 
-		@include utilities.media( tablet ) {
+		@include media( tablet ) {
 			&:nth-child( n + 2 ) {
-				margin: 0 0 0 #{structure.$size__spacing-unit * 0.75};
+				margin: 0 0 0 #{$size__spacing-unit * 0.75};
 			}
 		}
 	}
 
 	a {
-		margin: #{structure.$size__spacing-unit * 0.25} 0;
+		margin: #{$size__spacing-unit * 0.25} 0;
 	}
 
 	// Header Short Height
 	.h-sh & {
-		font-size: fonts.$font__size_base;
-		margin-left: structure.$size__spacing-unit;
+		font-size: $font__size_base;
+		margin-left: $size__spacing-unit;
 	}
 }

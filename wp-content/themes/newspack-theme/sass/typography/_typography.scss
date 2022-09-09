@@ -1,27 +1,21 @@
-@use 'sass:meta';
-@use '../mixins/mixins-master';
-@use '../mixins/utilities';
-@use '../variables-site/fonts';
-@use '../variables-site/colors';
-
 html {
-	font-size: fonts.$font__size_base_sm;
+	font-size: $font__size_base_sm;
 
-	@include utilities.media( mobile ) {
-		font-size: fonts.$font__size_base;
+	@include media( mobile ) {
+		font-size: $font__size_base;
 	}
 }
 
 body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	color: colors.$color__text-main;
-	font-family: fonts.$font__body;
+	color: $color__text-main;
+	font-family: $font__body;
 	font-weight: 400;
 	font-size: 1em;
-	line-height: fonts.$font__line-height-body;
+	line-height: $font__line-height-body;
 	margin: 0;
-	text-rendering: optimizelegibility;
+	text-rendering: optimizeLegibility;
 }
 
 button,
@@ -29,17 +23,17 @@ input,
 select,
 optgroup,
 textarea {
-	color: colors.$color__text-main;
-	font-family: fonts.$font__body;
+	color: $color__text-main;
+	font-family: $font__body;
 	font-weight: 400;
-	line-height: fonts.$font__line-height-body;
-	text-rendering: optimizelegibility;
+	line-height: $font__line-height-body;
+	text-rendering: optimizeLegibility;
 }
 
 .use-body-font {
-	font-family: fonts.$font__body;
+	font-family: $font__body;
 }
 
-@include meta.load-css( 'headings' );
+@import 'headings';
 
-@include meta.load-css( 'copy' );
+@import 'copy';

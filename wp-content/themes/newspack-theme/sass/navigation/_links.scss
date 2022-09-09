@@ -1,9 +1,6 @@
-@use '../variables-site/colors';
-@use '../mixins/utilities';
-
 a {
-	@include utilities.link-transition;
-	color: colors.$color__text-light;
+	@include link-transition;
+	color: $color__text-light;
 
 	&:visited {
 		color: inherit;
@@ -11,7 +8,7 @@ a {
 
 	&:hover,
 	&:active {
-		color: colors.$color__text-main;
+		color: $color__text-main;
 		outline: 0;
 		text-decoration: none;
 	}

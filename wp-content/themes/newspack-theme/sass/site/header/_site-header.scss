@@ -1,18 +1,12 @@
-@use 'sass:color';
-@use '../../mixins/utilities';
-@use '../../variables-site/colors';
-@use '../../variables-site/fonts';
-@use '../../variables-site/structure';
-
 // Site branding
 .site-branding {
 	align-items: center;
-	color: colors.$color__text-light;
+	color: $color__text-light;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: flex-start;
 	position: relative;
-	@include utilities.media( tablet ) {
+	@include media( tablet ) {
 		margin-right: auto;
 	}
 }
@@ -21,14 +15,14 @@
 .custom-logo-link {
 	box-sizing: content-box;
 	line-height: 1;
-	margin: 0 structure.$size__spacing-unit 0 0;
+	margin: 0 $size__spacing-unit 0 0;
 	overflow: hidden;
-	@include utilities.media( mobile ) {
-		margin-right: #{0.5 * structure.$size__spacing-unit};
+	@include media( mobile ) {
+		margin-right: #{0.5 * $size__spacing-unit};
 	}
 }
 
-@include utilities.media( mobileonly ) {
+@include media( mobileonly ) {
 	.h-cta .site-header .custom-logo-link {
 		max-width: 140px;
 
@@ -40,7 +34,7 @@
 }
 
 .site-header .custom-logo-link .custom-logo {
-	@include utilities.media( tabletonly ) {
+	@include media( tabletonly ) {
 		height: auto;
 		min-height: 45px;
 		object-fit: contain;
@@ -56,35 +50,35 @@
 
 // Site title
 .site-title {
-	color: colors.$color__text-main;
+	color: $color__text-main;
 	font-weight: 700;
 	margin: 0;
 
 	a {
-		color: colors.$color__text-main;
+		color: $color__text-main;
 
 		&:link,
 		&:visited {
-			color: colors.$color__text-main;
+			color: $color__text-main;
 		}
 
 		&:hover {
-			color: colors.$color__text-hover;
+			color: $color__text-hover;
 		}
 	}
 }
 
 // Site description
 .site-description {
-	color: colors.$color__text-light;
+	color: $color__text-light;
 	display: none;
 	font-weight: normal;
-	font-size: fonts.$font__size-sm;
+	font-size: $font__size-sm;
 	font-style: italic;
 	margin: 0;
-	padding: 0 structure.$size__spacing-unit;
+	padding: 0 $size__spacing-unit;
 
-	@include utilities.media( mobile ) {
+	@include media( mobile ) {
 		display: block;
 	}
 }
@@ -105,8 +99,8 @@
 	}
 
 	nav {
-		padding-bottom: #{0.3 * structure.$size__spacing-unit};
-		padding-top: #{0.3 * structure.$size__spacing-unit};
+		padding-bottom: #{0.3 * $size__spacing-unit};
+		padding-top: #{0.3 * $size__spacing-unit};
 	}
 
 	#social-nav-contain {
@@ -115,24 +109,24 @@
 }
 
 .h-sh .top-header-contain nav {
-	padding: #{0.125 * structure.$size__spacing-unit} 0;
+	padding: #{0.125 * $size__spacing-unit} 0;
 }
 
 // Middle bar
 .middle-header-contain .wrapper {
 	align-items: center;
-	padding: #{0.75 * structure.$size__spacing-unit} 0;
-	@include utilities.media( tablet ) {
-		padding: #{1.5 * structure.$size__spacing-unit} 0;
+	padding: #{0.75 * $size__spacing-unit} 0;
+	@include media( tablet ) {
+		padding: #{1.5 * $size__spacing-unit} 0;
 	}
 }
 
 // Bottom bar
 .bottom-header-contain {
 	.wrapper {
-		@include utilities.media( tablet ) {
-			border-bottom: 1px solid colors.$color__border;
-			border-top: 1px solid colors.$color__border;
+		@include media( tablet ) {
+			border-bottom: 1px solid $color__border;
+			border-top: 1px solid $color__border;
 		}
 	}
 }
@@ -141,7 +135,7 @@
 #search-toggle {
 	background-color: transparent;
 	color: inherit;
-	padding: #{0.25 * structure.$size__spacing-unit} 0 0;
+	padding: #{0.25 * $size__spacing-unit} 0 0;
 
 	.search-icon {
 		display: none;
@@ -154,7 +148,7 @@
 
 .header-search-contain {
 	display: none;
-	margin-left: #{0.75 * structure.$size__spacing-unit};
+	margin-left: #{0.75 * $size__spacing-unit};
 	position: relative;
 
 	#header-search {
@@ -163,19 +157,19 @@
 		width: 300px;
 		z-index: 5;
 
-		@include utilities.media( tablet ) {
+		@include media( tablet ) {
 			right: 0;
 		}
 	}
 }
 
-@include utilities.media( tablet ) {
+@include media( tablet ) {
 	.h-dh .header-search-contain {
 		display: block;
 	}
 }
 
-@include utilities.media( narrowdesktop ) {
+@include media( narrowdesktop ) {
 	.h-sh .header-search-contain {
 		display: block;
 	}
@@ -204,9 +198,9 @@
 
 .h-db {
 	.middle-header-contain {
-		border-bottom: 1px solid colors.$color__border;
+		border-bottom: 1px solid $color__border;
 
-		@include utilities.media( tablet ) {
+		@include media( tablet ) {
 			border-bottom: 0;
 		}
 	}
@@ -214,7 +208,7 @@
 
 // Centred Logo
 .h-cl {
-	@include utilities.media( tablet ) {
+	@include media( tablet ) {
 		.site-header .middle-header-contain .wrapper > div {
 			width: 35%;
 
@@ -242,7 +236,7 @@
 		}
 
 		.site-description {
-			padding-top: #{0.25 * structure.$size__spacing-unit};
+			padding-top: #{0.25 * $size__spacing-unit};
 		}
 
 		.site-header .custom-logo-link {
@@ -270,7 +264,7 @@
 		}
 	}
 
-	@include utilities.media( narrowdesktop ) {
+	@include media( narrowdesktop ) {
 		&.h-sh {
 			.site-header .middle-header-contain .wrapper .site-branding {
 				display: flex;
@@ -286,7 +280,7 @@
 		}
 	}
 
-	@include utilities.media( desktop ) {
+	@include media( desktop ) {
 		.site-header .middle-header-contain .wrapper > div {
 			flex: 1;
 			width: auto;
@@ -302,7 +296,7 @@
 	}
 
 	// IE 11-specific logo fix
-	@media screen and ( -ms-high-contrast: none ) and ( min-width: structure.$desktop_width ) {
+	@media screen and ( -ms-high-contrast: none ) and ( min-width: $desktop_width ) {
 		.site-header .custom-logo-link img {
 			height: auto;
 			max-width: 100%;
@@ -328,16 +322,16 @@
 	}
 
 	.top-header-contain {
-		background-color: color.adjust( colors.$color__primary, $lightness: -5% );
-		border-bottom: 1px solid color.adjust( colors.$color__primary, $lightness: -10% );
+		background-color: darken( $color__primary, 5% );
+		border-bottom: 1px solid darken( $color__primary, 10% );
 	}
 
 	.middle-header-contain {
-		background-color: colors.$color__primary;
+		background-color: $color__primary;
 
 		.wrapper {
-			@include utilities.media( tablet ) {
-				padding: #{1.5 * structure.$size__spacing-unit} 0 structure.$size__spacing-unit;
+			@include media( tablet ) {
+				padding: #{1.5 * $size__spacing-unit} 0 $size__spacing-unit;
 			}
 		}
 	}
@@ -374,7 +368,7 @@
 	// Left-aligned logo
 	&.h-ll {
 		.site-branding {
-			margin-right: structure.$size__spacing-unit;
+			margin-right: $size__spacing-unit;
 		}
 
 		&.hide-site-tagline .nav1 {
@@ -403,16 +397,16 @@
 
 	// Default background color.
 	&.h-db .middle-header-contain {
-		border-bottom: 1px solid colors.$color__border;
+		border-bottom: 1px solid $color__border;
 	}
 
 	.middle-header-contain .wrapper {
 		align-items: center;
-		padding: #{0.5 * structure.$size__spacing-unit} 0;
+		padding: #{0.5 * $size__spacing-unit} 0;
 	}
 
 	.header-search-contain {
-		margin-left: #{0.75 * structure.$size__spacing-unit};
+		margin-left: #{0.75 * $size__spacing-unit};
 	}
 }
 
@@ -437,11 +431,11 @@
 	}
 
 	.middle-header-contain .wrapper {
-		padding-bottom: #{0.5 * structure.$size__spacing-unit};
-		padding-top: #{0.5 * structure.$size__spacing-unit};
+		padding-bottom: #{0.5 * $size__spacing-unit};
+		padding-top: #{0.5 * $size__spacing-unit};
 	}
 
-	@include utilities.media( tablet ) {
+	@include media( tablet ) {
 		.site-header .custom-logo {
 			width: auto;
 			height: auto;
@@ -449,14 +443,14 @@
 
 		// Default header background colour
 		&.h-db .middle-header-contain {
-			border-bottom: 1px solid colors.$color__border;
+			border-bottom: 1px solid $color__border;
 		}
 
 		.middle-header-contain {
 			.wrapper {
 				justify-content: flex-start;
 
-				@include utilities.media( tablet ) {
+				@include media( tablet ) {
 					.site-branding {
 						flex-basis: auto;
 					}
@@ -537,7 +531,7 @@
 				.wrapper {
 					margin: 0;
 					max-width: 50%;
-					padding-right: structure.$size__spacing-unit;
+					padding-right: $size__spacing-unit;
 				}
 			}
 		}
@@ -547,7 +541,7 @@
 // Sticky header
 .h-stk {
 	.site-header {
-		background: colors.$color__background-body;
+		background: $color__background-body;
 		box-shadow: 0 2px 5px rgba( 0, 0, 0, 0.1 );
 		position: sticky;
 		top: 0;
@@ -555,23 +549,23 @@
 	}
 
 	&.admin-bar .site-header {
-		@include utilities.media( mobile ) {
+		@include media( mobile ) {
 			top: 46px;
 		}
-		@include utilities.media( tablet ) {
+		@include media( tablet ) {
 			top: 32px;
 		}
 	}
 
-	@include utilities.media( tablet ) {
+	@include media( tablet ) {
 		// Tighten up the padding a bit
 		&.h-dh:not( .h-sub ) .middle-header-contain .wrapper {
-			padding: #{0.75 * structure.$size__spacing-unit} 0;
+			padding: #{0.75 * $size__spacing-unit} 0;
 		}
 
 		&.h-db .bottom-header-contain {
-			border-bottom: 1px solid colors.$color__border;
-			border-top: 1px solid colors.$color__border;
+			border-bottom: 1px solid $color__border;
+			border-top: 1px solid $color__border;
 			.wrapper {
 				border: 0;
 			}
@@ -592,13 +586,13 @@
 
 	&.h-cl {
 		&.h-dh .site-header .custom-logo {
-			@include utilities.media( tablet ) {
+			@include media( tablet ) {
 				object-position: center center;
 			}
 		}
 
 		&.h-sh .site-header .custom-logo {
-			@include utilities.media( narrowdesktop ) {
+			@include media( narrowdesktop ) {
 				object-position: center center;
 			}
 		}
@@ -611,7 +605,7 @@
 			position: sticky;
 		}
 
-		@include utilities.media( tablet ) {
+		@include media( tablet ) {
 			.site-header {
 				display: flex;
 				align-items: center;
@@ -640,7 +634,7 @@
 		}
 	}
 
-	@include utilities.media( tablet ) {
+	@include media( tablet ) {
 		&.h-sub.single-featured-image-behind {
 			.middle-header-contain {
 				width: 100%;
@@ -655,7 +649,7 @@
 
 .h-stk,
 .h-sub-cta {
-	@include utilities.media( tablet ) {
+	@include media( tablet ) {
 		&.h-sub.single-featured-image-beside {
 			div.middle-header-contain {
 				background: rgba( 0, 0, 0, 0.5 );
@@ -679,14 +673,14 @@
 	display: none;
 }
 
-@include utilities.media( tablet ) {
+@include media( tablet ) {
 	// Header default height
 	.h-dh .desktop-only {
 		display: inherit;
 	}
 }
 
-@include utilities.media( narrowdesktop ) {
+@include media( narrowdesktop ) {
 	// Header short height
 	.h-sh .desktop-only {
 		display: inherit;

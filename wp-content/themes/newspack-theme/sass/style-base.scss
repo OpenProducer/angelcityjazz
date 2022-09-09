@@ -1,66 +1,66 @@
 /* Mixins */
-@use 'mixins/mixins-master';
+@import 'mixins/mixins-master';
 
 /* Normalize */
 
-@use 'normalize';
+@import 'normalize';
 
 /* Typography */
 
-@use 'typography/typography';
+@import 'typography/typography';
 
 /* Elements */
 
-@use 'elements/elements';
+@import 'elements/elements';
 
 /* Forms */
 
-@use 'forms/forms';
+@import 'forms/forms';
 
 /* Navigation */
 
-@use 'navigation/navigation';
+@import 'navigation/navigation';
 
 /* Accessibility */
 
-@use 'modules/accessibility';
+@import 'modules/accessibility';
 
 /* Alignments */
 
-@use 'modules/alignments';
+@import 'modules/alignments';
 
 /* Clearings */
 
-@use 'modules/clearings';
+@import 'modules/clearings';
 
 /* Layout */
 
-@use 'layout/layout';
+@import 'layout/layout';
 
 /* Content */
 
-@use 'site/site';
+@import 'site/site';
 
 /* Widgets */
 
-@use 'site/secondary/widgets';
+@import 'site/secondary/widgets';
 
 /* Blocks */
 
-@use 'blocks/blocks';
+@import 'blocks/blocks';
 
 /* Media */
 
-@use 'media/media';
+@import 'media/media';
 
 /* Newspack Ads support */
 
-@use 'plugins/newspack-ads';
+@import 'plugins/newspack-ads';
 
 /* Yoast Breadcrumb support */
 
-@use 'plugins/yoast-breadcrumb';
+@import 'plugins/yoast-breadcrumb';
 
 /* Newspack Listings support */
 
-@use 'plugins/newspack-listings';
+@import 'plugins/newspack-listings';
