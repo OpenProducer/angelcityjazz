@@ -193,9 +193,27 @@ class Occurrence_Notices {
 
 			return '';
 		}
+		$event_label                  = tribe_get_event_label_singular();
+		$event_label_lowercase        = tribe_get_event_label_singular_lowercase();
+		$event_label_plural_lowercase = tribe_get_event_label_plural_lowercase();
+		// This event in a series?
+		$event_series_relationship = Series_Relationship::find( $event->event_id, 'event_id' );
+		if ( ! $event_series_relationship instanceof Series_Relationship ) {
+			return sprintf(
+				esc_html__( '%1$s updated. %2$sView %1$s%3$s', 'the-events-calendar' ),
+				$event_label,
+				'<a href="' . esc_url( get_permalink( $event->post_id ) ) . '">',
+				'</a>'
+			);
+		}
 
 		// Event / draft?
-		$event_status_message = $post->post_status === 'draft' ? __( 'Draft event', 'tribe-events-calendar-pro' ) : __( 'Event', 'tribe-events-calendar-pro' );
+		if ( $post->post_status === 'draft' ) {
+			$event_status_message = sprintf( __( 'Draft %s', 'tribe-events-calendar-pro' ), $event_label_lowercase );
+		} else {
+			$event_status_message = $event_label;
+		}
+
 		// The verbs are published, saved (for new draft events), and updated (for changes to an existing event of any post status).
 		if ( $data['is_updated'] ) {
 			$verb_message = sprintf( __( '%1$s updated.', 'tribe-events-calendar-pro' ), $event_status_message );
@@ -205,15 +223,12 @@ class Occurrence_Notices {
 			$verb_message = sprintf( __( '%1$s published.', 'tribe-events-calendar-pro' ), $event_status_message );
 		}
 
-		// This event in a series?
-		$event_series_relationship = Series_Relationship::find( $event->event_id, 'event_id' );
-		if ( ! $event_series_relationship instanceof Series_Relationship ) {
-
-			return $verb_message;
+		$event_type_message = sprintf( __( 'recurring %1$s', 'tribe-events-calendar-pro' ), $event_label_lowercase );
+		
+		if ( empty( $event->rest ) ) { 
+			$event_type_message = $event_label_lowercase;
 		}
-
-		$event_type_message = empty( $event->rset ) ? __( "event", 'tribe-events-calendar-pro' ) : __( "recurring event", 'tribe-events-calendar-pro' );
-		$series_message     = __( 'This %1$s is part of a %2$sSeries%3$s with %4$d total events through %5$s.', 'tribe-events-calendar-pro' );
+		$series_message     = __( 'This %1$s is part of a %2$sSeries%3$s with %4$d total %5$s through %6$s.', 'tribe-events-calendar-pro' );
 		// Find the last occurrence in this series.
 		$series_relationship_table = Series_Relationships::table_name( true );
 		$last                      = Occurrence::join( $series_relationship_table, 'event_id', 'event_id' )
@@ -237,6 +252,7 @@ class Occurrence_Notices {
 			'<a href="' . esc_url( $series_url ) . '" target="_blank" rel="noopener">',
 			'</a>',
 			$total_in_series,
+			$event_label_plural_lowercase,
 			$through_date
 		);
 	}

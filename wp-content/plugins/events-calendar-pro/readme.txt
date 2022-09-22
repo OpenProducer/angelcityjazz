@@ -4,7 +4,7 @@ Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, the events calendar, widget, pro
 Donate link: https://evnt.is/29
 Requires at least: 5.8.4
-Stable tag: 6.0.0
+Stable tag: 6.0.1
 Tested up to: 6.0.2
 Requires PHP: 7.3
 License: GPLv2 or later
@@ -213,6 +213,25 @@ Previous versions of Events Calendar PRO are not cross-compatible with 6.X add-o
 Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
+
+= [6.0.1] 2022-09-22 =
+
+* Feature - Add a link to convert an Event to single in the Events Manager and Series edit screens [ECP-1308]
+* Fix - Prevent fatal Fatal error `Call to undefined method DateTimeImmutable::format_i18n()` on Week view that occurred on certain versions of php 8.0 [ECP-1346]
+* Fix - Correct some translation domains pointing to the wrong plugin. [BTRIA-1302]
+* Fix - Correct a mismatch between the get_terms filter and our hooked function signature. [ECP-1327]
+* Fix - Normalize and reformat Event recurrence and date-related meta before migration to fix a number of migration warnings. [ECP-1304]
+* Fix - Fix regression that was making the Events Calendar PRO tabs show up on the Event Tickets settings. [ECP-1338]
+* Fix - Ensure we don't try to check nonexistent globals ($_POST, $_GET, etc). [ECP-1162]
+* Fix - Correct a block editor fatal. [ECP-1330]
+* Fix - Fix a fatal in the mini-calendar widget. [ECP-1317]
+* Fix - Ensure that taxonomies get carried over when splitting recurring events. [ECP-1303]
+* Fix - Ensure recurring events have a series generated for them when one is not specified. [ECP-1274]
+* Fix - Prevent duplicated JOINs on View Series filters. [ECP-1246]
+* Fix - Prevent editing the first occurrence of a recurring event from creating a new event. [ECP-1232]
+* Tweak - Add some explanatory text to the Single Update option. [ECP-1307]
+* Tweak - Prevent conflicts with the WooCommerce product page shortcode when in the editor. [ECP-1231]
+* Language - 6 new strings added, 130 updated, 1 fuzzied, and 2 obsoleted
 
 = [6.0.0] 2022-09-06 =
 

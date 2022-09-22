@@ -146,10 +146,12 @@ class Custom_Query_Filters {
 	 * Divides the IDs found in a `post__not_in` or `post__in` query var between
 	 * real post IDs and Occurrence Provisional post IDs.
 	 *
+	 * @param array<int> $not__in List of IDs
+	 *
 	 * @return array<array<int>> Two arrays, one of real post IDs, the other of
 	 *                           Occurrence provisional post IDs.
 	 */
-	private function divide_ids( $not__in ): array {
+	private function divide_ids( array $not__in ): array {
 		$post_ids                   = [];
 		$occurrence_provisional_ids = [];
 		foreach ( $not__in as $id ) {

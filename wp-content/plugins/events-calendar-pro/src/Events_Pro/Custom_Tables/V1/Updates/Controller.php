@@ -11,7 +11,6 @@
 namespace TEC\Events_Pro\Custom_Tables\V1\Updates;
 
 use TEC\Events\Custom_Tables\V1\Models\Occurrence;
-use TEC\Events\Custom_Tables\V1\Updates\Requests;
 use TEC\Events_Pro\Custom_Tables\V1\Models\Series_Relationship;
 use TEC\Events_Pro\Custom_Tables\V1\Series\Relationship;
 use TEC\Events_Pro\Custom_Tables\V1\Traits\With_Event_Recurrence;
