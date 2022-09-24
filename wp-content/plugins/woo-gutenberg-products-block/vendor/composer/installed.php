@@ -3,7 +3,7 @@
         'name' => 'woocommerce/woocommerce-blocks',
         'pretty_version' => 'dev-trunk',
         'version' => 'dev-trunk',
-        'reference' => '6d58dfdd73c988272bbfd2a3a46ab65bed9ca9e7',
+        'reference' => 'e3262734a10a54b44dcf879451ce35f53b93c184',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -43,7 +43,7 @@
         'woocommerce/woocommerce-blocks' => array(
             'pretty_version' => 'dev-trunk',
             'version' => 'dev-trunk',
-            'reference' => '6d58dfdd73c988272bbfd2a3a46ab65bed9ca9e7',
+            'reference' => 'e3262734a10a54b44dcf879451ce35f53b93c184',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
