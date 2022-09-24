@@ -5,7 +5,7 @@
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'c0c7eade443f517e2799cd2b259ea71acb35caf2',
+        'reference' => '746fdda6c1e2f7ac07192bf30bbf50c88b6f767e',
         'name' => 'automattic/newspack-plugin',
         'dev' => false,
     ),
@@ -16,7 +16,7 @@
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'c0c7eade443f517e2799cd2b259ea71acb35caf2',
+            'reference' => '746fdda6c1e2f7ac07192bf30bbf50c88b6f767e',
             'dev_requirement' => false,
         ),
         'composer/installers' => array(
