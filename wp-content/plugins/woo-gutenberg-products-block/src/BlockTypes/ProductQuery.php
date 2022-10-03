@@ -38,26 +38,16 @@ class ProductQuery extends AbstractBlock {
 	}
 
 	/**
-	 * Remove the query block filter and parse the custom query
+	 * Check if a given block
 	 *
-	 * This function is supposed to be called by the `query_loop_block_query_vars`
-	 * filter. It de-registers the filter to make sure it runs only once and doesn't end
-	 * up hi-jacking future Query Loop blocks.
-	 *
-	 * It needs unfortunately to be `public` or otherwise the filter can't call it.
-	 *
-	 * @param WP_Query $query The WordPress Query.
-	 * @return array
+	 * @param array $parsed_block The block being rendered.
+	 * @return boolean
 	 */
-	public function get_query_by_attributes_once( $query ) {
-		remove_filter(
-			'query_loop_block_query_vars',
-			array( $this, 'get_query_by_attributes_once' ),
-			10
-		);
-
-		return $this->get_query_by_attributes( $query, $this->parsed_block );
+	private function is_woocommerce_variation( $parsed_block ) {
+		return isset( $parsed_block['attrs']['namespace'] )
+		&& substr( $parsed_block['attrs']['namespace'], 0, 11 ) === 'woocommerce';
 	}
+
 
 	/**
 	 * Update the query for the product query block.
@@ -66,33 +56,34 @@ class ProductQuery extends AbstractBlock {
 	 * @param array       $parsed_block The block being rendered.
 	 */
 	public function update_query( $pre_render, $parsed_block ) {
-		if ( 'core/query' !== $parsed_block['blockName'] || ! isset( $parsed_block['attrs']['__woocommerceVariationProps'] ) ) {
+		if ( 'core/query' !== $parsed_block['blockName'] ) {
 			return;
 		}
 
 		$this->parsed_block = $parsed_block;
 
-		add_filter(
-			'query_loop_block_query_vars',
-			array( $this, 'get_query_by_attributes_once' ),
-			10,
-			1
-		);
+		if ( $this->is_woocommerce_variation( $parsed_block ) ) {
+			add_filter(
+				'query_loop_block_query_vars',
+				array( $this, 'get_query_by_attributes' ),
+				10,
+				1
+			);
+		}
 	}
 
 	/**
 	 * Return a custom query based on the attributes.
 	 *
-	 * @param WP_Query $query         The WordPress Query.
-	 * @param WP_Block $parsed_block  The block being rendered.
+	 * @param WP_Query $query The WordPress Query.
 	 * @return array
 	 */
-	public function get_query_by_attributes( $query, $parsed_block ) {
-		if ( ! isset( $parsed_block['attrs']['__woocommerceVariationProps'] ) ) {
+	public function get_query_by_attributes( $query ) {
+		$parsed_block = $this->parsed_block;
+		if ( ! $this->is_woocommerce_variation( $parsed_block ) ) {
 			return $query;
 		}
 
-		$variation_props     = $parsed_block['attrs']['__woocommerceVariationProps'];
 		$common_query_values = array(
 			'post_type'      => 'product',
 			'post_status'    => 'publish',
@@ -100,7 +91,7 @@ class ProductQuery extends AbstractBlock {
 			'orderby'        => $query['orderby'],
 			'order'          => $query['order'],
 		);
-		$on_sale_query       = $this->get_on_sale_products_query( $variation_props );
+		$on_sale_query       = $this->get_on_sale_products_query( $parsed_block['attrs']['query'] );
 
 		return array_merge( $query, $common_query_values, $on_sale_query );
 	}
@@ -108,11 +99,11 @@ class ProductQuery extends AbstractBlock {
 	/**
 	 * Return a query for on sale products.
 	 *
-	 * @param array $variation_props Dedicated attributes for the variation.
+	 * @param array $query_params Block query parameters.
 	 * @return array
 	 */
-	private function get_on_sale_products_query( $variation_props ) {
-		if ( ! isset( $variation_props['attributes']['query']['onSale'] ) || true !== $variation_props['attributes']['query']['onSale'] ) {
+	private function get_on_sale_products_query( $query_params ) {
+		if ( ! isset( $query_params['__woocommerceOnSale'] ) || true !== $query_params['__woocommerceOnSale'] ) {
 			return array();
 		}
 
