@@ -18,6 +18,7 @@ use TEC\Events_Pro\Custom_Tables\V1\Events\Converter\From_Rset_Converter;
 use TEC\Events_Pro\Custom_Tables\V1\Events\Rules\Date_Rule;
 use Tribe__Date_Utils as Dates;
 use Tribe__Timezones as Timezones;
+use Tribe__Events__Pro__Editor__Recurrence__Blocks as Converter;
 
 /**
  * Class Recurrence
@@ -1051,5 +1052,29 @@ class Recurrence {
 		}
 
 		return $instance;
+	}
+
+	/**
+	 * Returns the recurrence or exclusions rules in the format used by the Blocks Editor.
+	 *
+	 * @since 6.0.2
+	 *
+	 * @param string $key The key of the rule to return, either `rules` or `exclusions`.
+	 *
+	 * @return array<array<string,mixed>> The recurrence or exclusions rules in the format used by the Blocks Editor.
+	 */
+	public function to_blocks_format( string $key = 'rules' ): array {
+		$event_recurrence_format = $this->to_event_recurrence_format()['recurrence'];
+
+		$convert_to_blocks_format = static function ( array $rule ): array {
+			$converter = new Converter( $rule );
+			$converter->parse();
+
+			return $converter->get_parsed();
+		};
+
+		return $key === 'rules' ?
+			array_map( $convert_to_blocks_format, $event_recurrence_format['rules'] )
+			: array_map( $convert_to_blocks_format, $event_recurrence_format['exclusions'] );
 	}
 }

@@ -167,6 +167,9 @@ class Occurrence_Notices {
 	/**
 	 * Get the message for the specified Event post ID or Occurrence ID.
 	 *
+	 * @since 6.0.0
+	 * @since 6.0.2 Fix logic to get correct message in cases of non-series events.
+	 *
 	 * @param integer $post_id The ID of the post or the provisional ID.
 	 *
 	 * @return string The notice message for this event
@@ -196,16 +199,6 @@ class Occurrence_Notices {
 		$event_label                  = tribe_get_event_label_singular();
 		$event_label_lowercase        = tribe_get_event_label_singular_lowercase();
 		$event_label_plural_lowercase = tribe_get_event_label_plural_lowercase();
-		// This event in a series?
-		$event_series_relationship = Series_Relationship::find( $event->event_id, 'event_id' );
-		if ( ! $event_series_relationship instanceof Series_Relationship ) {
-			return sprintf(
-				esc_html__( '%1$s updated. %2$sView %1$s%3$s', 'the-events-calendar' ),
-				$event_label,
-				'<a href="' . esc_url( get_permalink( $event->post_id ) ) . '">',
-				'</a>'
-			);
-		}
 
 		// Event / draft?
 		if ( $post->post_status === 'draft' ) {
@@ -223,9 +216,21 @@ class Occurrence_Notices {
 			$verb_message = sprintf( __( '%1$s published.', 'tribe-events-calendar-pro' ), $event_status_message );
 		}
 
+		// This event in a series?
+		$event_series_relationship = Series_Relationship::find( $event->event_id, 'event_id' );
+		if ( ! $event_series_relationship instanceof Series_Relationship ) {
+			return sprintf(
+				esc_html__( '%1$s %3$sView %2$s%3$s', 'the-events-calendar' ),
+				$verb_message,
+				$event_label,
+				'<a href="' . esc_url( get_permalink( $event->post_id ) ) . '">',
+				'</a>'
+			);
+		}
+
 		$event_type_message = sprintf( __( 'recurring %1$s', 'tribe-events-calendar-pro' ), $event_label_lowercase );
-		
-		if ( empty( $event->rest ) ) { 
+
+		if ( empty( $event->rset ) ) {
 			$event_type_message = $event_label_lowercase;
 		}
 		$series_message     = __( 'This %1$s is part of a %2$sSeries%3$s with %4$d total %5$s through %6$s.', 'tribe-events-calendar-pro' );
@@ -346,6 +351,7 @@ class Occurrence_Notices {
 			'is_inserted' => false,
 			'is_updated'  => true,
 		];
+
 		$this->register_transient_notice( $post_id, $meta );
 	}
 }

@@ -591,11 +591,12 @@ trait With_Event_Recurrence {
 	 */
 	private function normalize_blocks_format_rule_same_time( array $rule, DateTimeImmutable $dtstart, DateTimeImmutable $dtend ): array {
 		$time_format = get_option( 'time_format', Dates::TIMEFORMAT );
-		if ( isset( $rule['isOffStart'] ) && $rule['isOffStart'] === false ) {
+		if ( isset( $rule['isOffStart'] ) && $rule['isOffStart'] === false && $rule['type'] !== 'single' ) {
 			$rule['_start_time_input'] = $dtstart->format( $time_format );
 			$rule['start_time'] = $dtstart->format( Dates::DBTIMEFORMAT );
 			$rule['_end_time_input'] = $dtend->format( $time_format );
 			$rule['end_time'] = $dtend->format( Dates::DBTIMEFORMAT );
+			$rule['same-time'] = 'yes';
 		}
 
 		return $rule;

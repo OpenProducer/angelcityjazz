@@ -124,27 +124,9 @@ function render_block( $attrs ) {
 		<?php else : ?>
 			<form id="<?php echo esc_attr( get_form_id() ); ?>">
 				<?php \wp_nonce_field( FORM_ACTION, FORM_ACTION ); ?>
-				<div class="newspack-newsletters-email-input">
-					<input
-						type="email"
-						name="npe"
-						autocomplete="email"
-						placeholder="<?php echo \esc_attr( $attrs['placeholder'] ); ?>"
-						value="<?php echo esc_attr( $email ); ?>"
-					/>
-					<input
-						class="nphp"
-						tabindex="-1"
-						aria-hidden="true"
-						type="email"
-						name="email"
-						autocomplete="email"
-						placeholder="<?php echo \esc_attr( $attrs['placeholder'] ); ?>"
-						value=""
-					/>
-				</div>
 				<?php if ( 1 < count( $available_lists ) ) : ?>
-					<ul class="newspack-newsletters-lists">
+					<div class="newspack-newsletters-lists">
+						<ul>
 						<?php
 						foreach ( $available_lists as $list_id ) :
 							if ( ! isset( $list_config[ $list_id ] ) ) {
@@ -176,10 +158,46 @@ function render_block( $attrs ) {
 							</li>
 						<?php endforeach; ?>
 					</ul>
+					</div>
 				<?php else : ?>
 					<input type="hidden" name="lists[]" value="<?php echo \esc_attr( $available_lists[0] ); ?>" />
 				<?php endif; ?>
-				<input type="submit" value="<?php echo \esc_attr( $attrs['label'] ); ?>" />
+				<?php
+				if ( $attrs['displayNameField'] ) :
+					$name_placeholder      = $attrs['namePlaceholder'];
+					$last_name_placeholder = $attrs['lastNamePlaceholder'];
+					$display_last_name     = $attrs['displayLastNameField'];
+					if ( empty( $name_placeholder ) ) {
+						$name_placeholder = $display_last_name ? __( 'First Name', 'newspack-newsletters' ) : __( 'Name', 'newspack-newsletters' );
+					}
+					?>
+					<div class="newspack-newsletters-name-input">
+						<input type="text" name="name" placeholder="<?php echo \esc_attr( $name_placeholder ); ?>" />
+						<?php if ( $display_last_name ) : ?>
+							<input type="text" name="last_name" placeholder="<?php echo \esc_attr( $last_name_placeholder ); ?>" />
+						<?php endif; ?>
+					</div>
+				<?php endif; ?>
+				<div class="newspack-newsletters-email-input">
+					<input
+						type="email"
+						name="npe"
+						autocomplete="email"
+						placeholder="<?php echo \esc_attr( $attrs['placeholder'] ); ?>"
+						value="<?php echo esc_attr( $email ); ?>"
+					/>
+					<input
+						class="nphp"
+						tabindex="-1"
+						aria-hidden="true"
+						type="email"
+						name="email"
+						autocomplete="email"
+						placeholder="<?php echo \esc_attr( $attrs['placeholder'] ); ?>"
+						value=""
+					/>
+					<input type="submit" value="<?php echo \esc_attr( $attrs['label'] ); ?>" />
+				</div>
 			</form>
 			<div class="newspack-newsletters-subscribe-response">
 				<?php if ( ! empty( $message ) ) : ?>
@@ -280,11 +298,20 @@ function process_form() {
 	}
 
 	// The "true" email address field is called `npe` due to the honeypot strategy.
-	$email = \sanitize_email( $_REQUEST['npe'] );
-	$lists = array_map( 'sanitize_text_field', $_REQUEST['lists'] );
+	$last_name = isset( $_REQUEST['last_name'] ) ? \sanitize_text_field( $_REQUEST['last_name'] ) : '';
+	$name      = trim(
+		sprintf(
+			'%s %s',
+			isset( $_REQUEST['name'] ) ? \sanitize_text_field( $_REQUEST['name'] ) : '',
+			$last_name
+		)
+	);
+	$email     = \sanitize_email( $_REQUEST['npe'] );
+	$lists     = array_map( 'sanitize_text_field', $_REQUEST['lists'] );
 
 	$result = \Newspack_Newsletters_Subscription::add_contact(
 		[
+			'name'     => $name ?? null,
 			'email'    => $email,
 			'metadata' => [
 				'current_page_url' => home_url( add_query_arg( array(), \wp_get_referer() ) ),
@@ -294,7 +321,7 @@ function process_form() {
 	);
 
 	if ( ! \is_user_logged_in() && \class_exists( '\Newspack\Reader_Activation' ) && \Newspack\Reader_Activation::is_enabled() ) {
-		\Newspack\Reader_Activation::register_reader( $email );
+		\Newspack\Reader_Activation::register_reader( $email, $name );
 	}
 
 	/**

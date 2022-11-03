@@ -36,9 +36,13 @@ class Admin_List {
 	 *
 	 * @param array<string, string> $columns An array with the available columns.
 	 *
-	 * @return array
+	 * @return array The filtered columns.
 	 */
-	public function include_custom_columns( array $columns = [] ): array {
+	public function include_custom_columns( $columns = [] ) {
+		if ( ! is_array( $columns ) ) {
+			return $columns;
+		}
+
 		$columns['start_date']  = __( 'Start Date', 'tribe-events-calendar-pro' );
 		$columns['events'] = __( 'Events', 'tribe-events-calendar-pro' );
 		// Remove the post type publish date.
@@ -54,10 +58,15 @@ class Admin_List {
 	 *
 	 * @param array<string> $columns An array with the available columns.
 	 *
-	 * @return array
+	 * @return array The filtered columns.
 	 */
-	public function include_sortable_columns( array $columns = [] ): array {
+	public function include_sortable_columns( $columns = [] ) {
+		if ( ! is_array( $columns ) ) {
+			return $columns;
+		}
+
 		$columns['start_date'] = [ 'start_date', 'desc' ];
+
 		return $columns;
 	}
 

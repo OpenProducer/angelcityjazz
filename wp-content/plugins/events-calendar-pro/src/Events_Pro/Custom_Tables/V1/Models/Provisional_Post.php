@@ -89,8 +89,8 @@ class Provisional_Post {
 	 *
 	 * @return string The filtered query.
 	 */
-	public function hydrate_provisional_post_query( string $query ): string {
-		if ( empty( $query ) ) {
+	public function hydrate_provisional_post_query( $query ): string {
+		if ( empty( $query ) || ! is_string( $query ) ) {
 			return $query;
 		}
 

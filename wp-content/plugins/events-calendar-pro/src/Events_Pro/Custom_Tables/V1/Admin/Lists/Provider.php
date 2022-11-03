@@ -79,7 +79,11 @@ class Provider extends \tad_DI52_ServiceProvider {
 	 *
 	 * @return array<string,string> The filtered map of columns for the Event post type.
 	 */
-	public function events_columns( array $columns ): array {
+	public function events_columns( $columns ) {
+		if ( ! is_array( $columns ) ) {
+			return $columns;
+		}
+
 		$columns['series'] = __( 'Series', 'tribe-events-calendar-pro' );
 
 		return $columns;
@@ -95,7 +99,11 @@ class Provider extends \tad_DI52_ServiceProvider {
 	 *
 	 * @return array
 	 */
-	public function populate_admin_caches( array $posts, WP_Query $query ): array {
+	public function populate_admin_caches( $posts, $query ) {
+		if ( ! ( is_array( $posts ) && $query instanceof WP_Query ) ) {
+			return $posts;
+		}
+
 		// The function might not exist in the context of the Customizer, not at this stage.
 		$screen = function_exists( 'get_current_screen' ) ?
 			get_current_screen()
@@ -301,7 +309,11 @@ class Provider extends \tad_DI52_ServiceProvider {
 	 *
 	 * @return string The updated view link, if required.
 	 */
-	public function update_recurrence_view_link( string $post_link, WP_Post $post, bool $leavename, bool $sample ): string {
+	public function update_recurrence_view_link( $post_link, $post, $leavename, $sample ) {
+		if ( ! $post instanceof WP_Post ) {
+			return $post_link;
+		}
+
 		return $this->container->make( Links::class )->update_recurrence_view_link( $post_link, $post, $leavename, $sample );
 
 	}

@@ -14,6 +14,7 @@ use TEC\Events\Custom_Tables\V1\Tables\Occurrences;
 use TEC\Events\Custom_Tables\V1\WP_Query\Custom_Tables_Query;
 use TEC\Events_Pro\Custom_Tables\V1\Models\Provisional_Post;
 use WP_Query;
+use Tribe__Utils__Array as Arr;
 
 /**
  * Class Custom_Query_Filters
@@ -127,16 +128,22 @@ class Custom_Query_Filters {
 
 		$not__in = $query->get( self::POST_NOT_IN );
 		if ( ! empty( $not__in ) ) {
-			list( $post_ids, $occurrence_provisional_ids ) = $this->divide_ids( $not__in );
+			[ $post_ids, $occurrence_provisional_ids ] = $this->divide_ids( $not__in );
 			$sql   = $this->build_in_sql_for( 'post__not_in', $post_ids, $occurrence_provisional_ids );
-			$where .= " AND ($sql)";
+
+			if ( strpos( $where, $sql ) === false ) {
+				$where .= " AND ($sql)";
+			}
 		}
 
 		$in = $query->get( self::POST_IN );
 		if ( ! empty( $in ) ) {
-			list( $post_ids, $occurrence_provisional_ids ) = $this->divide_ids( $in );
+			[ $post_ids, $occurrence_provisional_ids ] = $this->divide_ids( $in );
 			$sql   = $this->build_in_sql_for( 'post__in', $post_ids, $occurrence_provisional_ids );
-			$where .= " AND ($sql)";
+
+			if ( strpos( $where, $sql ) === false ) {
+				$where .= " AND ($sql)";
+			}
 		}
 
 		return $where;

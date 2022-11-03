@@ -136,7 +136,7 @@ function generateBoxRules(style, options, path, ruleKeys) {
 
 function getCSSVarFromStyleValue(styleValue) {
   if (typeof styleValue === 'string' && styleValue.startsWith(VARIABLE_REFERENCE_PREFIX)) {
-    const variable = styleValue.slice(VARIABLE_REFERENCE_PREFIX.length).split(VARIABLE_PATH_SEPARATOR_TOKEN_ATTRIBUTE).join(VARIABLE_PATH_SEPARATOR_TOKEN_STYLE);
+    const variable = styleValue.slice(VARIABLE_REFERENCE_PREFIX.length).split(VARIABLE_PATH_SEPARATOR_TOKEN_ATTRIBUTE).map(presetVariable => (0,external_lodash_namespaceObject.kebabCase)(presetVariable)).join(VARIABLE_PATH_SEPARATOR_TOKEN_STYLE);
     return `var(--wp--${variable})`;
   }
 
@@ -145,7 +145,7 @@ function getCSSVarFromStyleValue(styleValue) {
 /**
  * Capitalizes the first letter in a string.
  *
- * @param string The string whose first letter the function will capitalize.
+ * @param  string The string whose first letter the function will capitalize.
  *
  * @return String with the first letter capitalized.
  */
@@ -157,7 +157,7 @@ function upperFirst(string) {
 /**
  * Converts an array of strings into a camelCase string.
  *
- * @param strings The strings to join into a camelCase string.
+ * @param  strings The strings to join into a camelCase string.
  *
  * @return camelCase string.
  */
@@ -175,7 +175,7 @@ function camelCaseJoin(strings) {
 /**
  * Creates a function for generating CSS rules when the style path is the same as the camelCase CSS property used in React.
  *
- * @param path An array of strings representing the path to the style value in the style object.
+ * @param  path An array of strings representing the path to the style value in the style object.
  *
  * @return A function that generates CSS rules.
  */
@@ -186,7 +186,7 @@ function createBorderGenerateFunction(path) {
 /**
  * Creates a function for generating border-{top,bottom,left,right}-{color,style,width} CSS rules.
  *
- * @param edge The edge to create CSS rules for.
+ * @param  edge The edge to create CSS rules for.
  *
  * @return A function that generates CSS rules.
  */

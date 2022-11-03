@@ -166,6 +166,49 @@ class Provider extends Service_Provider implements Provider_Contract {
 		 */
 		add_action( 'update_post_meta', [ $this, 'sync_blocks_recurrence_meta' ], 10, 4 );
 		add_action( 'delete_post_meta', [ $this, 'sync_blocks_recurrence_meta' ], 10, 4 );
+
+		/**
+		 * These evaluate and redirect the page and subsequent requests to the appropriate ID in cases an occurrence was pruned.
+		 */
+		add_action( 'tec_events_custom_tables_v1_updated_post', [ $this, 'resolve_potential_redirect' ], 10, 3 );
+		add_filter( 'tec_events_custom_tables_v1_redirect_post_location', [
+			$this,
+			'classic_redirect_post_location'
+		], 10, 2 );
+	}
+
+	/**
+	 * This will use the logic that handles scenarios redirecting pruned occurrences to the proper destination
+	 * occurrence, for the classic editor.
+	 *
+	 * @since 6.0.2
+	 *
+	 * @param string  $location The URL being filtered.
+	 * @param numeric $post_id  The event post ID.
+	 *
+	 * @return string The redirected location
+	 */
+	public function classic_redirect_post_location( $location, $post_id ) {
+		return $this->container->make( Controller::class )->classic_redirect_post_location( (string) $location, (int) $post_id );
+	}
+
+	/**
+	 * Evaluates context and occurrence requests to determine if this occurrence was pruned and needs to have the ID
+	 * redirected to a new occurrence ID. This logic is used for both block and classic editor.
+	 *
+	 * @since 6.0.2
+	 *
+	 * @param bool            $updated Whether this event was updated.
+	 * @param numeric         $post_id The post ID for this event.
+	 * @param WP_REST_Request $request The request object being used for these updates.
+	 *
+	 * @return bool The update flag.
+	 * @throws \Exception
+	 */
+	public function resolve_potential_redirect( $updated, $post_id, WP_REST_Request $request ) {
+		remove_action( 'tec_events_custom_tables_v1_updated_post', [ $this, 'resolve_potential_redirect' ], 10, 3 );
+
+		return $this->container->make( Controller::class )->resolve_potential_redirect( (bool) $updated, (int) $post_id, $request );
 	}
 
 	/**
@@ -174,6 +217,11 @@ class Provider extends Service_Provider implements Provider_Contract {
 	 * @since 6.0.0
 	 */
 	public function unregister() {
+		remove_action( 'tec_events_custom_tables_v1_updated_post', [ $this, 'resolve_potential_redirect' ], 10 );
+		remove_filter( 'tec_events_custom_tables_v1_redirect_post_location', [
+			$this,
+			'classic_redirect_post_location'
+		], 10 );
 		remove_action( 'tec_events_custom_tables_v1_redirect_classic_editor_event_post',
 			[ $this, 'redirect_classic_editor_request' ] );
 		remove_action( 'tec_events_custom_tables_v1_redirect_rest_event_post', [ $this, 'redirect_rest_request' ] );
@@ -286,6 +334,7 @@ class Provider extends Service_Provider implements Provider_Contract {
 	public function redirect_rest_request( WP_REST_Request $request ): void {
 		$this->container->make( Controller::class )->redirect_request( $request );
 	}
+
 
 	/**
 	 * Filters the list of meta keys that should be watched for changes to,
@@ -413,7 +462,15 @@ class Provider extends Service_Provider implements Provider_Contract {
 	 * @param WP_REST_Response $response A reference to the REST response generated for the delete or trash request.
 	 * @param WP_REST_Request  $request  A reference to the REST request that triggered the post trash or deletion.
 	 */
-	public function redirect_deleted_occurrence( WP_Post $post, WP_REST_Response $response, WP_REST_Request $request ): void {
+	public function redirect_deleted_occurrence( $post, $response, $request ) {
+		if ( ! (
+			$post instanceof WP_Post
+			&& $response instanceof WP_REST_Response
+			&& $response instanceof WP_REST_Request
+		) ) {
+			return;
+		}
+
 		$this->container->make( Controller::class )->redirect_deleted_occurrence( $post, $response, $request );
 	}
 
@@ -456,12 +513,13 @@ class Provider extends Service_Provider implements Provider_Contract {
 	 * @return WP_REST_Response|WP_Error|null The REST response generated for the delete request, unmodified since
 	 *                                        this filter is used as an action to modify the Request object.
 	 */
-	public function redirect_trash_delete_request( $response = null, $handler = null, WP_REST_Request $request = null ) {
-		if ( ! $response instanceof WP_REST_Response ) {
+	public function redirect_trash_delete_request( $response = null, $handler = null, $request = null ) {
+		if ( ! $request instanceof WP_REST_Request ) {
 			return $response;
 		}
 
-		$this->container->make( Controller::class )->redirect_delete_request( $request );
+		$this->container->make( Controller::class )
+		                ->redirect_delete_request( $request );
 
 		// Return the response unmodified: we use this filter as an action.
 		return $response;

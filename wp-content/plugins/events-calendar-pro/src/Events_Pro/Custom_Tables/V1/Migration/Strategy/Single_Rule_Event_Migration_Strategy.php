@@ -116,6 +116,7 @@ class Single_Rule_Event_Migration_Strategy implements Strategy_Interface {
 
 		$event_model->occurrences()->save_occurrences();
 		$post = get_post( $this->post_id );
+
 		$series_post_id = Series_Model::vinsert( [ 'title' => $post->post_title ], [ 'post_status' => $post->post_status ] );
 		tribe( Relationship::class )->with_event( $event_model, [ $series_post_id ] );
 
