@@ -3,9 +3,9 @@
 Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp, GeoffBel, jentheo, leahkoerper, lucatume, neillmcshea, vicskf, zbtirrell, juanfra
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, the events calendar, widget, pro
 Donate link: https://evnt.is/29
-Requires at least: 5.8.5
-Stable tag: 6.0.2
-Tested up to: 6.0.3
+Requires at least: 5.8.6
+Stable tag: 6.0.3
+Tested up to: 6.1
 Requires PHP: 7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -213,6 +213,30 @@ Previous versions of Events Calendar PRO are not cross-compatible with 6.X add-o
 Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
+
+= [6.0.3] 2022-11-15 =
+
+* Version - Events Calendar PRO 6.0.3 is only compatible with The Events Calendar 6.0.4 and higher
+* Fix - Prevent broken view related `tribe_is_*()` methods to be broken when using with WordPress 6.1 [TEC-4552]
+* Fix - Fix for migrating offset RRULE with different time > The RRULE shows as being the same time as the first occurrence. [ECP-1269]
+* Fix - Fix for fatal when saving an empty recurrence date in classic editor. [ECP-1363]
+* Fix - Refactor Custom Tables v1 post-decorating code to avoid serialization/unserialization issues. [TEC-4379]
+* Fix - Fixed issue where "Event will not occur" option doesn't work unless events begin at the top of the hour (:00). [ECP-1355]
+* Fix - Fixed fatal error with queueing of the migration telemetry report. [ECP-1403]
+* Fix - Avoid fatal errors when hydrating Occurrences cache on incoherent database or cache state. [ECP-1402]
+* Fix - Ensure view labels are translated appropriately. [TEC-4485]
+* Fix - Prevent `E_ERROR` when using third-party plugins with blocks editor around `tec_event_series()` method [ECP-1409]
+* Fix - Avoid type errors in the `tec_events_pro_blocks_recurrence_meta` filter. [TEC-4559]
+* Fix - Ensure tribe() singletons are bound before attempting to use them. [ECP-1396]
+* Fix - Avoid duplicated queries by including a memoization for Occurrence data. [TBD]
+* Fix - Prevent errors when adding exclusion dates to recurring events using the Custom Tables implementation. [ECP-1401]
+* Fix - Mitigated PHP errors related Occurrence and Provisional Post objects. [ECP-1402]
+* Language - 6 new strings added, 113 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.0.2.1] 2022-11-03 =
+
+* Fix - Fixed an issue where migrated Recurring Event Occurrences would not be displayed on the frontend. [ECP-1398]
+* Fix - Refactor Custom Tables v1 post-decorating code to avoid serialization/unserialization issues. [TEC-4379]
 
 = [6.0.2] 2022-10-20 =
 

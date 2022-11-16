@@ -65,6 +65,43 @@ class Week_View extends By_Day_View {
 	protected $hide_weekends = false;
 
 	/**
+	 * Week_View constructor.
+	 *
+	 * @since 5.0.0
+	 *
+	 * {@inheritDoc}
+	 */
+	public function __construct( Messages $messages, Stack $stack ) {
+		parent::__construct( $messages, $stack );
+		/**
+		 *  Allows filtering of the week_view_hide_weekends option.
+		 *
+		 * @since 5.6.0
+		 *
+		 * @param boolean $hide_weekends whether to hide weekend on the view or not.
+		 */
+		$this->hide_weekends = apply_filters( 'tribe_week_view_hide_weekends', tribe_is_truthy( tribe_get_option( 'week_view_hide_weekends', false ) ) );
+	}
+
+	/**
+	 * Default untranslated value for the label of this view.
+	 *
+	 * @since 6.0.3
+	 *
+	 * @var string
+	 */
+	protected static $label = 'Week';
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_view_label(): string {
+		static::$label = _x( 'Week', 'The text label for the Week View.', 'tribe-events-calendar-pro' );
+
+		return static::filter_view_label( static::$label );
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	protected function setup_repository_args( Context $context = null ) {
@@ -330,25 +367,6 @@ class Week_View extends By_Day_View {
 		}
 
 		return $grid_days;
-	}
-
-	/**
-	 * Week_View constructor.
-	 *
-	 * @since 5.0.0
-	 *
-	 * {@inheritDoc}
-	 */
-	public function __construct( Messages $messages, Stack $stack ) {
-		parent::__construct( $messages, $stack );
-		/**
-		 *  Allows filtering of the week_view_hide_weekends option.
-		 *
-		 * @since 5.6.0
-		 *
-		 * @param boolean $hide_weekends whether to hide weekend on the view or not.
-		 */
-		$this->hide_weekends = apply_filters( 'tribe_week_view_hide_weekends', tribe_is_truthy( tribe_get_option( 'week_view_hide_weekends', false ) ) );
 	}
 
 	/**

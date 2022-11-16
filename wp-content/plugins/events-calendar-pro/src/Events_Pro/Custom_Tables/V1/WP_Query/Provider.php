@@ -13,6 +13,7 @@ namespace TEC\Events_Pro\Custom_Tables\V1\WP_Query;
 use tad_DI52_ServiceProvider as Service_Provider;
 use TEC\Events\Custom_Tables\V1\Tables\Occurrences;
 use TEC\Events\Custom_Tables\V1\Provider_Contract;
+use TEC\Events\Custom_Tables\V1\WP_Query\Custom_Tables_Query;
 use TEC\Events_Pro\Custom_Tables\V1\Events\Provisional\ID_Generator as Provisional_ID_Generator;
 use TEC\Events_Pro\Custom_Tables\V1\Models\Provisional_Post;
 use TEC\Events_Pro\Custom_Tables\V1\Models\Provisional_Post_Cache;
@@ -104,6 +105,16 @@ class Provider extends Service_Provider implements \TEC\Events\Custom_Tables\V1\
 			add_filter( 'tec_events_custom_tables_v1_custom_tables_query_where', [ $this, 'filter_where' ], 10, 2 );
 		}
 
+		if ( ! has_filter( 'tec_events_custom_tables_v1_custom_tables_query_hydrate_posts', [
+			$this,
+			'hydrate_query_posts'
+		] ) ) {
+			add_filter( 'tec_events_custom_tables_v1_custom_tables_query_hydrate_posts', [
+				$this,
+				'hydrate_query_posts'
+			], 10, 2 );
+		}
+
 		$this->handle_collapse_recurring_event_instances();
 	}
 
@@ -137,6 +148,10 @@ class Provider extends Service_Provider implements \TEC\Events\Custom_Tables\V1\
 		remove_filter( 'tribe_repository_events_query_args', $condense_series_query_args );
 		$condense_series_pre_get_posts = $this->container->callback( Condense_Events_Series::class, 'pre_get_posts' );
 		remove_action( 'tec_events_custom_tables_v1_custom_tables_query_pre_get_posts', $condense_series_pre_get_posts );
+		remove_filter( 'tec_events_custom_tables_v1_custom_tables_query_hydrate_posts', [
+			$this,
+			'hydrate_query_posts'
+		] );
 	}
 
 	/**
@@ -194,10 +209,10 @@ class Provider extends Service_Provider implements \TEC\Events\Custom_Tables\V1\
 	public function hydrate_provisional_post_caches( $results ) {
 		if ( ! ( $results && is_array( $results ) && array_filter( (array) $results, 'is_numeric' ) ) ) {
 			// Not a set of post IDs or an empty array: let's avoid building the Provisional Post instance.
-			return;
+			return $results;
 		}
 
-		$this->container->make( Provisional_Post::class )->hydrate_caches( $results );
+		return $this->container->make( Provisional_Post::class )->hydrate_caches( $results );
 	}
 
 	/**
@@ -375,5 +390,19 @@ class Provider extends Service_Provider implements \TEC\Events\Custom_Tables\V1\
 
 		return $this->container->make( Provisional_Post::class )
 			->hydrate_tec_occurrence_meta( $meta_value, $object_id, $meta_key );
+	}
+
+	/**
+	 * Hydrates the Custom Tables Query post results early.
+	 *
+	 * @since 6.0.3
+	 *
+	 * @param array               $query_posts The posts returned by the query.
+	 * @param Custom_Tables_Query $query       The Custom Tables Query instance.
+	 *
+	 * @return array The posts returned by the query, hydrated.
+	 */
+	public function hydrate_query_posts( array $query_posts, Custom_Tables_Query $query ): array {
+		return $this->container->make( Replace_Results::class )->hydrate_query_posts( $query_posts, $query );
 	}
 }

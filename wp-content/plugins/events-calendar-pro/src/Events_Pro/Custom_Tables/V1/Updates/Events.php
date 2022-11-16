@@ -22,6 +22,7 @@ use TEC\Events_Pro\Custom_Tables\V1\Duplicate\Duplicate as Duplicator;
 use TEC\Events_Pro\Custom_Tables\V1\Events\Converter\Event_Rule_Converter\From_Event_Rule_Converter;
 use TEC\Events_Pro\Custom_Tables\V1\Events\Provisional\ID_Generator;
 use TEC\Events_Pro\Custom_Tables\V1\Events\Rules\Date_Rule;
+use TEC\Events_Pro\Custom_Tables\V1\Migration\Patchers\Event_Recurrence_Meta_Patcher;
 use TEC\Events_Pro\Custom_Tables\V1\Models\Occurrence as ECP_Occurrence;
 use TEC\Events_Pro\Custom_Tables\V1\Models\Provisional_Post;
 use TEC\Events_Pro\Custom_Tables\V1\Models\Series_Relationship;
@@ -347,7 +348,7 @@ class Events {
 		}
 
 		try {
-			$recurrence_meta = ( new Recurrence_Meta_Builder( $post_id, $data ) )->build_meta();
+			$recurrence_meta = ( new Event_Recurrence_Meta_Patcher( $data['recurrence'], $post_id ) )->patch();
 		} catch ( Exception $e ) {
 			return false;
 		}

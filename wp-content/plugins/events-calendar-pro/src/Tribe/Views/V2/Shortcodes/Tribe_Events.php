@@ -212,12 +212,12 @@ class Tribe_Events extends Shortcode_Abstract {
 			add_filter( 'tribe_events_filter_bar_views_v2_assets_should_enqueue_frontend', '__return_false' );
 			add_filter( 'tribe_events_views_v2_filter_bar_view_html_classes', '__return_false' );
 
-			if ( class_exists( 'Tribe\Events\Filterbar\Views\V2_1\Hooks' ) ) {
+			if ( tribe()->isBound( 'filterbar.views.v2_1.hooks' ) ) {
 				remove_filter(
 					'tribe_events_pro_shortcode_tribe_events_before_assets',
 					[ tribe( 'filterbar.views.v2_1.hooks' ), 'action_include_assets' ]
 				);
-			} else if ( class_exists( 'Tribe\Events\Filterbar\Views\V2\Hooks' ) ) {
+			} else if ( tribe()->isBound( 'filterbar.views.v2.hooks' ) ) {
 				remove_filter(
 					'tribe_events_pro_shortcode_tribe_events_before_assets',
 					[ tribe( 'filterbar.views.v2.hooks' ), 'action_include_assets' ]
@@ -303,9 +303,9 @@ class Tribe_Events extends Shortcode_Abstract {
 		remove_filter( 'tribe_events_filter_bar_views_v2_assets_should_enqueue_frontend', '__return_false' );
 		remove_filter( 'tribe_events_views_v2_filter_bar_view_html_classes', '__return_false' );
 		// Yes, add - we're adding it back.
-		if ( class_exists( 'Tribe\Events\Filterbar\Views\V2_1\Hooks' ) ) {
+		if ( tribe()->isBound( 'filterbar.views.v2_1.hooks' ) ) {
 			add_filter( 'tribe_events_pro_shortcode_tribe_events_before_assets', [ tribe( 'filterbar.views.v2_1.hooks' ), 'action_include_assets' ] );
-		} else if ( class_exists( 'Tribe\Events\Filterbar\Views\V2\Hooks' ) ) {
+		} else if ( tribe()->isBound( 'filterbar.views.v2.hooks' ) ) {
 			add_filter( 'tribe_events_pro_shortcode_tribe_events_before_assets', [ tribe( 'filterbar.views.v2.hooks' ), 'action_include_assets' ] );
 		}
 

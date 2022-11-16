@@ -486,6 +486,8 @@ class Tribe__Events__Pro__Recurrence__Meta {
 	public static function add_date_exclusion_to_recurrence( $recurrence_meta, $date ) {
 		if ( ! isset( $recurrence_meta['exclusions'] ) ) {
 			$recurrence_meta['exclusions'] = array();
+		} else {
+			$recurrence_meta['exclusions'] = (array) $recurrence_meta['exclusions'];
 		}
 
 		$recurrence_meta['exclusions'][] = array(

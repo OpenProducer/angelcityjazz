@@ -11,6 +11,7 @@ namespace Tribe\Events\Pro\Views\V2\Views;
 use Tribe\Events\Views\V2\Utils;
 use Tribe\Events\Views\V2\View;
 use Tribe\Events\Views\V2\Views\Traits\List_Behavior;
+use Tribe\Events\Views\V2\Messages;
 use Tribe__Events__Main as TEC;
 use Tribe__Events__Rewrite as Rewrite;
 use Tribe__Utils__Array as Arr;
@@ -36,6 +37,24 @@ class Photo_View extends View {
 	 * @var bool
 	 */
 	protected static $publicly_visible = true;
+
+	/**
+	 * Default untranslated value for the label of this view.
+	 *
+	 * @since 6.0.3
+	 *
+	 * @var string
+	 */
+	protected static $label = 'Photo';
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_view_label(): string {
+		static::$label = _x( 'Photo', 'The text label for the Photo View.', 'tribe-events-calendar-pro' );
+
+		return static::filter_view_label( static::$label );
+	}
 
 	/**
 	 * {@inheritDoc}

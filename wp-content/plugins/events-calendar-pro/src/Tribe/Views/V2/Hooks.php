@@ -135,7 +135,6 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		add_filter( 'tribe_events_filter_bar_views_v2_should_display_filters', [ $this, 'filter_hide_filter_bar' ], 10, 2 );
 		add_filter( 'tribe_events_filter_bar_views_v2_1_should_display_filters', [ $this, 'filter_hide_filter_bar' ], 10, 2 );
 
-		add_filter( 'tribe_events_views_v2_manager_view_label_domain', [ $this, 'filter_view_label_domain'], 10, 3 );
 		add_filter( 'tribe_customizer_inline_stylesheets', [ $this, 'customizer_inline_stylesheets' ], 12 );
 		add_filter( 'tribe_events_views_v2_view_map_template_vars', [ $this, 'filter_map_view_pin' ], 10, 2 );
 
@@ -823,6 +822,13 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		return $this->container->make( Rewrite::class )->filter_events_rewrite_rules_custom( $rewrite_rules );
 	}
 
+	/**
+	 * This function used to pass the domain to code in common for translations.
+	 * That doesn't work properly, so we've deprecated this, it's now handled in the View classes.
+	 *
+	 * @since 5.1.0
+	 * @deprecated 6.0.3 This is no longer necessary. Handled in the View classes themselves.
+	 */
 	public function filter_view_label_domain( $domain, $slug, $view_class ) {
 		if (
 			'photo' !== $slug
