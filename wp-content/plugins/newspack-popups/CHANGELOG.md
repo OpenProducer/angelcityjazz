@@ -1,3 +1,93 @@
+# [2.8.0](https://github.com/Automattic/newspack-popups/compare/v2.7.2...v2.8.0) (2022-11-14)
+
+
+### Bug Fixes
+
+* clarify padding vs. border styles in overlay vs. inline ([#998](https://github.com/Automattic/newspack-popups/issues/998)) ([7c86755](https://github.com/Automattic/newspack-popups/commit/7c8675577c7c6a918e21b0a85d1414b6196a2018))
+
+
+### Features
+
+* polyfill amp-access script ([4c41745](https://github.com/Automattic/newspack-popups/commit/4c417457df7023fa60c030b8de86f25610f5e7b1)), closes [#995](https://github.com/Automattic/newspack-popups/issues/995) [#193](https://github.com/Automattic/newspack-popups/issues/193) [#880](https://github.com/Automattic/newspack-popups/issues/880) [#749](https://github.com/Automattic/newspack-popups/issues/749) [#170](https://github.com/Automattic/newspack-popups/issues/170) [#569](https://github.com/Automattic/newspack-popups/issues/569)
+* reconcile different reader sessions ([#978](https://github.com/Automattic/newspack-popups/issues/978)) ([38a486d](https://github.com/Automattic/newspack-popups/commit/38a486d658a8bd2d45e59e4a0a2c1a623bd7364e))
+
+# [2.8.0-alpha.2](https://github.com/Automattic/newspack-popups/compare/v2.8.0-alpha.1...v2.8.0-alpha.2) (2022-11-11)
+
+
+### Features
+
+* polyfill amp-access script ([4c41745](https://github.com/Automattic/newspack-popups/commit/4c417457df7023fa60c030b8de86f25610f5e7b1)), closes [#995](https://github.com/Automattic/newspack-popups/issues/995) [#193](https://github.com/Automattic/newspack-popups/issues/193) [#880](https://github.com/Automattic/newspack-popups/issues/880) [#749](https://github.com/Automattic/newspack-popups/issues/749) [#170](https://github.com/Automattic/newspack-popups/issues/170) [#569](https://github.com/Automattic/newspack-popups/issues/569)
+
+# [2.8.0-alpha.1](https://github.com/Automattic/newspack-popups/compare/v2.7.2...v2.8.0-alpha.1) (2022-11-03)
+
+
+### Bug Fixes
+
+* clarify padding vs. border styles in overlay vs. inline ([#998](https://github.com/Automattic/newspack-popups/issues/998)) ([7c86755](https://github.com/Automattic/newspack-popups/commit/7c8675577c7c6a918e21b0a85d1414b6196a2018))
+
+
+### Features
+
+* reconcile different reader sessions ([#978](https://github.com/Automattic/newspack-popups/issues/978)) ([38a486d](https://github.com/Automattic/newspack-popups/commit/38a486d658a8bd2d45e59e4a0a2c1a623bd7364e))
+
+## [2.7.2](https://github.com/Automattic/newspack-popups/compare/v2.7.1...v2.7.2) (2022-10-25)
+
+
+### Bug Fixes
+
+* invoke wp polyfills for compatibility ([#997](https://github.com/Automattic/newspack-popups/issues/997)) ([3c8f790](https://github.com/Automattic/newspack-popups/commit/3c8f7909e63a93d8ba0b3e8f9335a8d743d71c38))
+
+## [2.7.1](https://github.com/Automattic/newspack-popups/compare/v2.7.0...v2.7.1) (2022-10-20)
+
+
+### Bug Fixes
+
+* enqueue AMP scripts for non-AMP ([e13ecae](https://github.com/Automattic/newspack-popups/commit/e13ecaea25d9eeba0767bfc84f1945f54e229912))
+* remove async attribute from script ([43a677f](https://github.com/Automattic/newspack-popups/commit/43a677f4a6d25eaa69d7a8882df4fb5656be9214))
+
+
+### Reverts
+
+* Revert "feat: polyfill amp-access script" ([7cb2467](https://github.com/Automattic/newspack-popups/commit/7cb246735704722d4a65e734c37398e08a788717))
+* polyfill fallback behavior from PR [#961](https://github.com/Automattic/newspack-popups/issues/961) ([a6d0409](https://github.com/Automattic/newspack-popups/commit/a6d0409573a4ea23a5f7ad40246d12d3ab2d23b5))
+
+# [2.7.0](https://github.com/Automattic/newspack-popups/compare/v2.6.2...v2.7.0) (2022-10-19)
+
+
+### Bug Fixes
+
+* **analytics:** only add form info to form submission events ([#960](https://github.com/Automattic/newspack-popups/issues/960)) ([72ff629](https://github.com/Automattic/newspack-popups/commit/72ff629ea4a6a50949db1d1de6c11e568e27ceca))
+* lower visibility threshold for prompt_seen events ([#976](https://github.com/Automattic/newspack-popups/issues/976)) ([607c20d](https://github.com/Automattic/newspack-popups/commit/607c20d701b88a2d8d0b22ea71a8957e1e234168))
+* **release:** use newspack-scripts with fixed semantic-release config ([52119cd](https://github.com/Automattic/newspack-popups/commit/52119cd9b4aa74ca275be4556077f3a6e4298a94))
+
+
+### Features
+
+* treat logged-in admins and editors as preview sessions ([#979](https://github.com/Automattic/newspack-popups/issues/979)) ([516d076](https://github.com/Automattic/newspack-popups/commit/516d07606a54e126eeb53914f3ae93783efdf988))
+
+# [2.7.0-alpha.3](https://github.com/Automattic/newspack-popups/compare/v2.7.0-alpha.2...v2.7.0-alpha.3) (2022-10-13)
+
+
+### Bug Fixes
+
+* prompt visibility animation ([b278793](https://github.com/Automattic/newspack-popups/commit/b278793f79e59ec640fc1933dc322b434a14284b))
+
+## [2.6.2](https://github.com/Automattic/newspack-popups/compare/v2.6.1...v2.6.2) (2022-10-13)
+
+
+### Bug Fixes
+
+* prompt visibility animation ([b278793](https://github.com/Automattic/newspack-popups/commit/b278793f79e59ec640fc1933dc322b434a14284b))
+
+## [2.6.1](https://github.com/Automattic/newspack-popups/compare/v2.6.0...v2.6.1) (2022-10-10)
+
+
+### Bug Fixes
+
+* cron job and mock IDs ([d0d99b9](https://github.com/Automattic/newspack-popups/commit/d0d99b93c18e85bb024db58564aa56c6416007b1))
+* handle purged cache ([59605be](https://github.com/Automattic/newspack-popups/commit/59605be1114573c2443d15af06390b6b28231d5d))
+* when to validate cache ([30f0944](https://github.com/Automattic/newspack-popups/commit/30f0944eed595a510d65f029b78d5226554d85cc))
+
 # [2.6.0](https://github.com/Automattic/newspack-popups/compare/v2.5.0...v2.6.0) (2022-09-27)
 
 

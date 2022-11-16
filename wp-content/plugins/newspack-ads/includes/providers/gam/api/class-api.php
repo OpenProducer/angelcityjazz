@@ -130,20 +130,24 @@ class Api {
 				$errors[] = $error->getErrorString();
 			}
 		}
-		if ( in_array( 'UniqueError.NOT_UNIQUE', $errors ) ) {
-			$error_message = __( 'Name must be unique.', 'newspack-ads' );
-		}
-		if ( in_array( 'CommonError.CONCURRENT_MODIFICATION', $errors ) ) {
-			$error_message = __( 'Unexpected API error, please try again in 30 seconds.', 'newspack-ads' );
-		}
-		if ( in_array( 'PermissionError.PERMISSION_DENIED', $errors ) ) {
-			$error_message = __( 'You do not have permission to perform this action. Make sure to connect an account with administrative access.', 'newspack-ads' );
-		}
-		if ( in_array( 'AuthenticationError.NETWORK_API_ACCESS_DISABLED', $errors ) ) {
-			$network_code  = $this->get_network_code();
-			$settings_link = "https://admanager.google.com/${network_code}#admin/settings/network";
-			$error_message = __( 'API access for this GAM account is disabled.', 'newspack-ads' ) .
-			" <a href=\"${settings_link}\">" . __( 'Enable API access in your GAM settings.', 'newspack' ) . '</a>';
+		$network_code = $this->get_network_code();
+		$message_map  = [
+			'UniqueError.NOT_UNIQUE'                => __( 'Name must be unique.', 'newspack-ads' ),
+			'CommonError.CONCURRENT_MODIFICATION'   => __( 'Unexpected API error, please try again in 30 seconds.', 'newspack-ads' ),
+			'PermissionError.PERMISSION_DENIED'     => __( 'You do not have permission to perform this action. Make sure to connect an account with administrative access.', 'newspack-ads' ),
+			'AuthenticationError.NETWORK_NOT_FOUND' => __( 'The network code is invalid.', 'newspack-ads' ),
+			'AuthenticationError.NETWORK_API_ACCESS_DISABLED' => sprintf(
+				'%s <a href="%s" target="_blank">%s</a>',
+				__( 'API access for this GAM account is disabled.', 'newspack-ads' ),
+				"https://admanager.google.com/${network_code}#admin/settings/network",
+				__( 'Enable API access in your GAM settings.', 'newspack-ads' )
+			),
+		];
+		foreach ( $message_map as $error_type => $message ) {
+			if ( in_array( $error_type, $errors, true ) ) {
+				$error_message = $message;
+				break;
+			}
 		}
 		return new \WP_Error(
 			'newspack_ads_gam_error',
@@ -177,15 +181,21 @@ class Api {
 		if ( $this->session ) {
 			return $this->session;
 		}
-		$config        = new Configuration(
-			[
-				'AD_MANAGER' => [
-					'applicationName' => self::APP,
-					'networkCode'     => $this->network_code ?? '-',
-				],
-			]
-		);
-		$this->session = ( new AdManagerSessionBuilder() )->from( $config )->withOAuth2Credential( $this->credentials )->build();
+		$config = [
+			'AD_MANAGER' => [
+				'applicationName' => self::APP,
+			],
+		];
+		/** If a network code is not yet available, use first from list. */
+		if ( ! $this->network_code ) {
+			$session  = ( new AdManagerSessionBuilder() )->from( new Configuration( $config ) )->withOAuth2Credential( $this->credentials )->build();
+			$networks = $this->get_networks( $session );
+			if ( ! empty( $networks ) ) {
+				$this->network_code = $networks[0]->getNetworkCode();
+			}
+		}
+		$config['AD_MANAGER']['networkCode'] = $this->network_code;
+		$this->session                       = ( new AdManagerSessionBuilder() )->from( new Configuration( $config ) )->withOAuth2Credential( $this->credentials )->build();
 		return $this->session;
 	}
 
@@ -201,11 +211,16 @@ class Api {
 	/**
 	 * Get GAM networks the authenticated user has access to.
 	 *
+	 * @param AdManagerSession $session Optional session to use.
+	 *
 	 * @return Network[] Array of networks.
 	 */
-	private function get_networks() {
+	private function get_networks( $session = null ) {
+		if ( empty( $session ) ) {
+			$session = $this->get_session();
+		}
 		if ( empty( $this->networks ) ) {
-			$this->networks = ( new ServiceFactory() )->createNetworkService( $this->session )->getAllNetworks();
+			$this->networks = ( new ServiceFactory() )->createNetworkService( $session )->getAllNetworks();
 		}
 		return $this->networks;
 	}
@@ -217,7 +232,7 @@ class Api {
 	 * @throws \Exception If not able to fetch networks.
 	 */
 	public function get_serialized_networks() {
-		$networks = $this->get_networks();
+		$networks = $this->get_networks() ?? [];
 		return array_map(
 			function( $network ) {
 				return [

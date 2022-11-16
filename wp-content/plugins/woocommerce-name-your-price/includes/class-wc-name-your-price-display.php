@@ -5,7 +5,7 @@
  * @class   WC_Name_Your_Price_Display
  * @package WooCommerce Name Your Price/Classes
  * @since   1.0.0
- * @version  3.3.8
+ * @version  3.3.9
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -127,6 +127,19 @@ class WC_Name_Your_Price_Display {
 
 		$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 		wp_register_script( 'woocommerce-nyp', WC_Name_Your_Price()->plugin_url() . '/assets/js/frontend/name-your-price' . $suffix . '.js', array( 'jquery', 'accounting' ), WC_Name_Your_Price()->version, true );
+
+        $params = apply_filters( 'wc_nyp_script_params', array(
+			'currency_format_num_decimals' => wc_get_price_decimals(),
+			'currency_format_symbol'       => get_woocommerce_currency_symbol(),
+			'currency_format_decimal_sep'  => wc_get_price_decimal_separator(),
+			'currency_format_thousand_sep' => wc_get_price_thousand_separator(),
+			'currency_format'              => str_replace( array( '%1$s', '%2$s' ), array( '%s', '%v' ), get_woocommerce_price_format() ), // For accounting.js.
+			'annual_price_factors'         => WC_Name_Your_Price_Helpers::annual_price_factors(),
+			'i18n_subscription_string'     => __( '%price / %period', 'wc_name_your_price' ),
+			'trim_zeros'                   => apply_filters( 'woocommerce_price_trim_zeros', false ) && wc_get_price_decimals() > 0,
+		) );
+
+		wp_localize_script( 'woocommerce-nyp', 'woocommerce_nyp_params', $params );
 	}
 
 
@@ -153,23 +166,8 @@ class WC_Name_Your_Price_Display {
 	 * @return void
 	 */
 	public function nyp_scripts() {
-
 		wp_enqueue_script( 'accounting' );
 		wp_enqueue_script( 'woocommerce-nyp' );
-
-		$params = array(
-			'currency_format_num_decimals' => wc_get_price_decimals(),
-			'currency_format_symbol'       => get_woocommerce_currency_symbol(),
-			'currency_format_decimal_sep'  => wc_get_price_decimal_separator(),
-			'currency_format_thousand_sep' => wc_get_price_thousand_separator(),
-			'currency_format'              => str_replace( array( '%1$s', '%2$s' ), array( '%s', '%v' ), get_woocommerce_price_format() ), // For accounting.js.
-			'annual_price_factors'         => WC_Name_Your_Price_Helpers::annual_price_factors(),
-			'i18n_subscription_string'     => __( '%price / %period', 'wc_name_your_price' ),
-			'trim_zeros'                   => apply_filters( 'woocommerce_price_trim_zeros', false ) && wc_get_price_decimals() > 0,
-		);
-
-		wp_localize_script( 'woocommerce-nyp', 'woocommerce_nyp_params', apply_filters( 'wc_nyp_script_params', $params ) );
-
 	}
 
 	/**

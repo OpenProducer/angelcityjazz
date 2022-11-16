@@ -40,7 +40,7 @@ abstract class ExternalConnection extends Connection {
 	/**
 	 * Auth handler class
 	 *
-	 * @var Authentication
+	 * @var string
 	 */
 	public $auth_handler;
 

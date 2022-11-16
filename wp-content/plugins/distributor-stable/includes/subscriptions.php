@@ -119,7 +119,6 @@ function create_remote_subscription( ExternalConnection $connection, $remote_pos
 		$url,
 		$connection->auth_handler->format_post_args(
 			array(
-				// phpcs:ignore WordPressVIPMinimum.Performance.RemoteRequestTimeout.timeout_timeout
 				'timeout'  => 5,
 				'blocking' => \Distributor\Utils\is_dt_debug(),
 				'body'     => $post_body,
@@ -147,7 +146,6 @@ function delete_remote_subscription( ExternalConnection $connection, $remote_pos
 	wp_remote_request(
 		untrailingslashit( $connection->base_url ) . '/' . $connection::$namespace . '/dt_subscription/delete',
 		array(
-			// phpcs:ignore WordPressVIPMinimum.Performance.RemoteRequestTimeout.timeout_timeout
 			'timeout'  => 5,
 			'method'   => 'DELETE',
 			'blocking' => \Distributor\Utils\is_dt_debug(),
@@ -216,7 +214,6 @@ function delete_subscriptions( $post_id ) {
 			wp_remote_post(
 				untrailingslashit( $target_url ) . '/wp/v2/dt_subscription/receive',
 				[
-					// phpcs:ignore WordPressVIPMinimum.Performance.RemoteRequestTimeout.timeout_timeout
 					'timeout'  => 5,
 					'blocking' => \Distributor\Utils\is_dt_debug(),
 					'body'     => [

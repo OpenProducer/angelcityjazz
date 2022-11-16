@@ -1,5 +1,9 @@
 === WooCommerce Name Your Price ===
 
+2022.03.17 - version 3.3.9
+* Update: Tested up to WooCommerce 6.3.
+* Fix: run wp_localize_script in wp_enqueue_scripts hook. Solves issue of popups not loading woocommerce_nyp_params object.
+
 2022.01.31 - version 3.3.8
 * Fix: PHP notice on single product page, undefined variable.
 * Dev: WC_Name_Your_Price_Display::display_price_input( $product, $args ); second parameter now supports custom args.

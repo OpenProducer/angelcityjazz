@@ -7,6 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
+require_once dirname( __FILE__ ) . '/../api/campaigns/class-campaign-data-utils.php';
 require_once dirname( __FILE__ ) . '/../api/segmentation/class-segmentation.php';
 
 /**
@@ -84,7 +85,7 @@ final class Newspack_Popups_Segmentation {
 			wp_schedule_event( time(), 'hourly', 'newspack_popups_segmentation_data_prune' );
 		}
 
-		add_action( 'newspack_registered_reader', [ __CLASS__, 'handle_registered_reader' ], 10, 3 );
+		add_action( 'newspack_registered_reader', [ __CLASS__, 'handle_registered_reader' ], 10, 4 );
 	}
 
 	/**
@@ -177,7 +178,7 @@ final class Newspack_Popups_Segmentation {
 
 		$remote_config_url = add_query_arg(
 			[
-				'client_id'                         => 'CLIENT_ID(' . esc_attr( self::NEWSPACK_SEGMENTATION_CID_NAME ) . ')',
+				'client_id'                         => self::get_cid_param(),
 				'post_id'                           => esc_attr( get_the_ID() ),
 				'custom_dimensions'                 => wp_json_encode( $custom_dimensions ),
 				'custom_dimensions_existing_values' => wp_json_encode( $custom_dimensions_existing_values ),
@@ -223,7 +224,7 @@ final class Newspack_Popups_Segmentation {
 				'enabled' => true,
 				self::NEWSPACK_SEGMENTATION_CID_LINKER_PARAM => [
 					'ids' => [
-						$linker_id => 'CLIENT_ID(' . self::NEWSPACK_SEGMENTATION_CID_NAME . ')',
+						$linker_id => self::get_cid_param(),
 					],
 				],
 			],
@@ -265,7 +266,7 @@ final class Newspack_Popups_Segmentation {
 				'extraUrlParams' => array_merge(
 					$initial_client_report_url_params,
 					[
-						'client_id' => 'CLIENT_ID(' . esc_attr( self::NEWSPACK_SEGMENTATION_CID_NAME ) . ')',
+						'client_id' => self::get_cid_param(),
 					]
 				),
 			];
@@ -474,9 +475,33 @@ final class Newspack_Popups_Segmentation {
 	}
 
 	/**
+	 * Mock a preview CID for logged-in admin and editor users.
+	 *
+	 * @return string Preview client ID.
+	 */
+	private static function get_preview_user_cid() {
+		return 'preview-user-' . \get_current_user_id();
+	}
+
+	/**
+	 * Get the client ID placeholder used in AMP Access requests.
+	 */
+	public static function get_cid_param() {
+		if ( Newspack_Popups::is_user_admin() ) {
+			return self::get_preview_user_cid();
+		}
+
+		return 'CLIENT_ID(' . esc_attr( self::NEWSPACK_SEGMENTATION_CID_NAME ) . ')';
+	}
+
+	/**
 	 * Get current client's id.
 	 */
 	public static function get_client_id() {
+		if ( Newspack_Popups::is_user_admin() ) {
+			return self::get_preview_user_cid();
+		}
+
 		return isset( $_COOKIE[ self::NEWSPACK_SEGMENTATION_CID_NAME ] ) ? esc_attr( $_COOKIE[ self::NEWSPACK_SEGMENTATION_CID_NAME ] ) : false; // phpcs:ignore WordPressVIPMinimum.Variables.RestrictedVariables.cache_constraints___COOKIE, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	}
 
@@ -531,7 +556,7 @@ final class Newspack_Popups_Segmentation {
 			function ( $client_id ) use ( $api, $segment_config ) {
 				return Campaign_Data_Utils::does_reader_match_segment(
 					$segment_config,
-					$api->get_reader( $client_id ),
+					$api->get_readers( $client_id ),
 					$api->get_reader_events( $client_id, Campaign_Data_Utils::get_reader_events_types() )
 				);
 			}
@@ -779,19 +804,31 @@ final class Newspack_Popups_Segmentation {
 	/**
 	 * Handle reader registration.
 	 *
-	 * @param string $email Email address.
-	 * @param bool   $authenticate Whether the user was authenticated.
-	 * @param int    $user_id New user ID.
+	 * @param string       $email Email address.
+	 * @param bool         $authenticate Whether the user was authenticated.
+	 * @param int          $user_id New user ID.
+	 * @param null|WP_User $existing_user If the reader already has an account, the user object.
 	 */
-	public static function handle_registered_reader( $email, $authenticate, $user_id ) {
-		if ( $authenticate ) {
+	public static function handle_registered_reader( $email, $authenticate, $user_id, $existing_user ) {
+		if ( empty( $user_id ) && $existing_user && isset( $existing_user->ID ) ) {
+			$user_id = $existing_user->ID;
+		}
+
+		$action = $existing_user ? 'authenticate' : 'register';
+
+		if ( ! empty( $user_id ) ) {
 			try {
-				require_once dirname( __FILE__ ) . '/../api/classes/class-lightweight-api.php';
-				$api           = new Lightweight_API();
+				$api = \Campaign_Data_Utils::get_api( \wp_create_nonce( 'newspack_campaigns_lightweight_api' ) );
+				if ( ! $api ) {
+					return;
+				}
 				$reader_events = [
 					[
 						'type'    => 'user_account',
 						'context' => $user_id,
+						'value'   => [
+							'action' => $action,
+						],
 					],
 				];
 				$api->save_reader_events( self::get_client_id(), $reader_events );

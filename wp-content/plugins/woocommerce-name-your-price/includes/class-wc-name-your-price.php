@@ -30,7 +30,7 @@ class WC_Name_Your_Price {
 	 * @var $version
 	 * @since 2.0
 	 */
-	public $version = '3.3.8';
+	public $version = '3.3.9';
 
 	/**
 	 * The minimum required WooCommerce version
