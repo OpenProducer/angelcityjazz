@@ -12,10 +12,6 @@ import classnames from 'classnames';
  * Create a Button wrapper Component
  */
 export default class customButton extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		return (
 			<div

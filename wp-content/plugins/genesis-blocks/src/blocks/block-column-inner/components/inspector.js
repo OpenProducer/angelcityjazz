@@ -24,10 +24,6 @@ const { PanelBody, ToggleControl, SelectControl } = wp.components;
  * Create an Inspector Controls wrapper Component.
  */
 class Inspector extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		const {
 			backgroundColor,

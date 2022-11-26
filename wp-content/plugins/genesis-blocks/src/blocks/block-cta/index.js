@@ -149,14 +149,6 @@ class GBCTGBlock extends Component {
 			setAttributes,
 		} = this.props;
 
-		const onSelectImage = ( img ) => {
-			setAttributes( {
-				imgID: img.id,
-				imgURL: img.url,
-				imgAlt: img.alt,
-			} );
-		};
-
 		return [
 			// Show the alignment toolbar on focus
 			<BlockControls key={ 'gb-cta-block-controls-' + this.props.clientId } >
@@ -425,5 +417,5 @@ registerBlockType( 'genesis-blocks/gb-cta', {
 function dimRatioToClass( ratio ) {
 	return 0 === ratio || 50 === ratio
 		? null
-		: 'has-background-dim-' + 10 * Math.round( ratio / 10 );
+		: `has-background-dim-${ +10 * Math.round( ratio / 10 ) }`;
 }

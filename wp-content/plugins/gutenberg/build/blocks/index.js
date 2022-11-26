@@ -6128,6 +6128,11 @@ const __EXPERIMENTAL_STYLE_PROPERTY = {
     },
     useEngine: true
   },
+  minHeight: {
+    value: ['dimensions', 'minHeight'],
+    support: ['dimensions', 'minHeight'],
+    useEngine: true
+  },
   padding: {
     value: ['spacing', 'padding'],
     support: ['spacing', 'padding'],
@@ -7173,7 +7178,7 @@ const hasChildBlocksWithInserterSupport = blockName => {
   return (0,external_wp_data_namespaceObject.select)(store).hasChildBlocksWithInserterSupport(blockName);
 };
 /**
- * Registers a new block style variation for the given block.
+ * Registers a new block style for the given block.
  *
  * For more information on connecting the styles with CSS [the official documentation](/docs/reference-guides/block-api/block-styles.md#styles)
  *
@@ -7208,7 +7213,7 @@ const registerBlockStyle = (blockName, styleVariation) => {
   (0,external_wp_data_namespaceObject.dispatch)(store).addBlockStyles(blockName, styleVariation);
 };
 /**
- * Unregisters a block style variation for the given block.
+ * Unregisters a block style for the given block.
  *
  * @param {string} blockName          Name of block (example: “core/latest-posts”).
  * @param {string} styleVariationName Name of class applied to the block.
@@ -7876,7 +7881,6 @@ const getBlockFromExample = (name, example) => {
 
 
 
-
 /**
  * WordPress dependencies
  */
@@ -8094,7 +8098,8 @@ function __experimentalSanitizeBlockAttributes(name, attributes) {
     throw new Error(`Block type '${name}' is not registered.`);
   }
 
-  return (0,external_lodash_namespaceObject.reduce)(blockType.attributes, (accumulator, schema, key) => {
+  return Object.entries(blockType.attributes).reduce((accumulator, _ref) => {
+    let [key, schema] = _ref;
     const value = attributes[key];
 
     if (undefined !== value) {
@@ -8148,8 +8153,8 @@ function __experimentalGetBlockAttributesNamesByRole(name, role) {
  */
 
 function omit(object, keys) {
-  return Object.fromEntries(Object.entries(object).filter(_ref => {
-    let [key] = _ref;
+  return Object.fromEntries(Object.entries(object).filter(_ref2 => {
+    let [key] = _ref2;
     return !keys.includes(key);
   }));
 }
@@ -8277,7 +8282,7 @@ function blockTypes() {
   return state;
 }
 /**
- * Reducer managing the block style variations.
+ * Reducer managing the block styles.
  *
  * @param {Object} state  Current state.
  * @param {Object} action Dispatched action.
@@ -9311,7 +9316,9 @@ function selectors_getGroupingBlockName(state) {
 
 const selectors_getChildBlockNames = rememo((state, blockName) => {
   return (0,external_lodash_namespaceObject.map)((0,external_lodash_namespaceObject.filter)(state.blockTypes, blockType => {
-    return (0,external_lodash_namespaceObject.includes)(blockType.parent, blockName);
+    var _blockType$parent;
+
+    return (_blockType$parent = blockType.parent) === null || _blockType$parent === void 0 ? void 0 : _blockType$parent.includes(blockName);
   }), _ref2 => {
     let {
       name
@@ -9442,6 +9449,8 @@ function selectors_hasBlockSupport(state, nameOrType, feature, defaultSupports) 
  */
 
 function isMatchingSearchTerm(state, nameOrType, searchTerm) {
+  var _blockType$keywords;
+
   const blockType = getNormalizedBlockType(state, nameOrType);
   const getNormalizedSearchTerm = (0,external_wp_compose_namespaceObject.pipe)([// Disregard diacritics.
   //  Input: "média"
@@ -9451,8 +9460,8 @@ function isMatchingSearchTerm(state, nameOrType, searchTerm) {
   //  Input: " media "
   term => term.trim()]);
   const normalizedSearchTerm = getNormalizedSearchTerm(searchTerm);
-  const isSearchMatch = (0,external_wp_compose_namespaceObject.pipe)([getNormalizedSearchTerm, normalizedCandidate => (0,external_lodash_namespaceObject.includes)(normalizedCandidate, normalizedSearchTerm)]);
-  return isSearchMatch(blockType.title) || (0,external_lodash_namespaceObject.some)(blockType.keywords, isSearchMatch) || isSearchMatch(blockType.category) || typeof blockType.description === 'string' && isSearchMatch(blockType.description);
+  const isSearchMatch = (0,external_wp_compose_namespaceObject.pipe)([getNormalizedSearchTerm, normalizedCandidate => normalizedCandidate.includes(normalizedSearchTerm)]);
+  return isSearchMatch(blockType.title) || ((_blockType$keywords = blockType.keywords) === null || _blockType$keywords === void 0 ? void 0 : _blockType$keywords.some(isSearchMatch)) || isSearchMatch(blockType.category) || typeof blockType.description === 'string' && isSearchMatch(blockType.description);
 }
 /**
  * Returns a boolean indicating if a block has child blocks or not.
@@ -9525,10 +9534,16 @@ const selectors_hasChildBlocks = (state, blockName) => {
  */
 
 const selectors_hasChildBlocksWithInserterSupport = (state, blockName) => {
-  return (0,external_lodash_namespaceObject.some)(selectors_getChildBlockNames(state, blockName), childBlockName => {
+  return selectors_getChildBlockNames(state, blockName).some(childBlockName => {
     return selectors_hasBlockSupport(state, childBlockName, 'inserter', true);
   });
 };
+/**
+ * DO-NOT-USE in production.
+ * This selector is created for internal/experimental only usage and may be
+ * removed anytime without any warning, causing breakage on any plugin or theme invoking it.
+ */
+
 const __experimentalHasContentRoleAttribute = rememo((state, blockTypeName) => {
   const blockType = selectors_getBlockType(state, blockTypeName);
 
@@ -9697,8 +9712,11 @@ const processBlockType = (blockType, _ref) => {
     settings.category = LEGACY_CATEGORY_MAPPING[settings.category];
   }
 
-  if ('category' in settings && !(0,external_lodash_namespaceObject.some)(select.getCategories(), {
-    slug: settings.category
+  if ('category' in settings && !select.getCategories().some(_ref2 => {
+    let {
+      slug
+    } = _ref2;
+    return slug === settings.category;
   })) {
     warn('The block "' + name + '" is registered with an invalid category "' + settings.category + '".');
     delete settings.category;
@@ -9739,7 +9757,7 @@ const processBlockType = (blockType, _ref) => {
 function addBlockTypes(blockTypes) {
   return {
     type: 'ADD_BLOCK_TYPES',
-    blockTypes: (0,external_lodash_namespaceObject.castArray)(blockTypes)
+    blockTypes: Array.isArray(blockTypes) ? blockTypes : [blockTypes]
   };
 }
 /**
@@ -9748,11 +9766,11 @@ function addBlockTypes(blockTypes) {
  * @param {WPBlockType} blockType Unprocessed block type settings.
  */
 
-const __experimentalRegisterBlockType = blockType => _ref2 => {
+const __experimentalRegisterBlockType = blockType => _ref3 => {
   let {
     dispatch,
     select
-  } = _ref2;
+  } = _ref3;
   dispatch({
     type: 'ADD_UNPROCESSED_BLOCK_TYPE',
     blockType
@@ -9782,11 +9800,11 @@ const __experimentalRegisterBlockType = blockType => _ref2 => {
  * In this scenario some filters would not get applied for all blocks because they are registered too late.
  */
 
-const __experimentalReapplyBlockTypeFilters = () => _ref3 => {
+const __experimentalReapplyBlockTypeFilters = () => _ref4 => {
   let {
     dispatch,
     select
-  } = _ref3;
+  } = _ref4;
 
   const unprocessedBlockTypes = select.__experimentalGetUnprocessedBlockTypes();
 
@@ -9823,7 +9841,7 @@ const __experimentalReapplyBlockTypeFilters = () => _ref3 => {
 function removeBlockTypes(names) {
   return {
     type: 'REMOVE_BLOCK_TYPES',
-    names: (0,external_lodash_namespaceObject.castArray)(names)
+    names: Array.isArray(names) ? names : [names]
   };
 }
 /**
@@ -9841,7 +9859,7 @@ function removeBlockTypes(names) {
 function addBlockStyles(blockName, styles) {
   return {
     type: 'ADD_BLOCK_STYLES',
-    styles: (0,external_lodash_namespaceObject.castArray)(styles),
+    styles: Array.isArray(styles) ? styles : [styles],
     blockName
   };
 }
@@ -9860,7 +9878,7 @@ function addBlockStyles(blockName, styles) {
 function removeBlockStyles(blockName, styleNames) {
   return {
     type: 'REMOVE_BLOCK_STYLES',
-    styleNames: (0,external_lodash_namespaceObject.castArray)(styleNames),
+    styleNames: Array.isArray(styleNames) ? styleNames : [styleNames],
     blockName
   };
 }
@@ -9879,7 +9897,7 @@ function removeBlockStyles(blockName, styleNames) {
 function addBlockVariations(blockName, variations) {
   return {
     type: 'ADD_BLOCK_VARIATIONS',
-    variations: (0,external_lodash_namespaceObject.castArray)(variations),
+    variations: Array.isArray(variations) ? variations : [variations],
     blockName
   };
 }
@@ -9898,7 +9916,7 @@ function addBlockVariations(blockName, variations) {
 function removeBlockVariations(blockName, variationNames) {
   return {
     type: 'REMOVE_BLOCK_VARIATIONS',
-    variationNames: (0,external_lodash_namespaceObject.castArray)(variationNames),
+    variationNames: Array.isArray(variationNames) ? variationNames : [variationNames],
     blockName
   };
 }
@@ -11431,7 +11449,7 @@ function getTextWithCollapsedWhitespace(text) {
 function getMeaningfulAttributePairs(token) {
   return token.attributes.filter(pair => {
     const [key, value] = pair;
-    return value || key.indexOf('data-') === 0 || (0,external_lodash_namespaceObject.includes)(MEANINGFUL_ATTRIBUTES, key);
+    return value || key.indexOf('data-') === 0 || MEANINGFUL_ATTRIBUTES.includes(key);
   });
 }
 /**
@@ -12332,13 +12350,8 @@ function node_matcher(selector) {
 
 ;// CONCATENATED MODULE: ./packages/blocks/build-module/api/children.js
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
-
 
 
 /**
@@ -12407,8 +12420,12 @@ function concat() {
   });
   const result = [];
 
-  for (let i = 0; i < arguments.length; i++) {
-    const blockNode = (0,external_lodash_namespaceObject.castArray)(i < 0 || arguments.length <= i ? undefined : arguments[i]);
+  for (var _len = arguments.length, blockNodes = new Array(_len), _key = 0; _key < _len; _key++) {
+    blockNodes[_key] = arguments[_key];
+  }
+
+  for (let i = 0; i < blockNodes.length; i++) {
+    const blockNode = Array.isArray(blockNodes[i]) ? blockNodes[i] : [blockNodes[i]];
 
     for (let j = 0; j < blockNode.length; j++) {
       const child = blockNode[j];
@@ -12674,7 +12691,7 @@ function getBlockAttribute(attributeKey, attributeSchema, innerHTML, commentAttr
  */
 
 function isValidByType(value, type) {
-  return type === undefined || isOfTypes(value, (0,external_lodash_namespaceObject.castArray)(type));
+  return type === undefined || isOfTypes(value, Array.isArray(type) ? type : [type]);
 }
 /**
  * Returns true if value is valid per the given block attribute schema enum
@@ -12867,13 +12884,8 @@ function applyBuiltInValidationFixes(block, blockType) {
 
 ;// CONCATENATED MODULE: ./packages/blocks/build-module/api/parser/apply-block-deprecated-versions.js
 /**
- * External dependencies
- */
-
-/**
  * Internal dependencies
  */
-
 
 
 
@@ -12961,7 +12973,13 @@ function applyBlockDeprecatedVersions(block, rawBlock, blockType) {
     } = deprecatedBlockType;
 
     if (migrate) {
-      [migratedAttributes = parsedAttributes, migratedInnerBlocks = block.innerBlocks] = (0,external_lodash_namespaceObject.castArray)(migrate(migratedAttributes, block.innerBlocks));
+      let migrated = migrate(migratedAttributes, block.innerBlocks);
+
+      if (!Array.isArray(migrated)) {
+        migrated = [migrated];
+      }
+
+      [migratedAttributes = parsedAttributes, migratedInnerBlocks = block.innerBlocks] = migrated;
     }
 
     block = { ...block,
@@ -14354,6 +14372,10 @@ const converter = new (showdown_default()).Converter({
 function slackMarkdownVariantCorrector(text) {
   return text.replace(/((?:^|\n)```)([^\n`]+)(```(?:$|\n))/, (match, p1, p2, p3) => `${p1}\n${p2}\n${p3}`);
 }
+
+function bulletsToAsterisks(text) {
+  return text.replace(/(^|\n)•( +)/g, '$1*$2');
+}
 /**
  * Converts a piece of text into HTML based on any Markdown present.
  * Also decodes any encoded HTML.
@@ -14365,7 +14387,7 @@ function slackMarkdownVariantCorrector(text) {
 
 
 function markdownConverter(text) {
-  return converter.makeHtml(slackMarkdownVariantCorrector(text));
+  return converter.makeHtml(slackMarkdownVariantCorrector(bulletsToAsterisks(text)));
 }
 
 ;// CONCATENATED MODULE: ./packages/blocks/build-module/api/raw-handling/iframe-remover.js
@@ -14391,9 +14413,15 @@ function iframeRemover(node) {
 function googleDocsUIdRemover(node) {
   if (!node.id || node.id.indexOf('docs-internal-guid-') !== 0) {
     return;
-  }
+  } // Google Docs sometimes wraps the content in a B tag. We don't want to keep
+  // this.
 
-  (0,external_wp_dom_namespaceObject.unwrap)(node);
+
+  if (node.tagName === 'B') {
+    (0,external_wp_dom_namespaceObject.unwrap)(node);
+  } else {
+    node.removeAttribute('id');
+  }
 }
 
 ;// CONCATENATED MODULE: ./packages/blocks/build-module/api/raw-handling/html-formatting-remover.js

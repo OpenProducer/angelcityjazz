@@ -21,10 +21,6 @@ const { Button, Icon, PanelBody, RangeControl } = wp.components;
  * Create an Inspector Controls wrapper Component
  */
 export default class Inspector extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		// Setup the attributes
 		const {
@@ -202,21 +198,21 @@ export default class Inspector extends Component {
 
 									{ containerImgURL &&
 										!! containerImgURL.length && (
-											<Button
-												className="gb-container-inspector-media"
-												label={ __(
-													'Remove Image',
-													'genesis-blocks'
-												) }
-												onClick={ onRemoveImage }
-											>
-												<Icon icon="dismiss" />
-												{ __(
-													'Remove',
-													'genesis-blocks'
-												) }
-											</Button>
-										) }
+										<Button
+											className="gb-container-inspector-media"
+											label={ __(
+												'Remove Image',
+												'genesis-blocks'
+											) }
+											onClick={ onRemoveImage }
+										>
+											<Icon icon="dismiss" />
+											{ __(
+												'Remove',
+												'genesis-blocks'
+											) }
+										</Button>
+									) }
 								</div>
 							) }
 						></MediaUpload>

@@ -109,7 +109,7 @@ registerBlockType( 'genesis-blocks/gb-container', {
 	],
 
 	supports: {
-		align: [ 'center', 'wide', 'full' ]
+		align: [ 'center', 'wide', 'full' ],
 	},
 
 	attributes: blockAttributes,
@@ -134,7 +134,7 @@ registerBlockType( 'genesis-blocks/gb-container', {
 				<InnerBlocks.Content />
 			</Container>
 		);
-	},getEditWrapperProps( { containerWidth } ) {
+	}, getEditWrapperProps( { containerWidth } ) {
 		if (
 			'center' === containerWidth ||
 			'wide' === containerWidth ||

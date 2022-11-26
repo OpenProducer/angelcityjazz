@@ -7,7 +7,7 @@ const { Button, FontSizePicker, NavigableMenu, PanelBody } = wp.components;
 const { createHigherOrderComponent } = wp.compose;
 const { useDispatch, useSelect } = wp.data;
 const { __ } = wp.i18n;
-import { cleanEmptyObject } from '@wordpress/block-editor/build-module/hooks/utils';
+import { cleanEmptyObject } from '../utils';
 
 /**
  * Internal dependencies
@@ -45,8 +45,8 @@ export const withResponsiveSettings = createHigherOrderComponent( ( BlockEdit ) 
 		const isLineHeightDisabled = ! hasBlockSupport( props.name, 'typography.lineHeight', true ) || ! enableCustomLineHeight;
 
 		if (
-			! BLOCKS_WITH_RESPONSIVE_SETTINGS.includes( props.name )
-			|| ( isFontSizeDisabled && isLineHeightDisabled )
+			! BLOCKS_WITH_RESPONSIVE_SETTINGS.includes( props.name ) ||
+			( isFontSizeDisabled && isLineHeightDisabled )
 		) {
 			return <BlockEdit { ...props } />;
 		}
@@ -60,18 +60,18 @@ export const withResponsiveSettings = createHigherOrderComponent( ( BlockEdit ) 
 			if ( !! __experimentalSetPreviewDeviceType ) {
 				__experimentalSetPreviewDeviceType( device );
 			}
-		}
+		};
 
 		/**
 		 * Gets the responsive value for the device.
 		 *
 		 * @param { 'fontSize' | 'lineHeight' } responsiveSettingName The key of the responsive value.
-		 * @param {string} device The device The device to get the responsive value for.
+		 * @param {string}                      device                The device The device to get the responsive value for.
 		 * @return {string} The responsive value.
 		 */
 		const getResponsiveValueForDevice = ( responsiveSettingName, device ) =>
-			props.attributes[ RESPONSIVE_SETTINGS_ATTRIBUTE ]
-				&& props.attributes[ RESPONSIVE_SETTINGS_ATTRIBUTE ][ device ]
+			props.attributes[ RESPONSIVE_SETTINGS_ATTRIBUTE ] &&
+				props.attributes[ RESPONSIVE_SETTINGS_ATTRIBUTE ][ device ]
 				? props.attributes[ RESPONSIVE_SETTINGS_ATTRIBUTE ][ device ][ responsiveSettingName ]
 				: '';
 
@@ -82,9 +82,9 @@ export const withResponsiveSettings = createHigherOrderComponent( ( BlockEdit ) 
 		 */
 		const getFontSizeOfSelectedDevice = () => {
 			if ( DEVICE_NAMES.desktop === selectedDevice ) {
-				return getFontSize( props.attributes.fontSize, fontSizes )
-					|| getFontSize( props.attributes?.style?.typography?.fontSize, fontSizes )
-					|| props.attributes?.style?.typography?.fontSize;
+				return getFontSize( props.attributes.fontSize, fontSizes ) ||
+					getFontSize( props.attributes?.style?.typography?.fontSize, fontSizes ) ||
+					props.attributes?.style?.typography?.fontSize;
 			}
 
 			const responsiveValue = getResponsiveValueForDevice( 'fontSize', DEVICE_SIZES[ selectedDevice ] );
@@ -93,7 +93,7 @@ export const withResponsiveSettings = createHigherOrderComponent( ( BlockEdit ) 
 				responsiveValue,
 				fontSizes
 			) || responsiveValue;
-		}
+		};
 
 		/**
 		 * Gets the line height of the selected device.
@@ -108,7 +108,7 @@ export const withResponsiveSettings = createHigherOrderComponent( ( BlockEdit ) 
 		/**
 		 * Sets the responsive value, like a 'lineHeight' of '2.0'.
 		 *
-		 * @param {string} key The key of the responsive value to set.
+		 * @param {string} key   The key of the responsive value to set.
 		 * @param {string} value The responsive value to set.
 		 */
 		const setResponsiveValue = ( key, value ) => {
@@ -118,10 +118,10 @@ export const withResponsiveSettings = createHigherOrderComponent( ( BlockEdit ) 
 					[ DEVICE_SIZES[ selectedDevice ] ]: {
 						...props.attributes[ RESPONSIVE_SETTINGS_ATTRIBUTE ][ DEVICE_SIZES[ selectedDevice ] ],
 						[ key ]: value,
-					}
+					},
 				},
 			} );
-		}
+		};
 
 		const mobileFont = getResponsiveValueForDevice( 'fontSize', DEVICE_SIZES.Mobile );
 		const tabletFont = getResponsiveValueForDevice( 'fontSize', DEVICE_SIZES.Tablet );
@@ -225,18 +225,14 @@ export const withResponsiveSettings = createHigherOrderComponent( ( BlockEdit ) 
 										const fontSizeSlug = getFontSlug( newFontSize, fontSizes );
 
 										if ( DEVICE_NAMES.desktop === selectedDevice ) {
-											const newStyle = {
-												...props.attributes?.style,
-												typography: {
-													...props.attributes?.style?.typography,
-													fontSize: fontSizeSlug ? undefined : newFontSize,
-												},
-											};
-
 											props.setAttributes( {
-												style: !! cleanEmptyObject
-													? cleanEmptyObject( newStyle )
-													: newStyle,
+												style: cleanEmptyObject( {
+													...props.attributes?.style,
+													typography: {
+														...props.attributes?.style?.typography,
+														fontSize: fontSizeSlug ? undefined : newFontSize,
+													},
+												} ),
 												fontSize: fontSizeSlug,
 											} );
 
@@ -258,18 +254,14 @@ export const withResponsiveSettings = createHigherOrderComponent( ( BlockEdit ) 
 									value={ getLineHeightOfSelectedDevice() }
 									onChange={ ( newLineHeight ) => {
 										if ( DEVICE_NAMES.desktop === selectedDevice ) {
-											const newStyle = {
-												...props.attributes?.style,
-												typography: {
-													...props.attributes?.style?.typography,
-													lineHeight: newLineHeight,
-												},
-											};
-
 											props.setAttributes( {
-												style: !! cleanEmptyObject
-													? cleanEmptyObject( newStyle )
-													: newStyle
+												style: {
+													...props.attributes?.style,
+													typography: {
+														...props.attributes?.style?.typography,
+														lineHeight: newLineHeight,
+													},
+												},
 											} );
 
 											return;

@@ -17,10 +17,6 @@ import classnames from 'classnames';
  * Newsletter Container class
  */
 export default class NewsletterContainer extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		const { attributes, backgroundColor, textColor } = this.props;
 

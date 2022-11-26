@@ -18,7 +18,7 @@ import { compose } from '@wordpress/compose';
 import { useRef } from '@wordpress/element';
 import { doAction } from '@wordpress/hooks';
 
-function SaveButtonComponent({
+function SaveButtonComponent( {
 	form,
 	settings,
 	custom,
@@ -26,7 +26,7 @@ function SaveButtonComponent({
 	successMessage,
 	failMessage,
 	messageDuration,
-}) {
+} ) {
 	// Reference to the message timer that persists across re-renders.
 	const messageTimerRef = useRef();
 
@@ -34,9 +34,9 @@ function SaveButtonComponent({
 	 * Saves the current settings state to the database.
 	 */
 	function saveSettings() {
-		doAction('genesisBlocks.savingSettings', settings, custom);
-		clearTimeout(messageTimerRef.current); // Existing timers must not remove new messages prematurely.
-		dispatch('genesis-blocks/global-settings').saveSettings(settings);
+		doAction( 'genesisBlocks.savingSettings', settings, custom );
+		clearTimeout( messageTimerRef.current ); // Existing timers must not remove new messages prematurely.
+		dispatch( 'genesis-blocks/global-settings' ).saveSettings( settings );
 	}
 
 	/**
@@ -48,46 +48,46 @@ function SaveButtonComponent({
 	function showMessage() {
 		messageTimerRef.current = setTimeout(
 			() =>
-				dispatch('genesis-blocks/global-settings').resetFormSaveState(),
+				dispatch( 'genesis-blocks/global-settings' ).resetFormSaveState(),
 			messageDuration * 1000
 		);
 
 		const message = form.success ? successMessage : failMessage;
 
-		speak(message, 'polite');
+		speak( message, 'polite' );
 
 		const classes =
 			'genesis-blocks-save-notice' +
-			`${form.success ? ' success' : ''}` +
-			`${form.fail ? ' fail' : ''}`;
+			`${ form.success ? ' success' : '' }` +
+			`${ form.fail ? ' fail' : '' }`;
 
-		return <span className={classes}>{message}</span>;
+		return <span className={ classes }>{ message }</span>;
 	}
 
 	return (
 		<>
 			<Button
 				isPrimary
-				isBusy={form.is_saving}
-				disabled={form.is_saving}
-				onClick={saveSettings}
+				isBusy={ form.is_saving }
+				disabled={ form.is_saving }
+				onClick={ saveSettings }
 				className="genesis-blocks-settings-save has-notices"
 			>
-				{children}
+				{ children }
 			</Button>
-			{form.success || form.fail ? showMessage() : ''}
+			{ form.success || form.fail ? showMessage() : '' }
 		</>
 	);
 }
 
-export const SaveButton = compose([
-	withSelect((select) => ({
-		form: select('genesis-blocks/global-settings').getFormInfo(),
+export const SaveButton = compose( [
+	withSelect( ( select ) => ( {
+		form: select( 'genesis-blocks/global-settings' ).getFormInfo(),
 		settings: select(
 			'genesis-blocks/global-settings'
 		).getModifiedSettings(),
 		custom: select(
 			'genesis-blocks/global-settings'
 		).getCustom(),
-	})),
-])(SaveButtonComponent);
+	} ) ),
+] )( SaveButtonComponent );

@@ -19,10 +19,6 @@ const {
 } = wp.blockEditor;
 
 class Edit extends Component {
-	constructor() {
-		super( ...arguments );
-	}
-
 	render() {
 		const { attributes, setAttributes } = this.props;
 
@@ -69,7 +65,7 @@ class Edit extends Component {
 				key="column"
 			>
 				<InnerBlocks
-					template={[[ 'core/paragraph' ]]}
+					template={ [ [ 'core/paragraph' ] ] }
 					templateLock={ false }
 					templateInsertUpdatesSelection={ false }
 				/>

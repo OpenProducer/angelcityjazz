@@ -44,9 +44,9 @@ export default class RenderSettingControl extends Component {
 		 * A filter for determining whether or not a setting should be rendered.
 		 *
 		 * @param {boolean} Whether or not the setting control should be rendered. Default true.
-		 * @param {string} The block name.
-		 * @param {string} The setting control's ID.
-		 * @param {Object} The current user's data.
+		 * @param {string}  The     block name.
+		 * @param {string}  The     setting control's ID.
+		 * @param {Object}  The     current user's data.
 		 */
 		if (
 			applyFilters(

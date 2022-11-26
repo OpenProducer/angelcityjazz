@@ -17,11 +17,11 @@ import { ButtonNext, ButtonPrevious, Step, StepContent, StepFooter, StepIcon } f
 
 /**
  * @typedef {Object} UpdateHooksProps The component props.
- * @property {boolean} isStepActive Whether this step is active.
- * @property {boolean} isStepComplete Whether this step is complete.
- * @property {number} stepIndex The step index of this step.
- * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToNext Goes to the next step.
- * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToPrevious Goes to the next step.
+ * @property {boolean}                                                             isStepActive   Whether this step is active.
+ * @property {boolean}                                                             isStepComplete Whether this step is complete.
+ * @property {number}                                                              stepIndex      The step index of this step.
+ * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToNext       Goes to the next step.
+ * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToPrevious   Goes to the next step.
  */
 
 /**
@@ -73,7 +73,7 @@ const UpdateHooks = ( { isStepActive, isStepComplete, stepIndex, goToNext, goToP
 				<StepFooter>
 					<ButtonPrevious onClick={ goToPrevious } />
 					<ButtonNext
-						checkboxLabel={ __( "I have made necessary changes to PHP and CSS.", 'genesis-blocks' ) }
+						checkboxLabel={ __( 'I have made necessary changes to PHP and CSS.', 'genesis-blocks' ) }
 						onClick={ goToNext }
 						stepIndex={ stepIndex }
 					/>

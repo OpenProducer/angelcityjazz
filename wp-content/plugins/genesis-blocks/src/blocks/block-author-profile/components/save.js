@@ -13,10 +13,6 @@ const { Component } = wp.element;
 const { RichText } = wp.blockEditor;
 
 export default class Save extends Component {
-	constructor() {
-		super( ...arguments );
-	}
-
 	render() {
 		const {
 			profileName,

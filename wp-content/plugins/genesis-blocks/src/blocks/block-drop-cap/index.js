@@ -135,13 +135,13 @@ registerBlockType( 'genesis-blocks/gb-drop-cap', {
 		return (
 			<DropCap { ...props }>
 				{ // Check if there is text and output
-				dropCapContent && (
-					<RichText.Content
-						tagName="div"
-						className="gb-drop-cap-text"
-						value={ dropCapContent }
-					/>
-				) }
+					dropCapContent && (
+						<RichText.Content
+							tagName="div"
+							className="gb-drop-cap-text"
+							value={ dropCapContent }
+						/>
+					) }
 			</DropCap>
 		);
 	},

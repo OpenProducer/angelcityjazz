@@ -17,10 +17,6 @@ const { Component, Fragment } = wp.element;
 const { BlockControls, BlockAlignmentToolbar } = wp.blockEditor;
 
 export default class Edit extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		const { attributes, setAttributes, clientId } = this.props;
 

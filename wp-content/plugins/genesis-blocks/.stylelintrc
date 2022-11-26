@@ -1,13 +1,24 @@
 {
-  "extends": "stylelint-config-wordpress/scss",
+  "extends": "@wordpress/stylelint-config/scss",
   "rules": {
+    "declaration-property-unit-allowed-list": null,
+    "font-weight-notation": null,
+    "function-url-quotes": null,
     "no-descending-specificity": null,
     "no-duplicate-selectors": null,
-    "selector-attribute-quotes": null,
-    "font-weight-notation": null,
-    "declaration-property-unit-whitelist": null,
+    "no-invalid-position-at-import-rule": null,
+    "scss/at-import-partial-extension": null,
     "scss/selector-no-redundant-nesting-selector": null,
-    "function-url-quotes": null,
-    "selector-type-no-unknown": [true, { "ignoreTypes": ["/^checked/"] }]
+    "selector-attribute-quotes": null,
+    "selector-class-pattern": null,
+    "selector-type-no-unknown": [
+      true,
+      {
+        "ignoreTypes": [
+          "/^checked/"
+        ]
+      }
+    ],
+    "value-keyword-case": null
   }
 }

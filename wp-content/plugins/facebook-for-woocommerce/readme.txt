@@ -2,8 +2,8 @@
 Contributors: facebook, automattic, woothemes
 Tags: facebook, shop, catalog, advertise, pixel, product
 Requires at least: 4.4
-Tested up to: 6.0
-Stable tag: 2.6.24
+Tested up to: 6.1
+Stable tag: 3.0.4
 Requires PHP: 5.6 or greater
 MySQL: 5.6 or greater
 License: GPLv2 or later
@@ -38,6 +38,67 @@ When opening a bug on GitHub, please give us as many details as possible.
 * Current version of Facebook-for-WooCommerce, WooCommerce, Wordpress, PHP
 
 == Changelog ==
+
+= 3.0.4 - 2022-11-21 =
+* Dev - Ensure return value matches method signature.
+
+= 3.0.3 - 2022-11-18 =
+* Fix - Remove flexible heredoc syntax that is incompatible with PHP 7.2
+
+= 3.0.2 - 2022-11-18 =
+* Fix - Properly handle API exceptions
+* Fix - Set correct PHP version in plugin header
+* Dev - Add ArrayAccess implementation to JSONResponse class
+
+= 3.0.1 - 2022-11-17 =
+* Fix - Wrong path to the fbutils.php file.
+
+= 3.0.0 - 2022-11-17 =
+* Dev - Adding API Unit Tests.
+* Dev - Adding unit test workflow.
+* Dev - Adjusting php code styling.
+* Dev - Refactoring multiple Facebook APIs into a single one.
+* Dev - Removing SkyVerge dependency.
+* Dev - Removing deprecations.
+* Tweak - WC 5.4 compatibility.
+
+= 2.6.30 - 2022-11-09 =
+* Fix - Add backward compatibility for WC 6.1, 6.2, and 6.3 versions.
+* Fix - Sync product set when the term name changes.
+
+= 2.6.29 - 2022-11-08 =
+* Add - Facebook Product Set under the Marketing menu.
+* Add - HPOS Compatibility.
+* Add - Inbox note about Facebook menu moved under the Marketing menu.
+* Add - Set up Facebook task to the WooCommerce admin tasks.
+* Dev - Replaced methods from classes in the `Internal` namespace.
+* Fix - Ensure the enhanced product enhance catalog attributes value is unslashed before saving in the post_meta table.
+* Fix - Hosted Woo Updates.
+* Fix - Release/2.6.28.
+* Fix - duplicate InitiateCheckout when using checkout block.
+* Tweak - WC 7.1 compatibility.
+* Tweak - WP 6.1 compatibility.
+* Update - FB Product Set name changed to Facebook Product Set.
+* Update - On successful FBE install users will be redirected to Advertise tab of the plugin.
+
+= 2.6.28 - 2022-10-25 =
+* Fix - Ensure bundles are not treated as virtual products on product_sync.
+* Fix - Ensure google-product-category-fields-loads.js loads only on the product category screens.
+* Fix - Server side sending of pixel events blocks generating pages .
+
+= 2.6.27 - 2022-10-14 =
+* Fix - Revert "Switch to Jetpack autoloader. (#1996 PR refresh)".
+
+= 2.6.26 - 2022-10-13 =
+* Add - wc_facebook_should_sync_product filter.
+* Dev - Rename JobRegistry to JobManager.
+* Dev - Replace composer autoloader with Jetpack autoloader.
+* Fix - Fix content_name and content_category attributes set on ViewCategory pixel events.
+* Tweak - WC 7.0 compatibility.
+
+= 2.6.25 - 2022-10-04 =
+* Add - New filter (wc_facebook_product_group_default_variation) to allow customizing a product group's default variation.
+* Update - Remove Skyverge's sake as a dependency from the extension build process.
 
 = 2.6.24 - 2022-09-27 =
 * Fix - Adds helpful admin notices for correct user roles.

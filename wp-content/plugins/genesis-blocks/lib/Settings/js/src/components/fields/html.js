@@ -6,8 +6,8 @@
  * @license GPL-2.0-or-later
  */
 
-function Html({ field }) {
-	return <div dangerouslySetInnerHTML={{ __html: field.content }} />;
+function Html( { field } ) {
+	return <div dangerouslySetInnerHTML={ { __html: field.content } } />;
 }
 
 export default Html;

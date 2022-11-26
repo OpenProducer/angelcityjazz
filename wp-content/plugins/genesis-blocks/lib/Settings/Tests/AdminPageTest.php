@@ -148,6 +148,7 @@ final class AdminPageTest extends TestCase {
 	 */
 	public function getAddBodyClassData() {
 		return [
+			[ 'other-plugin', null, null ],
 			[ null, 'wp-admin wp-core-ui', 'wp-admin wp-core-ui' ],
 			[ 'other-plugin', 'wp-admin wp-core-ui', 'wp-admin wp-core-ui' ],
 			[ 'genesis-blocks-getting-started', 'wp-admin wp-core-ui', 'wp-admin wp-core-ui genesis-blocks-admin-page' ],

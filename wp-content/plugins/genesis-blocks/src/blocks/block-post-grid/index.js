@@ -31,7 +31,7 @@ registerBlockType( 'genesis-blocks/gb-post-grid', {
 		__( 'post', 'genesis-blocks' ),
 		__( 'page', 'genesis-blocks' ),
 		__( 'grid', 'genesis-blocks' ),
-		__( 'atomic', 'genesis-blocks' )
+		__( 'atomic', 'genesis-blocks' ),
 	],
 
 	edit,

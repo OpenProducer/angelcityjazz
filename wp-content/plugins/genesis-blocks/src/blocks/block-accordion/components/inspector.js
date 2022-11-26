@@ -27,10 +27,6 @@ const { PanelBody, RangeControl, ToggleControl } = wp.components;
  * Create an Inspector Controls wrapper Component.
  */
 export default class Inspector extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		return (
 			<InspectorControls key="inspector">

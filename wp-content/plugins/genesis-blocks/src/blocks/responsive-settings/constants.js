@@ -1,5 +1,5 @@
 export const BLOCKS_WITH_RESPONSIVE_SETTINGS = [
-	'core/paragraph', 
+	'core/paragraph',
 	'core/heading',
 ];
 export const DEVICE_NAMES = {

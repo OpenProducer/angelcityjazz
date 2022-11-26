@@ -13,42 +13,42 @@ import { SelectControl } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { dispatch, withDispatch } from '@wordpress/data';
 
-function SelectComponent({ settings, field, onUpdate }) {
-	function parseOptions(options) {
+function SelectComponent( { settings, field, onUpdate } ) {
+	function parseOptions( options ) {
 		const fieldOptions = [];
-		for (const [value, label] of Object.entries(options)) {
-			fieldOptions.push({ value, label });
+		for ( const [ value, label ] of Object.entries( options ) ) {
+			fieldOptions.push( { value, label } );
 		}
 		return fieldOptions;
 	}
 
 	return (
 		<SelectControl
-			className={field.class}
-			label={field.label}
-			help={field.help ? field.help : ''}
-			value={settings[field.id] ? settings[field.id] : false}
-			options={parseOptions(field.options)}
-			onChange={(newValue) =>
-				onUpdate({
+			className={ field.class }
+			label={ field.label }
+			help={ field.help ? field.help : '' }
+			value={ settings[ field.id ] ? settings[ field.id ] : false }
+			options={ parseOptions( field.options ) }
+			onChange={ ( newValue ) =>
+				onUpdate( {
 					key: field.id,
 					value: newValue,
-				})
+				} )
 			}
 		/>
 	);
 }
 
-const Select = compose([
+const Select = compose( [
 	// Pushes field changes to the data store.
-	withDispatch(() => ({
-		onUpdate(newValue) {
-			dispatch('genesis-blocks/global-settings').updateSetting({
+	withDispatch( () => ( {
+		onUpdate( newValue ) {
+			dispatch( 'genesis-blocks/global-settings' ).updateSetting( {
 				key: newValue.key,
 				value: newValue.value,
-			});
+			} );
 		},
-	})),
-])(SelectComponent);
+	} ) ),
+] )( SelectComponent );
 
 export default Select;

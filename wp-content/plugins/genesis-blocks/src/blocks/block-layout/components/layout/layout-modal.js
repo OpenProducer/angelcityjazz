@@ -12,9 +12,9 @@ const { Fragment, useState } = wp.element;
 const { Button, Dashicon, Modal, TabPanel } = wp.components;
 const { useDispatch } = wp.data;
 
-function LayoutModal(props) {
-	const [currentTab, setCurrentTab] = useState( 'gb-layout-tab-collections' );
-	const [modalOpen, setModalOpen] = useState( true );
+function LayoutModal( props ) {
+	const [ currentTab, setCurrentTab ] = useState( 'gb-layout-tab-collections' );
+	const [ modalOpen, setModalOpen ] = useState( true );
 	const { removeBlock } = useDispatch( 'core/block-editor' );
 
 	const tabs = [];
@@ -65,7 +65,7 @@ function LayoutModal(props) {
 				isPrimary
 				className="gb-layout-modal-button"
 				onClick={ () => {
-					setModalOpen( true )
+					setModalOpen( true );
 				} }
 			>
 				{ __( 'Layout Library', 'genesis-blocks' ) }
@@ -129,7 +129,7 @@ function LayoutModal(props) {
 						className="gb-layout-modal-panel"
 						activeClass="gb-layout-modal-active-tab"
 						onSelect={ ( tabName ) => {
-							setCurrentTab( tabName )
+							setCurrentTab( tabName );
 						} }
 						tabs={ tabs }
 					>
@@ -253,6 +253,6 @@ function LayoutModal(props) {
 				</Modal>
 			) : null }
 		</Fragment>
-	)
+	);
 }
 export default LayoutModal;

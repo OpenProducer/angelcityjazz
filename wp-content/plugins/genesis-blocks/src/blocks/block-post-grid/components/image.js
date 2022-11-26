@@ -109,7 +109,7 @@ export default class PostGridImage extends Component {
 					</a>
 
 					{ /* If we don't have the selected image size, show a warning */
-					! this.getImageUrl() &&
+						! this.getImageUrl() &&
 						this.state.imageLoaded &&
 						'selectimage' !== this.props.imgSize && (
 							<Fragment>

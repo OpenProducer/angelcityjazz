@@ -7,7 +7,7 @@
  */
 import LayoutLibraryItemCard from './layout-library-item-card';
 import LayoutLibraryItemList from './layout-library-item-list';
-import { Collections } from "./collections/views/Collections.js";
+import { Collections } from './collections/views/Collections.js';
 
 /**
  * WordPress dependencies.
@@ -18,26 +18,21 @@ const { withSelect, withDispatch } = wp.data;
 const { Component, Fragment } = wp.element;
 
 class LayoutLibraryItem extends Component {
-	constructor() {
-		super( ...arguments );
-	}
-
 	layoutTabContent() {
 		let component = [];
 
-		if ('gb-layout-tab-reusable-blocks' === this.props.currentTab) {
-			component = <LayoutLibraryItemList { ...this.props } />
-		} else if ('gb-layout-tab-collections' === this.props.currentTab) {
-			component = <Collections { ...this.props } />
+		if ( 'gb-layout-tab-reusable-blocks' === this.props.currentTab ) {
+			component = <LayoutLibraryItemList { ...this.props } />;
+		} else if ( 'gb-layout-tab-collections' === this.props.currentTab ) {
+			component = <Collections { ...this.props } />;
 		} else {
-			component = <LayoutLibraryItemCard { ...this.props } />
+			component = <LayoutLibraryItemCard { ...this.props } />;
 		}
 
 		return component;
 	}
 
 	render() {
-
 		return (
 			<Fragment>
 				{ this.layoutTabContent() }

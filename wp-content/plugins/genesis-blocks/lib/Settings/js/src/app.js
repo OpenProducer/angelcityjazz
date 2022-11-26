@@ -16,4 +16,4 @@ import { render } from '@wordpress/element';
  */
 import { Settings } from './components/settings';
 
-render(<Settings />, document.getElementById('root'));
+render( <Settings />, document.getElementById( 'root' ) );

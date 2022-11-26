@@ -21,11 +21,10 @@ function genesis_blocks_block_assets() {
 	// Load the compiled styles.
 	wp_enqueue_style(
 		'genesis-blocks-style-css',
-		plugins_url( 'dist/blocks.style.build.css', dirname( __FILE__ ) ),
+		plugins_url( 'dist/style-blocks.build.css', dirname( __FILE__ ) ),
 		array(),
-		filemtime( plugin_dir_path( genesis_blocks_main_plugin_file() ) . 'dist/blocks.style.build.css' )
+		filemtime( plugin_dir_path( genesis_blocks_main_plugin_file() ) . 'dist/style-blocks.build.css' )
 	);
-
 }
 add_action( 'init', 'genesis_blocks_block_assets' );
 
@@ -51,9 +50,9 @@ function genesis_blocks_editor_assets() {
 	// Load the compiled styles into the editor.
 	wp_enqueue_style(
 		'genesis-blocks-block-editor-css',
-		plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ),
+		plugins_url( 'dist/blocks.build.css', dirname( __FILE__ ) ),
 		array( 'wp-edit-blocks' ),
-		filemtime( plugin_dir_path( genesis_blocks_main_plugin_file() ) . 'dist/blocks.editor.build.css' )
+		filemtime( plugin_dir_path( genesis_blocks_main_plugin_file() ) . 'dist/blocks.build.css' )
 	);
 
 	$user_data = wp_get_current_user();

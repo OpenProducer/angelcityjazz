@@ -21,10 +21,10 @@ import { Step, StepContent, StepFooter, StepIcon, SubstepList } from '../';
 
 /**
  * @typedef {Object} MigrateBlocksProps The component props.
- * @property {Function} goToNext Goes to the next step.
- * @property {boolean} isStepActive Whether this step is active.
- * @property {boolean} isStepComplete Whether this step is complete.
- * @property {number} stepIndex The step index of this step.
+ * @property {Function} goToNext       Goes to the next step.
+ * @property {boolean}  isStepActive   Whether this step is active.
+ * @property {boolean}  isStepComplete Whether this step is complete.
+ * @property {number}   stepIndex      The step index of this step.
  */
 
 /**
@@ -80,7 +80,7 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex, goToNext } ) 
 			speak( __( 'The pro settings migration failed.', 'genesis-blocks' ) );
 			setIsError( true );
 		} );
-	}
+	};
 
 	/**
 	 * Step 2: Migrates post content, then triggers step 3.
@@ -95,7 +95,7 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex, goToNext } ) 
 		} ).then( async ( response ) => {
 			// Send migration requests until no posts with Atomic Blocks content are found.
 			if ( response.results && response.results.postsFound > 0 ) {
-				setPostsMigrated( postsMigrated => postsMigrated + response.results.postsFound );
+				setPostsMigrated( ( postsMigrated ) => postsMigrated + response.results.postsFound );
 				await migratePostContent();
 				return;
 			}
@@ -186,19 +186,19 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex, goToNext } ) 
 				isStepActive={ isStepActive }
 				isLastStep={ true }
 			>
-				{ ! isSuccess && <p>{ __( "Okay! Everything is ready. Let’s do this. While the migration is underway, don’t leave this page.", 'genesis-blocks' ) }</p> }
+				{ ! isSuccess && <p>{ __( 'Okay! Everything is ready. Let’s do this. While the migration is underway, don’t leave this page.', 'genesis-blocks' ) }</p> }
 				{ !! errorMessage && (
 					<div className="gb-migration__error inline-notice gb-error">
 						<p><span>{ __( 'The following error occurred:', 'genesis-blocks' ) }</span>
-						{ errorMessage }</p>
+							{ errorMessage }</p>
 					</div>
 				) }
 				{ ( isInProgress || isSuccess ) && (
 					<>
 						<SubstepList
-							steps={migrationLabels}
-							currentStep={currentBlockMigrationStep}
-							complete={!isInProgress}/>
+							steps={ migrationLabels }
+							currentStep={ currentBlockMigrationStep }
+							complete={ ! isInProgress } />
 					</>
 				) }
 				{ ! isInProgress && ! isSuccess && (
@@ -211,42 +211,42 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex, goToNext } ) 
 				) }
 				{ isSuccess && (
 					<>
-						{!genesisBlocksMigration.isPro && (
+						{ ! genesisBlocksMigration.isPro && (
 							<p>
 								<span
 									role="img"
-									aria-label={__("party emoji", "genesis-blocks")}
+									aria-label={ __( 'party emoji', 'genesis-blocks' ) }
 								>
 									🎉
 								</span>
 								&nbsp;
-								{__(
-									"The migration completed successfully! Time to say goodbye to Atomic Blocks (it’s been fun!) and step into the FUTURE",
-									"genesis-blocks"
-								)}
+								{ __(
+									'The migration completed successfully! Time to say goodbye to Atomic Blocks (it’s been fun!) and step into the FUTURE',
+									'genesis-blocks'
+								) }
 								&nbsp;
 								<span className="message-future">
-									{__("FUTURE", "genesis-blocks")}
+									{ __( 'FUTURE', 'genesis-blocks' ) }
 								</span>
 								&nbsp;
-								<sub>{__("FUTURE", "genesis-blocks")}</sub>.
+								<sub>{ __( 'FUTURE', 'genesis-blocks' ) }</sub>.
 							</p>
-						)}
-						{genesisBlocksMigration.isPro && (
+						) }
+						{ genesisBlocksMigration.isPro && (
 							<p>
 								<span
 									role="img"
-									aria-label={__("party emoji", "genesis-blocks")}
+									aria-label={ __( 'party emoji', 'genesis-blocks' ) }
 								>
 									🎉
 								</span>
 								&nbsp;
-								{__(
-									"The migration completed successfully!",
-									"genesis-blocks"
-								)}
+								{ __(
+									'The migration completed successfully!',
+									'genesis-blocks'
+								) }
 							</p>
-						)}
+						) }
 						<StepFooter>
 							{ /* @ts-ignore */ }
 							<a href={ genesisBlocksMigration.gbUrl } className="btn">

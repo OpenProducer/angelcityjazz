@@ -1,5 +1,5 @@
-/* global genesisBlocksMigration */
 // @ts-check
+/* global genesisBlocksMigration */
 
 /**
  * External dependencies

@@ -70,9 +70,7 @@ class Edit extends Component {
 			buttonBackgroundColorClass = 'gb-has-custom-background-color';
 		} else {
 			buttonBackgroundColorClass = attributes.buttonBackgroundColor
-				? 'has-' +
-				  attributes.buttonBackgroundColor +
-				  '-background-color'
+				? `has-${ attributes.buttonBackgroundColor }-background-color`
 				: null;
 		}
 

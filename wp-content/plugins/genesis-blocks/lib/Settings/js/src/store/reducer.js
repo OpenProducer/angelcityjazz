@@ -25,34 +25,34 @@ const initialState = {
 	...genesisBlocksSettingsData,
 };
 
-const reducer = (state = initialState, action) => {
-	if ('UPDATE_CUSTOM' === action.type) {
+const reducer = ( state = initialState, action ) => {
+	if ( 'UPDATE_CUSTOM' === action.type ) {
 		return {
 			...state,
 			custom: {
 				...state.custom,
-				[action.setting.key]: action.setting.value,
+				[ action.setting.key ]: action.setting.value,
 			},
 		};
 	}
-	
-	if ('UPDATE_SETTING' === action.type) {
+
+	if ( 'UPDATE_SETTING' === action.type ) {
 		return {
 			...state,
 			// So the field state updates on screen.
 			settings: {
 				...state.settings,
-				[action.setting.key]: action.setting.value,
+				[ action.setting.key ]: action.setting.value,
 			},
 			// So that only modified settings are sent to the database.
 			modifiedSettings: {
 				...state.modifiedSettings,
-				[action.setting.key]: action.setting.value,
+				[ action.setting.key ]: action.setting.value,
 			},
 		};
 	}
 
-	if ('SAVING' === action.type) {
+	if ( 'SAVING' === action.type ) {
 		return {
 			...state,
 			form: {
@@ -64,7 +64,7 @@ const reducer = (state = initialState, action) => {
 		};
 	}
 
-	if ('SAVED' === action.type) {
+	if ( 'SAVED' === action.type ) {
 		return {
 			...state,
 			form: {
@@ -77,7 +77,7 @@ const reducer = (state = initialState, action) => {
 		};
 	}
 
-	if ('RESET' === action.type) {
+	if ( 'RESET' === action.type ) {
 		return {
 			...state,
 			form: {

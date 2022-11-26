@@ -14,10 +14,6 @@ const { addQueryArgs } = wp.url;
 const { Component, Fragment } = wp.element;
 
 export default class LayoutLibraryItemList extends Component {
-	constructor() {
-		super( ...arguments );
-	}
-
 	render() {
 		const postIdString = this.props.itemKey.match( /\d+/g );
 		const postID = postIdString[ 0 ];
@@ -26,6 +22,7 @@ export default class LayoutLibraryItemList extends Component {
 			<Fragment>
 				<div className="gb-layout-reusable">
 					<div>
+						{ /* eslint-disable-next-line jsx-a11y/click-events-have-key-events */ }
 						<a
 							role="button"
 							key={ this.props.itemKey }

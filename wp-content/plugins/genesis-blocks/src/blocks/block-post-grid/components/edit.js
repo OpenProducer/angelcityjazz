@@ -23,13 +23,12 @@ const { addQueryArgs } = wp.url;
 const inputDelay = [];
 
 export default ( props ) => {
-	
-	const [latestPosts, setLatestPosts] = useState();
-	const [initialAttributes, setInitialAttributes] = useState(props);
+	const [ latestPosts, setLatestPosts ] = useState();
+	const [ initialAttributes, setInitialAttributes ] = useState( props );
 	const { attributes, setAttributes } = props;
 
 	// If the props have changed, check the server for posts using the new arguments.
-	if ( 
+	if (
 		props.attributes.postType !== initialAttributes.postType ||
 		props.attributes.selectedPages !== initialAttributes.selectedPages ||
 		props.attributes.categories !== initialAttributes.categories ||
@@ -39,28 +38,28 @@ export default ( props ) => {
 		props.attributes.postsToShow !== initialAttributes.postsToShow
 	) {
 		const delayName = 'handleUpdateAttributes';
-	
-			// Set up a delay which waits to until the user takes a .5 second break from typing.
-			if( inputDelay[delayName] ) {
-				// Clear the keypress delay if the user just typed
-				clearTimeout( inputDelay[delayName] );
-				inputDelay[delayName] = null;
-			}
 
-			// (Re)-Set up the save to fire in 500ms
-			inputDelay[delayName] = setTimeout( () => {
-				clearTimeout( inputDelay[delayName] );
-				
-				// Set the initial attributes to the new attributes, which triggers a acll to the API for new posts with the new attributes.
-				setInitialAttributes(props.attributes);
-			}, 500);
+		// Set up a delay which waits to until the user takes a .5 second break from typing.
+		if ( inputDelay[ delayName ] ) {
+			// Clear the keypress delay if the user just typed
+			clearTimeout( inputDelay[ delayName ] );
+			inputDelay[ delayName ] = null;
+		}
+
+		// (Re)-Set up the save to fire in 500ms
+		inputDelay[ delayName ] = setTimeout( () => {
+			clearTimeout( inputDelay[ delayName ] );
+
+			// Set the initial attributes to the new attributes, which triggers a acll to the API for new posts with the new attributes.
+			setInitialAttributes( props.attributes );
+		}, 500 );
 	}
-	
+
 	useEffect( () => {
-		setLatestPosts(null);
-	}, [initialAttributes] );
-	
-	useEffect(() => {
+		setLatestPosts( null );
+	}, [ initialAttributes ] );
+
+	useEffect( () => {
 		if ( latestPosts ) {
 			return;
 		}
@@ -70,7 +69,7 @@ export default ( props ) => {
 		if ( 'page' === props.attributes.postType ) {
 			getPages();
 		}
-	},[latestPosts]);
+	}, [ latestPosts ] );
 
 	function getPosts() {
 		return new Promise( ( resolve ) => {
@@ -79,16 +78,16 @@ export default ( props ) => {
 				orderby: props.attributes.orderBy,
 				per_page: props.attributes.postsToShow,
 				offset: props.attributes.offset,
-			}
+			};
 
-			// Only append the exclude if this block is sitting on a post. 
+			// Only append the exclude if this block is sitting on a post.
 			if ( wp.data.select( 'core/editor' ) ) {
 				const currentPostId = wp.data.select( 'core/editor' ).getCurrentPostId();
 				if ( currentPostId ) {
 					args.exclude = [ currentPostId ];
 				}
 			}
-			
+
 			// Only append the categories argument if at least 1 category has been selected.
 			if ( props.attributes.categories ) {
 				args.categories = props.attributes.categories;
@@ -99,25 +98,24 @@ export default ( props ) => {
 			} ).then( ( response ) => {
 				setLatestPosts( response );
 				resolve();
-				
-			} ).catch( (response) => {
+			} ).catch( ( response ) => {
 				console.log( response );
 			} );
-		});
+		} );
 	}
-	
+
 	function getPages() {
 		return new Promise( ( resolve ) => {
 			// Grab the page IDs from the array
-			const pageIDs = props.attributes.selectedPages && props.attributes.selectedPages.length > 0 ? props.attributes.selectedPages.map(obj => obj.value) : null;
-			
+			const pageIDs = props.attributes.selectedPages && props.attributes.selectedPages.length > 0 ? props.attributes.selectedPages.map( ( obj ) => obj.value ) : null;
+
 			const args = {
 				per_page: 6,
-			}
+			};
 
 			const currentPostId = wp.data.select( 'core/editor' ).getCurrentPostId();
-			
-			// Only append the exclude if this block is sitting on a post. 
+
+			// Only append the exclude if this block is sitting on a post.
 			if ( currentPostId ) {
 				args.exclude = [ currentPostId ];
 			}
@@ -133,11 +131,10 @@ export default ( props ) => {
 			} ).then( ( response ) => {
 				setLatestPosts( response );
 				resolve();
-				
-			} ).catch( (response) => {
+			} ).catch( ( response ) => {
 				console.log( response );
 			} );
-		});
+		} );
 	}
 
 	// Check if there are posts
@@ -219,10 +216,10 @@ export default ( props ) => {
 			>
 				{ attributes.displaySectionTitle &&
 					attributes.sectionTitle && (
-						<SectionTitleTag className="gb-post-grid-section-title">
-							{ attributes.sectionTitle }
-						</SectionTitleTag>
-					) }
+					<SectionTitleTag className="gb-post-grid-section-title">
+						{ attributes.sectionTitle }
+					</SectionTitleTag>
+				) }
 
 				<div
 					className={ classnames( {
@@ -246,27 +243,28 @@ export default ( props ) => {
 							) }
 						>
 							{ attributes.displayPostImage &&
-							post.featured_media ? (
-								<PostGridImage
-									{ ...props }
-									imgAlt={
-										decodeEntities(
-											post.title.rendered.trim()
-										) ||
+							post.featured_media
+								? (
+									<PostGridImage
+										{ ...props }
+										imgAlt={
+											decodeEntities(
+												post.title.rendered.trim()
+											) ||
 										__( '(Untitled)', 'genesis-blocks' )
-									}
-									imgClass={ `wp-image-${ post.featured_media.toString() }` }
-									imgID={ post.featured_media.toString() }
-									imgSize={ attributes.imageSize }
-									imgSizeLandscape={
-										post.featured_image_src
-									}
-									imgSizeSquare={
-										post.featured_image_src_square
-									}
-									imgLink={ post.link }
-								/>
-							) : null }
+										}
+										imgClass={ `wp-image-${ post.featured_media.toString() }` }
+										imgID={ post.featured_media.toString() }
+										imgSize={ attributes.imageSize }
+										imgSizeLandscape={
+											post.featured_image_src
+										}
+										imgSizeSquare={
+											post.featured_image_src_square
+										}
+										imgLink={ post.link }
+									/>
+								) : null }
 
 							<div className="gb-block-post-grid-text">
 								<header className="gb-block-post-grid-header">
@@ -292,7 +290,8 @@ export default ( props ) => {
 										<div className="gb-block-post-grid-byline">
 											{ attributes.displayPostAuthor &&
 												post.author_info
-													.display_name && (
+													.display_name
+												? (
 													<div className="gb-block-post-grid-author">
 														<a
 															className="gb-text-link"
@@ -311,30 +310,30 @@ export default ( props ) => {
 															}
 														</a>
 													</div>
-												) }
+												) : null }
 
 											{ attributes.displayPostDate &&
 												post.date_gmt && (
-													<time
-														dateTime={ moment(
-															post.date_gmt
-														)
-															.utc()
-															.format() }
-														className={
-															'gb-block-post-grid-date'
-														}
-													>
-														{ moment(
-															post.date_gmt
-														)
-															.local()
-															.format(
-																'MMMM DD, Y',
-																'genesis-blocks'
-															) }
-													</time>
-												) }
+												<time
+													dateTime={ moment(
+														post.date_gmt
+													)
+														.utc()
+														.format() }
+													className={
+														'gb-block-post-grid-date'
+													}
+												>
+													{ moment(
+														post.date_gmt
+													)
+														.local()
+														.format(
+															'MMMM DD, Y',
+															'genesis-blocks'
+														) }
+												</time>
+											) }
 										</div>
 									) }
 								</header>
@@ -342,16 +341,16 @@ export default ( props ) => {
 								<div className="gb-block-post-grid-excerpt">
 									{ attributes.displayPostExcerpt &&
 										post.excerpt && (
-											<div
-												dangerouslySetInnerHTML={ {
-													__html: truncate(
-														post.excerpt
-															.rendered,
-														attributes.excerptLength
-													),
-												} }
-											/>
-										) }
+										<div
+											dangerouslySetInnerHTML={ {
+												__html: truncate(
+													post.excerpt
+														.rendered,
+													attributes.excerptLength
+												),
+											} }
+										/>
+									) }
 
 									{ attributes.displayPostLink && (
 										<p>
@@ -373,7 +372,7 @@ export default ( props ) => {
 			</SectionTag>
 		</>
 	);
-}
+};
 
 // Truncate excerpt
 function truncate( str, no_words ) {

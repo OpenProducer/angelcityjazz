@@ -32,9 +32,8 @@ const getPricingTemplate = memoize( ( columns ) => {
 } );
 
 class GBPricingBlock extends Component {
-
 	componentDidUpdate( prevProps ) {
-		if( this.props.attributes.columns !== prevProps.attributes.columns ) {
+		if ( this.props.attributes.columns !== prevProps.attributes.columns ) {
 			dispatch( 'core/block-editor' ).synchronizeTemplate();
 		}
 	}

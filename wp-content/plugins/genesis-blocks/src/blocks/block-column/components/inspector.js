@@ -36,10 +36,6 @@ const {
  * Create an Inspector Controls wrapper Component
  */
 export default class Inspector extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		const {
 			attributes,
@@ -115,7 +111,7 @@ export default class Inspector extends Component {
 									>
 										{ map(
 											columnLayouts[ selectedRows ],
-											( { name, key, icon, col } ) => (
+											( { name, key, icon } ) => (
 												<Tooltip
 													text={ name }
 													key={ key }

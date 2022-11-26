@@ -12,10 +12,6 @@ import classnames from 'classnames';
  * Create a drop cap wrapper Component
  */
 export default class DropCap extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		// Setup the attributes
 		const {

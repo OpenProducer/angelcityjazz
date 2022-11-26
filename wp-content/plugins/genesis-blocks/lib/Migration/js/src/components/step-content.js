@@ -7,10 +7,10 @@ import * as React from 'react';
 
 /**
  * @typedef StepContentProps
- * @property {React.ReactNode} children The component's children.
- * @property {string} heading The step heading.
- * @property {boolean} isStepActive Whether this step is active.
- * @property {boolean} isLastStep Is this the last step?
+ * @property {React.ReactNode} children     The component's children.
+ * @property {string}          heading      The step heading.
+ * @property {boolean}         isStepActive Whether this step is active.
+ * @property {boolean}         isLastStep   Is this the last step?
  */
 
 /**

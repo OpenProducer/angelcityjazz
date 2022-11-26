@@ -13,34 +13,34 @@ import { CheckboxControl } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { dispatch, withDispatch } from '@wordpress/data';
 
-function CheckboxComponent({ settings, field, onUpdate }) {
+function CheckboxComponent( { settings, field, onUpdate } ) {
 	return (
 		<CheckboxControl
-			className={field.class}
-			heading={field.heading}
-			label={field.label}
-			help={field.help}
-			checked={settings[field.id] ? settings[field.id] : false}
-			onChange={(newValue) =>
-				onUpdate({
+			className={ field.class }
+			heading={ field.heading }
+			label={ field.label }
+			help={ field.help }
+			checked={ settings[ field.id ] ? settings[ field.id ] : false }
+			onChange={ ( newValue ) =>
+				onUpdate( {
 					key: field.id,
 					value: newValue,
-				})
+				} )
 			}
 		/>
 	);
 }
 
-const Checkbox = compose([
+const Checkbox = compose( [
 	// Pushes field changes to the data store.
-	withDispatch(() => ({
-		onUpdate(newValue) {
-			dispatch('genesis-blocks/global-settings').updateSetting({
+	withDispatch( () => ( {
+		onUpdate( newValue ) {
+			dispatch( 'genesis-blocks/global-settings' ).updateSetting( {
 				key: newValue.key,
 				value: newValue.value,
-			});
+			} );
 		},
-	})),
-])(CheckboxComponent);
+	} ) ),
+] )( CheckboxComponent );
 
 export default Checkbox;

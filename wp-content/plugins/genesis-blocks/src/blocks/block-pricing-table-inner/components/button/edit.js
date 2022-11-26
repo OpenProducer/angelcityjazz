@@ -21,10 +21,6 @@ const {
 const { Button, Dashicon, Icon } = wp.components;
 
 class Edit extends Component {
-	constructor() {
-		super( ...arguments );
-	}
-
 	render() {
 		// Setup the attributes
 		const {

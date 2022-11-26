@@ -57,11 +57,11 @@ class GBNoticeBlock extends Component {
 			// Show the block markup in the editor
 			<NoticeBox key={ 'gb-notice-noticebox-' + this.props.clientId } { ...this.props }>
 				{ // Check if the notice is dismissible and output the button
-				noticeDismiss && 'gb-dismissable' === noticeDismiss && (
-					<DismissButton { ...this.props }>
-						{ icons.dismiss }
-					</DismissButton>
-				) }
+					noticeDismiss && 'gb-dismissable' === noticeDismiss && (
+						<DismissButton { ...this.props }>
+							{ icons.dismiss }
+						</DismissButton>
+					) }
 
 				<RichText
 					tagName="p"

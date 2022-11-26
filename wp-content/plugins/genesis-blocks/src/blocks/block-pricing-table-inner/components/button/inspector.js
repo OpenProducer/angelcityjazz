@@ -50,10 +50,6 @@ const applyFallbackStyles = withFallbackStyles( ( node, ownProps ) => {
  * Create an Inspector Controls wrapper Component
  */
 class Inspector extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		// Setup the attributes
 		const {

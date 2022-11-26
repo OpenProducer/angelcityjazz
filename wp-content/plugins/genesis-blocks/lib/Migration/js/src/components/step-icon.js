@@ -12,7 +12,7 @@ import { __ } from '@wordpress/i18n';
 
 /**
  * @typedef StepIconProps
- * @property {number} index The index of this icon's step.
+ * @property {number}  index      The index of this icon's step.
  * @property {boolean} isComplete Whether this icon's step is active.
  */
 

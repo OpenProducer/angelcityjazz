@@ -59,16 +59,16 @@ export default class Save extends Component {
 					) }
 
 					{ testimonialTitle && (
-					<RichText.Content
-						tagName="small"
-						className="gb-testimonial-title"
-						style={ {
-							color: testimonialTextColor
-								? testimonialTextColor
-								: '#32373c',
-						} }
-						value={ testimonialTitle }
-					/>
+						<RichText.Content
+							tagName="small"
+							className="gb-testimonial-title"
+							style={ {
+								color: testimonialTextColor
+									? testimonialTextColor
+									: '#32373c',
+							} }
+							value={ testimonialTitle }
+						/>
 					) }
 				</div>
 			</Testimonial>

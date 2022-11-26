@@ -10,10 +10,6 @@ const { Component, Fragment } = wp.element;
 const { RichText, withFontSizes, withColors } = wp.blockEditor;
 
 class Edit extends Component {
-	constructor() {
-		super( ...arguments );
-	}
-
 	render() {
 		// Setup the attributes
 		const {

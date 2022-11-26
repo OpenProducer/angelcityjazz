@@ -27,6 +27,6 @@ const settingsStore = {
 	controls,
 };
 
-const store = registerStore('genesis-blocks/global-settings', settingsStore);
+const store = registerStore( 'genesis-blocks/global-settings', settingsStore );
 
 export default store;

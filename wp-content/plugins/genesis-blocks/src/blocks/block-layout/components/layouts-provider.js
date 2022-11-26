@@ -130,9 +130,9 @@ export default class LayoutsProvider extends Component {
 
 				if ( item.hasOwnProperty( 'collection' ) ) {
 					if ( ! collections.hasOwnProperty( item.collection.slug ) ) {
-						collections[item.collection.slug] = [];
+						collections[ item.collection.slug ] = [];
 						item.collection.image = item.image;
-						collections[item.collection.slug] = item.collection;
+						collections[ item.collection.slug ] = item.collection;
 					}
 				}
 

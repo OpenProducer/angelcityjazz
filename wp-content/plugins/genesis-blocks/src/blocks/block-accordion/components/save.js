@@ -8,10 +8,6 @@ const { Component } = wp.element;
 const { RichText, InnerBlocks } = wp.blockEditor;
 
 export default class Save extends Component {
-	constructor() {
-		super( ...arguments );
-	}
-
 	render() {
 		return (
 			<Accordion { ...this.props }>

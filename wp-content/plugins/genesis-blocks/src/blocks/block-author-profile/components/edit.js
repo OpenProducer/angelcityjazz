@@ -29,9 +29,9 @@ const ALLOWED_MEDIA_TYPES = [ 'image' ];
 export default class Edit extends Component {
 	constructor() {
 		super( ...arguments );
-		
+
 		if ( ! this.props.attributes.clientId || this.props.attributes.clientId !== this.props.clientId ) {
-			this.props.setAttributes( {clientId: this.props.clientId } );
+			this.props.setAttributes( { clientId: this.props.clientId } );
 		}
 	}
 

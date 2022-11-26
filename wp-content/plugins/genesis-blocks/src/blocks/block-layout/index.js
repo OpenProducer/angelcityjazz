@@ -54,7 +54,7 @@ registerBlockType( 'genesis-blocks/gb-layouts', {
 let genesisBlocksLayoutButtonAdded = false;
 wp.data.subscribe( () => {
 	appendImportButton();
-});
+} );
 
 /**
  * Build the layout inserter button.

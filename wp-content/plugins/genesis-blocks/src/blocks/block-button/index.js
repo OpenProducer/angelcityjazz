@@ -180,28 +180,28 @@ registerBlockType( 'genesis-blocks/gb-button', {
 		return (
 			<CustomButton { ...props }>
 				{ // Check if there is button text and output
-				buttonText && (
-					<a
-						href={ buttonUrl }
-						target={ buttonTarget ? '_blank' : null }
-						rel={ buttonTarget ? 'noopener noreferrer' : null }
-						className={ classnames(
-							'gb-button',
-							buttonShape,
-							buttonSize
-						) }
-						style={ {
-							color: buttonTextColor
-								? buttonTextColor
-								: '#ffffff',
-							backgroundColor: buttonBackgroundColor
-								? buttonBackgroundColor
-								: '#3373dc',
-						} }
-					>
-						<RichText.Content value={ buttonText } />
-					</a>
-				) }
+					buttonText && (
+						<a
+							href={ buttonUrl }
+							target={ buttonTarget ? '_blank' : null }
+							rel={ buttonTarget ? 'noopener noreferrer' : null }
+							className={ classnames(
+								'gb-button',
+								buttonShape,
+								buttonSize
+							) }
+							style={ {
+								color: buttonTextColor
+									? buttonTextColor
+									: '#ffffff',
+								backgroundColor: buttonBackgroundColor
+									? buttonBackgroundColor
+									: '#3373dc',
+							} }
+						>
+							<RichText.Content value={ buttonText } />
+						</a>
+					) }
 			</CustomButton>
 		);
 	},

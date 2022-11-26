@@ -9,10 +9,6 @@ const { Component } = wp.element;
  * Create a button wrapper Component
  */
 export default class DismissButton extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		// Setup the attributes
 		const {

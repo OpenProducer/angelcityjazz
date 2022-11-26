@@ -12,10 +12,6 @@ import classnames from 'classnames';
  * Create a Accordion wrapper Component
  */
 export default class Accordion extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		return (
 			<div

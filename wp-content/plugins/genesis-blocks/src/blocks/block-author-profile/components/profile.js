@@ -10,10 +10,6 @@ import classnames from 'classnames';
 
 /* Create a profile box wrapper Component */
 export default class ProfileBox extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		/* Setup the attributes */
 		const {

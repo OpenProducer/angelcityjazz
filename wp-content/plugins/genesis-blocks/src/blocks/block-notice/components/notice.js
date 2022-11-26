@@ -13,10 +13,6 @@ import * as uniqueID from './../../../utils/helper';
  * Create a Notice wrapper Component
  */
 export default class NoticeBox extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		// Setup the attributes
 		const {

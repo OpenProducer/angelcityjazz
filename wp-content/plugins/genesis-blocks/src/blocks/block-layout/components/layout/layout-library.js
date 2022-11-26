@@ -11,7 +11,7 @@ import map from 'lodash/map';
 import classnames from 'classnames';
 import LayoutLibraryItem from './layout-library-item';
 import { LayoutsContext } from '../layouts-provider';
-import { Collections } from "./collections/views/Collections.js";
+import { Collections } from './collections/views/Collections.js';
 
 /**
  * WordPress dependencies.
@@ -91,7 +91,7 @@ export default class LayoutLibrary extends Component {
 
 		// Handle the contents of the collections tab in the Collections component.
 		if ( this.props.currentTab === 'gb-layout-tab-collections' ) {
-			return( <Collections key={this.props.data.key} { ...this.props } /> );
+			return ( <Collections key={ this.props.data.key } { ...this.props } /> );
 		}
 
 		return (
@@ -112,7 +112,7 @@ export default class LayoutLibrary extends Component {
 								value={ this.state.category }
 								options={ catOptions }
 								onChange={ ( value ) => {
-									this.setState( { category: value } )
+									this.setState( { category: value } );
 								} }
 							/>
 							<TextControl
@@ -127,7 +127,7 @@ export default class LayoutLibrary extends Component {
 									'genesis-blocks'
 								) }
 								onChange={ ( value ) => {
-									this.setState( { search: value } )
+									this.setState( { search: value } );
 								} }
 							/>
 						</div>
@@ -185,7 +185,6 @@ export default class LayoutLibrary extends Component {
 									keywords,
 									type,
 								} ) => {
-
 									if (
 										( 'all' === this.state.category ||
 											category.includes(

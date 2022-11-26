@@ -15,11 +15,7 @@ const { Component, Fragment } = wp.element;
 const { Button, Dashicon, Tooltip } = wp.components;
 
 export default class LayoutLibraryItemCard extends Component {
-	constructor() {
-		super( ...arguments );
-	}
-
-	addDefaultSrc(event) {
+	addDefaultSrc( event ) {
 		event.target.src = genesis_blocks_globals.pattern_fallback_image;
 	}
 
@@ -43,7 +39,7 @@ export default class LayoutLibraryItemCard extends Component {
 								<img
 									src={ this.props.image ? this.props.image : genesis_blocks_globals.pattern_fallback_image }
 									alt={ this.props.name }
-									onError={this.addDefaultSrc}
+									onError={ this.addDefaultSrc }
 								/>
 							</Button>
 
@@ -57,13 +53,13 @@ export default class LayoutLibraryItemCard extends Component {
 													this.props.itemKey
 												)
 													? __(
-															'Remove from Favorites',
-															'genesis-blocks'
-													  )
+														'Remove from Favorites',
+														'genesis-blocks'
+													)
 													: __(
-															'Add to Favorites',
-															'genesis-blocks'
-													  )
+														'Add to Favorites',
+														'genesis-blocks'
+													)
 											}
 										>
 											<Button

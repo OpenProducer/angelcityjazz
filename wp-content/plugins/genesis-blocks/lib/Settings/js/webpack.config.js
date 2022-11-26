@@ -2,11 +2,11 @@
  * Settings Webpack Configuration
  *
  * @param {Object} defaultConfig Default Webpack Config
- * @param {string} rootPath Path to /lib directory
+ * @param {string} rootPath      Path to /lib directory
  *
  * @return {Object} Webpack Configuration
  */
-module.exports = (defaultConfig, rootPath) => {
+module.exports = ( defaultConfig, rootPath ) => {
 	return {
 		...defaultConfig,
 		entry: rootPath + 'Settings/js/src/app.js',
@@ -19,7 +19,7 @@ module.exports = (defaultConfig, rootPath) => {
 				{
 					test: /\.(js|jsx)$/,
 					exclude: /node_modules/,
-					use: ['babel-loader'],
+					use: [ 'babel-loader' ],
 				},
 			],
 		},

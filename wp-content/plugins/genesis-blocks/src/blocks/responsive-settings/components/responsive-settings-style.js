@@ -5,11 +5,11 @@ import { camelToKebabCase } from '../utils';
 
 /**
  * @typedef {Object} ResponsiveSettingStyleProps The component props.
- * @property {string} clientId The block's clientId.
- * @property {string} device The device of the styles.
- * @property {string} selectedDevice The selected device.
- * @property { 'fontSize' | 'lineHeight' } settingName The name of the setting.
- * @property {string} settingValue The value of the setting.
+ * @property {string}                      clientId       The block's clientId.
+ * @property {string}                      device         The device of the styles.
+ * @property {string}                      selectedDevice The selected device.
+ * @property { 'fontSize' | 'lineHeight' } settingName    The name of the setting.
+ * @property {string}                      settingValue   The value of the setting.
  */
 
 /**

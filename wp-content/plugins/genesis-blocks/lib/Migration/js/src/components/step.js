@@ -8,9 +8,9 @@ import * as React from 'react';
 
 /**
  * @typedef StepProps
- * @property {boolean} isActive Whether this step is active.
- * @property {boolean} isComplete Whether this step is complete.
- * @property {React.ReactNode} children The children of the component.
+ * @property {boolean}         isActive   Whether this step is active.
+ * @property {boolean}         isComplete Whether this step is complete.
+ * @property {React.ReactNode} children   The children of the component.
  */
 
 /**

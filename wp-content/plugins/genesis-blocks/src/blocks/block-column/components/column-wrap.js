@@ -18,10 +18,6 @@ import BackgroundImageStyles from './../../../utils/components/background-image/
  * Create a Columns wrapper Component.
  */
 export default class Columns extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		const { attributes } = this.props;
 

@@ -13,33 +13,33 @@ import { TextControl } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { dispatch, withDispatch } from '@wordpress/data';
 
-function TextComponent({ settings, field, onUpdate }) {
+function TextComponent( { settings, field, onUpdate } ) {
 	return (
 		<TextControl
-			className={field.class}
-			label={field.label ? field.label : ''}
-			help={field.help ? field.help : ''}
-			onChange={(newValue) =>
-				onUpdate({
+			className={ field.class }
+			label={ field.label ? field.label : '' }
+			help={ field.help ? field.help : '' }
+			onChange={ ( newValue ) =>
+				onUpdate( {
 					key: field.id,
 					value: newValue,
-				})
+				} )
 			}
-			value={settings[field.id] ? settings[field.id] : ''}
+			value={ settings[ field.id ] ? settings[ field.id ] : '' }
 		/>
 	);
 }
 
-const Text = compose([
+const Text = compose( [
 	// Pushes field changes to the data store.
-	withDispatch(() => ({
-		onUpdate(newValue) {
-			dispatch('genesis-blocks/global-settings').updateSetting({
+	withDispatch( () => ( {
+		onUpdate( newValue ) {
+			dispatch( 'genesis-blocks/global-settings' ).updateSetting( {
 				key: newValue.key,
 				value: newValue.value,
-			});
+			} );
 		},
-	})),
-])(TextComponent);
+	} ) ),
+] )( TextComponent );
 
 export default Text;

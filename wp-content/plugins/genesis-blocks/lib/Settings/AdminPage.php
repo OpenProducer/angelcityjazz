@@ -200,7 +200,7 @@ final class AdminPage {
 	 * @param string $classes The body classes.
 	 * @return string The filtered body classes.
 	 */
-	public function add_body_class( $classes ): string {
+	public function add_body_class( $classes ) {
 		$page = wp_strip_all_tags( filter_input( INPUT_GET, 'page' ) );
 		if ( is_string( $page ) && 0 === strpos( $page, 'genesis-blocks-' ) ) {
 			$additional_class = 'genesis-blocks-admin-page';

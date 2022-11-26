@@ -28,7 +28,7 @@ import '@wordpress/core-data';
  * @param {Object} setting With `key` and `value` properties.
  * @return {Object} Action object for the reducer to update settings.
  */
-export function updateSetting(setting) {
+export function updateSetting( setting ) {
 	return {
 		type: 'UPDATE_SETTING',
 		setting,
@@ -37,7 +37,7 @@ export function updateSetting(setting) {
 
 /**
  * Update a named custom value.
- * 
+ *
  * Allows applications loaded in tabs to store state at the settings app level.
  *
  * @example
@@ -50,7 +50,7 @@ export function updateSetting(setting) {
  * @param {Object} setting With `key` and `value` properties.
  * @return {Object} Action object for the reducer to update settings.
  */
-export function updateCustom(setting) {
+export function updateCustom( setting ) {
 	return {
 		type: 'UPDATE_CUSTOM',
 		setting,
@@ -63,14 +63,14 @@ export function resetFormSaveState() {
 	};
 }
 
-export function* saveSettings(settings) {
+export function* saveSettings( settings ) {
 	yield { type: 'SAVING' };
 	let success = null;
 
 	try {
-		wp.data.dispatch('core').saveSite(settings);
+		wp.data.dispatch( 'core' ).saveSite( settings );
 		success = true;
-	} catch (err) {
+	} catch ( err ) {
 		success = false;
 	}
 

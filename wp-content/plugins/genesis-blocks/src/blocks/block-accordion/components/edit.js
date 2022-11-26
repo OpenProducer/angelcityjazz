@@ -17,10 +17,6 @@ const {
 } = wp.blockEditor;
 
 export default class Edit extends Component {
-	constructor() {
-		super( ...arguments );
-	}
-
 	render() {
 		return [
 			// Show the block alignment controls on focus

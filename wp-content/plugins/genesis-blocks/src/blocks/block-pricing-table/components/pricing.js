@@ -12,10 +12,6 @@ import classnames from 'classnames';
  * Create a Pricing wrapper Component
  */
 export default class Pricing extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		// Setup the attributes
 		const {

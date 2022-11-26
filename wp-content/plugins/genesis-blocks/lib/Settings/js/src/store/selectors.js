@@ -20,35 +20,35 @@
  * @param {Object} state The current state of the store.
  * @return {Object} Settings state.
  */
-export const getSettings = (state) => state.settings || {};
+export const getSettings = ( state ) => state.settings || {};
 
 /**
  * Gets all custom values.
- * 
- * Custom values can be stored by React apps that load inside a 
+ *
+ * Custom values can be stored by React apps that load inside a
  * tab via the SlotFill API. These apps can push state to the
  * settings app level, ensuring it persists when tabs are changed:
- * 
+ *
  * @example
  * ```js
  * wp.data.dispatch('genesis-blocks/global-settings').updateCustom({
  *     key: 'myname', value {},
  * });
  * ```
- * 
+ *
  * They can retrieve that state with the `getCustom()` function:
  *
  * @example
  * ```js
  * wp.data.select('genesis-blocks/global-settings').getCustom();
- * 
+ *
  * // => { myname: {} }
  * ```
  *
  * @param {Object} state The current state of the store.
  * @return {Object} Custom state.
  */
-export const getCustom = (state) => state.custom || {};
+export const getCustom = ( state ) => state.custom || {};
 
 /**
  * Gets form state.
@@ -61,7 +61,7 @@ export const getCustom = (state) => state.custom || {};
  * @param {Object} state The current state of the store.
  * @return {Object} Form state.
  */
-export const getFormInfo = (state) => state.form || {};
+export const getFormInfo = ( state ) => state.form || {};
 
 /**
  * Gets the sections to display on the settings page.
@@ -74,8 +74,8 @@ export const getFormInfo = (state) => state.form || {};
  * @param {Object} state The current state of the store.
  * @return {Object} Named settings section containing fields.
  */
-export function getSections(state) {
-	if (state.hasOwnProperty('sections')) {
+export function getSections( state ) {
+	if ( state.hasOwnProperty( 'sections' ) ) {
 		return state.sections;
 	}
 	return {};
@@ -92,4 +92,4 @@ export function getSections(state) {
  * @param {Object} state The current state of the store.
  * @return {Object} Modified settings state.
  */
-export const getModifiedSettings = (state) => state.modifiedSettings || [];
+export const getModifiedSettings = ( state ) => state.modifiedSettings || [];

@@ -1,5 +1,6 @@
 // @ts-check
 /* global genesisBlocksMigration */
+
 /**
  * External dependencies
  */
@@ -36,7 +37,7 @@ const Intro = () => {
 					</a>
 				</div>
 			</div>
-			<h2>{ __( "Let’s Migrate", 'genesis-blocks' ) }</h2>
+			<h2>{ __( `Let's Migrate`, 'genesis-blocks' ) }</h2>
 		</>
 	);
 };

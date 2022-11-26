@@ -27,14 +27,13 @@ export function Collections( props ) {
 	const setCurrentCollection = ( newCollection ) => updateSettings( { currentCollection: newCollection } );
 
 	function renderCollections( collections ) {
-
 		if ( collectionsView.currentView !== 'collections' ) {
 			return '';
 		}
 
 		const mapper = [];
 
-		for ( var collection in collections ) {
+		for ( const collection in collections ) {
 			mapper.push( <CollectionCard
 				key={ collection }
 				collectionSlug={ collection }
@@ -44,29 +43,28 @@ export function Collections( props ) {
 			/> );
 		}
 
-		return(
+		return (
 			<ButtonGroup
 				className="gb-layout-choices"
 				aria-label={ __( 'Collections Available', 'genesis-blocks' ) }
 			>
-			{ mapper }
+				{ mapper }
 			</ButtonGroup>
 		);
 	}
 
 	function renderSingleCollectionItems( itemType = 'layouts' ) {
-
 		const mapper = [];
 
-		for ( var layoutKey in props.context[itemType] ) {
-			const item = props.context[itemType][layoutKey];
+		for ( const layoutKey in props.context[ itemType ] ) {
+			const item = props.context[ itemType ][ layoutKey ];
 			if ( item.hasOwnProperty( 'collection' ) && currentCollection === item.collection.slug ) {
 				mapper.push(
 					<LayoutLibraryItemCard
-						key={item.key}
-						itemKey={item.key}
-						name={item.name}
-						image={item.image}
+						key={ item.key }
+						itemKey={ item.key }
+						name={ item.name }
+						image={ item.image }
 						import={ importBlockPattern }
 						content={ item.content }
 						context={ props.context }
@@ -80,10 +78,10 @@ export function Collections( props ) {
 			return '';
 		}
 
-		return(
+		return (
 			<>
 				<h3 className="gb-collection-type-title">
-					{(() => {
+					{ ( () => {
 						if ( itemType === 'layouts' ) {
 							return ( __( 'Page Layouts', 'genesis-blocks' ) );
 						}
@@ -91,17 +89,16 @@ export function Collections( props ) {
 						if ( itemType === 'sections' ) {
 							return ( __( 'Page Sections', 'genesis-blocks' ) );
 						}
-					})()}
+					} )() }
 				</h3>
 				<ButtonGroup
 					className="gb-layout-choices"
 					aria-label={ __( 'Layout Options in this Collection', 'genesis-blocks' ) }
 				>
-				{ mapper }
+					{ mapper }
 				</ButtonGroup>
 			</>
 		);
-
 	}
 
 	function renderViewAllButton() {
@@ -114,8 +111,8 @@ export function Collections( props ) {
 				<button
 					className="gb-collections-view-all-link"
 					onClick={ () => {
-						collectionsView.setCurrentView('collections');
-						collectionsView.setCurrentCollection(null);
+						collectionsView.setCurrentView( 'collections' );
+						collectionsView.setCurrentCollection( null );
 					} }
 				>
 					<span className="dashicons dashicons-arrow-left-alt"></span>
@@ -126,7 +123,6 @@ export function Collections( props ) {
 	}
 
 	function renderMainTitle() {
-
 		if ( collectionsView.currentView === 'collections' ) {
 			return (
 				<h2 className="gb-collection-title">{ __( 'Collections ', 'genesis-blocks' ) }</h2>
@@ -135,19 +131,17 @@ export function Collections( props ) {
 
 		if ( collectionsView.currentView === 'collection' ) {
 			return (
-				<h2 className="gb-collection-title">{ __( 'Browsing ', 'genesis-blocks' ) + props.context.collections[currentCollection]?.label }</h2>
+				<h2 className="gb-collection-title">{ __( 'Browsing ', 'genesis-blocks' ) + props.context.collections[ currentCollection ]?.label }</h2>
 			);
 		}
-
 	}
 
-	function renderSingleCollectionView(){
-
+	function renderSingleCollectionView() {
 		if ( collectionsView.currentView !== 'collection' ) {
 			return '';
 		}
 
-		return(
+		return (
 			<>
 				{ renderSingleCollectionItems( 'sections' ) }
 				{ renderSingleCollectionItems( 'layouts' ) }
@@ -155,7 +149,7 @@ export function Collections( props ) {
 		);
 	}
 
-	return(
+	return (
 		<div className="gb-collections">
 			<div className="gb-collections-header">
 				<div className="gb-collections-header-left">
@@ -165,7 +159,7 @@ export function Collections( props ) {
 				<a target="_blank" rel="noreferrer" href="https://developer.wpengine.com/genesis-blocks/layouts-block/#collections" tabIndex="0" className="gb-collections-link"><span className="dashicons dashicons-info"></span>{ __( 'Learn about Collections', 'genesis-blocks' ) }</a>
 			</div>
 			<div className="gb-collections-body">
-				{ renderCollections(props.context.collections) }
+				{ renderCollections( props.context.collections ) }
 				{ renderSingleCollectionView() }
 			</div>
 		</div>

@@ -19,11 +19,11 @@ import { FIRST_STEP_NUMBER } from '../../constants';
 
 /**
  * @typedef {Object} BackUpSiteProps The component props.
- * @property {boolean} isStepActive Whether this step is active.
- * @property {boolean} isStepComplete Whether this step is complete.
- * @property {number} stepIndex The step index of this step.
- * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToNext Goes to the next step.
- * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToPrevious Goes to the previous step.
+ * @property {boolean}                                                             isStepActive   Whether this step is active.
+ * @property {boolean}                                                             isStepComplete Whether this step is complete.
+ * @property {number}                                                              stepIndex      The step index of this step.
+ * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToNext       Goes to the next step.
+ * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToPrevious   Goes to the previous step.
  */
 
 /**
@@ -37,7 +37,7 @@ const BackUpSite = ( { isStepActive, isStepComplete, goToNext, goToPrevious, ste
 
 	let backupIntroText = __( 'Migrating from Atomic Blocks to Genesis Blocks is a one-way action. It can’t be undone. Please back up your site before you begin.', 'genesis-blocks' );
 	if ( genesisBlocksMigration.isPro ) {
-		backupIntroText = __( 'Migrating your Genesis Blocks content is a one-way action. It can’t be undone. Please back up your site before you begin.', 'genesis-blocks' )
+		backupIntroText = __( 'Migrating your Genesis Blocks content is a one-way action. It can’t be undone. Please back up your site before you begin.', 'genesis-blocks' );
 	}
 
 	return (

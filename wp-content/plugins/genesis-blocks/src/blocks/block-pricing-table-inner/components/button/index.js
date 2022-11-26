@@ -156,24 +156,24 @@ registerBlockType( 'genesis-blocks/gb-pricing-table-button', {
 			>
 				<CustomButton { ...props }>
 					{ // Check if there is button text and output
-					buttonText && (
-						<a
-							href={ buttonUrl }
-							target={ buttonTarget ? '_blank' : null }
-							rel={ buttonTarget ? 'noopener noreferrer' : null }
-							className={ classnames(
-								'gb-button',
-								buttonShape,
-								buttonSize
-							) }
-							style={ {
-								color: buttonTextColor,
-								backgroundColor: buttonBackgroundColor,
-							} }
-						>
-							<RichText.Content value={ buttonText } />
-						</a>
-					) }
+						buttonText && (
+							<a
+								href={ buttonUrl }
+								target={ buttonTarget ? '_blank' : null }
+								rel={ buttonTarget ? 'noopener noreferrer' : null }
+								className={ classnames(
+									'gb-button',
+									buttonShape,
+									buttonSize
+								) }
+								style={ {
+									color: buttonTextColor,
+									backgroundColor: buttonBackgroundColor,
+								} }
+							>
+								<RichText.Content value={ buttonText } />
+							</a>
+						) }
 				</CustomButton>
 			</div>
 		);

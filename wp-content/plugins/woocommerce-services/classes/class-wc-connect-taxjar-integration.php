@@ -173,11 +173,20 @@ class WC_Connect_TaxJar_Integration {
 	 * @return array
 	 */
 	public function add_tax_settings( $tax_settings ) {
-		$enabled = $this->is_enabled();
+		$enabled                = $this->is_enabled();
+		$backedup_tax_rates_url = admin_url( '/admin.php?page=wc-status&tab=connect#tax-rate-backups' );
 
-		$powered_by_wct_notice       = '<p>' . __( 'Powered by WooCommerce Tax. If automated taxes are enabled, you\'ll need to enter prices exclusive of tax.', 'woocommerce-services' ) . '</p>';
+		$powered_by_wct_notice = '<p>' . __( 'Powered by WooCommerce Tax. If automated taxes are enabled, you\'ll need to enter prices exclusive of tax.', 'woocommerce-services' ) . '</p>';
+
+		if ( ! empty( WC_Connect_Functions::get_backed_up_tax_rate_files() ) ) {
+			$powered_by_wct_notice .= '<p>' . sprintf( __( 'Your previous tax rates were backed up and can be downloaded %1$shere%2$s.', 'woocommerce-services' ), '<a href="' . esc_url( $backedup_tax_rates_url ) . '">', '</a>' ) . '</p>';
+		}
+
 		$desctructive_action_notice  = '<p>' . __( 'Enabling this option overrides any tax rates you have manually added.', 'woocommerce-services' ) . '</p>';
-		$tax_nexus_notice            = '<p>' . $this->get_tax_tooltip() . '</p>';
+		$desctructive_action_notice .= '<p>' . sprintf( __( 'Your existing tax rates will be backed-up to a CSV that you can download %1$shere%2$s.', 'woocommerce-services' ), '<a href="' . esc_url( $backedup_tax_rates_url ) . '">', '</a>' ) . '</p>';
+
+		$tax_nexus_notice = '<p>' . $this->get_tax_tooltip() . '</p>';
+
 		$automated_taxes_description = join(
 			'',
 			$enabled ? [
@@ -438,9 +447,14 @@ class WC_Connect_TaxJar_Integration {
 		$cart_taxes     = array();
 		$cart_tax_total = 0;
 
+		/**
+		 * WC Coupon object.
+		 *
+		 * @var WC_Coupon $coupon
+		*/
 		foreach ( $wc_cart_object->coupons as $coupon ) {
-			if ( method_exists( $coupon, 'get_id' ) ) { // Woo 3.0+
-				$limit_usage_qty = get_post_meta( $coupon->get_id(), 'limit_usage_to_x_items', true );
+			if ( method_exists( $coupon, 'get_limit_usage_to_x_items' ) ) { // Woo 3.0+.
+				$limit_usage_qty = $coupon->get_limit_usage_to_x_items();
 
 				if ( $limit_usage_qty ) {
 					$coupon->set_limit_usage_to_x_items( $limit_usage_qty );

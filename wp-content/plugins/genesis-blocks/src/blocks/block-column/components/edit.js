@@ -20,13 +20,13 @@ const {
 	BlockControls,
 	BlockAlignmentToolbar,
 	InnerBlocks,
-	withColors
+	withColors,
 } = wp.blockEditor;
 const {
 	Placeholder,
 	ButtonGroup,
 	Tooltip,
-	Button
+	Button,
 } = wp.components;
 
 /* Set allowed blocks and media. */
@@ -34,24 +34,22 @@ const ALLOWED_BLOCKS = [ 'genesis-blocks/gb-column' ];
 
 /* Get the column template. */
 const getLayoutTemplate = memoize( ( columns ) => {
-	return _times( columns, () => [ 'genesis-blocks/gb-column' ]);
-});
+	return _times( columns, () => [ 'genesis-blocks/gb-column' ] );
+} );
 
 class Edit extends Component {
-
-	constructor( props ) {
+	constructor() {
 		super( ...arguments );
 
 		this.state = {
-			selectLayout: true
+			selectLayout: true,
 		};
 	}
 
 	render() {
-
 		const {
 			attributes,
-			setAttributes
+			setAttributes,
 		} = this.props;
 
 		let selectedRows = 1;
@@ -65,38 +63,38 @@ class Edit extends Component {
 				name: __( '1 Column', 'genesis-blocks' ),
 				key: 'one-column',
 				columns: 1,
-				icon: icons.oneEqual
+				icon: icons.oneEqual,
 			},
 			{
 				name: __( '2 Columns', 'genesis-blocks' ),
 				key: 'two-column',
 				columns: 2,
-				icon: icons.twoEqual
+				icon: icons.twoEqual,
 			},
 			{
 				name: __( '3 Columns', 'genesis-blocks' ),
 				key: 'three-column',
 				columns: 3,
-				icon: icons.threeEqual
+				icon: icons.threeEqual,
 			},
 			{
 				name: __( '4 Columns', 'genesis-blocks' ),
 				key: 'four-column',
 				columns: 4,
-				icon: icons.fourEqual
+				icon: icons.fourEqual,
 			},
 			{
 				name: __( '5 Columns', 'genesis-blocks' ),
 				key: 'five-column',
 				columns: 5,
-				icon: icons.fiveEqual
+				icon: icons.fiveEqual,
 			},
 			{
 				name: __( '6 Columns', 'genesis-blocks' ),
 				key: 'six-column',
 				columns: 6,
-				icon: icons.sixEqual
-			}
+				icon: icons.sixEqual,
+			},
 		];
 
 		/* Show the layout placeholder. */
@@ -109,57 +107,30 @@ class Edit extends Component {
 					instructions={ attributes.columns ? __( 'Select a layout for this column.', 'genesis-blocks' ) : __( 'Select the number of columns for this layout.', 'genesis-blocks' ) }
 					className={ 'gb-column-selector-placeholder' }
 				>
-					{ ! attributes.columns ?
-						<ButtonGroup
-							aria-label={ __( 'Select Row Columns', 'genesis-blocks' ) }
-							className="gb-column-selector-group"
-						>
-							{ map( columnOptions, ({ name, key, icon, columns }) => (
-								<Tooltip text={ name } key={ key }>
-									<div className="gb-column-selector">
-										<Button
-											className={ classnames(
-												'gb-column-selector-button',
-												'gb-select-' + key,
-											) }
-											isSmall
-											onClick={ () => {
-												setAttributes({
-													columns,
-													layout: 1 === columns || 5 === columns || 6 === columns ? key : null
-												});
-
-												{ 1 === columns &&
-													this.setState({ 'selectLayout': false });
-												}
-											} }
-										>
-											{ icon }
-										</Button>
-									</div>
-								</Tooltip>
-							) ) }
-						</ButtonGroup>					:
-						<Fragment>
+					{ ! attributes.columns
+						? (
 							<ButtonGroup
-								aria-label={ __( 'Select Column Layout', 'genesis-blocks' ) }
+								aria-label={ __( 'Select Row Columns', 'genesis-blocks' ) }
 								className="gb-column-selector-group"
 							>
-								{ map( columnLayouts[ selectedRows ], ({ name, key, icon }) => (
+								{ map( columnOptions, ( { name, key, icon, columns } ) => (
 									<Tooltip text={ name } key={ key }>
 										<div className="gb-column-selector">
 											<Button
-												key={ key }
 												className={ classnames(
 													'gb-column-selector-button',
-													key,
+													'gb-select-' + key,
 												) }
 												isSmall
 												onClick={ () => {
-													setAttributes({
-														layout: key
-													});
-													this.setState({ 'selectLayout': false });
+													setAttributes( {
+														columns,
+														layout: 1 === columns || 5 === columns || 6 === columns ? key : null,
+													} );
+
+													{ 1 === columns &&
+													this.setState( { selectLayout: false } );
+													}
 												} }
 											>
 												{ icon }
@@ -168,20 +139,49 @@ class Edit extends Component {
 									</Tooltip>
 								) ) }
 							</ButtonGroup>
-							<Button
-								className="gb-column-selector-button-back"
-								onClick={ () => {
-									setAttributes({
-										columns: null
-									});
-									this.setState({ 'selectLayout': true });
-								} }
-							>
-								{ __( 'Return to Column Selection', 'genesis-blocks' ) }
-							</Button>
-						</Fragment>
+						) : (
+							<Fragment>
+								<ButtonGroup
+									aria-label={ __( 'Select Column Layout', 'genesis-blocks' ) }
+									className="gb-column-selector-group"
+								>
+									{ map( columnLayouts[ selectedRows ], ( { name, key, icon } ) => (
+										<Tooltip text={ name } key={ key }>
+											<div className="gb-column-selector">
+												<Button
+													key={ key }
+													className={ classnames(
+														'gb-column-selector-button',
+														key,
+													) }
+													isSmall
+													onClick={ () => {
+														setAttributes( {
+															layout: key,
+														} );
+														this.setState( { selectLayout: false } );
+													} }
+												>
+													{ icon }
+												</Button>
+											</div>
+										</Tooltip>
+									) ) }
+								</ButtonGroup>
+								<Button
+									className="gb-column-selector-button-back"
+									onClick={ () => {
+										setAttributes( {
+											columns: null,
+										} );
+										this.setState( { selectLayout: true } );
+									} }
+								>
+									{ __( 'Return to Column Selection', 'genesis-blocks' ) }
+								</Button>
+							</Fragment> )
 					}
-				</Placeholder>
+				</Placeholder>,
 			];
 		}
 
@@ -189,11 +189,11 @@ class Edit extends Component {
 			<BlockControls key="controls">
 				<BlockAlignmentToolbar
 					value={ attributes.align }
-					onChange={ align => setAttributes({ align }) }
+					onChange={ ( align ) => setAttributes( { align } ) }
 					controls={ [ 'center', 'wide', 'full' ] }
 				/>
 			</BlockControls>,
-			<Inspector { ...this.props } key="inspector"/>,
+			<Inspector { ...this.props } key="inspector" />,
 			<Columns
 				{ ...this.props }
 
@@ -216,14 +216,14 @@ class Edit extends Component {
 						allowedBlocks={ ALLOWED_BLOCKS }
 					/>
 				</div>
-			</Columns>
+			</Columns>,
 		];
 	}
 }
 
-export default compose([
+export default compose( [
 	withColors(
 		'backgroundColor',
 		{ textColor: 'color' },
-	)
-])( Edit );
+	),
+] )( Edit );

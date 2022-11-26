@@ -1,3 +1,5 @@
+import { isEmpty, mapValues, pickBy } from 'lodash';
+
 /**
  * Internal dependencies
  */
@@ -12,7 +14,7 @@ import {
  * Props Phil Johnston.
  *
  * @param {Object} settings Settings for the block.
- * @param {string} name The name of the block.
+ * @param {string} name     The name of the block.
  * @return {Object} settings Modified settings.
  */
 export const addResponsiveAttributes = ( settings, name ) => {
@@ -61,12 +63,12 @@ export const conditionallyAddPxUnit = ( size ) => {
 	return size.match( /[A-Za-z]+$/ )
 		? size
 		: `${ size }px`;
-}
+};
 
 /**
  * Gets the font as a slug.
  *
- * @param {string} fontSize The font size in px, em, or rem to look for, like '20px'.
+ * @param {string}   fontSize  The font size in px, em, or rem to look for, like '20px'.
  * @param {Object[]} fontSizes All of the possible font sizes.
  * @return {string|undefined} The font as a slug, like 'large'.
  */
@@ -76,9 +78,32 @@ export const getFontSlug = ( fontSize, fontSizes ) =>
 /**
  * Gets the font size in px, em, or rem.
  *
- * @param {string} fontSlug The slug to look for, like 'normal'.
+ * @param {string}   fontSlug  The slug to look for, like 'normal'.
  * @param {Object[]} fontSizes All of the possible font sizes.
  * @return {string|undefined} The font size in px, em, rem.
  */
 export const getFontSize = ( fontSlug, fontSizes ) =>
 	fontSizes.find( ( font ) => fontSlug === font.slug )?.size;
+
+/**
+ * Removes falsy values from nested object.
+ *
+ * Forked from Gutenberg: https://github.com/WordPress/gutenberg/blob/489231532bdb80a2b77d6b0adb2dd12e89b72239/packages/block-editor/src/hooks/utils.js#L19
+ *
+ * @param {*} object
+ * @return {*} Object cleaned from falsy values
+ */
+export const cleanEmptyObject = ( object ) => {
+	if (
+		object === null ||
+		typeof object !== 'object' ||
+		Array.isArray( object )
+	) {
+		return object;
+	}
+	const cleanedNestedObjects = pickBy(
+		mapValues( object, cleanEmptyObject ),
+		Boolean
+	);
+	return isEmpty( cleanedNestedObjects ) ? undefined : cleanedNestedObjects;
+};

@@ -39,15 +39,18 @@ const components = {
 /**
  * SettingsComponent
  *
- * @param {Object} { settings, sections }
+ * @param {{
+ *   settings: Object,
+ *   sections: Object,
+ * }} props
  * @return {SettingsComponent} The main component of the settings app.
  */
-function SettingsComponent({ settings, sections }) {
+function SettingsComponent( { settings, sections } ) {
 	/**
 	 * Reset the form save state to clear “settings saved“ messages.
 	 */
 	function resetFormSaveState() {
-		dispatch('genesis-blocks/global-settings').resetFormSaveState();
+		dispatch( 'genesis-blocks/global-settings' ).resetFormSaveState();
 	}
 
 	/**
@@ -55,35 +58,35 @@ function SettingsComponent({ settings, sections }) {
 	 *
 	 * @param {string} section The section name to load fields for.
 	 */
-	function renderFields(section) {
-		if (section.hasOwnProperty('fields') && Array.isArray(section.fields)) {
-			const fields = section.fields.map(function (field, index) {
-				if (!components.hasOwnProperty(field.type)) {
+	function renderFields( section ) {
+		if ( section.hasOwnProperty( 'fields' ) && Array.isArray( section.fields ) ) {
+			const fields = section.fields.map( function( field, index ) {
+				if ( ! components.hasOwnProperty( field.type ) ) {
 					return '';
 				}
-				const Field = components[field.type];
-				return <Field key={index} settings={settings} field={field} />;
-			});
+				const Field = components[ field.type ];
+				return <Field key={ index } settings={ settings } field={ field } />;
+			} );
 
-			if (fields.length > 0) {
-				return <>{fields}</>;
+			if ( fields.length > 0 ) {
+				return <>{ fields }</>;
 			}
 		}
 
-		return <p>{__('No fields found for this section.', 'genesis-blocks')}</p>;
+		return <p>{ __( 'No fields found for this section.', 'genesis-blocks' ) }</p>;
 	}
-	
+
 	/**
 	 * Adds the className value that the TabPanel component desires.
-	 * 
+	 *
 	 * @param {Object} sections The tabs added for sections.
 	 */
 	function addTabClassNames( sections ) {
 		// Loop through each tab, and add the className to it.
 		for ( const section in sections ) {
-			sections[section].className = 'gb-nav-tab gb-admin-button';
+			sections[ section ].className = 'gb-nav-tab gb-admin-button';
 		}
-		
+
 		return sections;
 	}
 
@@ -92,44 +95,44 @@ function SettingsComponent({ settings, sections }) {
 			<TabPanel
 				className="genesis-blocks-settings-sections"
 				activeClass="gb-nav-tab-active"
-				onSelect={resetFormSaveState}
+				onSelect={ resetFormSaveState }
 				tabs={
 					Object.values( addTabClassNames( sections ) )
 				}
 			>
-				{(tab) => (
-					<div 
-					className="gb-admin-plugin-admin-body"
+				{ ( tab ) => (
+					<div
+						className="gb-admin-plugin-admin-body"
 					>
-						<div 
+						<div
 							className="gb-admin-plugin-container"
 						>
-							{renderFields(tab)}
+							{ renderFields( tab ) }
 							<SlotFillProvider>
-								<Slot name={"GenesisBlocksSettings_" + tab.name.replace('genesis_blocks_settings_', '')} />
+								<Slot name={ 'GenesisBlocksSettings_' + tab.name.replace( 'genesis_blocks_settings_', '' ) } />
 								<PluginArea />
 							</SlotFillProvider>
 							<SaveButton
-								successMessage={__('Settings saved', 'genesis-blocks')}
-								failMessage={__('Saving failed', 'genesis-blocks')}
+								successMessage={ __( 'Settings saved', 'genesis-blocks' ) }
+								failMessage={ __( 'Saving failed', 'genesis-blocks' ) }
 								messageDuration="2"
 							>
-								{__('Save All', 'genesis-blocks')}
+								{ __( 'Save All', 'genesis-blocks' ) }
 							</SaveButton>
 						</div>
 					</div>
-				)}
+				) }
 			</TabPanel>
 		</>
 	);
 }
 
-export const Settings = compose([
+export const Settings = compose( [
 	// Subscribe to changes to the settings and sections state.
-	withSelect(() => {
+	withSelect( () => {
 		return {
-			settings: select('genesis-blocks/global-settings').getSettings(),
-			sections: select('genesis-blocks/global-settings').getSections(),
+			settings: select( 'genesis-blocks/global-settings' ).getSettings(),
+			sections: select( 'genesis-blocks/global-settings' ).getSections(),
 		};
-	}),
-])(SettingsComponent);
+	} ),
+] )( SettingsComponent );

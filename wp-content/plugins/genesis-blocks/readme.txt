@@ -3,8 +3,8 @@ Contributors: atomicblocks, arrayhq, johnstonphilip, marksabbath, mindctrl, drea
 Donate link: https://studiopress.com
 Tags: Blocks, editor, gutenberg, gutenberg blocks, page builder, block enabled, page building, block, WP Engine
 Requires at least: 5.3
-Tested up to: 6.0
-Stable tag: 1.5.1
+Tested up to: 6.1
+Stable tag: 1.5.3
 Requires PHP: 7.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -96,6 +96,14 @@ Yes, you will need to have WordPress 5.3 or later installed to take advantage of
 3. Some of the many blocks included in Genesis Blocks
 
 == Changelog ==
+
+= 1.5.3 =
+* Fixed: Fix a block error with Desktop responsive controls on the Heading and Paragraph blocks.
+
+= 1.5.2 =
+* Changed: NPM tooling overhaul.
+* Changed: Unignore eslint rules, fix linting.
+* Fixed: Prevent an error if another plugin incorrectly filters 'admin_body_class'.
 
 = 1.5.1 =
 * Fixed: Revert changes that modified Profile Box avatar styling.

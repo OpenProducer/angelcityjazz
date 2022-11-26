@@ -9,7 +9,7 @@ import md5 from 'md5';
 export function fontRatioToClass( ratio ) {
 	return 0 === ratio || 50 === ratio
 		? null
-		: 'font-size-' + 1 * Math.round( ratio / 1 );
+		: `font-size-${ 1 * Math.round( ratio / 1 ) }`;
 }
 
 // Generate a unique ID for the notice block
