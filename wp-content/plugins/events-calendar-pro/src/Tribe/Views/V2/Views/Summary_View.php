@@ -260,6 +260,7 @@ class Summary_View extends List_View {
 		$last_date_end_of_day        = tribe_end_of_day( $last_date->format( Dates::DBDATEFORMAT ) );
 
 		return tribe_events()
+			->by_args( $this->get_global_repository_args() )
 			->where( 'starts_before', $first_date_beginning_of_day )
 			->where( 'ends_between', $first_date_beginning_of_day, $last_date_end_of_day )
 			->all();
@@ -280,6 +281,7 @@ class Summary_View extends List_View {
 		$last_date_beginning_of_day  = tribe_beginning_of_day( $last_date->format( Dates::DBDATEFORMAT ) );
 
 		return tribe_events()
+			->by_args( $this->get_global_repository_args() )
 			->where( 'starts_before', $first_date_beginning_of_day )
 			->where( 'ends_after', $last_date_beginning_of_day )
 			->all();
@@ -297,6 +299,7 @@ class Summary_View extends List_View {
 	 */
 	protected function get_previous_event( \WP_Post $earliest_event, array $exclude_ids = [] ) {
 		return tribe_events()
+			->by_args( $this->get_global_repository_args() )
 			->where( 'starts_before', $earliest_event->dates->start )
 			->not_in( $exclude_ids )
 			->per_page( 1 )

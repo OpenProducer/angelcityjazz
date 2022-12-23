@@ -28,7 +28,7 @@ class Templates extends Base_Template {
 	 * @since 6.0.0
 	 */
 	public function __construct() {
-		$this->set_template_folder( EVENTS_CALENDAR_PRO_DIR . '/src/views/custom-tables-v1' );
+		$this->set_template_folder( '/src/views/custom-tables-v1' );
 		$this->set_template_folder_lookup( true );
 		$this->set_template_context_extract( true );
 

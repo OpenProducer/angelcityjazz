@@ -74,7 +74,6 @@ class Provisional_Post_Cache {
 	 */
 	public function __construct( Provisional_ID_Generator $generator ) {
 		$this->generator = $generator;
-		$this->base = $generator->current();
 	}
 
 	/**
@@ -85,6 +84,10 @@ class Provisional_Post_Cache {
 	 * @return int
 	 */
 	public function get_base(): int {
+		if ( empty( $this->base ) ) {
+			$this->base = $this->generator->current();
+		}
+
 		return $this->base;
 	}
 
@@ -161,7 +164,7 @@ class Provisional_Post_Cache {
 	 * @param  Occurrence  $occurrence
 	 */
 	private function set_occurrence_cache( Occurrence $occurrence ): void {
-		$provisional_id = $this->base + $occurrence->occurrence_id;
+		$provisional_id = $this->get_base() + $occurrence->occurrence_id;
 
 		if ( $this->already_cached( $provisional_id ) ) {
 			return;

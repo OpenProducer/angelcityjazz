@@ -21,7 +21,7 @@ use TEC\Events\Custom_Tables\V1\Tables\Events as EventsSchema;
  */
 class Events extends Abstract_Custom_Field {
 	const SCHEMA_VERSION_OPTION = 'tec_ct1_events_field_schema_version';
-	const SCHEMA_VERSION = '1.0.0';
+	const SCHEMA_VERSION = '1.0.1';
 
 	/**
 	 * @inheritDoc

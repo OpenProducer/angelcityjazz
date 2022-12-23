@@ -315,4 +315,33 @@ class View_Filters {
 		tribe_exit();
 	}
 
+	/**
+	 * Filters the slug of the view that will be built according to the request context to add support for Venue and
+	 * Organizer Views.
+	 *
+	 * @since    4.7.9
+	 *
+	 * @param string  $slug    The View slug that would be loaded.
+	 * @param Context $context The current request context.
+	 *
+	 * @return string The filtered View slug, set to the Venue or Organizer ones, if required.
+	 *
+	 * @internal This method is not meant be used outside of the plugin.
+	 */
+	public function filter_bootstrap_view_slug( string $slug, Context $context ): string {
+		$post_types         = [
+			Organizer::POSTTYPE => 'organizer',
+			Venue::POSTTYPE     => 'venue',
+		];
+		$context_post_types = (array) $context->get( 'post_type', $slug );
+
+		if ( empty( $context_post_types ) || count( $context_post_types ) > 1 )  {
+			// Either a multiple post type request or not a request for the Venue or Organizer post types.
+			return $slug;
+		}
+
+		$post_type = reset( $context_post_types );
+
+		return $post_types[ $post_type ] ?? $slug;
+	}
 }

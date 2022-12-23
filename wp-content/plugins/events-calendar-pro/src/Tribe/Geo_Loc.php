@@ -121,7 +121,7 @@ class Tribe__Events__Pro__Geo_Loc {
 		add_action( 'admin_init', array( $this, 'maybe_generate_geopoints_for_all_venues' ) );
 		add_action( 'admin_init', array( $this, 'maybe_offer_generate_geopoints' ) );
 		add_filter( 'tribe-events-bar-views', array( $this, 'setup_view_for_bar' ), 25, 1 );
-		add_filter( 'tribe_settings_tab_fields', array( $this, 'inject_settings' ), 10, 2 );
+		add_filter( 'tec_events_display_settings_tab_fields', array( $this, 'inject_settings' ), 10 );
 		add_filter( 'tribe-events-bar-filters', array( $this, 'setup_geoloc_filter_in_bar' ), 1, 1 );
 
 		add_filter( 'tribe_events_rewrite_rules_custom', array( $this, 'add_routes' ), 10, 3 );
@@ -172,63 +172,58 @@ class Tribe__Events__Pro__Geo_Loc {
 	 *
 	 * @return array
 	 */
-	public function inject_settings( $args, $id ) {
+	public function inject_settings( $args ) {
 		if ( tribe_is_using_basic_gmaps_api() ) {
 		    // If the user is using the default Google Maps API key, then don't show the button to fix Venues at all.
 			return $args;
 		}
 
-		if ( $id == 'general' ) {
+		$needs_geo_fix = get_transient( '_tribe_geoloc_fix_needed' );
 
-			$needs_geo_fix = get_transient( '_tribe_geoloc_fix_needed' );
-			$fieldset_html = $this->get_fieldset_html();
-
-			// we want to inject the map default distance and unit into the map section directly after "enable Google Maps"
-			$args = Tribe__Main::array_insert_after_key( 'embedGoogleMaps', $args, array(
-					'geoloc_default_geofence' => array(
-						'type'            => 'text',
-						'label'           => __( 'Map view search distance limit', 'tribe-events-calendar-pro' ),
-						'size'            => 'small',
-						'tooltip'         => __( 'Set the distance that the location search covers (find events within X distance units of location search input).', 'tribe-events-calendar-pro' ),
-						'default'         => '25',
-						'class'           => '',
-						'validation_type' => 'number_or_percent',
-					),
-					'geoloc_default_unit'     => array(
-						'type'            => 'dropdown',
-						'label'           => __( 'Distance unit', 'tribe-events-calendar-pro' ),
-						'validation_type' => 'options',
-						'size'            => 'small',
-						'default'         => 'miles',
-						'options'         => apply_filters( 'tribe_distance_units',
-							array(
-								'miles' => __( 'Miles', 'tribe-events-calendar-pro' ),
-								'kms'   => __( 'Kilometers', 'tribe-events-calendar-pro' ),
-							)
-						),
-					),
-					'geoloc_fix_venues'       => array(
-						'type'        => 'html',
-						'html'        => $fieldset_html,
-						'conditional' => ! empty( $needs_geo_fix ),
-					),
-				)
-			);
-		} elseif ( $id == 'display' ) {
-			$tooltip_text = tribe_events_views_v2_is_enabled()
-				? __( 'Removes location search field from the Events Bar on all views.', 'tribe-events-calendar-pro' )
-				: __( 'Removes location search field from the Events Bar on all views except for map view.', 'tribe-events-calendar-pro' );
-
-			$args = Tribe__Main::array_insert_after_key( 'tribeDisableTribeBar', $args, array(
-				'hideLocationSearch' => array(
-					'type'            => 'checkbox_bool',
-					'label'           => __( 'Hide location search', 'tribe-events-calendar-pro' ),
-					'tooltip'         => $tooltip_text,
-					'default'         => false,
-					'validation_type' => 'boolean',
+		// We want to inject the map default distance and unit into the map section directly after "enable Google Maps".
+		$args = Tribe__Main::array_insert_after_key(
+			'embedGoogleMaps',
+			$args,
+			[
+				'geoloc_default_geofence' => array(
+					'type'            => 'text',
+					'label'           => __( 'Map view search distance limit', 'tribe-events-calendar-pro' ),
+					'size'            => 'small',
+					'tooltip'         => __( 'Set the distance that the location search covers (find events within X distance units of location search input).', 'tribe-events-calendar-pro' ),
+					'default'         => '25',
+					'class'           => '',
+					'validation_type' => 'number_or_percent',
 				),
-			) );
-		}
+				'geoloc_default_unit'     => [
+					'type'            => 'dropdown',
+					'label'           => __( 'Distance unit', 'tribe-events-calendar-pro' ),
+					'validation_type' => 'options',
+					'size'            => 'small',
+					'default'         => 'miles',
+					'options'         => apply_filters( 'tribe_distance_units',
+						[
+							'miles' => __( 'Miles', 'tribe-events-calendar-pro' ),
+							'kms'   => __( 'Kilometers', 'tribe-events-calendar-pro' ),
+						]
+					),
+				],
+				'geoloc_fix_venues'       => [
+					'type'        => 'html',
+					'html'        => $this->get_fieldset_html(),
+					'conditional' => ! empty( $needs_geo_fix ),
+				],
+			]
+		);
+
+		$args = Tribe__Main::array_insert_after_key( 'tribeDisableTribeBar', $args, array(
+			'hideLocationSearch' => array(
+				'type'            => 'checkbox_bool',
+				'label'           => __( 'Hide location search', 'tribe-events-calendar-pro' ),
+				'tooltip'         => __( 'Removes location search field from the Events Bar on all views.', 'tribe-events-calendar-pro' ),
+				'default'         => false,
+				'validation_type' => 'boolean',
+			),
+		) );
 
 		return $args;
 	}
@@ -320,12 +315,12 @@ class Tribe__Events__Pro__Geo_Loc {
 	 * @return array
 	 */
 	public function setup_view_for_bar( $views ) {
-		$views[] = array(
+		$views[] = [
 			'displaying'     => 'map',
 			'event_bar_hook' => 'tribe_events_list_the_title',
 			'anchor'         => __( 'Map', 'tribe-events-calendar-pro' ),
 			'url'            => tribe_get_mapview_link(),
-		);
+		];
 
 		return $views;
 	}
@@ -390,11 +385,11 @@ class Tribe__Events__Pro__Geo_Loc {
 			$lat   = tribe_get_request_var( 'tribe-bar-geoloc-lat', '' );
 			$lng   = tribe_get_request_var( 'tribe-bar-geoloc-lng', '' );
 
-			$filters['tribe-bar-geoloc'] = array(
+			$filters['tribe-bar-geoloc'] = [
 				'name'    => 'tribe-bar-geoloc',
 				'caption' => esc_html__( 'Near', 'tribe-events-calendar-pro' ),
 				'html'    => '<input type="hidden" name="tribe-bar-geoloc-lat" id="tribe-bar-geoloc-lat" value="' . esc_attr( $lat ) . '" /><input type="hidden" name="tribe-bar-geoloc-lng" id="tribe-bar-geoloc-lng" value="' . esc_attr( $lng ) . '" /><input type="text" name="tribe-bar-geoloc" id="tribe-bar-geoloc" value="' . esc_attr( $value ) . '" placeholder="' . __( 'Location', 'tribe-events-calendar-pro' ) . '">',
-			);
+			];
 
 		}
 
@@ -544,15 +539,15 @@ class Tribe__Events__Pro__Geo_Loc {
 				$venues = array_unique( $venues );
 			}
 
-			$meta_query = array(
+			$meta_query = [
 				'key'     => '_EventVenueID',
 				'value'   => $venues,
 				'type'    => 'NUMERIC',
 				'compare' => 'IN',
-			);
+			];
 
 			if ( empty( $query->query_vars['meta_query'] ) ) {
-				$query->set( 'meta_query', array( $meta_query ) );
+				$query->set( 'meta_query', [ $meta_query ] );
 			} else {
 				$query->query_vars['meta_query'][] = $meta_query;
 			}
@@ -579,7 +574,7 @@ class Tribe__Events__Pro__Geo_Loc {
 		$baseTag = trailingslashit( $tec->tagRewriteSlug );
 		$baseTag = '(.*)' . $baseTag;
 
-		$newRules = array();
+		$newRules = [];
 
 		/**
 		 * Filters the rewrite slugs used to generate the geocode based rewrite rules.
@@ -587,7 +582,7 @@ class Tribe__Events__Pro__Geo_Loc {
 		 * @param array $rewrite_slugs An array of rewrite slugs to use; defaults to [ 'map' ], the
 		 *                             default geocode-based rewrite slug.
 		 */
-		$rewrite_slugs = apply_filters( 'tribe_events_pro_geocode_rewrite_slugs', array( $this->rewrite_slug ) );
+		$rewrite_slugs = apply_filters( 'tribe_events_pro_geocode_rewrite_slugs', [ $this->rewrite_slug ] );
 
 		foreach ( $rewrite_slugs as $rewrite_slug ) {
 			$newRules[ $base . $rewrite_slug ] = 'index.php?post_type=' . Tribe__Events__Main::POSTTYPE . '&eventDisplay=map';
@@ -776,7 +771,7 @@ class Tribe__Events__Pro__Geo_Loc {
 	 */
 	public static function getOptions( $force = false ) {
 		if ( ! isset( self::$options ) || $force ) {
-			$options       = get_option( self::OPTIONNAME, array() );
+			$options       = get_option( self::OPTIONNAME, [] );
 			self::$options = apply_filters( 'tribe_geoloc_get_options', $options );
 		}
 
@@ -1051,7 +1046,7 @@ class Tribe__Events__Pro__Geo_Loc {
 
 		if ( null === $coords ) {
 			$venues_list = $this->get_active_venues();
-			$published_venues = array();
+			$published_venues = [];
 
 			if ( ! empty( $venues_list ) ) {
 				$published_venues = $this->filter_published_venues( $venues_list );
@@ -1123,7 +1118,7 @@ class Tribe__Events__Pro__Geo_Loc {
 	 * @return array
 	 */
 	private function get_active_venues() {
-		$results = array();
+		$results = [];
 		global $wpdb;
 		$sql = "SELECT DISTINCT meta_value
 		FROM `{$wpdb->postmeta}`
@@ -1150,7 +1145,7 @@ class Tribe__Events__Pro__Geo_Loc {
 	 *
 	 * @return array
 	 */
-	private function filter_published_venues( $list = array() ) {
+	private function filter_published_venues( $list = [] ) {
 		$query = new WP_Query(
 			array(
 				'post_type' => Tribe__Events__Venue::POSTTYPE,
@@ -1193,10 +1188,10 @@ class Tribe__Events__Pro__Geo_Loc {
 	 */
 	public function generate_markers( $events ) {
 
-		$markers = array();
+		$markers = [];
 
 		// let's track which recurrence venues have already been marked
-		$already_marked = array();
+		$already_marked = [];
 
 		foreach ( $events as $event ) {
 
@@ -1248,7 +1243,7 @@ class Tribe__Events__Pro__Geo_Loc {
 	 *                    coordinates in the shape [ 'lat' => <lat>, 'lng' => <lng> ] or
 	 *                    `false` if the address could not be resolved to a set of coordinates.
 	 */
-	public function geocode_address( $address, $venue_id = 0, $pieces = array() ) {
+	public function geocode_address( $address, $venue_id = 0, $pieces = [] ) {
 		/**
 		 * Allows customizing whether the Google Maps Geocode API will be used for geocoding addresses.
 		 *
@@ -1348,7 +1343,7 @@ class Tribe__Events__Pro__Geo_Loc {
 			return false;
 		}
 
-		$result     = array();
+		$result     = [];
 		$geo_result = $data_arr->results[0];
 
 		if ( isset( $geo_result->geometry->location->lat ) ) {
@@ -1428,11 +1423,19 @@ class Tribe__Events__Pro__Geo_Loc {
 	 * If there are venues without geo data, offer the user to fix them.
 	 */
 	public function show_offer_to_fix_notice() {
-		$url = tribe( 'tec.main' )->settings()->get_url();
+		$url = tribe( 'tec.main' )->settings()->get_url([ 'tab' => 'display' ]);
 
 		?>
 		<div class="updated">
-			<p><?php echo sprintf( __( "You have venues for which we don't have Geolocation information. <a href='%s'>Click here to generate it</a>.", 'tribe-events-calendar-pro' ), esc_url( $url ) . '#geoloc_fix' ); ?></p>
+			<p><?php
+			echo sprintf(
+				__(
+					"You have venues for which we don't have geolocation information. <a href='%s'>Click here to generate it</a>.",
+					'tribe-events-calendar-pro'
+				),
+				esc_url( $url ) . '#tec-settings-events-settings-display-maps'
+			);
+			?></p>
 		</div>
 		<?php
 	}
@@ -1582,7 +1585,7 @@ class Tribe__Events__Pro__Geo_Loc {
 	 * @return string The URL to fix the Venues.
 	 */
 	private function get_fix_venues_url() {
-		$url = tribe( 'tec.main' )->settings()->get_url( [ 'geoloc_fix_venues' => '1' ] );
+		$url = tribe( 'tec.main' )->settings()->get_url( [ 'geoloc_fix_venues' => '1', 'tab' => 'display' ] );
 		$url = wp_nonce_url( $url, 'geoloc_fix_venues' );
 
 		return $url;

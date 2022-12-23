@@ -74,7 +74,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 */
 		public $template_namespace = 'events-pro';
 
-		const VERSION = '6.0.3';
+		const VERSION = '6.0.5.1';
 
 	    /**
 		 * The Events Calendar Required Version
@@ -83,7 +83,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 * @deprecated 4.6
 		 *
 		 */
-		const REQUIRED_TEC_VERSION = '6.0.4';
+		const REQUIRED_TEC_VERSION = '6.0.5';
 
 		private function __construct() {
 			$this->pluginDir = trailingslashit( basename( EVENTS_CALENDAR_PRO_DIR ) );
@@ -113,7 +113,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 			add_action( 'parse_query', [ $this, 'set_post_id_for_recurring_event_query' ], 101 );
 
 			add_action( 'tribe_settings_do_tabs', [ $this, 'add_settings_tabs' ] );
-			add_filter( 'tribe_settings_tab_fields', [ $this, 'filter_settings_tab_fields' ], 10, 2 );
+			add_filter( 'tec_events_display_settings_tab_fields', [ $this, 'filter_display_settings_tab_fields' ], 10 );
 
 			add_filter( 'tribe_events_template_paths', [ $this, 'template_paths' ] );
 
@@ -443,7 +443,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 
 			// if enabled views have never been set then set those to all PRO views
 			if ( false === tribe_get_option( 'tribeEnableViews', false ) ) {
-				tribe_update_option( 'tribeEnableViews', array( 'list', 'month', 'day', 'photo', 'map', 'week' ) );
+				tribe_update_option( 'tribeEnableViews', array( 'list', 'month', 'day', 'summary', 'photo', 'map', 'week' ) );
 				// After setting the enabled view we Flush the rewrite rules
 				flush_rewrite_rules();
 			}
@@ -656,79 +656,126 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 			) );
 		}
 
+		/**
+		 * Filter the display settings fields.
+		 *
+		 * @deprecated 6.0.4
+		 *
+		 * @param array $fields
+		 * @param string $tab
+		 */
 		public function filter_settings_tab_fields( $fields, $tab ) {
-			$this->singular_event_label = tribe_get_event_label_singular();
-			$this->plural_event_label = tribe_get_event_label_plural();
-			switch ( $tab ) {
-				case 'display':
-					$fields = Tribe__Main::array_insert_after_key(
-						'tribeDisableTribeBar',
-						$fields,
-						array(
-							'hideRelatedEvents' => array(
-								'type'            => 'checkbox_bool',
-								'label'           => __( 'Hide related events', 'tribe-events-calendar-pro' ),
-								'tooltip'         => __( 'Remove related events from the single event view (with classic editor)', 'tribe-events-calendar-pro' ),
-								'default'         => false,
-								'validation_type' => 'boolean',
-							),
-						)
-					);
-					$fields = Tribe__Main::array_insert_after_key(
-						'monthAndYearFormat',
-						$fields,
-						array(
-							'weekDayFormat' => array(
-								'type'            => 'text',
-								'label'           => __( 'Week Day Format', 'tribe-events-calendar-pro' ),
-								'tooltip'         => __( 'Enter the format to use for week days. Used when showing days of the week in Week view.', 'tribe-events-calendar-pro' ),
-								'default'         => 'D jS',
-								'size'            => 'medium',
-								'validation_type' => 'not_empty',
-							),
-						)
-					);
-					$fields = Tribe__Main::array_insert_after_key(
-						'hideRelatedEvents',
-						$fields,
-						array(
-							'week_view_hide_weekends' => array(
-								'type'            => 'checkbox_bool',
-								'label'           => __( 'Hide weekends on Week View', 'tribe-events-calendar-pro' ),
-								'tooltip'         => __( 'Check this to only show weekdays on Week View. This also affects the Events by Week widget.', 'tribe-events-calendar-pro' ),
-								'default'         => false,
-								'validation_type' => 'boolean',
-							),
-						)
-					);
-					$fields = Tribe__Main::array_insert_before_key(
-						'tribeEventsBeforeHTML',
-						$fields,
-						array(
-							'tribeEventsShortcodeBeforeHTML' => array(
-								'type'            => 'checkbox_bool',
-								'label'           => __( 'Enable the Before HTML (below) on shortcodes.', 'tribe-events-calendar-pro' ),
-								'tooltip'         => __( 'Check this to show the Before HTML from the text area below on events displayed via shortcode.', 'tribe-events-calendar-pro' ),
-								'default'         => false,
-								'validation_type' => 'boolean',
-							),
-						)
-					);
-					$fields = Tribe__Main::array_insert_before_key(
-						'tribeEventsAfterHTML',
-						$fields,
-						array(
-							'tribeEventsShortcodeAfterHTML' => array(
-								'type'            => 'checkbox_bool',
-								'label'           => __( 'Enable the After HTML (below) on shortcodes.', 'tribe-events-calendar-pro' ),
-								'tooltip'         => __( 'Check this to show the After HTML from the text area below on events displayed via shortcode.', 'tribe-events-calendar-pro' ),
-								'default'         => false,
-								'validation_type' => 'boolean',
-							),
-						)
-					);
-					break;
-			}
+			_deprecated_function( __METHOD__, '6.0.4', 'filter_display_settings_tab_fields' );
+
+			return $this->filter_display_settings_tab_fields( $fields, $tab );
+		}
+
+		/**
+		 * Filter the display settings fields.
+		 *
+		 * @since 6.0.4
+		 *
+		 * @param array $fields
+		 * @param string $tab
+		 */
+		public function filter_display_settings_tab_fields( $fields ) {
+			$fields = Tribe__Main::array_insert_after_key(
+				'tribeDisableTribeBar',
+				$fields,
+				array(
+					'hideRelatedEvents' => array(
+						'type'            => 'checkbox_bool',
+						'label'           => __( 'Hide related events', 'tribe-events-calendar-pro' ),
+						'tooltip'         => __( 'Remove related events from the single event view (with classic editor)', 'tribe-events-calendar-pro' ),
+						'default'         => false,
+						'validation_type' => 'boolean',
+					),
+				)
+			);
+			$fields = Tribe__Main::array_insert_after_key(
+				'hideRelatedEvents',
+				$fields,
+				array(
+					'week_view_hide_weekends' => array(
+						'type'            => 'checkbox_bool',
+						'label'           => __( 'Hide weekends on Week View', 'tribe-events-calendar-pro' ),
+						'tooltip'         => __( 'Check this to only show weekdays on Week View. This also affects the Events by Week widget.', 'tribe-events-calendar-pro' ),
+						'default'         => false,
+						'validation_type' => 'boolean',
+					),
+				)
+			);
+			$fields = Tribe__Main::array_insert_before_key(
+				'tribeEventsBeforeHTML',
+				$fields,
+				array(
+					'tribeEventsShortcodeBeforeHTML' => array(
+						'type'            => 'checkbox_bool',
+						'label'           => __( 'Enable the Before HTML (below) on shortcodes.', 'tribe-events-calendar-pro' ),
+						'tooltip'         => __( 'Check this to show the Before HTML from the text area below on events displayed via shortcode.', 'tribe-events-calendar-pro' ),
+						'default'         => false,
+						'validation_type' => 'boolean',
+					),
+				)
+			);
+			$fields = Tribe__Main::array_insert_before_key(
+				'tribeEventsAfterHTML',
+				$fields,
+				array(
+					'tribeEventsShortcodeAfterHTML' => array(
+						'type'            => 'checkbox_bool',
+						'label'           => __( 'Enable the After HTML (below) on shortcodes.', 'tribe-events-calendar-pro' ),
+						'tooltip'         => __( 'Check this to show the After HTML from the text area below on events displayed via shortcode.', 'tribe-events-calendar-pro' ),
+						'default'         => false,
+						'validation_type' => 'boolean',
+					),
+				)
+			);
+			$sample_date = strtotime( 'January 15 ' . date( 'Y' ) );
+
+			$fields = Tribe__Main::array_insert_after_key(
+				'monthAndYearFormat',
+				$fields,
+				array(
+					'weekDayFormat' => array(
+						'type'            => 'text',
+						'label'           => __( 'Week Day Format', 'tribe-events-calendar-pro' ),
+						'tooltip'         => sprintf(
+							esc_html__( 'Enter the format to use for week days. Used when showing days of the week in Week view. Example: %1$s', 'the-events-calendar' ),
+							date( get_option( 'weekDayFormat', 'D jS' ), $sample_date )
+						),
+						'default'         => 'D jS',
+						'size'            => 'medium',
+						'validation_type' => 'not_empty',
+					),
+				)
+			);
+
+			// We add weekDayFormat above, so there are four fields.
+			$fields['tribeEventsDateFormatExplanation']   = [
+				'type' => 'html',
+				'html' => '<p>'
+					. sprintf(
+						__( 'The following four fields accept the date format options available to the PHP %1$s function. <a href="%2$s" target="_blank">Learn how to make your own date format here</a>.', 'tribe-common' ),
+						'<code>date()</code>',
+						'https://wordpress.org/support/article/formatting-date-and-time/'
+					)
+					. '</p>',
+			];
+
+			return $fields;
+		}
+
+		/**
+		 * Filter the dates settings fields.
+		 *
+		 * @since 6.0.4
+		 *
+		 * @param array $fields
+		 * @param string $tab
+		 */
+		public function filter_dates_settings_tab_fields( $fields ) {
+
 
 			return $fields;
 		}

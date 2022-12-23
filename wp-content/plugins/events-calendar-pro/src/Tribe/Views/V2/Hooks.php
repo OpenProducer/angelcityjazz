@@ -234,24 +234,19 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * Organizer Views.
 	 *
 	 * @since 4.7.9
+	 * @since 6.0.5 Moved the logic to th the `Tribe\Events\Pro\Views\V2\View_Filters` class.
 	 *
-	 * @param string          $slug    The View slug that would be loaded.
-	 * @param \Tribe__Context $context The current request context.
+	 * @param string  $slug    The View slug that would be loaded.
+	 * @param Context $context The current request context.
 	 *
 	 * @return string The filtered View slug, set to the Venue or Organizer ones, if required.
 	 */
 	public function filter_bootstrap_view_slug( $slug, $context ) {
-		$post_types = [
-			Organizer::POSTTYPE => 'organizer',
-			Venue::POSTTYPE     => 'venue',
-		];
-		$post_type  = $context->get( 'post_type', $slug );
-
-		if ( empty( $post_type ) ) {
+		if ( ! ( is_string( $slug ) && $context instanceof Context ) ) {
 			return $slug;
 		}
 
-		return isset( $post_types[ $post_type ] ) ? $post_types[ $post_type ] : $slug;
+		return $this->container->make( View_Filters::class )->filter_bootstrap_view_slug( $slug, $context );
 	}
 
 	/**
@@ -430,10 +425,10 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @since 4.7.9
 	 *
-	 * @param string          $title The current page title.
-	 * @param bool            $depth Flag to build the title of a taxonomy archive with depth in hierarchical taxonomies or not.
-	 * @param \Tribe__Context $context The current title render context.
-	 * @param array           $posts An array of events fetched by the View.
+	 * @param string  $title   The current page title.
+	 * @param bool    $depth   Flag to build the title of a taxonomy archive with depth in hierarchical taxonomies or not.
+	 * @param Context $context The current title render context.
+	 * @param array   $posts   An array of events fetched by the View.
 	 *
 	 * @return string The title, either the modified version if the rendering View is a PRO one requiring it, or the
 	 *                original one.
@@ -788,6 +783,10 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		$slug     = $view->get_slug();
 		$wp_query = tribe_get_global_query_object();
 
+		if ( ! $wp_query instanceof \WP_Query ) {
+			return $should_display_filters;
+		}
+
 		// Don't show for organizers or venues.
 		if ( in_array( $slug, [ 'organizer', 'venue' ] ) ) {
 			return false;
@@ -847,8 +846,8 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @since 6.0.2
 	 *
-	 * @param string $today The string used for the "Today" button on calendar views.
-	 * @param \Tribe\Events\Views\V2\View_Interface $view The View currently rendering.
+	 * @param string         $today The string used for the "Today" button on calendar views.
+	 * @param View_Interface $view  The View currently rendering.
 	 *
 	 * @return string $today
 	 */
@@ -867,8 +866,8 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 *
 	 * @since 6.0.2
 	 *
-	 * @param string                                $label The title string.
-	 * @param \Tribe\Events\Views\V2\View_Interface $view  The View currently rendering.
+	 * @param string         $label The title string.
+	 * @param View_Interface $view  The View currently rendering.
 	 *
 	 * @return string $label
 	 */
@@ -967,9 +966,9 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * @since 5.1.1
 	 * @deprecated 5.9.0
 	 *
-	 * @param string                      $css_template The CSS template, as produced by the Global Elements.
-	 * @param \Tribe__Customizer__Section $section      The Global Elements section.
-	 * @param \Tribe__Customizer          $customizer   The current Customizer instance.
+	 * @param string             $css_template The CSS template, as produced by the Global Elements.
+	 * @param Customizer_Section $section      The Global Elements section.
+	 * @param \Tribe__Customizer $customizer   The current Customizer instance.
 	 *
 	 * @return string The filtered CSS template.
 	 */
@@ -992,9 +991,9 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * @since 5.1.1
 	 * @deprecated 5.9.0
 	 *
-	 * @param string                      $css_template The CSS template, as produced by the Global Elements.
-	 * @param \Tribe__Customizer__Section $section      The Single Event section.
-	 * @param \Tribe__Customizer          $customizer   The current Customizer instance.
+	 * @param string             $css_template The CSS template, as produced by the Global Elements.
+	 * @param Customizer_Section $section      The Single Event section.
+	 * @param \Tribe__Customizer $customizer   The current Customizer instance.
 	 *
 	 * @return string The filtered CSS template.
 	 */
@@ -1067,9 +1066,9 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * @since 4.7.9
 	 * @deprecated 5.5.0 Move the filtering into Tribe_Events shortcode class.
 	 *
-	 * @param array                        $query_args  Arguments used to build the URL.
-	 * @param string                       $view_slug   The current view slug.
-	 * @param \Tribe\Events\Views\V2\View  $instance    The current View object.
+	 * @param array  $query_args Arguments used to build the URL.
+	 * @param string $view_slug  The current view slug.
+	 * @param View   $instance   The current View object.
 	 *
 	 * @return  array  Filtered the query arguments for shortcodes.
 	 */
@@ -1101,8 +1100,8 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * @deprecated 5.5.0 Move the filtering into Tribe_Events shortcode class.
 	 *
 	 * @param array<string,mixed> $repository_args An array of repository arguments that will be set for all Views.
-	 * @param \Tribe__Context     $context         The current render context object.
-	 * @param View_Interface  $view            The View that will use the repository arguments.
+	 * @param Context             $context         The current render context object.
+	 * @param View_Interface      $view            The View that will use the repository arguments.
 	 *
 	 * @return array<string,mixed> The filtered repository arguments.
 	 */

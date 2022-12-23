@@ -75,20 +75,22 @@ class Series_Filters {
 	 * Filters the Views V2 repository arguments to add the one that will
 	 * keep the filter based on the Series relationship.
 	 *
+	 * @since 6.0.4	Changing to utilize the global repository filter instead,
+	 *              which passes the View object as the second param.
 	 * @since 6.0.0
 	 *
 	 * @param array<string,mixed> $repository_args A map of the current Views
 	 *                                             repository arguments.
-	 * @param Context $context A reference to the View Context.
+	 * @param View_Interface      $view            A reference to the View.
 	 *
 	 * @return array<string,mixed> The updated View repository arguments.
 	 */
-	public function filter_repository_args( $repository_args, $context ) {
-		if ( ! ( is_array( $repository_args ) && $context instanceof Context ) ) {
+	public function filter_repository_args( $repository_args, $view ) {
+		if ( ! ( is_array( $repository_args ) && $view instanceof View_Interface ) ) {
 			return $repository_args;
 		}
 
-		$related_series = $context->get( 'related_series', false );
+		$related_series = $view->get_context()->get( 'related_series', false );
 
 		if ( empty( $related_series ) ) {
 			return $repository_args;
