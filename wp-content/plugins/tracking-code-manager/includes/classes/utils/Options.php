@@ -122,7 +122,7 @@ class TCMP_Options {
 		foreach ( $array as $key => &$value ) {
 			if ( is_array( $value ) ) {
 				$value = $this->recursive_wp_kses( $value );
-			} elseif ( 'code' == $key ) {
+			} elseif ( 'code' === $key ) {
 				if ( ! $this->getSkipCodeSanitization() ) {
 					$value = wp_kses( $value, $tcmp_allowed_html_tags );
 				}

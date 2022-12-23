@@ -2,8 +2,8 @@
 Contributors: IntellyWP, Data443
 Tags: adwords remarketing, analytics conversion tracking, conversion pixel, conversion tracking, conversion tracking adwords, conversion tracking pixel, conversion tracking script,Facebook Ads, facebook conversion pixel, facebook custom audience, facebook retargeting, google adwords, google analytics web tracking code, google tag manager, html snippet, html snippets, html tracking code, javascript snippet, javascript snippets, header and footer, pay per click tracking, pixel tracking code, remarketing, retargeting, snippets, Tag Management, track conversion, track conversions, tracking code, tracking codes, tracking script, woocommerce, edd, easy digital downloads, wp ecommerce, wp e-commerce, gdpr, tracking gdpr, privacy
 Requires at least: 2.7
-Tested up to: 6.0
-Stable tag: 2.0.15
+Tested up to: 6.1
+Stable tag: 2.0.16
 Requires PHP: 5.6
 
 A plugin to manage ALL of your tracking code and conversion pixels. Compatible with Facebook Ads, Google Adwords, WooCommerce, Easy Digital Downloads, ..
@@ -111,6 +111,14 @@ Have a look at the source code of your page (search for: Tracking Code Manager) 
 == Changelog ==
 
 For detailed release notes, see our documentation here: [https://intellywp.com/docs/category/tracking-code-manager/](https://intellywp.com/docs/category/tracking-code-manager/).
+
+= 2.0.16 =
+*Release Date - 2022-12-8*
+
+* Validate plugin with WordPress 6.1
+* IWP-486 Add new feature to the premium promotion
+* IWP-501 Fix possible exception error
+* IWP-508 Fix an activation conflict with the premium plugin
 
 = 2.0.15 =
 *Release Date - 2022-8-25*

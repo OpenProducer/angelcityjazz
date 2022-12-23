@@ -7,15 +7,16 @@
  * LICENSE file in the root directory of this source tree.
  *
  * Plugin Name: Facebook for WooCommerce
- * Plugin URI: https://github.com/facebookincubator/facebook-for-woocommerce/
+ * Plugin URI: https://github.com/woocommerce/facebook-for-woocommerce/
  * Description: Grow your business on Facebook! Use this official plugin to help sell more of your products using Facebook. After completing the setup, you'll be ready to create ads that promote your products and you can also create a shop section on your Page where customers can browse your products on Facebook.
  * Author: Facebook
  * Author URI: https://www.facebook.com/
- * Version: 3.0.4
+ * Version: 3.0.6
+ * Requires at least: 5.6
  * Text Domain: facebook-for-woocommerce
  * Tested up to: 6.1
- * WC requires at least: 5.3
- * WC tested up to: 5.4
+ * WC requires at least: 5.4
+ * WC tested up to: 7.2
  * Requires PHP: 7.2
  *
  * @package FacebookCommerce
@@ -44,7 +45,7 @@ class WC_Facebook_Loader {
 	/**
 	 * @var string the plugin version. This must be in the main plugin file to be automatically bumped by Woorelease.
 	 */
-	const PLUGIN_VERSION = '3.0.4'; // WRCS: DEFINED_VERSION.
+	const PLUGIN_VERSION = '3.0.6'; // WRCS: DEFINED_VERSION.
 
 	// Minimum PHP version required by this plugin.
 	const MINIMUM_PHP_VERSION = '7.2.0';

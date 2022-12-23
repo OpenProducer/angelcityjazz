@@ -124,6 +124,7 @@ Notice.ProCTA=Check all premium features now ››
 Notice.ProFeature1=Include code in latest posts (usefull for remarketing and Facebook Custom Audience)
 Notice.ProFeature2=Include code in your custom post type
 Notice.ProFeature3=Include code in specific categories or tags
+Notice.ProFeature4=Count Link and/or Button clicks
 Notice.ProHeader1=Do you like this plugin?
 Notice.ProHeader2=With <b>PREMIUM</b> version you can have <b>UNLIMITED</b> tracking codes and also other awesome features:
 Plugin1.Name=Tracking Code Manager PRO

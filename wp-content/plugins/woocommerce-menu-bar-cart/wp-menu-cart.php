@@ -3,14 +3,14 @@
  * Plugin Name:          WP Menu Cart
  * Plugin URI:           https://wpovernight.com/downloads/menu-cart-pro/
  * Description:          Extension for your e-commerce plugin (WooCommerce or Easy Digital Downloads) that places a cart icon with number of items and total cost in the menu bar. Activate the plugin, set your options and you're ready to go! Will automatically conform to your theme styles.
- * Version:              2.12.1
+ * Version:              2.13.0
  * Author:               WP Overnight
  * Author URI:           https://wpovernight.com/
  * License:              GPLv2 or later
  * License URI:          https://opensource.org/licenses/gpl-license.php
  * Text Domain:          wp-menu-cart
- * WC requires at least: 2.0.0
- * WC tested up to:      6.9
+ * WC requires at least: 3.0
+ * WC tested up to:      7.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,7 +21,7 @@ if ( ! class_exists( 'WpMenuCart' ) && ! class_exists( 'WPO_Menu_Cart_Pro' ) ) :
 
 class WpMenuCart {	 
 
-	protected $plugin_version   = '2.12.1';
+	protected $plugin_version   = '2.13.0';
 	public    $plugin_slug;
 	public    $plugin_basename;
 	public    $options;
@@ -102,11 +102,7 @@ class WpMenuCart {
 						include_once( 'includes/wpmenucart-woocommerce.php' );
 						$this->shop = new WPMenuCart_WooCommerce();
 						if ( !isset($this->options['builtin_ajax']) ) {
-							if ( defined('WOOCOMMERCE_VERSION') && version_compare( WOOCOMMERCE_VERSION, '2.7', '>=' ) ) {
-								add_filter( 'woocommerce_add_to_cart_fragments', array( $this, 'woocommerce_ajax_fragments' ) );
-							} else {
-								add_filter( 'add_to_cart_fragments', array( $this, 'woocommerce_ajax_fragments' ) );
-							}
+							add_filter( 'woocommerce_add_to_cart_fragments', array( $this, 'woocommerce_ajax_fragments' ) );
 						}
 						break;
 					case 'easy-digital-downloads':

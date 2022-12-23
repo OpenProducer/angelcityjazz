@@ -6,28 +6,24 @@ Description: A plugin to manage ALL your tracking code and conversion pixels, si
 Author: Data443
 Author URI: https://data443.com/
 Email: support@data443.com
-Version: 2.0.15
+Version: 2.0.16
 Requires at least: 3.6.0
 Requires PHP: 5.6
 */
-if ( defined( 'TCMP_PLUGIN_NAME' ) ) {
-	function tcmp_admin_notices() {
-		global $tcmp; ?>
-		<div style="clear:both"></div>
-		<div class="error iwp" style="padding:10px;">
-			<?php $tcmp->lang->P( 'PluginProAlreadyInstalled' ); ?>
-		</div>
-		<div style="clear:both"></div>
-		<?php
-	}
-	add_action( 'admin_notices', 'tcmp_admin_notices' );
-	return;
+register_activation_hook(__FILE__, function () {
+    if (in_array('tracking-code-manager-pro/index.php', apply_filters('active_plugins', get_option('active_plugins')))) {
+        die;
+    }
+});
+if (defined('TCMP_PLUGIN_NAME')) {
+	die('This plugin could not be activated because the PRO version of this plugin is active. Deactivate the PRO version before activating this one. No data will be lost.');
 }
+
 define( 'TCMP_PLUGIN_PREFIX', 'TCMP_' );
 define( 'TCMP_PLUGIN_FILE', __FILE__ );
 define( 'TCMP_PLUGIN_SLUG', 'tracking-code-manager' );
 define( 'TCMP_PLUGIN_NAME', 'Tracking Code Manager' );
-define( 'TCMP_PLUGIN_VERSION', '2.0.15' );
+define( 'TCMP_PLUGIN_VERSION', '2.0.16' );
 define( 'TCMP_PLUGIN_AUTHOR', 'IntellyWP' );
 
 define( 'TCMP_PLUGIN_DIR', dirname( __FILE__ ) . '/' );

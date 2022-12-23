@@ -2,17 +2,43 @@
 Tags: woocommerce, printify, drop shipping, printing, print on demand
 Requires at least: 3.8
 Tested up to: 5.9
-Stable tag: 2.6
+Stable tag: 2.7
 
-Printify is a print on demand drop shipping platform for Wordpress users.
+Printify is a print on demand drop shipping platform for WordPress users.
 
 == Description ==
-Printify is a print on demand drop shipping platform. Create custom products with your design and sell on your WooCommerce powered store. We manage automated order production and shipping directly to your customers.
-Access all the major Print Providers in one place - select by price, location and more. Catalog of 150+ unique products - apparel, accessories, home decor and more. Use our HQ Mockup Generator to create custom printed products with your design.
 
+https://www.youtube.com/watch?v=EeZKyruTs3Q
+
+### Printify makes Print-on-Demand Simple and Profitable.
+
+With over two million active merchants, Printify is a leading all-in-one solution for modern print-on-demand needs. Any merchant can make a new customized product in seconds — then have those items automatically synced to an online store. All the back-end logistics are handled by our experts, including printing, sourcing, and shipping. This makes your business, truly your business.
+
+### What Do You Get with Printify?
+
+* Over 700 customizable products.
+* Arguably the best product costs on the market
+* Simple creation process for new items
+* A comprehensive network of 80 print providers. This means faster global fulfillment, better prices, and more creative options for merchants.
+* Automatic syncing. All products can be swapped over to an eCommerce platform or marketplace in moments.
+
+### How Does Printify Work?
+
+* Click the "Add app" button.
+* Create an account with Printify or sign in with your existing account.
+* Choose a product and a print provider.
+* Upload a design file to the Mockup Generator.
+* Publish your product. It will automatically sync with your store.
+* Sell those now-viable products. Printify will take care of all fulfillment and shipping.
+
+### About Printify
+
+We're passionate about changing lives for the better. Our aim is to break down the overcomplicated global printing industry. This way, everyone gets a fair chance to create great products, drive sales, and run their own businesses.
+
+For a full tutorial please visit: [How to setup WooCommerce](https://printify.com/blog/how-to-setup-woocommerce/)
 = Known Limitations =
 
-* Works with WooCommmerce 2.1 and up
+* Works with WooCommerce 2.1 and up
 
 == Installation ==
 1. Upload 'printify' to the '/wp-content/plugins/' directory

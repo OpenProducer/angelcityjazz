@@ -334,15 +334,23 @@ class Connection {
 		}
 		try {
 			$response = facebook_for_woocommerce()->get_api()->get_user();
-			$response = facebook_for_woocommerce()->get_api()->delete_user_permission( $response->get_id(), 'manage_business_extension' );
-			$this->disconnect();
-			facebook_for_woocommerce()->get_message_handler()->add_message( __( 'Disconnection successful.', 'facebook-for-woocommerce' ) );
+			$id       = $response->get_id();
+			if ( null !== $id ) {
+				$response = facebook_for_woocommerce()->get_api()->delete_user_permission( (string) $id , 'manage_business_extension' );
+				facebook_for_woocommerce()->get_message_handler()->add_message( __( 'Disconnection successful.', 'facebook-for-woocommerce' ) );
+			} else {
+				facebook_for_woocommerce()->log( 'User id not found for the disconnection procedure, connection will be reset.' );
+			}
 		} catch ( ApiException $exception ) {
-			facebook_for_woocommerce()->log( sprintf( 'An error occurred during disconnection: %s. Your Facebook connection settings have been reset.', $exception->getMessage() ) );
+			facebook_for_woocommerce()->log( sprintf( 'An error occurred during disconnection: %s.', $exception->getMessage() ) );
+		} catch ( \Exception $exception ) {
+			facebook_for_woocommerce()->log( sprintf( 'Internal error occurred during disconnection: %s.', $exception->getMessage() ) );
+		} finally {
 			$this->disconnect();
+			facebook_for_woocommerce()->log( sprintf( 'Your Facebook connection settings have been reset.' ) );
+			wp_safe_redirect( facebook_for_woocommerce()->get_settings_url() );
+			exit;
 		}
-		wp_safe_redirect( facebook_for_woocommerce()->get_settings_url() );
-		exit;
 	}
 
 
@@ -353,15 +361,16 @@ class Connection {
 	 *
 	 * @since 2.0.0
 	 */
-	private function disconnect() {
+	public function disconnect() {
 		$this->update_access_token( '' );
+		$this->update_page_access_token( '' );
 		$this->update_merchant_access_token( '' );
 		$this->update_system_user_id( '' );
 		$this->update_business_manager_id( '' );
 		$this->update_ad_account_id( '' );
 		$this->update_instagram_business_id( '' );
 		$this->update_commerce_merchant_settings_id( '' );
-		$this->update_external_business_id('');
+		$this->update_external_business_id( '' );
 		update_option( \WC_Facebookcommerce_Integration::SETTING_FACEBOOK_PAGE_ID, '' );
 		update_option( \WC_Facebookcommerce_Integration::SETTING_FACEBOOK_PIXEL_ID, '' );
 		facebook_for_woocommerce()->get_integration()->update_product_catalog_id( '' );

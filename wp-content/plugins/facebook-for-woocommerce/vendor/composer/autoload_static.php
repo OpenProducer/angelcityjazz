@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitf27dc863d9a3226468fcf31dab3c9197
+class ComposerStaticInit715cd99f3c6171fe42bfa6c3e60481f7
 {
     public static $prefixLengthsPsr4 = array (
         'W' => 
@@ -170,16 +170,6 @@ class ComposerStaticInitf27dc863d9a3226468fcf31dab3c9197
         'WooCommerce\\Facebook\\API\\FBE\\Installation\\Request' => __DIR__ . '/../..' . '/includes/API/FBE/Installation/Request.php',
         'WooCommerce\\Facebook\\API\\Log\\Create\\Request' => __DIR__ . '/../..' . '/includes/API/Log/Create/Request.php',
         'WooCommerce\\Facebook\\API\\Log\\Create\\Response' => __DIR__ . '/../..' . '/includes/API/Log/Create/Response.php',
-        'WooCommerce\\Facebook\\API\\Orders\\Abstract_Request' => __DIR__ . '/../..' . '/includes/API/Orders/Abstract_Request.php',
-        'WooCommerce\\Facebook\\API\\Orders\\Acknowledge\\Request' => __DIR__ . '/../..' . '/includes/API/Orders/Acknowledge/Request.php',
-        'WooCommerce\\Facebook\\API\\Orders\\Cancel\\Request' => __DIR__ . '/../..' . '/includes/API/Orders/Cancel/Request.php',
-        'WooCommerce\\Facebook\\API\\Orders\\Fulfillment\\Request' => __DIR__ . '/../..' . '/includes/API/Orders/Fulfillment/Request.php',
-        'WooCommerce\\Facebook\\API\\Orders\\Order' => __DIR__ . '/../..' . '/includes/API/Orders/Order.php',
-        'WooCommerce\\Facebook\\API\\Orders\\Read\\Request' => __DIR__ . '/../..' . '/includes/API/Orders/Read/Request.php',
-        'WooCommerce\\Facebook\\API\\Orders\\Read\\Response' => __DIR__ . '/../..' . '/includes/API/Orders/Read/Response.php',
-        'WooCommerce\\Facebook\\API\\Orders\\Refund\\Request' => __DIR__ . '/../..' . '/includes/API/Orders/Refund/Request.php',
-        'WooCommerce\\Facebook\\API\\Orders\\Request' => __DIR__ . '/../..' . '/includes/API/Orders/Request.php',
-        'WooCommerce\\Facebook\\API\\Orders\\Response' => __DIR__ . '/../..' . '/includes/API/Orders/Response.php',
         'WooCommerce\\Facebook\\API\\Pages\\Read\\Request' => __DIR__ . '/../..' . '/includes/API/Pages/Read/Request.php',
         'WooCommerce\\Facebook\\API\\Pages\\Read\\Response' => __DIR__ . '/../..' . '/includes/API/Pages/Read/Response.php',
         'WooCommerce\\Facebook\\API\\Pixel\\Events\\Request' => __DIR__ . '/../..' . '/includes/API/Pixel/Events/Request.php',
@@ -234,6 +224,7 @@ class ComposerStaticInitf27dc863d9a3226468fcf31dab3c9197
         'WooCommerce\\Facebook\\Admin\\Abstract_Settings_Screen' => __DIR__ . '/../..' . '/includes/Admin/Abstract_Settings_Screen.php',
         'WooCommerce\\Facebook\\Admin\\Enhanced_Catalog_Attribute_Fields' => __DIR__ . '/../..' . '/includes/Admin/Enhanced_Catalog_Attribute_Fields.php',
         'WooCommerce\\Facebook\\Admin\\Google_Product_Category_Field' => __DIR__ . '/../..' . '/includes/Admin/Google_Product_Category_Field.php',
+        'WooCommerce\\Facebook\\Admin\\Notes\\SettingsMoved' => __DIR__ . '/../..' . '/includes/Admin/Notes/SettingsMoved.php',
         'WooCommerce\\Facebook\\Admin\\Product_Categories' => __DIR__ . '/../..' . '/includes/Admin/Product_Categories.php',
         'WooCommerce\\Facebook\\Admin\\Product_Sets' => __DIR__ . '/../..' . '/includes/Admin/Product_Sets.php',
         'WooCommerce\\Facebook\\Admin\\Product_Sync_Meta_Box' => __DIR__ . '/../..' . '/includes/Admin/Product_Sync_Meta_Box.php',
@@ -246,7 +237,6 @@ class ComposerStaticInitf27dc863d9a3226468fcf31dab3c9197
         'WooCommerce\\Facebook\\Admin\\Settings_Screens\\Product_Sync' => __DIR__ . '/../..' . '/includes/Admin/Settings_Screens/Product_Sync.php',
         'WooCommerce\\Facebook\\Admin\\Tasks\\Setup' => __DIR__ . '/../..' . '/includes/Admin/Tasks/Setup.php',
         'WooCommerce\\Facebook\\Commerce' => __DIR__ . '/../..' . '/includes/Commerce.php',
-        'WooCommerce\\Facebook\\Commerce\\Orders' => __DIR__ . '/../..' . '/includes/Commerce/Orders.php',
         'WooCommerce\\Facebook\\Debug\\ProfilingLogger' => __DIR__ . '/../..' . '/includes/Debug/ProfilingLogger.php',
         'WooCommerce\\Facebook\\Debug\\ProfilingLoggerProcess' => __DIR__ . '/../..' . '/includes/Debug/ProfilingLoggerProcess.php',
         'WooCommerce\\Facebook\\Events\\AAMSettings' => __DIR__ . '/../..' . '/includes/Events/AAMSettings.php',
@@ -274,9 +264,11 @@ class ComposerStaticInitf27dc863d9a3226468fcf31dab3c9197
         'WooCommerce\\Facebook\\Integrations\\Bookings' => __DIR__ . '/../..' . '/includes/Integrations/Bookings.php',
         'WooCommerce\\Facebook\\Jobs\\AbstractChainedJob' => __DIR__ . '/../..' . '/includes/Jobs/AbstractChainedJob.php',
         'WooCommerce\\Facebook\\Jobs\\CleanupSkyvergeFrameworkJobOptions' => __DIR__ . '/../..' . '/includes/Jobs/CleanupSkyvergeFrameworkJobOptions.php',
+        'WooCommerce\\Facebook\\Jobs\\DeleteProductsFromFBCatalog' => __DIR__ . '/../..' . '/includes/Jobs/DeleteProductsFromFBCatalog.php',
         'WooCommerce\\Facebook\\Jobs\\GenerateProductFeed' => __DIR__ . '/../..' . '/includes/Jobs/GenerateProductFeed.php',
         'WooCommerce\\Facebook\\Jobs\\JobManager' => __DIR__ . '/../..' . '/includes/Jobs/JobManager.php',
         'WooCommerce\\Facebook\\Jobs\\LoggingTrait' => __DIR__ . '/../..' . '/includes/Jobs/LoggingTrait.php',
+        'WooCommerce\\Facebook\\Jobs\\ResetAllProductsFBSettings' => __DIR__ . '/../..' . '/includes/Jobs/ResetAllProductsFBSettings.php',
         'WooCommerce\\Facebook\\Lifecycle' => __DIR__ . '/../..' . '/includes/Lifecycle.php',
         'WooCommerce\\Facebook\\Locale' => __DIR__ . '/../..' . '/includes/Locale.php',
         'WooCommerce\\Facebook\\ProductSets\\Sync' => __DIR__ . '/../..' . '/includes/ProductSets/Sync.php',
@@ -293,17 +285,17 @@ class ComposerStaticInitf27dc863d9a3226468fcf31dab3c9197
         'WooCommerce\\Facebook\\Products\\Sync\\Background' => __DIR__ . '/../..' . '/includes/Products/Sync/Background.php',
         'WooCommerce\\Facebook\\Utilities\\Background_Handle_Virtual_Products_Variations' => __DIR__ . '/../..' . '/includes/Utilities/Background_Handle_Virtual_Products_Variations.php',
         'WooCommerce\\Facebook\\Utilities\\Background_Remove_Duplicate_Visibility_Meta' => __DIR__ . '/../..' . '/includes/Utilities/Background_Remove_Duplicate_Visibility_Meta.php',
+        'WooCommerce\\Facebook\\Utilities\\DebugTools' => __DIR__ . '/../..' . '/includes/Utilities/DebugTools.php',
         'WooCommerce\\Facebook\\Utilities\\Heartbeat' => __DIR__ . '/../..' . '/includes/Utilities/Heartbeat.php',
-        'WooCommerce\\Facebook\\Utilities\\Shipment' => __DIR__ . '/../..' . '/includes/Utilities/Shipment.php',
         'WooCommerce\\Facebook\\Utilities\\Tracker' => __DIR__ . '/../..' . '/includes/Utilities/Tracker.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitf27dc863d9a3226468fcf31dab3c9197::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitf27dc863d9a3226468fcf31dab3c9197::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitf27dc863d9a3226468fcf31dab3c9197::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit715cd99f3c6171fe42bfa6c3e60481f7::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit715cd99f3c6171fe42bfa6c3e60481f7::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit715cd99f3c6171fe42bfa6c3e60481f7::$classMap;
 
         }, null, ClassLoader::class);
     }
