@@ -3,9 +3,9 @@ Contributors: quadlayers
 Tags: WooCommerce, order, complete, virtual, autocomplete, sagepay, paypal, stripe
 Requires at least: 3.4
 Tested up to: 6.1
-Stable tag: 2.0.0
+Stable tag: 2.0.3
 WC requires at least: 3.1.0
-WC tested up to: 7.1
+WC tested up to: 7.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -13,7 +13,7 @@ Autocomplete your WooCommerce v2+/v3+ orders with ease.
 
 == Presentation ==
 
-[QuadLayers](https://quadlayers.com/) | [Documentation](https://quadlayers.com/documentation/woocommerce-autocomplete-orders/) | [Community](https://www.facebook.com/groups/quadlayers/)
+[Premium](https://quadlayers.com/portfolio/woocommerce-autocomplete-orders/) | [Documentation](https://quadlayers.com/documentation/woocommerce-autocomplete-orders/) | [Community](https://www.facebook.com/groups/quadlayers/)
 
 == Description ==
 Install this plugin and automatically complete your WooCommerce orders automatically. This plugin is compatible with WooCommerce 2 and 3+ and works with all major payment providers including PayPal, SagePay and Stripe.
@@ -30,6 +30,15 @@ Please note that enabling this plugin against all orders can allow the user to a
 3. Navigate to WooCommerce > Settings > Autocomplete Orders in your Dashboard
 4. Select from the dropdown how you want your orders to be autocompleted
 5. Activate Payment Data Transfer from your seller preferences on PayPal and copy the identity token that will appear into WooCommerce > Settings > Checkout > PayPal > PayPal Identity Token.
+
+== WooCommerce Autocomplete Orders Premium ==
+
+The premium version of WooCommerce Autocomplete Orders plugin offer you a wide range of extra features that allows a full controll of the autocomplete orders process.
+
+> * Autocomplete orders for Direct bank transfer payment method
+> * Autocomplete orders for Check payments method
+> * Autocomplete orders for Cash on delivery payment method
+> * Autocomplete orders for Cash on delivery orders with downloadable products
 
 == Frequently Asked Questions ==
 = The plugin is not working =
@@ -49,10 +58,19 @@ Please test the followings:
 
 == Changelog ==
 
+= 2.0.3 =
+* WooCommerce compatibility
+
+= 2.0.2 =
+* WooCommerce compatibility
+
+= 2.0.1 =
+* WooCommerce compatibility
+
 = 2.0.0 =
 * Premium compatibility
 
-= 2.0.0 =
+= 1.6.1 =
 * WordPress compatibility
 
 = 1.6.0 =

@@ -101,3 +101,19 @@ function gutenberg_register_global_styles_endpoints() {
 	$editor_settings->register_routes();
 }
 add_action( 'rest_api_init', 'gutenberg_register_global_styles_endpoints' );
+
+/**
+ * Updates REST API response for the sidebars and marks them as 'inactive'.
+ *
+ * Note: This can be a part of the `prepare_item_for_response` in `class-wp-rest-sidebars-controller.php`.
+ *
+ * @param WP_REST_Response $response The sidebar response object.
+ * @return WP_REST_Response $response Updated response object.
+ */
+function gutenberg_modify_rest_sidebars_response( $response ) {
+	if ( wp_is_block_theme() ) {
+		$response->data['status'] = 'inactive';
+	}
+	return $response;
+}
+add_filter( 'rest_prepare_sidebar', 'gutenberg_modify_rest_sidebars_response' );
