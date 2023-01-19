@@ -226,13 +226,16 @@ class Tribe_Events extends Shortcode_Abstract {
 		}
 
 		/* Month widget only. */
-		if ( 'month' === $this->get_argument( 'view' ) && tribe_is_truthy( $this->get_argument( 'is-widget' ) ) ) {
+		if (
+			\Tribe\Events\Views\V2\Views\Month_View::get_view_slug() === $this->get_argument( 'view' )
+			&& tribe_is_truthy( $this->get_argument( 'is-widget' ) )
+		) {
 			/* Mobile "footer" nav */
 			add_filter( 'tribe_template_html:events/v2/month/mobile-events/nav', '__return_false' );
 		}
 
 		/* Week view & widget only. */
-		if ( 0 === stripos( $this->get_argument( 'view' ), 'week' ) ) {
+		if ( 0 === stripos( $this->get_argument( 'view' ), \Tribe\Events\Pro\Views\V2\Views\Week_View::get_view_slug() ) ) {
 			// Allows for the "hide_weekends" attribute.
 			if ( tribe_is_truthy( $this->get_argument( 'hide_weekends' ) ) ) {
 				add_filter( 'tribe_get_option', [ $this, 'week_view_hide_weekends' ], 10, 2 );
@@ -1055,7 +1058,7 @@ class Tribe_Events extends Shortcode_Abstract {
 		}
 
 		/* Week view/widget only. */
-		if ( false !== stripos( $view_slug, 'week' ) ) {
+		if ( false !== stripos( $view_slug, \Tribe\Events\Pro\Views\V2\Views\Week_View::get_view_slug() ) ) {
 			$offset = $this->get_argument( 'week_offset' );
 
 			if (
@@ -1082,7 +1085,7 @@ class Tribe_Events extends Shortcode_Abstract {
 			}
 
 			$arguments['week_events_per_day'] = $this->get_argument( 'week_events_per_day' );
-		} elseif ( false !== stripos( $view_slug, 'day' ) ) {
+		} elseif ( false !== stripos( $view_slug, \Tribe\Events\Views\V2\Views\Day_View::get_view_slug() ) ) {
 			/* Day view/widget only. */
 			$event_date = $view_context->get( 'eventDate' );
 

@@ -1819,16 +1819,35 @@ class Tribe__Events__Pro__Recurrence__Meta {
 	public static function inject_settings( $args, $id ) {
 
 		if ( $id == 'general' ) {
-
-			// we want to inject the hiding subsequent occurrences into the general section directly after "Live update AJAX"
 			$args = Tribe__Main::array_insert_before_key(
-				'tec-events-settings-general-debugging-title',
+				'amalgamate-duplicates',
 				$args,
 				[
-					'tec-events-settings-general-recurrence-title' => [
-						'type' => 'html',
-						'html' => '<h3 id="tec-events-settings-general-recurrence">' . esc_html__( 'Recurring Events', 'tribe-events-calendar-pro' ) . '</h3>',
+					'recurrenceMaxMonthsAfter'         => [
+
+						'type'            => 'text',
+						'size'            => 'small',
+						'label'           => __( 'Create recurring events in advance for', 'tribe-events-calendar-pro' ),
+						'tooltip'         => __( 'Recurring events will be created this far in advance', 'tribe-events-calendar-pro' ),
+						'validation_type' => 'positive_int',
+						'default'         => 24,
+
 					],
+					'recurrenceMaxMonthsBefore'        => [
+						'type'            => 'text',
+						'size'            => 'small',
+						'label'           => __( 'Clean up recurring events after', 'tribe-events-calendar-pro' ),
+						'tooltip'         => __( 'Automatically remove recurring event instances older than this', 'tribe-events-calendar-pro' ),
+						'validation_type' => 'positive_int',
+						'default'         => 24,
+					],
+				]
+			);
+
+			$args = Tribe__Main::array_insert_before_key(
+				'enable_month_view_cache',
+				$args,
+				[
 					'hideSubsequentRecurrencesDefault' => [
 						'type'            => 'checkbox_bool',
 						'label'           => __( 'Recurring event instances', 'tribe-events-calendar-pro' ),
@@ -1843,37 +1862,9 @@ class Tribe__Events__Pro__Recurrence__Meta {
 						'default'         => false,
 						'validation_type' => 'boolean',
 					],
-					'recurrenceMaxMonthsBefore'        => [
-						'type'            => 'text',
-						'size'            => 'small',
-						'label'           => __( 'Clean up recurring events after', 'tribe-events-calendar-pro' ),
-						'tooltip'         => __( 'Automatically remove recurring event instances older than this', 'tribe-events-calendar-pro' ),
-						'validation_type' => 'positive_int',
-						'default'         => 24,
-					],
-					'recurrenceMaxMonthsAfter'         => [
-
-						'type'            => 'text',
-						'size'            => 'small',
-						'label'           => __( 'Create recurring events in advance for', 'tribe-events-calendar-pro' ),
-						'tooltip'         => __( 'Recurring events will be created this far in advance', 'tribe-events-calendar-pro' ),
-						'validation_type' => 'positive_int',
-						'default'         => 24,
-
-					],
 				]
 			);
 
-			$args = Tribe__Main::array_insert_before_key(
-				'tec-settings-general-toc-debugging',
-				$args,
-				[
-					'tec-general-toc-recurrence' => [
-						'type' => 'html',
-						'html' => '<li><a href="#tec-events-settings-general-recurrence">' . _x( 'Recurring Events', 'Recurring Events table of contents link.', 'the-events-calendar' ) . '</a>',
-					],
-				]
-			);
 			add_filter( 'tribe_field_div_end', array( __CLASS__, 'add_months_to_settings_field' ), 100, 2 );
 
 		}

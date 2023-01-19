@@ -10,6 +10,9 @@
 * Date: 		9 / 18 / 12 12:31 PM
 *-------------------------------------------------------------------------------------*/
 
+use Tribe\Events\Pro\Views\V2\Views\Map_View;
+use Tribe__Events__Main as TEC;
+
 class Tribe__Events__Pro__Geo_Loc {
 
 	/**
@@ -266,7 +269,7 @@ class Tribe__Events__Pro__Geo_Loc {
 			}
 
 			$query_args = wp_parse_args( [
-				'post_type'      => Tribe__Events__Main::VENUE_POST_TYPE,
+				'post_type'      => TEC::VENUE_POST_TYPE,
 				'post_status'    => 'publish',
 				'posts_per_page' => $per_page,
 				'meta_query'     => [
@@ -405,7 +408,7 @@ class Tribe__Events__Pro__Geo_Loc {
 	}
 
 	public function setup_overwrite_geoloc( $post ) {
-		if ( $post->post_type != Tribe__Events__Main::VENUE_POST_TYPE ) {
+		if ( $post->post_type != TEC::VENUE_POST_TYPE ) {
 			return;
 		}
 		$overwrite_coords = (bool) get_post_meta( $post->ID, self::OVERWRITE, true );
@@ -516,7 +519,10 @@ class Tribe__Events__Pro__Geo_Loc {
 			$venues = $this->get_venues_in_geofence( $lat, $lng );
 		} elseif (
 			'map' === Tribe__Events__Main::instance()->displaying
-			|| ( ! empty( $query->query_vars['eventDisplay'] ) && 'map' === $query->query_vars['eventDisplay'] )
+			|| (
+				! empty( $query->query_vars['eventDisplay'] )
+				&& Map_View::get_view_slug() === $query->query_vars['eventDisplay']
+			)
 			|| ! empty( $query->query_vars['tribe_geoloc'] )
 		) {
 			// Show only venues that have geolocation information.
@@ -568,11 +574,12 @@ class Tribe__Events__Pro__Geo_Loc {
 
 		$tec = Tribe__Events__Main::instance();
 
-		$base    = trailingslashit( $tec->rewriteSlug );
-		$baseTax = trailingslashit( $tec->taxRewriteSlug );
-		$baseTax = '(.*)' . $baseTax . '(?:[^/]+/)*';
-		$baseTag = trailingslashit( $tec->tagRewriteSlug );
-		$baseTag = '(.*)' . $baseTag;
+		$base    = trailingslashit( $tec->getRewriteSlug() );
+		$baseTax = trailingslashit( $tec->get_category_slug() );
+		$baseTax = $base . $baseTax . '(?:[^/]+/)*';
+		$baseTag = trailingslashit( $tec->get_tag_slug() );
+		$baseTag = $base . $baseTag;
+		$rewrite_slug = Tribe__Settings_Manager::get_option( 'geoloc_rewrite_slug', __( 'map', 'tribe-events-calendar-pro' ) );
 
 		$newRules = [];
 
@@ -582,7 +589,7 @@ class Tribe__Events__Pro__Geo_Loc {
 		 * @param array $rewrite_slugs An array of rewrite slugs to use; defaults to [ 'map' ], the
 		 *                             default geocode-based rewrite slug.
 		 */
-		$rewrite_slugs = apply_filters( 'tribe_events_pro_geocode_rewrite_slugs', [ $this->rewrite_slug ] );
+		$rewrite_slugs = apply_filters( 'tribe_events_pro_geocode_rewrite_slugs', [ $rewrite_slug ] );
 
 		foreach ( $rewrite_slugs as $rewrite_slug ) {
 			$newRules[ $base . $rewrite_slug ] = 'index.php?post_type=' . Tribe__Events__Main::POSTTYPE . '&eventDisplay=map';

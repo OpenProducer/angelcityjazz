@@ -142,6 +142,7 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		add_filter( 'query_vars', [ $this, 'filter_include_query_vars' ] );
 
 		add_filter( 'tribe_is_by_date', [ $this, 'filter_tribe_is_by_date' ], 10, 2 );
+		add_filter( 'tribe_events_views_v2_cached_views', [ $this, 'filter_tribe_events_views_v2_cached_views' ], 10, 2 );
 	}
 
 	/**
@@ -186,12 +187,12 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * @return array The array of available views, including the PRO ones.
 	 */
 	public function filter_events_views( array $views = [] ) {
-		$views['all']       = All_View::class;
-		$views['venue']     = Venue_View::class;
-		$views['organizer'] = Organizer_View::class;
-		$views['photo']     = Photo_View::class;
-		$views['week']      = Week_View::class;
-		$views['map']       = Map_View::class;
+		$views[ Organizer_View::get_view_slug() ] = Organizer_View::class;
+		$views[ Venue_View::get_view_slug() ]     = Venue_View::class;
+		$views[ Photo_View::get_view_slug() ]     = Photo_View::class;
+		$views[ Week_View::get_view_slug() ]      = Week_View::class;
+		$views[ Map_View::get_view_slug() ]       = Map_View::class;
+		$views[ All_View::get_view_slug() ]       = All_View::class;
 
 		return $views;
 	}
@@ -206,10 +207,8 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * @return bool
 	 */
 	public function filter_tribe_is_by_date( $is_by_date, $context ): bool {
-		$week_slug = tribe( Week_View::class )->get_slug();
-
-		if ( $week_slug === $context->get( 'view' ) ) {
-			return true;
+		if ( Week_View::get_view_slug() === $context->get( 'view' ) ) {
+			$is_by_date = true;
 		}
 
 		return (bool) $is_by_date;
@@ -685,12 +684,11 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * @return string The organizer meta HTML.
 	 */
 	public function action_include_organizer_meta( $unused_file, $unused_name, $template ) {
-		$view      = $template->get_view();
-
-		if ( 'organizer' !== $view->get_slug() ) {
+		if ( Organizer_View::get_view_slug() !== $template->get_view_slug() ) {
 			return;
 		}
 
+		$view      = $template->get_view();
 		$organizer = get_post( $view->get_post_id() );
 
 		if ( ! $organizer || Organizer::POSTTYPE !== $organizer->post_type ) {
@@ -712,12 +710,12 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * @return string The venue meta HTML.
 	 */
 	public function action_include_venue_meta( $unused_file, $unused_name, $template ) {
-		$view    = $template->get_view();
 
-		if ( 'venue' !== $view->get_slug() ) {
+		if ( Venue_View::get_view_slug() !== $template->get_view_slug() ) {
 			return;
 		}
 
+		$view    = $template->get_view();
 		$venue   = tribe_get_venue_object( $view->get_post_id() );
 
 		if ( ! $venue || Venue::POSTTYPE !== $venue->post_type ) {
@@ -780,20 +778,21 @@ class Hooks extends \tad_DI52_ServiceProvider {
 	 * @return bool
 	 */
 	public function filter_hide_filter_bar( $should_display_filters, $view ) {
-		$slug     = $view->get_slug();
-		$wp_query = tribe_get_global_query_object();
+		$view_slug = $view::get_view_slug();
+		$all_slug  = All_View::get_view_slug();
+		$wp_query  = tribe_get_global_query_object();
 
 		if ( ! $wp_query instanceof \WP_Query ) {
 			return $should_display_filters;
 		}
 
 		// Don't show for organizers or venues.
-		if ( in_array( $slug, [ 'organizer', 'venue' ] ) ) {
+		if ( in_array( $view_slug, [ 'organizer', 'venue' ] ) ) {
 			return false;
 		}
 
 		// Don't show for a recurring event "all" page.
-		if ( 'all' === $slug || 'all' === $wp_query->get( 'eventDisplay' ) || $wp_query->tribe_is_recurrence_list ) {
+		if ( $all_slug === $view_slug || $all_slug === $wp_query->get( 'eventDisplay' ) || $wp_query->tribe_is_recurrence_list ) {
 			return false;
 		}
 
@@ -819,26 +818,6 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		}
 
 		return $this->container->make( Rewrite::class )->filter_events_rewrite_rules_custom( $rewrite_rules );
-	}
-
-	/**
-	 * This function used to pass the domain to code in common for translations.
-	 * That doesn't work properly, so we've deprecated this, it's now handled in the View classes.
-	 *
-	 * @since 5.1.0
-	 * @deprecated 6.0.3 This is no longer necessary. Handled in the View classes themselves.
-	 */
-	public function filter_view_label_domain( $domain, $slug, $view_class ) {
-		if (
-			'photo' !== $slug
-			&& 'week' !== $slug
-			&& 'map' !== $slug
-			&& 'summary' !== $slug
-		) {
-			return $domain;
-		}
-
-		return  'tribe-events-calendar-pro';
 	}
 
 	/**
@@ -930,6 +909,18 @@ class Hooks extends \tad_DI52_ServiceProvider {
 		return  $this->container->make( View_Filters::class )->filter_tec_events_default_view( $default_view, $type );
 	}
 
+	/**
+	 * Adds Week View to the views that get cache.
+	 *
+	 * @since 6.0.7
+	 *
+	 * @param array               $views Should the current view have its HTML cached?
+	 * @param View_Interface|null $view  The object using the trait, or null in case of static usage.
+	 */
+	public function filter_tribe_events_views_v2_cached_views( $views, $view ) {
+		return $this->container->make( Week_View::class )->filter_tribe_events_views_v2_cached_views( $views, $view );
+	}
+
 	/************************
 	 *                      *
 	 *  Deprecated Methods  *
@@ -938,7 +929,25 @@ class Hooks extends \tad_DI52_ServiceProvider {
 
 	// @codingStandardsIgnoreStart
 
+	/**
+	 * This function used to pass the domain to code in common for translations.
+	 * That doesn't work properly, so we've deprecated this, it's now handled in the View classes.
+	 *
+	 * @since 5.1.0
+	 * @deprecated 6.0.3 This is no longer necessary. Handled in the View classes themselves.
+	 */
+	public function filter_view_label_domain( $domain, $slug, $view_class ) {
+		if (
+			'photo' !== $slug
+			&& 'week' !== $slug
+			&& 'map' !== $slug
+			&& 'summary' !== $slug
+		) {
+			return $domain;
+		}
 
+		return  'tribe-events-calendar-pro';
+	}
 
 	/**
 	 * Filters the currently registered Customizer sections to add or modify them.

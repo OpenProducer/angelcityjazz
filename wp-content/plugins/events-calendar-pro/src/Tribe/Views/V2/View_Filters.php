@@ -9,10 +9,15 @@
 namespace Tribe\Events\Pro\Views\V2;
 
 use Tribe\Events\Pro\Views\V2\Geo_Loc\Handler_Interface as Geo_Loc_Handler;
+use Tribe\Events\Pro\Views\V2\Views\All_View;
+use Tribe\Events\Pro\Views\V2\Views\Organizer_View;
+use Tribe\Events\Pro\Views\V2\Views\Venue_View;
+use Tribe\Events\Pro\Views\V2\Views\Week_View;
 use Tribe\Events\Views\V2\Manager as Views_Manager;
 use Tribe\Events\Views\V2\View;
 use Tribe\Events\Views\V2\View_Interface;
 use Tribe\Events\Views\V2\Manager;
+use Tribe\Events\Views\V2\Views\Month_View;
 use Tribe__Context as Context;
 use Tribe__Events__Main as TEC;
 use Tribe__Events__Organizer as Organizer;
@@ -77,7 +82,16 @@ class View_Filters {
 			$view               = $manager->get_view_slug_by_class( $default_view_class );
 		}
 
-		if ( in_array( $view, [ 'all', 'month', 'week' ] ) ) {
+		if (
+			in_array(
+				$view,
+				[
+					Month_View::get_view_slug(),
+					Week_View::get_view_slug(),
+					All_View::get_view_slug(),
+				]
+			)
+		) {
 			$repository_args['hide_subsequent_recurrences'] = false;
 		} elseif ( $hide_subsequent_recurrences_default || $hide_subsequent_recurrences ) {
 			$repository_args['hide_subsequent_recurrences'] = true;
@@ -119,8 +133,8 @@ class View_Filters {
 	 */
 	public function filter_rest_request_view_slug( array $params, Request $request ) {
 		$post_types_map = [
-			Organizer::POSTTYPE => 'organizer',
-			Venue::POSTTYPE     => 'venue',
+			Organizer::POSTTYPE => Organizer_View::get_view_slug(),
+			Venue::POSTTYPE     => Venue_View::get_view_slug(),
 		];
 
 		$intersect_params = array_intersect( array_keys( $params ), array_keys( $post_types_map ) );

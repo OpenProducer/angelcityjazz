@@ -16,15 +16,14 @@ use Tribe\Utils\Date_I18n;
 use Tribe\Utils\Date_I18n_Immutable;
 
 class Summary_View extends List_View {
-
 	/**
-	 * Slug for this view.
+	 * Statically accessible slug for this view.
 	 *
 	 * @since 5.7.0
 	 *
 	 * @var string
 	 */
-	public static $view_slug = 'summary';
+	protected static $view_slug = 'summary';
 
 	/**
 	 * @inheritdoc
@@ -447,5 +446,15 @@ class Summary_View extends List_View {
 	 */
 	public static function get_asset_origin( $slug ) {
 		return tribe( 'events-pro.main' );
+	}
+
+	/**
+	 * Overrides the base method to provide the correct text domain to translate the rewrite slug.
+	 *
+	 * {@inheritdoc }
+	 */
+	public function get_rewrite_slugs(): array {
+		return  [ static::get_view_slug(), translate( static::get_view_slug(), 'tribe-events-calendar-pro' ) ];
+
 	}
 }

@@ -28,6 +28,7 @@ class Templates extends Base_Template {
 	 * @since 6.0.0
 	 */
 	public function __construct() {
+		$this->set_template_origin( \Tribe__Events__Pro__Main::instance() );
 		$this->set_template_folder( '/src/views/custom-tables-v1' );
 		$this->set_template_folder_lookup( true );
 		$this->set_template_context_extract( true );

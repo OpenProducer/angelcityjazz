@@ -3,7 +3,7 @@
  * Renders the events part of a series in a list-like layout.
  *
  * @since   4.7.5
- * @package Tribe\Events\PRO\Views\V2\Views
+ * @package Tribe\Events\Pro\Views\V2\Views
  */
 
 namespace Tribe\Events\Pro\Views\V2\Views;
@@ -20,17 +20,27 @@ use Tribe__Events__Main as TEC;
  *
  * @since   4.7.5
  *
- * @package Tribe\Events\PRO\Views\V2\Views
+ * @package Tribe\Events\Pro\Views\V2\Views
  */
 class All_View extends List_View {
 	/**
-	 * Slug for this view
+	 * Slug for this view.
 	 *
 	 * @since 4.7.5
+	 * @deprecated 6.0.7
 	 *
 	 * @var string
 	 */
 	protected $slug = 'all';
+
+	/**
+	 * Statically accessible slug for this view.
+	 *
+	 * @since 6.0.7
+	 *
+	 * @var string
+	 */
+	protected static $view_slug = 'all';
 
 	/**
 	 * Differently from other archives we're using WordPress page-in-post mechanism in this class.
@@ -95,7 +105,7 @@ class All_View extends List_View {
 		 * templates for the `all` view, but fallback on the `list` one if not found.
 		 */
 		if ( $this->template->get_base_template_file() === $this->template->get_template_file() ) {
-			$this->template_slug = 'list';
+			$this->template_slug = List_View::get_view_slug();
 		}
 
 		return parent::get_html();
@@ -160,7 +170,7 @@ class All_View extends List_View {
 		$query_args = [
 			TEC::POSTTYPE           => $this->post_name,
 			'post_type'             => TEC::POSTTYPE,
-			'eventDisplay'          => 'all',
+			'eventDisplay'          => static::$view_slug,
 			'tribe_recurrence_list' => true,
 		];
 

@@ -887,7 +887,7 @@ class Tribe__Events__Pro__Repositories__Event extends Tribe__Events__Repositorie
 		 */
 		$contexts = apply_filters(
 			"tribe_repository_{$this->filter_name}_display_contexts_requiring_collapse",
-			array( 'list' ),
+			[ \Tribe\Events\Views\V2\Views\List_View::get_view_slug() ],
 			$this
 		);
 
@@ -901,7 +901,7 @@ class Tribe__Events__Pro__Repositories__Event extends Tribe__Events__Repositorie
 	 *
 	 * @since 4.7
 	 *
-	 * @return array A filtered list of render contexts that reauire recurring event
+	 * @return array A filtered list of render contexts that require recurring event
 	 *               instance collapsing if the "Show only the first instance of each recurring event"
 	 *               setting is truthy.
 	 */

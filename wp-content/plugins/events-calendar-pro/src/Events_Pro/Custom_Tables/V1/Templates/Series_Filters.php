@@ -20,6 +20,13 @@ use Tribe\Events\Views\V2\Manager;
 use Tribe\Events\Views\V2\Url;
 use Tribe\Events\Views\V2\View;
 use Tribe\Events\Views\V2\View_Interface;
+use Tribe\Events\Pro\Views\V2\Views\Summary_View;
+use Tribe\Events\Pro\Views\V2\Views\Photo_View;
+use Tribe\Events\Pro\Views\V2\Views\Week_View;
+use Tribe\Events\Pro\Views\V2\Views\Map_View;
+use Tribe\Events\Views\V2\Views\Month_View;
+use Tribe\Events\Views\V2\Views\List_View;
+use Tribe\Events\Views\V2\Views\Day_View;
 use Tribe__Context as Context;
 use Tribe__Events__Main as TEC;
 use Tribe__Utils__Array as Arr;
@@ -190,7 +197,10 @@ class Series_Filters {
 		 *
 		 * @param string $default The default view slug, e.g. `summary` or `list`.
 		 */
-		$default = apply_filters( 'tec_events_pro_custom_tables_v1_series_default_view', 'summary' );
+		$default = apply_filters(
+			'tec_events_pro_custom_tables_v1_series_default_view',
+			Summary_View::get_view_slug()
+		);
 
 		$event_display = get_query_var( 'eventDisplay', $default );
 
@@ -268,13 +278,13 @@ class Series_Filters {
 
 		// Create a map for faster lookups of the valid view slugs.
 		$valid_views = [
-			'summary' => true,
-			'list' => true,
-			'day' => true,
-			'month' => true,
-			'photo' => true,
-			'week' => true,
-			'map' => true,
+			Summary_View::get_view_slug() => true,
+			Photo_View::get_view_slug()   => true,
+			Week_View::get_view_slug()    => true,
+			Map_View::get_view_slug()     => true,
+			Month_View::get_view_slug()   => true,
+			List_View::get_view_slug()    => true,
+			Day_View::get_view_slug()     => true,
 		];
 
 		if ( empty( $valid_views[ $view_slug ] ) ) {
@@ -372,7 +382,7 @@ class Series_Filters {
 		}
 
 		$args                  = [];
-		$event_display         = $context->get( 'view', 'summary' );
+		$event_display         = $context->get( 'view', Summary_View::get_view_slug() );
 		$default_event_display = $this->get_filtered_view_slug( $event_display );
 
 		if ( $event_display !== $default_event_display ) {

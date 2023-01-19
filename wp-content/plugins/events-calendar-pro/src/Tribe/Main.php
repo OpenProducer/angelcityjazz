@@ -2,6 +2,13 @@
 
 use TEC\Events_Pro\Base\Query_Filters as Base_Query_Filters;
 use TEC\Events_Pro\Legacy\Query_Filters as Legacy_Query_Filters;
+use Tribe\Events\Pro\Views\V2\Views\Map_View;
+use Tribe\Events\Pro\Views\V2\Views\Photo_View;
+use Tribe\Events\Pro\Views\V2\Views\Summary_View;
+use Tribe\Events\Pro\Views\V2\Views\Week_View;
+use Tribe\Events\Views\V2\Views\Day_View;
+use Tribe\Events\Views\V2\Views\List_View;
+use Tribe\Events\Views\V2\Views\Month_View;
 
 if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 	class Tribe__Events__Pro__Main {
@@ -20,9 +27,8 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 *
 		 * @var string
 		 */
-		public $all_slug = 'all';
-
-		public $weekSlug = 'week';
+		public $all_slug  = 'all';
+		public $weekSlug  = 'week';
 		public $photoSlug = 'photo';
 
 		public $singular_event_label;
@@ -74,7 +80,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 */
 		public $template_namespace = 'events-pro';
 
-		const VERSION = '6.0.5.1';
+		const VERSION = '6.0.6';
 
 	    /**
 		 * The Events Calendar Required Version
@@ -443,7 +449,18 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 
 			// if enabled views have never been set then set those to all PRO views
 			if ( false === tribe_get_option( 'tribeEnableViews', false ) ) {
-				tribe_update_option( 'tribeEnableViews', array( 'list', 'month', 'day', 'summary', 'photo', 'map', 'week' ) );
+				tribe_update_option(
+					'tribeEnableViews',
+					[
+						Day_View::get_view_slug(),
+						List_View::get_view_slug(),
+						Month_View::get_view_slug(),
+						Map_View::get_view_slug(),
+						Photo_View::get_view_slug(),
+						Summary_View::get_view_slug(),
+						Week_View::get_view_slug(),
+					]
+				);
 				// After setting the enabled view we Flush the rewrite rules
 				flush_rewrite_rules();
 			}
@@ -739,7 +756,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 				array(
 					'weekDayFormat' => array(
 						'type'            => 'text',
-						'label'           => __( 'Week Day Format', 'tribe-events-calendar-pro' ),
+						'label'           => __( 'Week day format', 'tribe-events-calendar-pro' ),
 						'tooltip'         => sprintf(
 							esc_html__( 'Enter the format to use for week days. Used when showing days of the week in Week view. Example: %1$s', 'the-events-calendar' ),
 							date( get_option( 'weekDayFormat', 'D jS' ), $sample_date )
@@ -756,7 +773,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 				'type' => 'html',
 				'html' => '<p>'
 					. sprintf(
-						__( 'The following four fields accept the date format options available to the PHP %1$s function. <a href="%2$s" target="_blank">Learn how to make your own date format here</a>.', 'tribe-common' ),
+						__( 'The first four fields accept the date format options available to the PHP %1$s function. <a href="%2$s" target="_blank">Learn how to make your own date format here</a>.', 'tribe-common' ),
 						'<code>date()</code>',
 						'https://wordpress.org/support/article/formatting-date-and-time/'
 					)
@@ -969,21 +986,21 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		}
 
 		/**
-		 * @deprecated 6.0.0 Dont enqueue assets from the Main class.
+		 * @deprecated 6.0.0 Don't enqueue assets from the Main class.
 		 */
 		public function admin_enqueue_styles() {
 			_deprecated_function( __METHOD__, '6.0.0', "tribe_asset_enqueue( 'tribe-select2-css' )" );
 		}
 
 		/**
-		 * @deprecated 6.0.0 Dont enqueue assets from the Main class.
+		 * @deprecated 6.0.0 Don't enqueue assets from the Main class.
 		 */
 		public function enqueue_styles() {
 			_deprecated_function( __METHOD__, '6.0.0', "Tribe__Events__Pro__Assets" );
 		}
 
 		/**
-		 * @deprecated 6.0.0 Dont enqueue assets from the Main class.
+		 * @deprecated 6.0.0 Don't enqueue assets from the Main class.
 		 */
 		public function enqueue_pro_scripts( $force = false, $footer = false ) {
 			_deprecated_function( __METHOD__, '6.0.0', "Tribe__Events__Pro__Assets" );
@@ -1021,7 +1038,13 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 			} elseif (
 				is_object( $query )
 				&& ! empty( $query->query['eventDisplay'] )
-				&& in_array( $query->query['eventDisplay'], [ 'month', 'week' ] )
+				&& in_array(
+						$query->query['eventDisplay'],
+						[
+							Month_View::get_view_slug(),
+							Week_View::get_view_slug(),
+						]
+					)
 			) {
 				// let's not hide recurrence if we are on month or week view
 				$hide = false;
