@@ -4,7 +4,7 @@ Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp
 Tags: events, calendar, event, schedule, organizer
 Donate link: https://evnt.is/29
 Requires at least: 5.8.6
-Stable tag: 6.0.7.1
+Stable tag: 6.0.8
 Tested up to: 6.1.1
 Requires PHP: 7.3
 License: GPLv2 or later
@@ -13,6 +13,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 The Events Calendar is the number one calendar plugin for WordPress. Easily create and manage events (including virtual events!) on your WordPress site with The Events Calendar free plugin.
 
 == Description ==
+
 Easily create and manage an events calendar on your WordPress site with [The Events Calendar](https://evnt.is/mj) free plugin. Whether your events are in-person or virtual events, this WordPress calendar plugin boasts professional features backed by our world-class team of developers and designers.
 
 https://vimeo.com/425323974
@@ -228,6 +229,12 @@ Previous versions of The Events Calendar are not cross-compatible with 6.X add-o
 Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
+
+= [6.0.8] 2023-01-26 =
+
+* Fix - Modifications to custom tables registration to ensure all sites get the new 6.0 table schema, preventing 404 and other related issues. [TEC-4631]
+* Fix - Prevent Yoast SEO 19.2 notice due to integration with The Events Calendar [TEC-4662]
+* Language - 5 new strings added, 171 updated, 1 fuzzied, and 8 obsoleted.
 
 = [6.0.7.1] 2023-01-19 =
 
