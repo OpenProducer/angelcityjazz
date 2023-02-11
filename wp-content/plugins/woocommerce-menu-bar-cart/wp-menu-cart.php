@@ -3,14 +3,14 @@
  * Plugin Name:          WP Menu Cart
  * Plugin URI:           https://wpovernight.com/downloads/menu-cart-pro/
  * Description:          Extension for your e-commerce plugin (WooCommerce or Easy Digital Downloads) that places a cart icon with number of items and total cost in the menu bar. Activate the plugin, set your options and you're ready to go! Will automatically conform to your theme styles.
- * Version:              2.13.0
+ * Version:              2.13.1
  * Author:               WP Overnight
  * Author URI:           https://wpovernight.com/
  * License:              GPLv2 or later
  * License URI:          https://opensource.org/licenses/gpl-license.php
  * Text Domain:          wp-menu-cart
  * WC requires at least: 3.0
- * WC tested up to:      7.1
+ * WC tested up to:      7.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,7 +21,7 @@ if ( ! class_exists( 'WpMenuCart' ) && ! class_exists( 'WPO_Menu_Cart_Pro' ) ) :
 
 class WpMenuCart {	 
 
-	protected $plugin_version   = '2.13.0';
+	protected $plugin_version   = '2.13.1';
 	public    $plugin_slug;
 	public    $plugin_basename;
 	public    $options;
@@ -71,6 +71,9 @@ class WpMenuCart {
 		// add filters to selected menus to add cart item <li>
 		add_action( 'init', array( $this, 'filter_nav_menus' ) );
 		// $this->filter_nav_menus();
+		
+		// HPOS compatibility
+		add_action( 'before_woocommerce_init', array( $this, 'woocommerce_hpos_compatible' ) );
 	}
 
 	/**
@@ -250,6 +253,17 @@ class WpMenuCart {
 		$error = __( 'An old version of Menu Cart for WooCommerce is currently activated, you need to disable or uninstall it for WP Menu Cart to function properly' , 'wp-menu-cart' );
 		$message = '<div class="error"><p>' . $error . '</p></div>';
 		echo wp_kses_post( $message );
+	}
+	
+	/**
+	 * Declares WooCommerce HPOS compatibility.
+	 *
+	 * @return void
+	 */
+	public function woocommerce_hpos_compatible() {
+		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+		}
 	}
 
 	/**

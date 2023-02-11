@@ -1,4 +1,4 @@
-(window.webpackWcBlocksJsonp=window.webpackWcBlocksJsonp||[]).push([[31],{206:function(t,e,n){"use strict";n.r(e),n.d(e,"Block",(function(){return m}));var r=n(0),c=n(1),s=n(4),a=n.n(s),o=n(22),i=n(99),l=n(88),u=n(131),b=n(44),p=n(145);n(253);const d=t=>{const{rating:e,reviews:n,parentClassName:s}=t,o={width:e/5*100+"%"},i=Object(c.sprintf)(
+(window.webpackWcBlocksJsonp=window.webpackWcBlocksJsonp||[]).push([[33],{205:function(t,e,n){"use strict";n.r(e),n.d(e,"Block",(function(){return m}));var r=n(0),c=n(1),s=n(4),a=n.n(s),o=n(22),i=n(99),l=n(88),u=n(112),b=n(44),p=n(145);n(253);const d=t=>{const{rating:e,reviews:n,parentClassName:s}=t,o={width:e/5*100+"%"},i=Object(c.sprintf)(
 /* translators: %f is referring to the average rating value */
 Object(c.__)("Rated %f out of 5","woo-gutenberg-products-block"),e),l={__html:Object(c.sprintf)(
 /* translators: %1$s is referring to the average rating value, %2$s is referring to the number of ratings */

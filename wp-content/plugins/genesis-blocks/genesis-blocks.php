@@ -5,7 +5,7 @@
  * Description: A beautiful collection of handy blocks to help you get started with the new WordPress editor.
  * Author: StudioPress
  * Author URI: https://www.studiopress.com/
- * Version: 1.5.3
+ * Version: 1.5.4
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  *

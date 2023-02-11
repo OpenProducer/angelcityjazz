@@ -19,6 +19,10 @@ namespace GenesisBlocks\Blocks\ResponsiveControls;
  */
 function responsive_settings( $block_content, $block, $uuid = false ) {
 
+	if ( ! in_array( 'responsiveFontSettings', get_enabled_features(), true ) ) {
+		return $block_content;
+	}
+
 	if (
 		'core/paragraph' !== $block['blockName'] &&
 		'core/heading' !== $block['blockName']
@@ -61,7 +65,13 @@ function responsive_settings( $block_content, $block, $uuid = false ) {
 	uksort(
 		$block['attrs']['gbResponsiveSettings'],
 		static function( $first_breakpoint, $second_breakpoint ) {
-			return absint( $first_breakpoint ) < absint( $second_breakpoint );
+			if ( absint( $first_breakpoint ) > absint( $second_breakpoint ) ) {
+				return -1;
+			}
+			if ( absint( $first_breakpoint ) === absint( $second_breakpoint ) ) {
+				return 0;
+			}
+			return 1;
 		}
 	);
 

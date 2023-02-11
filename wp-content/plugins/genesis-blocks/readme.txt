@@ -4,7 +4,7 @@ Donate link: https://studiopress.com
 Tags: Blocks, editor, gutenberg, gutenberg blocks, page builder, block enabled, page building, block, WP Engine
 Requires at least: 5.3
 Tested up to: 6.1
-Stable tag: 1.5.3
+Stable tag: 1.5.4
 Requires PHP: 7.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -97,6 +97,11 @@ Yes, you will need to have WordPress 5.3 or later installed to take advantage of
 
 == Changelog ==
 
+= 1.5.4 =
+* Fixed: Fix PHP 8 uksort.
+* Fixed: Prevent a PHP error on the Newlsetter block.
+* Changed: Add filter to disable responsive font size controls.
+
 = 1.5.3 =
 * Fixed: Fix a block error with Desktop responsive controls on the Heading and Paragraph blocks.
 
@@ -154,14 +159,14 @@ Yes, you will need to have WordPress 5.3 or later installed to take advantage of
 * Added support for migrating Genesis Blocks Pro users.
 
 = 1.1.1 =
-* Fixed an issue for sites migrating from Atomic Blocks where in some cases the migration did not complete due to an error when deactivating the Atomic Blocks plugin. 
+* Fixed an issue for sites migrating from Atomic Blocks where in some cases the migration did not complete due to an error when deactivating the Atomic Blocks plugin.
 
 = 1.1.0 =
 * Added a way to migrate from Atomic Blocks to Genesis Blocks. Update now to learn more!
 * Fixed issue with border radius in the Accordion block.
 * Fixed minor bug in the Post Grid block that could cause PHP notices if the block is used in non-standard locations outside of post content.
 * When using the Advanced Columns block, the inner column block now has a label of Column instead of Advanced Column to make it easier to distinguish from the outer column block that wraps it.
-* Added a Getting Started page to make it easier to access documentation, discover Genesis themes, and provide us feedback about the plugin. Send us your thoughts!  
+* Added a Getting Started page to make it easier to access documentation, discover Genesis themes, and provide us feedback about the plugin. Send us your thoughts!
 
 = 1.0 =
 * Initial release.

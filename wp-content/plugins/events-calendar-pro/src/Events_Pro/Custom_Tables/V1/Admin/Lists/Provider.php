@@ -210,6 +210,9 @@ class Provider extends \tad_DI52_ServiceProvider {
 				);
 				$categories_list = '-';
 				if ( is_array( $event_cats ) ) {
+					$event_cats = array_values( array_filter( $event_cats, static function ( $cat ) {
+						return is_string( $cat ) && $cat !== '';
+					} ) );
 					$categories_list = implode( ', ', $event_cats );
 				}
 				echo esc_html( $categories_list );

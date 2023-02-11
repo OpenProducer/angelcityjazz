@@ -68,6 +68,7 @@ function genesis_blocks_editor_assets() {
 			'pro_activated'          => genesis_blocks_is_pro(),
 			'is_wpe'                 => function_exists( 'is_wpe' ),
 			'pattern_fallback_image' => plugins_url( 'dist/assets/images/gb-fallback-image.jpg', dirname( __FILE__ ) ),
+			'featuresEnabled'        => get_enabled_features(),
 		)
 	);
 }
@@ -138,3 +139,13 @@ function genesis_async_tagger( $tag, $handle ) {
 	return $tag;
 }
 add_filter( 'script_loader_tag', 'genesis_async_tagger', 10, 2 );
+
+/**
+ * Get which optional features of Genesis Blocks are enabled.
+ *
+ * @since 1.0.0
+ * @return array The list of features enabled.
+ */
+function get_enabled_features() {
+	return (array) apply_filters( 'genesis_blocks_features_enabled', [ 'responsiveFontSettings' ] );
+}

@@ -48,6 +48,7 @@ return array(
     'TEC\\Events_Pro\\Custom_Tables\\V1\\Events\\Provisional\\ID_Generator' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/Events/Provisional/ID_Generator.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\Events\\Provisional\\Provider' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/Events/Provisional/Provider.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\Events\\Recurrence' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/Events/Recurrence.php',
+    'TEC\\Events_Pro\\Custom_Tables\\V1\\Events\\Recurrence_Rule' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/Events/Recurrence_Rule.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\Events\\Rules\\Date_Rule' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/Events/Rules/Date_Rule.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\Events_Manager\\Provider' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/Events_Manager/Provider.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\Full_Activation_Provider' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/Full_Activation_Provider.php',

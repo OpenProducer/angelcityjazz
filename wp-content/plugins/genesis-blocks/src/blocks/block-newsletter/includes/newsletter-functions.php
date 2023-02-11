@@ -193,6 +193,10 @@ function mailing_list_providers() {
 			$lists = $chimp->get_lists();
 			if ( ! empty( $lists ) ) {
 				foreach ( $lists as $key => $list ) {
+					if ( ! isset( $list['id'], $list['name'] ) ) {
+						continue;
+					}
+
 					$mailchimp_lists[ $key ] = [
 						'id'   => $list['id'],
 						'name' => $list['name'],

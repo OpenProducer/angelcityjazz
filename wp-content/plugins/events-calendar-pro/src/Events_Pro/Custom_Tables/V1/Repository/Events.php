@@ -148,7 +148,7 @@ class Events extends TEC_Events {
 			$dtstart = Dates::immutable( get_post_meta( $event_id, '_EventStartDate', true ), $timezone );
 			$dtend = Dates::immutable( get_post_meta( $event_id, '_EventEndDate', true ), $timezone );
 			$recurrence = Recurrence::from_icalendar_string( $recurrence, $dtstart, $dtend )
-				->to_event_recurrence_format()['recurrence'];
+				->to_event_recurrence();
 		}
 
 		// The Recurrence data might not have been saved yet: let's do  it now.

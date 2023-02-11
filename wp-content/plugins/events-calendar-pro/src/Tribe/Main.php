@@ -80,7 +80,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 */
 		public $template_namespace = 'events-pro';
 
-		const VERSION = '6.0.7';
+		const VERSION = '6.0.8';
 
 	    /**
 		 * The Events Calendar Required Version
