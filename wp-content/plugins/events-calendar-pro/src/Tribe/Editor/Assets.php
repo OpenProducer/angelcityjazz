@@ -1,6 +1,7 @@
 <?php
 
 use Tribe__Events__Pro__Main as Main;
+
 /**
  * Events Gutenberg Assets
  *
@@ -26,9 +27,10 @@ class Tribe__Events__Pro__Editor__Assets {
 			/**
 			 * @todo revise this dependencies
 			 */
-			array(
+			[
 				'react',
 				'react-dom',
+				'tribe-common',
 				'wp-components',
 				'wp-api',
 				'wp-api-request',
@@ -36,14 +38,14 @@ class Tribe__Events__Pro__Editor__Assets {
 				'wp-i18n',
 				'wp-element',
 				'wp-editor',
-			),
+			],
 			'enqueue_block_editor_assets',
-			array(
-				'in_footer' => false,
-				'localize'  => array(),
-				'priority'  => 200,
+			[
+				'in_footer'    => false,
+				'localize'     => [],
+				'priority'     => 200,
 				'conditionals' => tribe_callback( 'events.editor', 'is_events_post_type' ),
-			)
+			]
 		);
 
 		tribe_asset(
@@ -53,9 +55,10 @@ class Tribe__Events__Pro__Editor__Assets {
 			/**
 			 * @todo revise this dependencies
 			 */
-			array(
+			[
 				'react',
 				'react-dom',
+				'tribe-common',
 				'wp-components',
 				'wp-api',
 				'wp-api-request',
@@ -63,44 +66,46 @@ class Tribe__Events__Pro__Editor__Assets {
 				'wp-i18n',
 				'wp-element',
 				'wp-editor',
-			),
+				'tribe-the-events-calendar-main',
+			],
 			'enqueue_block_editor_assets',
-			array(
-				'in_footer' => false,
-				'localize'  => array(),
-				'priority'  => 201,
+			[
+				'in_footer'    => false,
+				'localize'     => [],
+				'priority'     => 201,
+				'defer'        => true,
 				'conditionals' => tribe_callback( 'events.editor', 'is_events_post_type' ),
 				'translations' => [
 					'domain' => 'tribe-events-calendar-pro',
 					'path'   => Main::instance()->pluginPath . 'lang',
 				],
-			)
+			]
 		);
 
 		tribe_asset(
 			$plugin,
 			'tribe-pro-gutenberg-vendor-styles',
 			'app/vendor.css',
-			array(),
+			[],
 			'enqueue_block_editor_assets',
-			array(
-				'in_footer' => false,
-				'localize'  => array(),
+			[
+				'in_footer'    => false,
+				'localize'     => [],
 				'conditionals' => tribe_callback( 'events.editor', 'is_events_post_type' ),
-			)
+			]
 		);
 
 		tribe_asset(
 			$plugin,
 			'tribe-pro-gutenberg-main-styles',
 			'app/main.css',
-			array(),
+			[],
 			'enqueue_block_editor_assets',
-			array(
-				'in_footer' => false,
-				'localize'  => array(),
+			[
+				'in_footer'    => false,
+				'localize'     => [],
 				'conditionals' => tribe_callback( 'events.editor', 'is_events_post_type' ),
-			)
+			]
 		);
 	}
 }
