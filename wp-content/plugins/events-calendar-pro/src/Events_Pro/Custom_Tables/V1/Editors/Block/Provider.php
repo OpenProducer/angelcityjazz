@@ -167,43 +167,7 @@ class Provider extends \tad_DI52_ServiceProvider {
 			return;
 		}
 
-		$plugin  = Plugin::instance();
 		$this->container->make( Meta::class )->register();
-
-		tribe_asset(
-			$plugin,
-			'tec-events-pro-block-editor-plugins-js',
-			'custom-tables-v1/app/plugins.js',
-			[
-				'wp-edit-post',
-				'tribe-pro-gutenberg-main',
-			],
-			'enqueue_block_editor_assets',
-			[
-				'in_footer'    => false,
-				'localize'     => [
-					'name' => 'tec_events_pro_duplicate',
-					'data' => static function () {
-						$post = get_post();
-						if ( ! $post instanceof WP_Post ) {
-							return [];
-						}
-						// Only show on single event post type.
-						if ( TEC::POSTTYPE !== $post->post_type ) {
-							return [];
-						}
-
-						$post_id = $post->ID;
-
-						return [
-							'duplicate_link' => tribe( Url::class )->to_duplicate_event( $post_id ),
-						];
-					},
-				],
-				'priority'     => 200,
-				'conditionals' => [ tribe( 'events.editor' ), 'is_events_post_type' ],
-			]
-		);
 	}
 
 	/**

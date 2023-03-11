@@ -10,6 +10,7 @@
 namespace TEC\Events_Pro\Custom_Tables\V1\Editors;
 
 use TEC\Events\Custom_Tables\V1\Updates\Requests;
+use TEC\Events_Pro\Custom_Tables\V1\Duplicate\Url;
 use TEC\Events_Pro\Custom_Tables\V1\Editors\Classic\UI_Lock;
 use TEC\Events_Pro\Custom_Tables\V1\Models\Occurrence;
 use Tribe__Events__Main as TEC;
@@ -530,20 +531,17 @@ class Provider extends \tad_DI52_ServiceProvider {
 			]
 		);
 
-		/**
-		 * Block Event assets.
-		 */
 		tribe_asset(
 			$plugin,
-			'tec-events-pro-block-editor-data-js',
-			'custom-tables-v1/app/data.js',
+			'tec-events-pro-blocks-editor-ct1-bundle',
+			'custom-tables-v1/app/ct1.js',
 			[
+				'jquery',
 				'tribe-pro-gutenberg-main',
-				TEC::POSTTYPE . '-premium-admin',
 			],
 			'enqueue_block_editor_assets',
 			[
-				'in_footer'    => true,
+				'defer'        => true,
 				'localize'     => [
 					[
 						'name' => 'tecEventDetails',
@@ -553,90 +551,27 @@ class Provider extends \tad_DI52_ServiceProvider {
 						'name' => 'tribe_events_pro_recurrence_strings',
 						'data' => [ $this, 'get_recurrence_strings' ],
 					],
+					[
+						'name' => 'tec_events_pro_duplicate',
+						'data' => static function () {
+							$post = get_post();
+							if ( ! $post instanceof \WP_Post ) {
+								return [];
+							}
+							// Only show on single event post type.
+							if ( TEC::POSTTYPE !== $post->post_type ) {
+								return [];
+							}
+
+							$post_id = $post->ID;
+
+							return [
+								'duplicate_link' => tribe( Url::class )->to_duplicate_event( $post_id ),
+							];
+						},
+					],
 				],
-				'priority'     => 200,
-				'conditionals' => $context->is_blocks_event_post_screen(),
-				'groups'       => [ static::$block_event_group_key ],
-			]
-		);
-
-		tribe_asset(
-			$plugin,
-			'tec-events-pro-block-editor-blocks-js',
-			'custom-tables-v1/app/blocks.js',
-			[ 'tribe-pro-gutenberg-main' ],
-			'enqueue_block_editor_assets',
-			[
-				'in_footer'    => true,
-				'localize'     => [],
-				'priority'     => 201,
-				'conditionals' => $context->is_blocks_event_post_screen(),
-				'groups'       => [ static::$block_event_group_key ],
-			]
-		);
-
-		tribe_asset(
-			$plugin,
-			'tec-events-pro-block-editor-elements-js',
-			'custom-tables-v1/app/elements.js',
-			[ 'tribe-pro-gutenberg-main' ],
-			'enqueue_block_editor_assets',
-			[
-				'in_footer'    => true,
-				'priority'     => 202,
-				'conditionals' => $context->is_blocks_event_post_screen(),
-				'groups'       => [ static::$block_event_group_key ],
-			]
-		);
-
-		tribe_asset(
-			$plugin,
-			'tec-events-pro-block-editor-dialog-js',
-			'custom-tables-v1/app/dialog.js',
-			[
-				'tribe-pro-gutenberg-main',
-			],
-			'enqueue_block_editor_assets',
-			[
-				'in_footer'    => true,
-				'localize'     => [],
-				'priority'     => 202,
-				'conditionals' => $context->is_blocks_event_post_screen(),
-				'groups'       => [ static::$block_event_group_key ],
-			]
-		);
-
-		tribe_asset(
-			$plugin,
-			'tec-block-editor-series-metabox-js',
-			'custom-tables-v1/app/series-metabox.js',
-			[
-				'jquery',
-				'tribe-pro-gutenberg-main',
-			],
-			'enqueue_block_editor_assets',
-			[
-				'in_footer'    => true,
-				'localize'     => [],
-				'priority'     => 203,
-				'conditionals' => $context->is_blocks_event_post_screen(),
-				'groups'       => [ static::$block_event_group_key ],
-			]
-		);
-
-		tribe_asset(
-			$plugin,
-			'tec-block-editor-occurrence-redirect-js',
-			'custom-tables-v1/app/occurrence-redirect.js',
-			[
-				'jquery',
-				'tribe-pro-gutenberg-main',
-			],
-			'enqueue_block_editor_assets',
-			[
-				'in_footer'    => true,
-				'localize'     => [],
-				'priority'     => 203,
+				'priority'     => 205,
 				'conditionals' => $context->is_blocks_event_post_screen(),
 				'groups'       => [ static::$block_event_group_key ],
 			]
@@ -659,7 +594,7 @@ class Provider extends \tad_DI52_ServiceProvider {
 			$plugin,
 			'tec-events-pro-block-editor-elements-css',
 			'custom-tables-v1/app/elements.css',
-			[  'tribe-pro-gutenberg-main-styles' ],
+			[ 'tribe-pro-gutenberg-main-styles' ],
 			'enqueue_block_editor_assets',
 			[
 				'in_footer'    => false,

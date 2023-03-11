@@ -72,6 +72,13 @@ class Relationship {
 				'event_post_id'  => $event->post_id,
 				'series_post_id' => $series_post_id,
 			] );
+
+			do_action('tribe_log', 'debug', 'Series Relationship inserted.', [
+				'method' => 'with_event',
+				'event_id' => $event->event_id,
+				'event_post_id' => $event->post_id,
+				'series_post_id' => $series_post_id,
+			]);
 		}
 
 		// Delete all the items that are no longer associated with this event.
