@@ -58,6 +58,11 @@ class Recurrence_Rule {
 	public function set_rule( array $rule ): Recurrence_Rule {
 		$this->rule = $rule;
 
+		// No limit? Set to infinite.
+		if ( ! $this->has_count_limit() && ! $this->has_until_limit() ) {
+			$this->set_infinite();
+		}
+
 		return $this;
 	}
 
@@ -123,6 +128,22 @@ class Recurrence_Rule {
 
 		return $this;
 	}
+
+
+	/**
+	 * Set this rule to be infinite.
+	 *
+	 * @since 6.0.11
+	 *
+	 * @return $this For chaining purposes.
+	 */
+	public function set_infinite(): Recurrence_Rule {
+		unset( $this->rule['end-count'], $this->rule['end'] );
+		$this->rule['end-type'] = 'Never'; // Assume never.
+
+		return $this;
+	}
+
 
 	/**
 	 * Get the until limit.

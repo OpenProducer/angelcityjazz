@@ -29,9 +29,9 @@ use WP_Post;
 /**
  * Class Recurrence
  *
- * @since 6.0.8 Extended API to fetch from various formats/sources, and integrating with the Recurrence_Rule objects.
+ * @since   6.0.8 Extended API to fetch from various formats/sources, and integrating with the Recurrence_Rule objects.
  *        Many quality of life improvements.
- * @since 6.0.1
+ * @since   6.0.1
  *
  * @method bool has_until_limit Checks if any rules have an UNTIL limit defined.
  * @method bool has_count_limit Checks if any rules have a COUNT limit defined.
@@ -103,11 +103,8 @@ class Recurrence {
 	 * @var array<string,array|DateTimeInterface|DateTimezone|string>
 	 */
 	private $build_rules = [
-		'EventStartDate' => null,
-		'EventEndDate'   => null,
-		'EventTimezone'  => null,
-		'rules'          => [],
-		'exclusions'     => [],
+		'rules'      => [],
+		'exclusions' => [],
 	];
 
 	/**
@@ -295,7 +292,7 @@ class Recurrence {
 	 * @return Recurrence|null If we are able to locate or build an Recurrence, null if failure.
 	 */
 	public static function from_recurrence( array $recurrence ): ?Recurrence {
-		if ( empty( $recurrence ) ) {
+		if ( empty( $recurrence ) || ! isset( $recurrence['rules'], $recurrence['exclusions'] ) ) {
 			return null;
 		}
 		$instance = new self();
@@ -351,7 +348,6 @@ class Recurrence {
 	 */
 	public function with_start_date( $date ): Recurrence {
 		$this->set_date_property( $date, 'dtstart' );
-		$this->build_rules['EventStartDate'] = $this->dtstart->format( Dates::DBDATETIMEFORMAT );
 
 		return $this;
 	}
@@ -367,7 +363,6 @@ class Recurrence {
 	 */
 	public function with_end_date( $date ): Recurrence {
 		$this->set_date_property( $date, 'dtend' );
-		$this->build_rules['EventEndDate'] = $this->dtend->format( Dates::DBDATETIMEFORMAT );
 
 		return $this;
 	}
@@ -459,6 +454,7 @@ class Recurrence {
 		$this->last_rule = &$rule;
 		/** @noinspection UnsupportedStringOffsetOperationsInspection */
 		$this->build_rules[ $this->rules_or_exclusion ][] = &$rule;
+		$this->with_end_never();
 
 		return $this;
 	}
@@ -498,7 +494,7 @@ class Recurrence {
 				$this->last_rule['end']      = '';
 				if ( ! empty( $args[0] ) ) {
 					$this->last_rule['end'] = Dates::immutable( $args[0], $this->timezone )
-						->format( Dates::DBDATEFORMAT );
+					                               ->format( Dates::DBDATEFORMAT );
 				}
 
 				break;
@@ -594,6 +590,7 @@ class Recurrence {
 		$this->last_rule = &$rule;
 		/** @noinspection UnsupportedStringOffsetOperationsInspection */
 		$this->build_rules[ $this->rules_or_exclusion ][] = &$rule;
+		$this->with_end_never();
 
 		return $this;
 	}
@@ -676,6 +673,7 @@ class Recurrence {
 		$this->last_rule = &$rule;
 		/** @noinspection UnsupportedStringOffsetOperationsInspection */
 		$this->build_rules[ $this->rules_or_exclusion ][] = &$rule;
+		$this->with_end_never();
 
 		return $this;
 	}
@@ -741,7 +739,7 @@ class Recurrence {
 		if ( ! empty( $month ) ) {
 			$year['month'] = is_array( $month ) ? $month : [ $month ];
 		} else {
-			$year['month'] = [ Dates::immutable( $this->build_rules['EventStartDate'] )->format( 'n' ) ];
+			$year['month'] = [ $this->dtstart->format( 'n' ) ];
 		}
 
 		if ( $same_time ) {
@@ -775,6 +773,7 @@ class Recurrence {
 		$this->last_rule = &$rule;
 		/** @noinspection UnsupportedStringOffsetOperationsInspection */
 		$this->build_rules[ $this->rules_or_exclusion ][] = &$rule;
+		$this->with_end_never();
 
 		return $this;
 	}
@@ -1065,31 +1064,25 @@ class Recurrence {
 	public function to_event_recurrence(): array {
 		$this->apply_delayed_methods();
 
-		if ( ! ( $this->dtstart instanceof DateTimeImmutable && $this->dtend instanceof DateTimeImmutable ) ) {
-			throw new \BadMethodCallException( 'Cannot output recurrence rules without a valid start and end date' );
-		}
-
 		$data = [
-			'EventStartDate' => $this->dtstart->format( Dates::DBDATETIMEFORMAT ),
-			'EventEndDate'   => $this->dtend->format( Dates::DBDATETIMEFORMAT ),
-			'EventDuration'  => $this->dtend->getTimestamp() - $this->dtstart->getTimestamp(),
-			'EventTimezone'  => $this->dtstart->getTimezone()->getName(),
-			'recurrence'     => [
+			'recurrence' => [
 				'rules'       => [],
 				'exclusions'  => [],
 				'description' => null,
 			],
 		];
 
+		$start = $this->dtstart->format( Dates::DBDATETIMEFORMAT );
+		$end   = $this->dtend->format( Dates::DBDATETIMEFORMAT );
 		foreach ( $this->build_rules['rules'] as $rule ) {
-			$rule['EventStartDate']        = $data['EventStartDate'];
-			$rule['EventEndDate']          = $data['EventEndDate'];
+			$rule['EventStartDate']        = $start;
+			$rule['EventEndDate']          = $end;
 			$data['recurrence']['rules'][] = $rule;
 		}
 
 		foreach ( $this->build_rules['exclusions'] as $exclusion ) {
-			$exclusion['EventStartDate']        = $data['EventStartDate'];
-			$exclusion['EventEndDate']          = $data['EventEndDate'];
+			$exclusion['EventStartDate']        = $start;
+			$exclusion['EventEndDate']          = $end;
 			$data['recurrence']['exclusions'][] = $exclusion;
 		}
 
@@ -1126,8 +1119,8 @@ class Recurrence {
 			$timezone   = $postarr['meta_input']['_EventTimezone'];
 
 			$this->with_start_date( $start_date )
-				->with_end_date( $end_date )
-				->with_timezone( $timezone );
+			     ->with_end_date( $end_date )
+			     ->with_timezone( $timezone );
 
 			return $this->to_event_recurrence();
 		};
@@ -1318,7 +1311,7 @@ class Recurrence {
 	 * @return $this For chaining.
 	 */
 	public function set_recurrence( array $recurrence ): Recurrence {
-		$this->build_rules = $recurrence;
+		$this->build_rules = array_merge( [ 'rules' => [], 'exclusions' => [], 'description' => null ], $recurrence );
 		$search_for_dates  = array_merge( $recurrence['rules'] ?? [], $recurrence['exclusions'] ?? [] );
 		foreach ( $search_for_dates as $rule ) {
 			if ( isset( $rule['EventStartDate'] ) ) {

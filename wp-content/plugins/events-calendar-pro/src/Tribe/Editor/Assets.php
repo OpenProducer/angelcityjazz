@@ -66,7 +66,7 @@ class Tribe__Events__Pro__Editor__Assets {
 				'wp-i18n',
 				'wp-element',
 				'wp-editor',
-				'tribe-the-events-calendar-main',
+				'tribe-the-events-calendar-editor',
 			],
 			'enqueue_block_editor_assets',
 			[

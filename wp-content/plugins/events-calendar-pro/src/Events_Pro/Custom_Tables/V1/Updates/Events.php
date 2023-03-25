@@ -1336,7 +1336,7 @@ class Events {
 	 *
 	 * @return bool Whether the two `_EventRecurrence` format meta values have the same limits or not.
 	 */
-	public function compare_count_limits( array $current, array $previous ): bool {
+	public function compare_interval_and_limit( array $current, array $previous ): bool {
 		// Produces strings like `Daily-1-10` or `Weekly-2-3`.
 		$get_rule_limit = static function ( array $rule ): string {
 			$count = isset( $rule['end-type'], $rule['end-count'] ) && $rule['end-type'] === 'After' ?

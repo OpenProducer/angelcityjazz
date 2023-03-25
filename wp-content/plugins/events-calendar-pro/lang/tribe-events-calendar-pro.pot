@@ -2,24 +2,24 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: The Events Calendar PRO 6.0.7\n"
+"Project-Id-Version: The Events Calendar Pro 6.0.10\n"
 "Report-Msgid-Bugs-To: https://evnt.is/191x\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-02-07T07:05:38-08:00\n"
-"PO-Revision-Date: 2023-02-07 15:05\n"
+"POT-Creation-Date: 2023-03-17T10:21:56-07:00\n"
+"PO-Revision-Date: 2023-03-17 17:22\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: tribe-events-calendar-pro\n"
 
 #. Plugin Name of the plugin
-msgid "The Events Calendar PRO"
+msgid "The Events Calendar Pro"
 msgstr ""
 
 #. Description of the plugin
-msgid "The Events Calendar PRO, a premium add-on to the open source The Events Calendar plugin (required), enables recurring events, custom attributes, venue pages, new widgets and a host of other premium features."
+msgid "The Events Calendar Pro, a premium add-on to the open source The Events Calendar plugin (required), enables recurring events, custom attributes, venue pages, new widgets and a host of other premium features."
 msgstr ""
 
 #. Author of the plugin
@@ -38,7 +38,7 @@ msgid "Events Calendar Pro"
 msgstr ""
 
 #: events-calendar-pro.php:174
-msgid "To begin using Events Calendar PRO, please install the latest version of"
+msgid "To begin using Events Calendar Pro, please install the latest version of"
 msgstr ""
 
 #: src/admin-views/custom-fields/gutenberg.php:3
@@ -57,7 +57,7 @@ msgstr ""
 #: src/admin-views/event-meta-options.php:3
 #: src/Tribe/Editor.php:212
 #: src/Tribe/Editor.php:250
-#: src/Tribe/Main.php:670
+#: src/Tribe/Main.php:671
 #: src/modules/blocks/additional-fields/elements/settings/template.js:31
 msgid "Additional Fields"
 msgstr ""
@@ -270,7 +270,7 @@ msgstr ""
 
 #: src/admin-views/event-recurrence.php:174
 #: src/admin-views/event-recurrence.php:523
-#: src/Tribe/Main.php:1635
+#: src/Tribe/Main.php:1636
 #: src/Tribe/Rewrite/Provider.php:159
 #: src/modules/custom-tables-v1/data/shared/constants.js:9
 msgid "week"
@@ -706,7 +706,7 @@ msgid "Select a State"
 msgstr ""
 
 #: src/admin-views/tribe-options-defaults.php:42
-#: src/Tribe/Main.php:668
+#: src/Tribe/Main.php:669
 msgid "Default Content"
 msgstr ""
 
@@ -1002,12 +1002,13 @@ msgctxt "\"Remove\" label for selected term."
 msgid "(remove)"
 msgstr ""
 
-#: src/Events_Pro/Custom_Tables/V1/Admin/Lists/Provider.php:87
+#: src/Events_Pro/Custom_Tables/V1/Admin/Lists/Columns.php:38
+#: tests/ct1_integration/TEC/Events_Pro/Custom_Tables/V1/Admin/Lists/ColumnsTest.php:33
 msgid "Series"
 msgstr ""
 
 #. translators: %d the number of total occurrences
-#: src/Events_Pro/Custom_Tables/V1/Admin/Lists/Provider.php:229
+#: src/Events_Pro/Custom_Tables/V1/Admin/Lists/Columns.php:194
 msgid "%d occurrence"
 msgid_plural "%d occurrences"
 msgstr[0] ""
@@ -1095,7 +1096,7 @@ msgid "Title"
 msgstr ""
 
 #: src/Events_Pro/Custom_Tables/V1/Editors/Classic/Occurrences_List.php:170
-#: src/Events_Pro/Custom_Tables/V1/Series/Admin_List.php:46
+#: src/Events_Pro/Custom_Tables/V1/Series/Admin_List.php:44
 #: src/Tribe/APM_Filters/APM_Filters.php:71
 msgid "Start Date"
 msgstr ""
@@ -1274,78 +1275,78 @@ msgstr ""
 msgid "Ends"
 msgstr ""
 
-#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:141
+#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:142
 msgctxt "The prompt displayed to the user when trying to trash a Series related to 1 Recurring Event."
 msgid "This Series cannot be trashed because it contains one or more recurring events. Trash the associated recurring event(s) or assign them to another Series."
 msgstr ""
 
-#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:148
+#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:149
 msgctxt "The prompt displayed to the user when trying to trash a Series related to 2 or more Recurring Events."
 msgid "The following Series cannot be trashed because they contain one or more recurring events. Trash the associated recurring event(s) or assign them to another Series."
 msgstr ""
 
-#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:157
+#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:158
 msgctxt "The prompt displayed to the user when trying to delete a Series related to 1 Recurring Event."
 msgid "This Series cannot be deleted because it contains one or more recurring events. Delete the associated recurring event(s) or assign them to another Series."
 msgstr ""
 
-#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:164
+#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:165
 msgctxt "The prompt displayed to the user when trying to delete a Series related to 2 or more Recurring Events."
 msgid "The following Series cannot be deleted because they contain one or more recurring events. Delete the associated recurring event(s) or assign them to another Series."
 msgstr ""
 
-#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:173
+#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:174
 msgctxt "The acknowledgment button text."
 msgid "Okay"
 msgstr ""
 
-#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:174
+#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:175
 msgctxt "The tooltip shown when hovering the close control."
 msgid "Close"
 msgstr ""
 
-#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:230
-#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:336
-msgid "Edit Recurring %1$s"
-msgstr ""
-
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:231
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:337
-msgid "Trash Recurring %1$s"
+msgid "Edit Recurring %1$s"
 msgstr ""
 
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:232
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:338
-msgid "Ok"
+msgid "Trash Recurring %1$s"
 msgstr ""
 
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:233
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:339
-msgid "All %1$s"
+msgid "Ok"
 msgstr ""
 
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:234
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:340
-msgid "This and following %1$s"
+msgid "All %1$s"
 msgstr ""
 
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:235
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:341
-msgid "This %1$s"
+msgid "This and following %1$s"
 msgstr ""
 
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:236
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:342
-msgid "Convert this occurrence to a single %1$s."
+msgid "This %1$s"
 msgstr ""
 
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:237
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:343
-msgid "all day"
+msgid "Convert this occurrence to a single %1$s."
 msgstr ""
 
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:238
 #: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:344
+msgid "all day"
+msgstr ""
+
+#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:239
+#: src/Events_Pro/Custom_Tables/V1/Editors/Provider.php:345
 msgid "These changes will affect this %1$s and all following %2$s"
 msgstr ""
 
@@ -2317,11 +2318,11 @@ msgstr ""
 msgid "Your site is now using the upgraded recurring events system. See the report below to learn how your events may have been adjusted during the migration process. Go ahead and %1$scheck out your events%2$s or %3$sview your calendar.%2$s"
 msgstr ""
 
-#: src/Events_Pro/Custom_Tables/V1/Series/Admin_List.php:47
+#: src/Events_Pro/Custom_Tables/V1/Series/Admin_List.php:45
 msgid "Events"
 msgstr ""
 
-#: src/Events_Pro/Custom_Tables/V1/Series/Admin_List.php:94
+#: src/Events_Pro/Custom_Tables/V1/Series/Admin_List.php:92
 msgctxt "Placeholder used in the Series list Start Date column when a Series has no Occurrences."
 msgid "-"
 msgstr ""
@@ -2504,18 +2505,18 @@ msgctxt "Link title"
 msgid "Convert to Single"
 msgstr ""
 
-#: src/Events_Pro/Custom_Tables/V1/Updates/Transient_Occurrence_Redirector.php:171
+#: src/Events_Pro/Custom_Tables/V1/Updates/Transient_Occurrence_Redirector.php:174
 msgctxt "The title of the dialog that will inform the user the browser will be redirected to a new Occurrence edit screen."
 msgid "Recurring event updated"
 msgstr ""
 
 #. translators: %1$d is the number of occurrences updated, %2$s is the date of the target Occurrence.
-#: src/Events_Pro/Custom_Tables/V1/Updates/Transient_Occurrence_Redirector.php:179
+#: src/Events_Pro/Custom_Tables/V1/Updates/Transient_Occurrence_Redirector.php:182
 msgctxt "The template of the message displayed to inform the user of the redirection to a new Occurrence."
 msgid "%1$d occurrences of this event have been updated. You will be redirected to the occurrence on %2$s."
 msgstr ""
 
-#: src/Events_Pro/Custom_Tables/V1/Updates/Transient_Occurrence_Redirector.php:188
+#: src/Events_Pro/Custom_Tables/V1/Updates/Transient_Occurrence_Redirector.php:191
 msgctxt "The label of the confirm button in the Occurrence redirect dialog."
 msgid "Okay"
 msgstr ""
@@ -2801,12 +2802,12 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: src/Tribe/Assets.php:417
+#: src/Tribe/Assets.php:400
 msgctxt "Event title map marker prefix"
 msgid "%s: "
 msgstr ""
 
-#: src/Tribe/Assets.php:418
+#: src/Tribe/Assets.php:401
 msgid "Address: "
 msgstr ""
 
@@ -4074,183 +4075,183 @@ msgstr ""
 msgid "Zoom Dial-in Info"
 msgstr ""
 
-#: src/Tribe/Main.php:410
+#: src/Tribe/Main.php:411
 #: src/Tribe/Views/V2/Template/Title.php:56
 msgid "All %1$s for %2$s"
 msgstr ""
 
-#: src/Tribe/Main.php:416
+#: src/Tribe/Main.php:417
 #: src/Tribe/Views/V2/Template/Title.php:74
 msgid "%1$s for week of %2$s"
 msgstr ""
 
-#: src/Tribe/Main.php:485
+#: src/Tribe/Main.php:486
 msgctxt "debug recurrence"
 msgid "Unknown"
 msgstr ""
 
-#: src/Tribe/Main.php:503
+#: src/Tribe/Main.php:504
 msgctxt "debug recurrence"
 msgid "invalid date"
 msgstr ""
 
-#: src/Tribe/Main.php:534
-#: src/Tribe/Main.php:547
+#: src/Tribe/Main.php:535
+#: src/Tribe/Main.php:548
 msgctxt "debug recurrence"
 msgid "incorrect slug"
 msgstr ""
 
 #. Translators: 1: Error message, 2: URL
-#: src/Tribe/Main.php:571
+#: src/Tribe/Main.php:572
 msgctxt "debug recurrence"
 msgid "Invalid instance of a recurring event was requested (%1$s) redirecting to %2$s"
 msgstr ""
 
-#: src/Tribe/Main.php:705
+#: src/Tribe/Main.php:706
 msgid "Hide related events"
 msgstr ""
 
-#: src/Tribe/Main.php:706
+#: src/Tribe/Main.php:707
 msgid "Remove related events from the single event view (with classic editor)"
 msgstr ""
 
-#: src/Tribe/Main.php:718
+#: src/Tribe/Main.php:719
 msgid "Hide weekends on Week View"
 msgstr ""
 
-#: src/Tribe/Main.php:719
+#: src/Tribe/Main.php:720
 msgid "Check this to only show weekdays on Week View. This also affects the Events by Week widget."
 msgstr ""
 
-#: src/Tribe/Main.php:731
+#: src/Tribe/Main.php:732
 msgid "Enable the Before HTML (below) on shortcodes."
 msgstr ""
 
-#: src/Tribe/Main.php:732
+#: src/Tribe/Main.php:733
 msgid "Check this to show the Before HTML from the text area below on events displayed via shortcode."
 msgstr ""
 
-#: src/Tribe/Main.php:744
+#: src/Tribe/Main.php:745
 msgid "Enable the After HTML (below) on shortcodes."
 msgstr ""
 
-#: src/Tribe/Main.php:745
+#: src/Tribe/Main.php:746
 msgid "Check this to show the After HTML from the text area below on events displayed via shortcode."
 msgstr ""
 
-#: src/Tribe/Main.php:759
+#: src/Tribe/Main.php:760
 msgid "Week day format"
 msgstr ""
 
-#: src/Tribe/Main.php:806
+#: src/Tribe/Main.php:807
 msgid "Thanks for buying Events Calendar PRO! From all of us at The Events Calendar, we sincerely appreciate it. If you're looking for help with Events Calendar PRO, you've come to the right place. We are committed to helping make your calendar be spectacular... and hope the resources provided below will help get you there."
 msgstr ""
 
-#: src/Tribe/Main.php:818
+#: src/Tribe/Main.php:819
 msgid "If this is your first time using The Events Calendar Pro, you're in for a treat and are already well on your way to creating a first event. Here are some basics we've found helpful for users jumping into it for the first time:"
 msgstr ""
 
-#: src/Tribe/Main.php:821
+#: src/Tribe/Main.php:822
 msgid "%sOur New User Primer%s was designed for folks in your exact position. Featuring both step-by-step videos and written walkthroughs that feature accompanying screenshots, the primer aims to take you from zero to hero in no time."
 msgstr ""
 
-#: src/Tribe/Main.php:823
+#: src/Tribe/Main.php:824
 msgid "%sInstallation/Setup FAQs%s from our support page can help give an overview of what the plugin can and cannot do. This section of the FAQs may be helpful as it aims to address any basic install questions not addressed by the new user primer."
 msgstr ""
 
-#: src/Tribe/Main.php:825
+#: src/Tribe/Main.php:826
 msgid "Take care of your license key. Though not required to create your first event, you'll want to get it in place as soon as possible to guarantee your access to support and upgrades. %sHere's how to find your license key%s, if you don't have it handy."
 msgstr ""
 
-#: src/Tribe/Main.php:827
+#: src/Tribe/Main.php:828
 msgid "Otherwise, if you're feeling adventurous, you can get started by heading to the Events menu and adding your first event."
 msgstr ""
 
-#: src/Tribe/Main.php:840
+#: src/Tribe/Main.php:841
 msgid "Written documentation can only take things so far...sometimes, you need help from a real person. This is where our %ssupport forums%s come into play."
 msgstr ""
 
-#: src/Tribe/Main.php:841
+#: src/Tribe/Main.php:842
 msgid "Users who have purchased an Events Calendar PRO license are granted total access to our %spremium support forums%s. Unlike at the %sWordPress.org support forum%s, where our involvement is limited to identifying and patching bugs, we have a dedicated support team for PRO users. We're on the PRO forums daily throughout the business week, and no thread should go more than 24-hours without a response."
 msgstr ""
 
-#: src/Tribe/Main.php:842
+#: src/Tribe/Main.php:843
 msgid "Our number one goal is helping you succeed, and to whatever extent possible, we'll help troubleshoot and guide your customizations or tweaks. While we won't build your site for you, and we can't guarantee we'll be able to get you 100% integrated with every theme or plugin out there, we'll do all we can to point you in the right direction and to make you -- and your client, as is often more importantly the case -- satisfied."
 msgstr ""
 
-#: src/Tribe/Main.php:843
+#: src/Tribe/Main.php:844
 msgid "Before posting a new thread, please do a search to make sure your issue hasn't already been addressed. When posting please make sure to provide as much detail about the problem as you can (with screenshots or screencasts if feasible), and make sure that you've identified whether a plugin / theme conflict could be at play in your initial message."
 msgstr ""
 
-#: src/Tribe/Main.php:1095
+#: src/Tribe/Main.php:1096
 msgid "Settings"
 msgstr ""
 
-#: src/Tribe/Main.php:1123
+#: src/Tribe/Main.php:1124
 msgid "Venue updated. <a href=\"%s\">View venue</a>"
 msgstr ""
 
 #. translators: %s: date and time of the revision
-#: src/Tribe/Main.php:1125
+#: src/Tribe/Main.php:1126
 msgid "Venue published. <a href=\"%s\">View venue</a>"
 msgstr ""
 
-#: src/Tribe/Main.php:1126
+#: src/Tribe/Main.php:1127
 msgid "Venue submitted. <a target=\"_blank\" href=\"%s\">Preview venue</a>"
 msgstr ""
 
-#: src/Tribe/Main.php:1128
+#: src/Tribe/Main.php:1129
 msgid "Venue scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview venue</a>"
 msgstr ""
 
 #. translators: Publish box date format, see http://php.net/date
-#: src/Tribe/Main.php:1130
-#: src/Tribe/Main.php:1140
+#: src/Tribe/Main.php:1131
+#: src/Tribe/Main.php:1141
 msgid "M j, Y @ G:i"
 msgstr ""
 
-#: src/Tribe/Main.php:1132
+#: src/Tribe/Main.php:1133
 msgid "Venue draft updated. <a target=\"_blank\" href=\"%s\">Preview venue</a>"
 msgstr ""
 
-#: src/Tribe/Main.php:1134
+#: src/Tribe/Main.php:1135
 msgid "Organizer updated. <a href=\"%s\">View organizer</a>"
 msgstr ""
 
-#: src/Tribe/Main.php:1135
+#: src/Tribe/Main.php:1136
 msgid "Organizer published. <a href=\"%s\">View organizer</a>"
 msgstr ""
 
-#: src/Tribe/Main.php:1136
+#: src/Tribe/Main.php:1137
 msgid "Organizer submitted. <a target=\"_blank\" href=\"%s\">Preview organizer</a>"
 msgstr ""
 
-#: src/Tribe/Main.php:1138
+#: src/Tribe/Main.php:1139
 msgid "Organizer scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview organizer</a>"
 msgstr ""
 
-#: src/Tribe/Main.php:1142
+#: src/Tribe/Main.php:1143
 msgid "Organizer draft updated. <a target=\"_blank\" href=\"%s\">Preview organizer</a>"
 msgstr ""
 
-#: src/Tribe/Main.php:1197
+#: src/Tribe/Main.php:1198
 msgid "Support"
 msgstr ""
 
-#: src/Tribe/Main.php:1199
+#: src/Tribe/Main.php:1200
 msgid "View All Add-Ons"
 msgstr ""
 
-#: src/Tribe/Main.php:1531
+#: src/Tribe/Main.php:1532
 msgid "Events Calendar PRO"
 msgstr ""
 
-#: src/Tribe/Main.php:1634
+#: src/Tribe/Main.php:1635
 #: src/Tribe/Rewrite/Provider.php:158
 msgid "all"
 msgstr ""
 
-#: src/Tribe/Main.php:1636
+#: src/Tribe/Main.php:1637
 #: src/Tribe/Rewrite/Provider.php:160
 msgid "photo"
 msgstr ""
