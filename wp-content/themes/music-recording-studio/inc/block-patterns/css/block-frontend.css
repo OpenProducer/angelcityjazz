@@ -1,0 +1,86 @@
+/*banner-section*/
+.banner-section h1, .banner-section p,.services-section h2,.services-section p{ 
+   font-family: 'Poppins', sans-serif;
+}
+.banner-section{
+    width: auto;
+    height: auto;
+}
+.banner-section .banner-section2 {
+    align-self: center;
+}
+.banner-section img{
+    border-radius: 30px !important;
+}
+/*service section*/
+.services-section {
+    margin-top: 25px;
+}
+.services-section img{
+   border-radius: 35px !important;
+}
+.services-section-heading h2{
+    font-size: 25px;
+    line-height: 1.5;
+}
+.services-section-p p{
+    color: #DE3960;
+    font-size: 15px;
+    font-weight: 500;
+    display: inline-block;
+}
+.services-section img.wp-image-1628{
+    margin-left: 60px;
+}  
+.services-section img.wp-image-1630{
+   margin-right: 50px;
+}
+.services-section h3{
+   margin-right: 50px;
+   font-weight: 500;
+}
+@media screen and (min-width: 320px) and (max-width: 575px)
+{
+.banner-section img{
+    margin-left: -10px;
+}
+.banner-section h1{
+    font-size: 18px;
+    text-align: center;
+    padding-top: 10px;
+}
+.banner-section p{
+    text-align: center;
+}
+/*services section*/
+.services-section img.wp-image-1628{
+    margin-left: 0px;
+} 
+.services-section img{
+   max-width: 92%;
+   margin-left:0px;
+}
+.services-section h3{
+   margin-right: 0px;
+   font-weight: 500;
+}
+.services-section img.wp-image-1630{
+   margin-right: 0px;
+}
+}
+@media screen and (min-width: 576px) and (max-width: 768px)
+{
+.banner-section h1{
+    font-size: 22px;
+}
+.services-section img.wp-image-1628{
+    margin-left: 0px;
+}
+.services-section img{
+   max-width: 92%;
+}
+.services-section h3{
+   margin-right: 0px;
+   font-weight: 500;
+}
+}

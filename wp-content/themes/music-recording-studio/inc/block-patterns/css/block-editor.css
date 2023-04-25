@@ -1,0 +1,30 @@
+/*banner-section*/
+.banner-section h1,.banner-section p,.services-section h2,.services-section p{ 
+    font-family: 'Poppins', sans-serif;
+}
+.banner-section .banner-section2 {
+    align-self: center;
+}
+.banner-section img{
+    border-radius: 30px !important;
+}
+.banner-section p{
+    font-size: 15px;
+}
+/*service section*/
+.services-section img{
+   border-radius: 35px !important;
+}
+.services-section h2{
+    font-size: 25px;
+    line-height: 1.5;
+}
+.services-section-heading h2{
+    font-size: 25px;
+}
+.services-section-p p{
+    color: #DE3960;
+    font-size: 15px;
+    font-weight: 500;
+    display: inline-block;
+}
