@@ -236,6 +236,10 @@ class Printful_Shipping extends WC_Shipping_Method
             'locale'    => get_locale()
 		);
 
+        if (class_exists('WOOCS')) {
+            global $WOOCS;
+            $request['currency'] = $WOOCS->default_currency;
+        }
 
 		if ( $request['recipient']['country_code'] == 'US' &&
 		     ( empty( $request['recipient']['state_code'] ) )
