@@ -127,3 +127,27 @@ add_filter('body_class', function (array $classes) {
     }
   return $classes;
 });
+
+/**
+ * @snippet       Continue Shopping Link - WooCommerce Cart
+ * @how-to        Get CustomizeWoo.com FREE
+ * @author        Rodolfo Melogli
+ * @compatible    WooCommerce 3.6.2
+ * @donate $9     https://businessbloomer.com/bloomer-armada/
+ */
+ 
+add_filter( 'woocommerce_continue_shopping_redirect', 'acj_change_continue_shopping' );
+ 
+function acj_change_continue_shopping() {
+   return wc_get_page_permalink( 'shop' );
+}
+
+/**
+* @snippet       Remove "No products were found matching your selection"
+* @how-to        Get CustomizeWoo.com FREE
+* @author        Rodolfo Melogli
+* @compatible    WooCommerce 6
+* @donate $9     https://businessbloomer.com/bloomer-armada/
+*/
+ 
+remove_action( 'woocommerce_no_products_found', 'wc_no_products_found' );
