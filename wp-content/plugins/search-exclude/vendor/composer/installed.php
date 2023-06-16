@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'quadlayers/search-exclude',
-        'pretty_version' => 'v2.0.2',
-        'version' => '2.0.2.0',
-        'reference' => '659165a8b5ee129b68335c7e06dea6a76d36a612',
+        'pretty_version' => 'v2.0.3',
+        'version' => '2.0.3.0',
+        'reference' => 'b0ae8309f5b115dbf1fb641506f41e50285c6026',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -38,9 +38,9 @@
             'dev_requirement' => false,
         ),
         'quadlayers/search-exclude' => array(
-            'pretty_version' => 'v2.0.2',
-            'version' => '2.0.2.0',
-            'reference' => '659165a8b5ee129b68335c7e06dea6a76d36a612',
+            'pretty_version' => 'v2.0.3',
+            'version' => '2.0.3.0',
+            'reference' => 'b0ae8309f5b115dbf1fb641506f41e50285c6026',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
