@@ -2,24 +2,24 @@
     "packages": [
         {
             "name": "automattic/jetpack-assets",
-            "version": "v1.18.3",
-            "version_normalized": "1.18.3.0",
+            "version": "v1.18.4",
+            "version_normalized": "1.18.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Automattic/jetpack-assets.git",
-                "reference": "b598b130662e03351536b7049f7103c55fdb8529"
+                "reference": "fbb76cd3d88ef31ba65d3fa0d3bfed155c016d05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Automattic/jetpack-assets/zipball/b598b130662e03351536b7049f7103c55fdb8529",
-                "reference": "b598b130662e03351536b7049f7103c55fdb8529",
+                "url": "https://api.github.com/repos/Automattic/jetpack-assets/zipball/fbb76cd3d88ef31ba65d3fa0d3bfed155c016d05",
+                "reference": "fbb76cd3d88ef31ba65d3fa0d3bfed155c016d05",
                 "shasum": ""
             },
             "require": {
                 "automattic/jetpack-constants": "^1.6.22"
             },
             "require-dev": {
-                "automattic/jetpack-changelogger": "^3.3.3",
+                "automattic/jetpack-changelogger": "^3.3.4",
                 "brain/monkey": "2.6.1",
                 "wikimedia/testing-access-wrapper": "^1.0 || ^2.0",
                 "yoast/phpunit-polyfills": "1.0.4"
@@ -27,7 +27,7 @@
             "suggest": {
                 "automattic/jetpack-autoloader": "Allow for better interoperability with other plugins that use this package."
             },
-            "time": "2023-05-15T16:14:22+00:00",
+            "time": "2023-06-06T19:19:42+00:00",
             "type": "jetpack-library",
             "extra": {
                 "autotagger": true,
@@ -55,7 +55,7 @@
             ],
             "description": "Asset management utilities for Jetpack ecosystem packages",
             "support": {
-                "source": "https://github.com/Automattic/jetpack-assets/tree/v1.18.3"
+                "source": "https://github.com/Automattic/jetpack-assets/tree/v1.18.4"
             },
             "install-path": "../../jetpack_vendor/automattic/jetpack-assets"
         },
