@@ -151,3 +151,9 @@ function acj_change_continue_shopping() {
 */
  
 remove_action( 'woocommerce_no_products_found', 'wc_no_products_found' );
+
+// adding back blocks Newspack removes
+function remove_newspack_fse_blocks_to_remove() {
+  remove_action( 'init', 'newspack_fse_blocks_to_remove', 20 );
+ }
+ add_action( 'wp_head', 'remove_newspack_fse_blocks_to_remove' );
