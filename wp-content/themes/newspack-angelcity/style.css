@@ -90,7 +90,29 @@ html
 ## Layout
 --------------------------------------------------------------*/
 
+.post-template-single-feature .main-content,
+.page-template-single-feature .main-content,
+.page-template-no-header-footer .main-content,
+.archive-one-column #main,
+.newspack-front-page.page-template-single-feature .site-main,
+.woocommerce .content-area .site-main
+{
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1000px;
+  width: 100%;
+}
 
+@media only screen and (min-width: 782px) {
+  .page-template-single-feature .entry-header,
+  .page-template-no-header-footer .entry-header,
+  .archive.archive-one-column .page-header {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1000px;
+    width: 100%;
+  }
+}
 
 
 
@@ -189,17 +211,18 @@ textarea {
 
 /* Hiding titles on landing pages  */
 
-.page-id-130 h1.entry-title,
-.page-id-465 h1.entry-title,
-.page-id-531 h1.entry-title,
-.page-id-559 h1.entry-title,
-.page-id-4670 h1.entry-title,
-.page-id-4667 h1.entry-title,
-.page-id-4692 h1.entry-title,
-.page-id-7728 h1.entry-title
-
-{
+.hide-page-title .entry-header h1.entry-title,
+.page-template-single-wide.hide-homepage-title .entry-header h1.entry-title {
 	display:none;
+}
+
+/* this removes header margin pages with hide page title selected */
+.hide-page-title .site-content,
+.hide-page-title .entry .entry-content:first-child,
+.page-template-single-wide.hide-homepage-title .site-content,
+.page-template-single-wide.hide-homepage-title .entry .entry-content:first-child {
+ margin-top: 0;
+ margin-bottom: 0;	
 }
 
 
@@ -209,18 +232,9 @@ textarea {
 --------------------------------------------------------------*/
 
 
-/* this removes header margin on ACJ Festival landing page */
-.page-id-130 .site-content,
-.page-id-130 .entry .entry-content:first-child,
-.page-id-3285 .site-content,
-.page-id-3285 .entry .entry-content:first-child {
- margin-top: 0;
- margin-bottom: 0;	
-}
-
 
 /* trying to get covers equal height*/
-.page-id-130 .wp-block-group__inner-container .wp-block-columns .wp-block-cover,
+.page-template-newspack-angel-city .wp-block-group__inner-container .wp-block-columns .wp-block-cover,
 .home .wp-block-group__inner-container .wp-block-columns .wp-block-cover {
 	min-height:100%;
 }
@@ -228,7 +242,7 @@ textarea {
 
 /* hides price from home page and ACJ landing page*/ 
 .home .tribe-events-pro-photo__event-cost,
-.page-id-130 .tribe-events-pro-photo__event-cost{
+.page-template-newspack-angel-city .tribe-events-pro-photo__event-cost{
  display:none;
 }
 
@@ -236,14 +250,6 @@ textarea {
 /*--------------------------------------------------------------
 ## Layout - Explorations
 --------------------------------------------------------------*/
-
-/* this removes header margin on Explorations landing page */
-.page-id-559 .site-content,
-.page-id-559 .entry .entry-content:first-child {
- margin-top: 0;
- margin-bottom: 0;	
-}
-
 
 
 /* LA Creators */
@@ -291,20 +297,6 @@ textarea {
 	padding: 0;
 }
 
-/* this removes header margin on Watch and Festival Video landing pages */
-.page-id-531 .site-content,
-.page-id-531 .entry .entry-content:first-child,
-.page-id-3208 .site-content,
-.page-id-3208 .entry .entry-content:first-child,
-.page-id-9213 .site-content,
-.page-id-9213 .entry .entry-content:first-child,
-.page-id-9165 .site-content,
-.page-id-9165 .entry .entry-content:first-child,
-.page-id-10911 .site-content,
-.page-id-10911 .entry .entry-content:first-child {
- margin-top: 0;
- margin-bottom: 0;	
-}
 
 /* this hides titles on vr festival grid display */
 .wp-block-newspack-blocks-homepage-articles .tag-2020-vr-festival .entry-title,
@@ -319,20 +311,6 @@ textarea {
 .tag-2021-angel-city-jazz-fest .featured-image-behind,
 .tag-inglewood-sessions .featured-image-behind  {
 	display:none;
-}
-
-/* this hides header area on vr festival archives and landing pages */
-.tag-2021-angel-city-jazz-fest .entry-header,
-.page-id-9213 .entry-header,
-.page-id-9165 .entry-header,
-.page-id-10911 .entry-header  {
-	display:none;
-}
-
-/* this removes the margin between the top container on vr festival archives */
- .tag-2020-vr-festival .entry .entry-content > *:first-child, 
- .tag-2021-angel-city-jazz-fest .entry .entry-content > *:first-child {
- margin-top:0;
 }
 
 /* this hides author and date from posts in the 2020 VR Festival category */
@@ -350,17 +328,7 @@ textarea {
 ## Layout - Young Artist Competition
 --------------------------------------------------------------*/
 
-/* this removes header margin on Young Artist Competition landing page */
-.page-id-465 .site-content {
- margin-top: 0;
-}
 
-/*adding bottom margin to commerce and 404 pages */
-.entry .entry-content .woocommerce > :last-child,
-.error-404,
-.search .site-content {
-    margin-bottom: 32px;
-}	
 	
 
 /*--------------------------------------------------------------
@@ -439,10 +407,6 @@ margin-bottom:0;
   width: 100%;
 }
 
-/*still working on the supporters block
-.entry .entry-content .programs .wp-block-cover__inner-container > * {
-    margin: inherit;
-}   
 
 /* trying to get covers equal height*/
 .page-id-4670 .wp-block-cover img.wp-block-cover__image-background,
@@ -915,13 +879,31 @@ width: 17%;
 }
 
 /*--------------------------------------------------------------
+## Eventbrite / ticket landing page
+--------------------------------------------------------------*/
+
+/* Hiding titles on ticket pages  */
+
+.page-id-16424 h1.entry-title
+
+{
+	display:none;
+}
+
+/* Hiding header on ticket page  */
+
+.page-id-16424 .site-content,
+.page-id-16424 .entry .entry-content * {
+ margin-top: 0;
+ margin-bottom: 0;	
+} 
+
+
+
+/*--------------------------------------------------------------
 ##Shop / WooCommerce
 --------------------------------------------------------------*/
 
-/* hiding title on shop page*/	
-.page-id-1742 h1.entry-title	{
-  display: none;		
-} 
 
 /* font size on shop grid - check against customizer */
 
@@ -1069,6 +1051,13 @@ credit: https://gist.github.com/vanbo/c05e9b9512bd53e3680c82e1c6e4e6a3
 .woocommerce-tabs ul li {
     margin: 0;
 }
+
+/*adding bottom margin to commerce and 404 pages */
+.entry .entry-content .woocommerce > :last-child,
+.error-404,
+.search .site-content {
+    margin-bottom: 32px;
+}	
 
 
 
