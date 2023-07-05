@@ -8332,7 +8332,8 @@ const getInserterItems = rememo((state, rootClientId = null, syncStatus) => {
   };
 
   const blockTypeInserterItems = (0,external_wp_blocks_namespaceObject.getBlockTypes)().filter(blockType => canIncludeBlockTypeInInserter(state, blockType, rootClientId)).map(buildBlockTypeInserterItem);
-  const reusableBlockInserterItems = canInsertBlockTypeUnmemoized(state, 'core/block', rootClientId) ? getReusableBlocks(state).filter(reusableBlock => syncStatus === reusableBlock.meta?.sync_status || !syncStatus && reusableBlock.meta?.sync_status === '').map(buildReusableBlockInserterItem) : [];
+  const reusableBlockInserterItems = canInsertBlockTypeUnmemoized(state, 'core/block', rootClientId) ? getReusableBlocks(state).filter(reusableBlock => syncStatus === reusableBlock.meta?.wp_pattern_sync_status || !syncStatus && (reusableBlock.meta?.wp_pattern_sync_status === '' || reusableBlock.meta?.wp_pattern_sync_status === 'fully') // Only reusable blocks added via site editor in release 16.1 will have wp_pattern_sync_status of 'fully'.
+  ).map(buildReusableBlockInserterItem) : [];
   const items = blockTypeInserterItems.reduce((accumulator, item) => {
     const {
       variations = []

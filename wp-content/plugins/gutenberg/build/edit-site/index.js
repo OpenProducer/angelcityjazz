@@ -7243,9 +7243,9 @@ function CreatePatternModal({
         title: name || (0,external_wp_i18n_namespaceObject.__)('Untitled Pattern'),
         content: '',
         status: 'publish',
-        meta: {
-          sync_status: syncType
-        }
+        meta: syncType === SYNC_TYPES.unsynced ? {
+          wp_pattern_sync_status: syncType
+        } : undefined
       }, {
         throwOnError: true
       });
@@ -22103,7 +22103,7 @@ const reusableBlockToPattern = reusableBlock => ({
   categories: reusableBlock.wp_pattern,
   id: reusableBlock.id,
   name: reusableBlock.slug,
-  syncStatus: reusableBlock.meta?.sync_status,
+  syncStatus: reusableBlock.meta?.wp_pattern_sync_status || SYNC_TYPES.full,
   title: reusableBlock.title.raw,
   type: reusableBlock.type,
   reusableBlock

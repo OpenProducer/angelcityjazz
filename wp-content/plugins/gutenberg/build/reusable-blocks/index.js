@@ -102,7 +102,7 @@ const __experimentalConvertBlocksToReusable = (clientIds, title, syncType) => as
   dispatch
 }) => {
   const meta = syncType === 'unsynced' ? {
-    sync_status: syncType
+    wp_pattern_sync_status: syncType
   } : undefined;
   const reusableBlock = {
     title: title || (0,external_wp_i18n_namespaceObject.__)('Untitled Pattern block'),
