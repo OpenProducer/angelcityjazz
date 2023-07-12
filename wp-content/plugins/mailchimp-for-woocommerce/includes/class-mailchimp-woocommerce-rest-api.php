@@ -180,7 +180,6 @@ class MailChimp_WooCommerce_Rest_Api
         // } catch (Exception $e) { $mailchimp_total_orders = 0; }
 
         $date = mailchimp_date_local('now');
-
         // but we need to do it just in case.
         return $this->mailchimp_rest_response(array(
             'success' => true,
@@ -499,11 +498,13 @@ class MailChimp_WooCommerce_Rest_Api
         $platform = null;
         $mc = null;
         $store_id = mailchimp_get_store_id();
+        
         switch ($body['resource']) {
-            case 'order':
-                $order = get_post($body['resource_id']);
-                $mc = !$order->ID ? null : mailchimp_get_api()->getStoreOrder($store_id, $order->ID);
-                if ($order->ID) {
+            case 'order':                
+                $order = MailChimp_WooCommerce_HPOS::get_order($body['resource_id']);
+                /*$order = get_post($body['resource_id']);*/
+                $mc = !$order->get_id() ? null : mailchimp_get_api()->getStoreOrder($store_id, $order->get_id());
+                if ($order->get_id()) {
                     $transformer = new MailChimp_WooCommerce_Transform_Orders();
                     $platform = $transformer->transform($order)->toArray();
                 }
@@ -515,10 +516,25 @@ class MailChimp_WooCommerce_Rest_Api
                 $platform = get_user_by($field, $body['resource_id']);
 	            $mc = array('member' => null, 'customer' => null);
                 if ($platform) {
+	                $date = mailchimp_get_marketing_status_updated_at($platform->ID);
                     $platform->mailchimp_woocommerce_is_subscribed = (bool) get_user_meta($platform->ID, 'mailchimp_woocommerce_is_subscribed', true);
+	                $platform->marketing_status_updated_at = $date ? $date->format(__('D, M j, Y g:i A', 'mailchimp-for-woocommerce')) : '';
 	                $hashed = mailchimp_hash_trim_lower($platform->user_email);
                 } else if ('email' === $field) {
-	                $hashed = mailchimp_hash_trim_lower($body['resource_id']);
+                    $hashed = mailchimp_hash_trim_lower($body['resource_id']);
+                    $wc_customer = mailchimp_get_wc_customer($body['resource_id']);
+                    if ( $wc_customer !== null ) {
+                        $platform = $wc_customer;
+                        $orders = wc_get_orders( array(
+                            'customer' => $body['resource_id'],
+                            'limit' => 1,
+                            'orderby' => 'date',
+                            'order' => 'DESC',
+                        ) );
+                        $date = $orders[0]->get_meta('marketing_status_updated_at');
+                        $platform->mailchimp_woocommerce_is_subscribed = (bool) $orders[0]->get_meta('mailchimp_woocommerce_is_subscribed');
+                        $platform->marketing_status_updated_at = $date ? $date->format(__('D, M j, Y g:i A', 'mailchimp-for-woocommerce')) : '';
+                    }
                 }
 				if (isset($hashed) && $hashed) {
 					try {
@@ -531,8 +547,9 @@ class MailChimp_WooCommerce_Rest_Api
 					}
 				}
                 break;
-            case 'product':
-                $platform = get_post($body['resource_id']);
+            case 'product':                
+                $platform = MailChimp_WooCommerce_HPOS::get_product($body['resource_id']);
+
                 if ($platform) {
                     $transformer = new MailChimp_WooCommerce_Transform_Products();
                     $platform = $transformer->transform($platform)->toArray();

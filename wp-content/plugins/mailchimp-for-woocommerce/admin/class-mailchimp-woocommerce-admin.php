@@ -69,6 +69,10 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
 			}
 		}
 
+        // delete the webhooks on store disconnects.
+		$webhooks = new MailChimp_WooCommerce_WebHooks_Sync;
+		$webhooks->cleanHooks();
+
 		// clean database
 		mailchimp_clean_database();
 
@@ -1890,7 +1894,7 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
 		try {
 			$order_count = mailchimp_get_api()->getOrderCount( mailchimp_get_store_id() );
 		} catch ( Exception $e ) {
-			$order_count = mailchimp_get_order_count();
+            $order_count = 'your';
 		}
 
 		$text = '<p id="sync-status-message">' .
