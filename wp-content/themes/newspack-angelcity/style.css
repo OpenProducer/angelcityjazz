@@ -83,53 +83,9 @@ html
 --------------------------------------------------------------*/
 
 
-
-
-
 /*--------------------------------------------------------------
-## Layout
+## Widgets and Sidebars
 --------------------------------------------------------------*/
-
-.post-template-single-feature .main-content,
-.page-template-single-feature .main-content,
-.page-template-no-header-footer .main-content,
-.archive-one-column #main,
-.newspack-front-page.page-template-single-feature .site-main,
-.woocommerce .content-area .site-main
-{
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1000px;
-  width: 100%;
-}
-
-@media only screen and (min-width: 782px) {
-  .page-template-single-feature .entry-header,
-  .page-template-no-header-footer .entry-header,
-  .archive.archive-one-column .page-header {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1000px;
-    width: 100%;
-  }
-}
-
-
-
-.hide-page-title .site-content {
-    margin-top: 0;
-}
-
-
-
-
-/* Sidebars */
-
-
-
-
-/* Widgets */
-
 
 /* styling html widgets like spotify */
 .widget_text.widget.widget_custom_html {
@@ -202,6 +158,55 @@ textarea {
 }
 
 
+/*--------------------------------------------------------------
+## Layout - Page and post templates
+--------------------------------------------------------------*/
+
+.post-template-single-feature .main-content,
+.page-template-single-feature .main-content,
+.page-template-no-header-footer .main-content,
+.archive-one-column #main,
+.newspack-front-page.page-template-single-feature .site-main,
+.woocommerce .content-area .site-main
+{
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1000px;
+  width: 100%;
+}
+
+@media only screen and (min-width: 782px) {
+  .page-template-single-feature .entry-header,
+  .page-template-no-header-footer .entry-header,
+  .archive.archive-one-column .page-header,
+  .search #main {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1000px;
+    width: 100%;
+  }
+}
+
+.search #primary,
+.error404 #primary
+{
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 90vw;
+  width: 1000px;
+}
+
+.search .no-results,
+.error404 .search-form
+{
+  width: 65%;
+}
+
+.search .no-results .page-header,
+.search .no-results .search-form
+{
+  display: none;
+}
 
 
 /*--------------------------------------------------------------
@@ -226,8 +231,29 @@ textarea {
 }
 
 
+ /*adding bottom margin to commerce pages */
+ .woocommerce-account .entry-content .woocommerce,
+ .woocommerce-cart .entry-content .woocommerce {
+  margin-bottom: 32px;
+}	
 
-*--------------------------------------------------------------
+/*adding bottom margin to 404 and search pages */
+.error-404,
+.search .site-content {
+    margin-bottom: 64px;
+}	
+
+/* removing category and author display on search results */
+.search .cat-links,
+.search .entry-meta {
+    display: none;
+}	
+
+
+
+
+
+/*--------------------------------------------------------------
 ## Layout - Angel City Jazz Festival
 --------------------------------------------------------------*/
 
@@ -1052,17 +1078,8 @@ credit: https://gist.github.com/vanbo/c05e9b9512bd53e3680c82e1c6e4e6a3
     margin: 0;
 }
 
-/*adding bottom margin to commerce and 404 pages */
-.entry .entry-content .woocommerce > :last-child,
-.error-404,
-.search .site-content {
-    margin-bottom: 32px;
-}	
 
 
-
-
- 
 
 
 
