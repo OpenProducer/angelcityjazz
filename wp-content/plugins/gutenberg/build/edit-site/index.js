@@ -22207,7 +22207,13 @@ function GridItem({
     as: "span",
     gap: 0,
     justify: "left"
-  }, item.title, item.type === PATTERNS && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Tooltip, {
+  }, item.type === PATTERNS ? item.title : (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+    variant: "link",
+    onClick: onClick // Required for the grid's roving tab index system.
+    // See https://github.com/WordPress/gutenberg/pull/51898#discussion_r1243399243.
+    ,
+    tabIndex: "-1"
+  }, item.title), item.type === PATTERNS && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Tooltip, {
     position: "top center",
     text: (0,external_wp_i18n_namespaceObject.__)('Theme patterns cannot be edited.')
   }, (0,external_wp_element_namespaceObject.createElement)("span", {

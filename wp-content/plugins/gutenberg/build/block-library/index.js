@@ -58196,6 +58196,9 @@ const video_init = () => initBlock({
  */
 
 
+
+
+
 function FootnotesEdit({
   context: {
     postType,
@@ -58204,7 +58207,20 @@ function FootnotesEdit({
 }) {
   const [meta, updateMeta] = (0,external_wp_coreData_namespaceObject.useEntityProp)('postType', postType, 'meta', postId);
   const footnotes = meta?.footnotes ? JSON.parse(meta.footnotes) : [];
-  return (0,external_wp_element_namespaceObject.createElement)("ol", { ...(0,external_wp_blockEditor_namespaceObject.useBlockProps)()
+  const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)();
+
+  if (!footnotes.length) {
+    return (0,external_wp_element_namespaceObject.createElement)("div", { ...blockProps
+    }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Placeholder, {
+      icon: (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockIcon, {
+        icon: format_list_numbered
+      }),
+      label: (0,external_wp_i18n_namespaceObject.__)('Footnotes'),
+      instructions: (0,external_wp_i18n_namespaceObject.__)('Footnotes found in blocks within this document will be displayed here.')
+    }));
+  }
+
+  return (0,external_wp_element_namespaceObject.createElement)("ol", { ...blockProps
   }, footnotes.map(({
     id,
     content
@@ -58354,7 +58370,6 @@ const {
   supports: {
     html: false,
     multiple: false,
-    inserter: false,
     reusable: false
   },
   style: "wp-block-footnotes"
@@ -58474,7 +58489,6 @@ const footnotes_metadata = {
   supports: {
     html: false,
     multiple: false,
-    inserter: false,
     reusable: false
   },
   style: "wp-block-footnotes"

@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'quadlayers/autocomplete-woocommerce-orders',
-        'pretty_version' => 'v3.1.0',
-        'version' => '3.1.0.0',
-        'reference' => '7eea7108936186d2b3a6cd229ddbe872b75c7a69',
+        'pretty_version' => 'v3.1.1',
+        'version' => '3.1.1.0',
+        'reference' => 'bf7b80ff4fd6253911f5dbbb396624af2147beb1',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'automattic/jetpack-assets' => array(
-            'pretty_version' => 'v1.18.4',
-            'version' => '1.18.4.0',
-            'reference' => 'fbb76cd3d88ef31ba65d3fa0d3bfed155c016d05',
+            'pretty_version' => 'v1.18.7',
+            'version' => '1.18.7.0',
+            'reference' => '094d19cc5649b8a9e5d12beecee9371ff0ea4279',
             'type' => 'jetpack-library',
             'install_path' => __DIR__ . '/../../jetpack_vendor/automattic/jetpack-assets',
             'aliases' => array(),
@@ -38,9 +38,9 @@
             'dev_requirement' => false,
         ),
         'quadlayers/autocomplete-woocommerce-orders' => array(
-            'pretty_version' => 'v3.1.0',
-            'version' => '3.1.0.0',
-            'reference' => '7eea7108936186d2b3a6cd229ddbe872b75c7a69',
+            'pretty_version' => 'v3.1.1',
+            'version' => '3.1.1.0',
+            'reference' => 'bf7b80ff4fd6253911f5dbbb396624af2147beb1',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -65,9 +65,9 @@
             'dev_requirement' => false,
         ),
         'quadlayers/wp-notice-plugin-required' => array(
-            'pretty_version' => '2.0.6',
-            'version' => '2.0.6.0',
-            'reference' => 'fca08afa7ec432f90068901307e692fe419374fb',
+            'pretty_version' => '2.0.7',
+            'version' => '2.0.7.0',
+            'reference' => 'fd3d10dbdb39be738c3ef320e43cb7cd4e59e071',
             'type' => 'jetpack-library',
             'install_path' => __DIR__ . '/../../jetpack_vendor/quadlayers/wp-notice-plugin-required',
             'aliases' => array(),
