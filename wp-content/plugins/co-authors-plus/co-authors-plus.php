@@ -3,7 +3,7 @@
 Plugin Name: Co-Authors Plus
 Plugin URI: http://wordpress.org/extend/plugins/co-authors-plus/
 Description: Allows multiple authors to be assigned to a post. This plugin is an extended version of the Co-Authors plugin developed by Weston Ruter.
-Version: 3.5.10
+Version: 3.5.13
 Author: Mohammad Jangda, Daniel Bachhuber, Automattic
 Copyright: 2008-2015 Shared and distributed between Mohammad Jangda, Daniel Bachhuber, Weston Ruter
 
@@ -32,7 +32,7 @@ Co-author - in the context of a single post, a guest author or user assigned to 
 Author - user with the role of author
 */
 
-define( 'COAUTHORS_PLUS_VERSION', '3.5.10' );
+define( 'COAUTHORS_PLUS_VERSION', '3.5.13' );
 
 require_once dirname( __FILE__ ) . '/template-tags.php';
 require_once dirname( __FILE__ ) . '/deprecated.php';
@@ -56,8 +56,6 @@ class CoAuthors_Plus {
 	var $coauthors_meta_box_name   = 'coauthorsdiv';
 	var $force_guest_authors       = false;
 
-	var $gravatar_size = 25;
-
 	var $_pages_whitelist = array( 'post.php', 'post-new.php', 'edit.php' );
 
 	var $supported_post_types = array();
@@ -67,6 +65,11 @@ class CoAuthors_Plus {
 	var $having_terms = '';
 
 	var $to_be_filtered_caps = array();
+
+	/**
+	 * @var CoAuthors_Guest_Authors
+	 */
+	public $guest_authors;
 
 	/**
 	 * __construct()
@@ -105,6 +108,9 @@ class CoAuthors_Plus {
 		add_action( 'add_meta_boxes', array( $this, 'add_coauthors_box' ) );
 		add_action( 'add_meta_boxes', array( $this, 'remove_authors_box' ) );
 
+		// Refresh the nonce after the user re-authenticates due to a wp_auth_check() to avoid failing check_admin_referrer()
+		add_action( 'wp_refresh_nonces', array( $this, 'refresh_coauthors_nonce' ), 20, 1 );
+
 		// Removes the co-author dropdown from the post quick edit
 		add_action( 'admin_head', array( $this, 'remove_quick_edit_authors_box' ) );
 
@@ -141,6 +147,9 @@ class CoAuthors_Plus {
 
 		// Block editor assets for the sidebar plugin.
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_sidebar_plugin_assets' ) );
+
+		// REST API: Depending on user capabilities, hide author term description.
+		add_action( 'rest_prepare_author', array( $this, 'conditionally_hide_author_term_description' ) );
 	}
 
 	/**
@@ -222,8 +231,8 @@ class CoAuthors_Plus {
 		$args = array(
 			'hierarchical' => false,
 			'labels'       => array(
-				'name'      => __( 'Authors' ),
-				'all_items' => __( 'All Authors' ),
+				'name'      => __( 'Authors', 'co-authors-plus' ),
+				'all_items' => __( 'All Authors', 'co-authors-plus' ),
 			),
 			'query_var'    => false,
 			'rewrite'      => false,
@@ -231,6 +240,8 @@ class CoAuthors_Plus {
 			'sort'         => true,
 			'args'         => array( 'orderby' => 'term_order' ),
 			'show_ui'      => false,
+			'show_in_rest' => true,
+			'rest_base'    => 'coauthors',
 		);
 
 		// If we use the nasty SQL query, we need our custom callback. Otherwise, we still need to flush cache.
@@ -436,10 +447,14 @@ class CoAuthors_Plus {
 				<?php
 				foreach ( $coauthors as $coauthor ) :
 					$count++;
-					$avatar_url = get_avatar_url( $coauthor->ID );
+					$user_type = 'guest-user';
+					if ( $coauthor instanceof WP_User ) {
+						$user_type = 'wp-user';
+					}
+					$avatar_url = get_avatar_url( $coauthor->ID, array( 'user_type' => $user_type ) );
 					?>
 					<li>
-						<?php echo get_avatar( $coauthor->ID, $this->gravatar_size ); ?>
+						<?php echo get_avatar( $coauthor->ID ); ?>
 						<span id="<?php echo esc_attr( 'coauthor-readonly-' . $count ); ?>" class="coauthor-tag">
 							<input type="text" name="coauthorsinput[]" readonly="readonly" value="<?php echo esc_attr( $coauthor->display_name ); ?>" />
 							<input type="text" name="coauthors[]" value="<?php echo esc_attr( $coauthor->user_login ); ?>" />
@@ -453,7 +468,7 @@ class CoAuthors_Plus {
 				?>
 				</ul>
 				<div class="clear"></div>
-				<p><?php echo wp_kses( __( '<strong>Note:</strong> To edit post authors, please enable javascript or use a javascript-capable browser', 'co-authors-plus' ), array( 'strong' => array() ) ); ?></p>
+				<p><?php echo wp_kses( __( '<strong>Note:</strong> To edit post authors, please enable JavaScript or use a JavaScript-capable browser', 'co-authors-plus' ), array( 'strong' => array() ) ); ?></p>
 			</div>
 			<?php
 		endif;
@@ -466,6 +481,15 @@ class CoAuthors_Plus {
 		<?php wp_nonce_field( 'coauthors-edit', 'coauthors-nonce' ); ?>
 
 		<?php
+	}
+
+	/**
+	 * Filters the Heartbeat response to refresh the coauthors-nonce
+	 */
+	public function refresh_coauthors_nonce( $response ) {
+		$response['wp-refresh-post-nonces']['replace']['coauthors-nonce']  = wp_create_nonce( 'coauthors-edit' );
+
+		return $response;
 	}
 
 	/**
@@ -1192,7 +1216,7 @@ class CoAuthors_Plus {
 
 		if ( is_object( $authordata ) || ! empty( $term ) ) {
 			$wp_query->queried_object    = $authordata;
-			$wp_query->queried_object_id = $authordata->ID;
+			$wp_query->queried_object_id = (int) $authordata->ID;
 			if ( ! is_paged() ) {
 				add_filter( 'pre_handle_404', '__return_true' );
 			}
@@ -1778,7 +1802,8 @@ class CoAuthors_Plus {
 		$author_slug = sanitize_user( get_query_var( 'author_name' ) );
 		$author      = $this->get_coauthor_by( 'user_nicename', $author_slug );
 
-		return sprintf( __( 'Author: %s' ), $author->display_name );
+		/* translators: Author display name. */
+		return sprintf( __( 'Author: %s', 'co-authors-plus' ), $author->display_name );
 	}
 
 	/**
@@ -1818,20 +1843,73 @@ class CoAuthors_Plus {
 	 * @return string Avatar URL
 	 */
 	public function filter_pre_get_avatar_data_url( $args, $id ) {
+		global $wp_current_filter;
+
 		if ( ! $id || ! $this->is_guest_authors_enabled() || ! is_numeric( $id ) || isset( $args['url'] ) ) {
 			return $args;
 		}
+
+		// Do not filter the icon in the admin bar
+		if ( doing_filter( 'admin_bar_menu' ) ) {
+			return $args;
+		}
+
+		// Do not filter when we have a WordPress user sent from CAP meta box
+		if ( isset( $args['user_type'] ) && 'wp-user' === $args['user_type'] ) {
+			return $args;
+		}
+
+		// Do not filter when on the user screen
+		$current_screen = get_current_screen();
+		if ( isset( $current_screen->parent_base ) && 'users' == $current_screen->parent_base ) {
+			return $args;
+		}
+
+
 		$coauthor = $this->get_coauthor_by( 'id', $id );
 		if ( false !== $coauthor && isset( $coauthor->type ) && 'guest-author' === $coauthor->type ) {
 			if ( has_post_thumbnail( $id ) ) {
-				$args['url'] = get_the_post_thumbnail_url( $id, $this->gravatar_size );
+				$args['url'] = get_the_post_thumbnail_url( $id, array( $args['width'], $args['height'] ) );
 			} elseif ( isset( $coauthor->user_email ) ) {
-				$args['url'] = get_avatar_url( $coauthor->user_email );
+				$args['url'] = get_avatar_url( $coauthor->user_email, $args );
 			} else {
-				$args['url'] = get_avatar_url( '' ); // Fallback to default.
+				$args['url'] = get_avatar_url( '', $args ); // Fallback to default.
 			}
 		}
 		return $args;
+	}
+
+	/**
+	 * Conditionally Hide Author Term Description
+	 *
+	 * If the current user does not have the required capability,
+	 * hide the author term description by unsetting it.
+	 *
+	 * @link https://github.com/Automattic/Co-Authors-Plus/issues/930
+	 * @param WP_REST_Response $response Response for an individual author taxonomy term.
+	 * @return WP_REST_Response $response Same response, possibly mutated to eliminate value of description.
+	 */
+	public function conditionally_hide_author_term_description( WP_REST_Response $response ) : WP_REST_Response {
+		$capability = apply_filters(
+			'coauthors_rest_view_description_cap',
+			'edit_posts'
+		);
+
+		if ( current_user_can( $capability ) ) {
+			return $response;
+		}
+
+		$data = $response->get_data();
+
+		if ( ! is_array( $data ) || ! array_key_exists( 'description', $data ) ) {
+			return $response;
+		}
+
+		unset( $data['description'] );
+
+		$response->set_data( $data );
+
+		return $response;
 	}
 }
 
@@ -1859,17 +1937,17 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 
 			// The comment was left by the co-author
 			if ( $comment->user_id == $author->ID ) {
-				return false;
+				continue;
 			}
 
 			// The co-author moderated a comment on his own post
 			if ( $author->ID == get_current_user_id() ) {
-				return false;
+				continue;
 			}
 
 			// If there's no email to send the comment to
 			if ( '' == $author->user_email ) {
-				return false;
+				continue;
 			}
 
 			$comment_author_domain = @gethostbyaddr( $comment->comment_author_IP );
@@ -1883,43 +1961,55 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 			}
 
 			if ( 'comment' == $comment_type ) {
-				$notify_message = sprintf( __( 'New comment on your post "%s"' ), $post->post_title ) . "\r\n";
+				/* translators: Post title. */
+				$notify_message = sprintf( __( 'New comment on your post "%s"', 'co-authors-plus' ), $post->post_title ) . "\r\n";
 				/* translators: 1: comment author, 2: author IP, 3: author domain */
-				$notify_message .= sprintf( __( 'Author : %1$s (IP: %2$s , %3$s)' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
-				$notify_message .= sprintf( __( 'E-mail : %s' ), $comment->comment_author_email ) . "\r\n";
-				$notify_message .= sprintf( __( 'URL    : %s' ), $comment->comment_author_url ) . "\r\n";
-				$notify_message .= sprintf( __( 'Whois  : http://whois.arin.net/rest/ip/%s' ), $comment->comment_author_IP ) . "\r\n";
-				$notify_message .= __( 'Comment: ' ) . "\r\n" . $comment->comment_content . "\r\n\r\n";
-				$notify_message .= __( 'You can see all comments on this post here: ' ) . "\r\n";
+				$notify_message .= sprintf( __( 'Author : %1$s (IP: %2$s , %3$s)', 'co-authors-plus' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
+				/* translators: Comment author emal address. */
+				$notify_message .= sprintf( __( 'Email : %s', 'co-authors-plus' ), $comment->comment_author_email ) . "\r\n";
+				/* translators: Comment author URL. */
+				$notify_message .= sprintf( __( 'URL    : %s', 'co-authors-plus' ), $comment->comment_author_url ) . "\r\n";
+				/* translators: Comment author IP address. */
+				$notify_message .= sprintf( __( 'Whois  : http://whois.arin.net/rest/ip/%s', 'co-authors-plus' ), $comment->comment_author_IP ) . "\r\n";
+				$notify_message .= __( 'Comment: ', 'co-authors-plus' ) . "\r\n" . $comment->comment_content . "\r\n\r\n";
+				$notify_message .= __( 'You can see all comments on this post here: ', 'co-authors-plus' ) . "\r\n";
 				/* translators: 1: blog name, 2: post title */
-				$subject = sprintf( __( '[%1$s] Comment: "%2$s"' ), $blogname, $post->post_title );
+				$subject = sprintf( __( '[%1$s] Comment: "%2$s"', 'co-authors-plus' ), $blogname, $post->post_title );
 			} elseif ( 'trackback' == $comment_type ) {
-				$notify_message = sprintf( __( 'New trackback on your post "%s"' ), $post->post_title ) . "\r\n";
-				/* translators: 1: website name, 2: author IP, 3: author domain */
-				$notify_message .= sprintf( __( 'Website: %1$s (IP: %2$s , %3$s)' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
-				$notify_message .= sprintf( __( 'URL    : %s' ), $comment->comment_author_url ) . "\r\n";
-				$notify_message .= __( 'Excerpt: ' ) . "\r\n" . $comment->comment_content . "\r\n\r\n";
-				$notify_message .= __( 'You can see all trackbacks on this post here: ' ) . "\r\n";
-				/* translators: 1: blog name, 2: post title */
-				$subject = sprintf( __( '[%1$s] Trackback: "%2$s"' ), $blogname, $post->post_title );
-			} elseif ( 'pingback' == $comment_type ) {
-				$notify_message = sprintf( __( 'New pingback on your post "%s"' ), $post->post_title ) . "\r\n";
+				/* translators: Post title. */
+				$notify_message = sprintf( __( 'New trackback on your post "%s"', 'co-authors-plus' ), $post->post_title ) . "\r\n";
 				/* translators: 1: comment author, 2: author IP, 3: author domain */
-				$notify_message .= sprintf( __( 'Website: %1$s (IP: %2$s , %3$s)' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
-				$notify_message .= sprintf( __( 'URL    : %s' ), $comment->comment_author_url ) . "\r\n";
-				$notify_message .= __( 'Excerpt: ' ) . "\r\n" . sprintf( '[...] %s [...]', $comment->comment_content ) . "\r\n\r\n";
-				$notify_message .= __( 'You can see all pingbacks on this post here: ' ) . "\r\n";
+				$notify_message .= sprintf( __( 'Website: %1$s (IP: %2$s , %3$s)', 'co-authors-plus' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
+				/* translators: Comment author URL. */
+				$notify_message .= sprintf( __( 'URL    : %s', 'co-authors-plus' ), $comment->comment_author_url ) . "\r\n";
+				$notify_message .= __( 'Excerpt: ', 'co-authors-plus' ) . "\r\n" . $comment->comment_content . "\r\n\r\n";
+				$notify_message .= __( 'You can see all trackbacks on this post here: ', 'co-authors-plus' ) . "\r\n";
 				/* translators: 1: blog name, 2: post title */
-				$subject = sprintf( __( '[%1$s] Pingback: "%2$s"' ), $blogname, $post->post_title );
+				$subject = sprintf( __( '[%1$s] Trackback: "%2$s"', 'co-authors-plus' ), $blogname, $post->post_title );
+			} elseif ( 'pingback' == $comment_type ) {
+				/* translators: Post title. */
+				$notify_message = sprintf( __( 'New pingback on your post "%s"', 'co-authors-plus' ), $post->post_title ) . "\r\n";
+				/* translators: 1: comment author, 2: author IP, 3: author domain */
+				$notify_message .= sprintf( __( 'Website: %1$s (IP: %2$s , %3$s)', 'co-authors-plus' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
+				/* translators: Comment author URL. */
+				$notify_message .= sprintf( __( 'URL    : %s', 'co-authors-plus' ), $comment->comment_author_url ) . "\r\n";
+				$notify_message .= __( 'Excerpt: ', 'co-authors-plus' ) . "\r\n" . sprintf( '[...] %s [...]', $comment->comment_content ) . "\r\n\r\n";
+				$notify_message .= __( 'You can see all pingbacks on this post here: ', 'co-authors-plus' ) . "\r\n";
+				/* translators: 1: blog name, 2: post title */
+				$subject = sprintf( __( '[%1$s] Pingback: "%2$s"', 'co-authors-plus' ), $blogname, $post->post_title );
 			}
 			$notify_message .= get_permalink( $comment->comment_post_ID ) . "#comments\r\n\r\n";
-			$notify_message .= sprintf( __( 'Permalink: %s' ), get_permalink( $comment->comment_post_ID ) . '#comment-' . $comment_id ) . "\r\n";
+			/* translators: Comment URL. */
+			$notify_message .= sprintf( __( 'Permalink: %s', 'co-authors-plus' ), get_permalink( $comment->comment_post_ID ) . '#comment-' . $comment_id ) . "\r\n";
 			if ( EMPTY_TRASH_DAYS ) {
-				$notify_message .= sprintf( __( 'Trash it: %s' ), admin_url( "comment.php?action=trash&c=$comment_id" ) ) . "\r\n";
+				/* translators: URL for trashing a comment. */
+				$notify_message .= sprintf( __( 'Trash it: %s', 'co-authors-plus' ), admin_url( "comment.php?action=trash&c=$comment_id" ) ) . "\r\n";
 			} else {
-				$notify_message .= sprintf( __( 'Delete it: %s' ), admin_url( "comment.php?action=delete&c=$comment_id" ) ) . "\r\n";
+				/* translators: URL for deleting a comment. */
+				$notify_message .= sprintf( __( 'Delete it: %s', 'co-authors-plus' ), admin_url( "comment.php?action=delete&c=$comment_id" ) ) . "\r\n";
 			}
-			$notify_message .= sprintf( __( 'Spam it: %s' ), admin_url( "comment.php?action=spam&c=$comment_id" ) ) . "\r\n";
+			/* translators: URL for marking a comment as spam. */
+			$notify_message .= sprintf( __( 'Spam it: %s', 'co-authors-plus' ), admin_url( "comment.php?action=spam&c=$comment_id" ) ) . "\r\n";
 
 			$wp_email = 'wordpress@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) ); // phpcs:ignore
 

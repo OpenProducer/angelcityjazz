@@ -2,20 +2,20 @@
 # This file is distributed under the same license as the Facebook for WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Facebook for WooCommerce 3.0.29\n"
+"Project-Id-Version: Facebook for WooCommerce 3.0.31\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/facebook-for-woocommerce\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-07-18T15:16:33+00:00\n"
+"POT-Creation-Date: 2023-08-09T12:04:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: facebook-for-woocommerce\n"
 
 #. Plugin Name of the plugin
-#: class-wc-facebookcommerce.php:737
+#: class-wc-facebookcommerce.php:738
 #: facebook-commerce.php:198
 #: includes/Admin.php:1468
 #: includes/Admin/Settings.php:111
@@ -82,11 +82,12 @@ msgstr ""
 msgid "Choose from the most used %s"
 msgstr ""
 
-#: class-wc-facebookcommerce.php:379
-msgid "Go to %s"
+#. translators: Backlink item label
+#: class-wc-facebookcommerce.php:380
+msgid "&larr; Go to %s"
 msgstr ""
 
-#: class-wc-facebookcommerce.php:514
+#: class-wc-facebookcommerce.php:515
 msgid "Cannot create the API instance because the access token is missing."
 msgstr ""
 
@@ -410,7 +411,7 @@ msgid "Update default Google product category"
 msgstr ""
 
 #: includes/Admin/Product_Categories.php:158
-msgid "Facebook catalogs now support category specific fields, to make best use of them you need to select a category. WooCommerce uses the google taxonomy as it is the most widely accepted form of categorisation."
+msgid "Facebook catalogs now support category specific fields, to make best use of them you need to select a category. WooCommerce uses the Google taxonomy as it is the most widely accepted form of categorisation. If no Google product category is chosen, the WooCommerce product category will be used instead."
 msgstr ""
 
 #: includes/Admin/Product_Categories.php:206
@@ -446,15 +447,19 @@ msgstr ""
 msgid "Variant IDs:"
 msgstr ""
 
-#: includes/Admin/Product_Sync_Meta_Box.php:126
-msgid "Reset Facebook metadata"
+#: includes/Admin/Product_Sync_Meta_Box.php:123
+msgid "Product title in all capital letters can lead to the server rejecting the product. To ensure successful product synchronization, please convert the product title to a sentence case."
 msgstr ""
 
 #: includes/Admin/Product_Sync_Meta_Box.php:131
+msgid "Reset Facebook metadata"
+msgstr ""
+
+#: includes/Admin/Product_Sync_Meta_Box.php:136
 msgid "Delete product(s) on Facebook"
 msgstr ""
 
-#: includes/Admin/Product_Sync_Meta_Box.php:143
+#: includes/Admin/Product_Sync_Meta_Box.php:148
 msgid "This product is not yet synced to Facebook."
 msgstr ""
 
@@ -961,7 +966,7 @@ msgstr ""
 msgid "Page %s not authorized."
 msgstr ""
 
-#: includes/Handlers/Connection.php:1291
+#: includes/Handlers/Connection.php:1300
 msgid "You do not have permission to finish App Store login."
 msgstr ""
 
@@ -1019,15 +1024,11 @@ msgstr ""
 msgid "Product description is too long. Maximum allowed length is 5000 characters."
 msgstr ""
 
-#: includes/ProductSync/ProductValidator.php:395
-msgid "Product title is all capital letters. Please change the title to sentence case in order to allow synchronization of your product."
-msgstr ""
-
-#: includes/ProductSync/ProductValidator.php:398
+#: includes/ProductSync/ProductValidator.php:394
 msgid "Product title is too long. Maximum allowed length is 150 characters."
 msgstr ""
 
-#: includes/ProductSync/ProductValidator.php:422
+#: includes/ProductSync/ProductValidator.php:418
 msgid "Too many attributes selected for product. Use 4 or less."
 msgstr ""
 
