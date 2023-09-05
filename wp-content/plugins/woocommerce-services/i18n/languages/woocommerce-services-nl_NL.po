@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"X-Generator: GlotPress/4.0.0-alpha.7\n"
 "Language: nl\n"
 "Project-Id-Version: Plugins - WooCommerce Shipping &amp; Tax - Stable (latest release)\n"
 
@@ -86,7 +86,7 @@ msgstr "De dienst selectie opslaan van de vorige transactie."
 msgid "Service Selection"
 msgstr "Dienst selectie"
 
-#: classes/class-wc-connect-taxjar-integration.php:394
+#: classes/class-wc-connect-taxjar-integration.php:396
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "%s is not formatted correctly."
 msgstr "%s is niet correct geformatteerd."
@@ -475,7 +475,7 @@ msgstr "Ongeldige WooCommerce Shipping & Tax dienst slug geleverd"
 msgid "WooCommerce Shipping & Tax"
 msgstr "WooCommerce Shipping & Tax"
 
-#: classes/class-wc-connect-taxjar-integration.php:386 i18n/strings.php:148
+#: classes/class-wc-connect-taxjar-integration.php:388 i18n/strings.php:148
 #: i18n/strings.php:340
 msgid "ZIP/Postal code"
 msgstr "Postcode"
@@ -1355,12 +1355,12 @@ msgstr "Er zijn geen locaties die aan deze parameters voldoen."
 msgid "2 character continent code."
 msgstr "2 karakter continent code."
 
-#: classes/class-wc-connect-taxjar-integration.php:396
+#: classes/class-wc-connect-taxjar-integration.php:398
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "Invalid %s entered."
 msgstr "Ongeldige %s ingevoerd."
 
-#: classes/class-wc-connect-taxjar-integration.php:392
+#: classes/class-wc-connect-taxjar-integration.php:394
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "%s does not match the selected state."
 msgstr "%s komt niet overeen met de geselecteerde status."
@@ -2130,7 +2130,7 @@ msgstr "Kan de instellingen niet updaten. %s"
 msgid "Packaging"
 msgstr "Verpakking"
 
-#: woocommerce-services.php:1617
+#: woocommerce-services.php:1615
 msgid "Section not loading? Visit the <a href=\"%s\">status page</a> for troubleshooting steps."
 msgstr "Sectie niet geladen? Bezoek de <a href=\"%s\">statuspagina</a> voor stappen om problemen op te lossen."
 
@@ -2313,7 +2313,7 @@ msgstr "Stel de basislocatie in bij WooCommerce Instellingen > Algemeen"
 msgid "WooCommerce %1$s or higher is required (You are running %2$s)"
 msgstr "WooCommerce %1$s of nieuwer is vereist (Je gebruikt %2$s)"
 
-#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1653
+#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1651
 msgid "Dismiss this notice"
 msgstr "Negeer dit bericht"
 

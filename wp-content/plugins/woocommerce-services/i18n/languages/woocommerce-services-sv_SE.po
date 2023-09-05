@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"X-Generator: GlotPress/4.0.0-alpha.7\n"
 "Language: sv_SE\n"
 "Project-Id-Version: Plugins - WooCommerce Shipping &amp; Tax - Stable (latest release)\n"
 
@@ -86,7 +86,7 @@ msgstr ""
 msgid "Service Selection"
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:394
+#: classes/class-wc-connect-taxjar-integration.php:396
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "%s is not formatted correctly."
 msgstr ""
@@ -475,7 +475,7 @@ msgstr ""
 msgid "WooCommerce Shipping & Tax"
 msgstr "WooCommerce Shipping & Tax"
 
-#: classes/class-wc-connect-taxjar-integration.php:386 i18n/strings.php:148
+#: classes/class-wc-connect-taxjar-integration.php:388 i18n/strings.php:148
 #: i18n/strings.php:340
 msgid "ZIP/Postal code"
 msgstr "Postnummer"
@@ -1355,12 +1355,12 @@ msgstr "Det finns inga platser som matchar dessa parametrar."
 msgid "2 character continent code."
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:396
+#: classes/class-wc-connect-taxjar-integration.php:398
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "Invalid %s entered."
 msgstr "Ogiltigt %s angivet."
 
-#: classes/class-wc-connect-taxjar-integration.php:392
+#: classes/class-wc-connect-taxjar-integration.php:394
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "%s does not match the selected state."
 msgstr "%s matchar inte den valda delstaten."
@@ -2130,7 +2130,7 @@ msgstr "Det gick inte att uppdatera inställningarna. %s"
 msgid "Packaging"
 msgstr "Förpackning"
 
-#: woocommerce-services.php:1617
+#: woocommerce-services.php:1615
 msgid "Section not loading? Visit the <a href=\"%s\">status page</a> for troubleshooting steps."
 msgstr ""
 
@@ -2313,7 +2313,7 @@ msgstr "Ställ in basplats i WooCommerce-inställningar > Allmänt"
 msgid "WooCommerce %1$s or higher is required (You are running %2$s)"
 msgstr "WooCommerce %1$s eller högre krävs (Du kör %2$s)"
 
-#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1653
+#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1651
 msgid "Dismiss this notice"
 msgstr "Avfärda denna notis"
 

@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Plugins - WooCommerce Shipping &amp; Tax - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-03-15 11:29:36+0000\n"
+"PO-Revision-Date: 2023-07-25 13:50:01+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n % 100 >= 2 && n % 100 <= 19) ? 1 : 2);\n"
-"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"X-Generator: GlotPress/4.0.0-alpha.7\n"
 "Language: ro\n"
 "Project-Id-Version: Plugins - WooCommerce Shipping &amp; Tax - Stable (latest release)\n"
 
@@ -86,7 +86,7 @@ msgstr ""
 msgid "Service Selection"
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:394
+#: classes/class-wc-connect-taxjar-integration.php:396
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "%s is not formatted correctly."
 msgstr ""
@@ -475,7 +475,7 @@ msgstr ""
 msgid "WooCommerce Shipping & Tax"
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:386 i18n/strings.php:148
+#: classes/class-wc-connect-taxjar-integration.php:388 i18n/strings.php:148
 #: i18n/strings.php:340
 msgid "ZIP/Postal code"
 msgstr ""
@@ -1362,12 +1362,12 @@ msgstr "Nu există locații care să se potrivească cu acești parametri."
 msgid "2 character continent code."
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:396
+#: classes/class-wc-connect-taxjar-integration.php:398
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "Invalid %s entered."
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:392
+#: classes/class-wc-connect-taxjar-integration.php:394
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "%s does not match the selected state."
 msgstr ""
@@ -2005,7 +2005,7 @@ msgstr "Adresă"
 #: classes/class-wc-connect-functions.php:170 i18n/strings.php:146
 #: i18n/strings.php:336
 msgid "City"
-msgstr "Oraș"
+msgstr "Localitate"
 
 #: i18n/strings.php:133 i18n/strings.php:134 i18n/strings.php:337
 #: i18n/strings.php:339
@@ -2141,7 +2141,7 @@ msgstr ""
 msgid "Packaging"
 msgstr ""
 
-#: woocommerce-services.php:1617
+#: woocommerce-services.php:1615
 msgid "Section not loading? Visit the <a href=\"%s\">status page</a> for troubleshooting steps."
 msgstr ""
 
@@ -2324,7 +2324,7 @@ msgstr ""
 msgid "WooCommerce %1$s or higher is required (You are running %2$s)"
 msgstr ""
 
-#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1653
+#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1651
 msgid "Dismiss this notice"
 msgstr ""
 

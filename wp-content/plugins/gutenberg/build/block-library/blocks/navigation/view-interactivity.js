@@ -10,7 +10,6 @@ const external_wp_interactivity_namespaceObject = window["wp"]["interactivity"];
  */
 
 const focusableSelectors = ['a[href]', 'input:not([disabled]):not([type="hidden"]):not([aria-hidden])', 'select:not([disabled]):not([aria-hidden])', 'textarea:not([disabled]):not([aria-hidden])', 'button:not([disabled]):not([aria-hidden])', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
-
 const openMenu = (store, menuOpenedOn) => {
   const {
     context,
@@ -19,34 +18,29 @@ const openMenu = (store, menuOpenedOn) => {
   } = store;
   selectors.core.navigation.menuOpenedBy(store)[menuOpenedOn] = true;
   context.core.navigation.previousFocus = ref;
-
   if (context.core.navigation.type === 'overlay') {
     // Add a `has-modal-open` class to the <html> root.
     document.documentElement.classList.add('has-modal-open');
   }
 };
-
 const closeMenu = (store, menuClosedOn) => {
   const {
     context,
     selectors
   } = store;
-  selectors.core.navigation.menuOpenedBy(store)[menuClosedOn] = false; // Check if the menu is still open or not.
-
+  selectors.core.navigation.menuOpenedBy(store)[menuClosedOn] = false;
+  // Check if the menu is still open or not.
   if (!selectors.core.navigation.isMenuOpen(store)) {
     if (context.core.navigation.modal?.contains(window.document.activeElement)) {
       context.core.navigation.previousFocus.focus();
     }
-
     context.core.navigation.modal = null;
     context.core.navigation.previousFocus = null;
-
     if (context.core.navigation.type === 'overlay') {
       document.documentElement.classList.remove('has-modal-open');
     }
   }
 };
-
 (0,external_wp_interactivity_namespaceObject.store)({
   effects: {
     core: {
@@ -57,7 +51,6 @@ const closeMenu = (store, menuClosedOn) => {
             selectors,
             ref
           } = store;
-
           if (selectors.core.navigation.isMenuOpen(store)) {
             const focusableElements = ref.querySelectorAll(focusableSelectors);
             context.core.navigation.modal = ref;
@@ -70,7 +63,6 @@ const closeMenu = (store, menuClosedOn) => {
             selectors,
             ref
           } = store;
-
           if (selectors.core.navigation.isMenuOpen(store)) {
             ref.querySelector('.wp-block-navigation-item > *:first-child').focus();
           }
@@ -90,7 +82,8 @@ const closeMenu = (store, menuClosedOn) => {
         },
         isMenuOpen: ({
           context
-        }) => // The menu is opened if either `click`, `hover` or `focus` is true.
+        }) =>
+        // The menu is opened if either `click`, `hover` or `focus` is true.
         Object.values(context.core.navigation[context.core.navigation.type === 'overlay' ? 'overlayOpenedBy' : 'submenuOpenedBy']).filter(Boolean).length > 0,
         menuOpenedBy: ({
           context
@@ -105,33 +98,28 @@ const closeMenu = (store, menuClosedOn) => {
           const {
             navigation
           } = store.context.core;
-          if (navigation.type === 'submenu' && // Only open on hover if the overlay is closed.
+          if (navigation.type === 'submenu' &&
+          // Only open on hover if the overlay is closed.
           Object.values(navigation.overlayOpenedBy || {}).filter(Boolean).length === 0) openMenu(store, 'hover');
         },
-
         closeMenuOnHover(store) {
           closeMenu(store, 'hover');
         },
-
         openMenuOnClick(store) {
           openMenu(store, 'click');
         },
-
         closeMenuOnClick(store) {
           closeMenu(store, 'click');
           closeMenu(store, 'focus');
         },
-
         openMenuOnFocus(store) {
           openMenu(store, 'focus');
         },
-
         toggleMenuOnClick: store => {
           const {
             selectors
           } = store;
           const menuOpenedBy = selectors.core.navigation.menuOpenedBy(store);
-
           if (menuOpenedBy.click || menuOpenedBy.focus) {
             closeMenu(store, 'click');
             closeMenu(store, 'focus');
@@ -145,16 +133,15 @@ const closeMenu = (store, menuClosedOn) => {
             selectors,
             event
           } = store;
-
           if (selectors.core.navigation.menuOpenedBy(store).click) {
             // If Escape close the menu.
             if (event?.key === 'Escape') {
               closeMenu(store, 'click');
               closeMenu(store, 'focus');
               return;
-            } // Trap focus if it is an overlay (main menu).
+            }
 
-
+            // Trap focus if it is an overlay (main menu).
             if (context.core.navigation.type === 'overlay' && event.key === 'Tab') {
               // If shift + tab it change the direction.
               if (event.shiftKey && window.document.activeElement === context.core.navigation.firstFocusableElement) {
@@ -171,12 +158,12 @@ const closeMenu = (store, menuClosedOn) => {
           const {
             context,
             event
-          } = store; // If focus is outside modal, and in the document, close menu
+          } = store;
+          // If focus is outside modal, and in the document, close menu
           // event.target === The element losing focus
           // event.relatedTarget === The element receiving focus (if any)
           // When focusout is outsite the document,
           // `window.document.activeElement` doesn't change.
-
           if (!context.core.navigation.modal?.contains(event.relatedTarget) && event.target !== window.document.activeElement) {
             closeMenu(store, 'click');
             closeMenu(store, 'focus');

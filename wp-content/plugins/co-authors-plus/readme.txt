@@ -1,9 +1,12 @@
 === Co-Authors Plus ===
-Contributors: batmoo, danielbachhuber, automattic
-Tags: authors, users, multiple authors, coauthors, multi-author, publishing
-Tested up to: 6.2
+Contributors: batmoo, danielbachhuber, automattic, GaryJ
+Tags: authors, users, multiple authors, co-authors, multi-author, publishing
 Requires at least: 4.1
-Stable tag: 3.5.13
+Tested up to: 6.3
+Stable tag: 3.5.15
+Requires PHP: 5.6
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Assign multiple bylines to posts, pages, and custom post types via a search-as-you-type input box
 

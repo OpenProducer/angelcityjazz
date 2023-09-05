@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"X-Generator: GlotPress/4.0.0-alpha.7\n"
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - WooCommerce Shipping &amp; Tax - Stable (latest release)\n"
 
@@ -86,7 +86,7 @@ msgstr ""
 msgid "Service Selection"
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:394
+#: classes/class-wc-connect-taxjar-integration.php:396
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "%s is not formatted correctly."
 msgstr ""
@@ -475,7 +475,7 @@ msgstr ""
 msgid "WooCommerce Shipping & Tax"
 msgstr "WooCommerce の送料と税金"
 
-#: classes/class-wc-connect-taxjar-integration.php:386 i18n/strings.php:148
+#: classes/class-wc-connect-taxjar-integration.php:388 i18n/strings.php:148
 #: i18n/strings.php:340
 msgid "ZIP/Postal code"
 msgstr ""
@@ -1348,12 +1348,12 @@ msgstr "これらの変数に一致する場所がありません。"
 msgid "2 character continent code."
 msgstr "2文字の大陸コード。"
 
-#: classes/class-wc-connect-taxjar-integration.php:396
+#: classes/class-wc-connect-taxjar-integration.php:398
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "Invalid %s entered."
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:392
+#: classes/class-wc-connect-taxjar-integration.php:394
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "%s does not match the selected state."
 msgstr ""
@@ -2119,7 +2119,7 @@ msgstr "設定を更新できません。 %s"
 msgid "Packaging"
 msgstr "パッケージング"
 
-#: woocommerce-services.php:1617
+#: woocommerce-services.php:1615
 msgid "Section not loading? Visit the <a href=\"%s\">status page</a> for troubleshooting steps."
 msgstr "セクションがロードされない?トラブルシューティング手順については、<a href=\"%s\">ステータスページの </a> を参照してください。"
 
@@ -2302,7 +2302,7 @@ msgstr "ベースの場所は WooCommerce 設定 > 一般設定 に設定して�
 msgid "WooCommerce %1$s or higher is required (You are running %2$s)"
 msgstr ""
 
-#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1653
+#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1651
 msgid "Dismiss this notice"
 msgstr "この通知を非表示"
 

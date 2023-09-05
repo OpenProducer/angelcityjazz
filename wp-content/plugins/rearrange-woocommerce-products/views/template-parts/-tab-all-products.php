@@ -29,11 +29,20 @@ if ( isset( $_GET['term_id'] ) && ! empty( $_GET['term_id'] ) ) { // phpcs:ignor
 		),
 	);
 
-	if ( $this->meta_field_exists( $meta_key ) ) {
-		$args['meta_key'] = $meta_key; // phpcs:ignore
-		$args['orderby']  = 'meta_value_num menu_order title';
-		$args['order']    = 'ASC';
-	}
+	$args['meta_query'] = array(
+		'relation' => 'OR',
+		array(
+			'key'     => $meta_key,
+			'compare' => 'EXISTS',
+		),
+		array(
+			'key'     => $meta_key,
+			'compare' => 'NOT EXISTS',
+		),
+	);
+
+	$args['orderby'] = 'meta_value_num menu_order title';
+	$args['order']   = 'ASC';
 } else {
 	$args['orderby'] = 'menu_order title';
 	$args['order']   = 'ASC';

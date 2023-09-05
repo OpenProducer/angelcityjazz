@@ -39,6 +39,8 @@ class Admin {
 	/** @var array screens ids where to include scripts */
 	protected $screen_ids = [];
 
+	/** @var Product_Sets the product set admin handler. */
+	protected $product_sets;
 
 	/**
 	 * Admin constructor.
@@ -106,6 +108,24 @@ class Admin {
 
 		// add custom taxonomy for Product Sets
 		add_filter( 'gettext', array( $this, 'change_custom_taxonomy_tip' ), 20, 2 );
+	}
+
+	/**
+	 * __get method for backward compatibility.
+	 *
+	 * @param string $key property name
+	 * @return mixed
+	 * @since 3.0.32
+	 */
+	public function __get( $key ) {
+		// Add warning for private properties.
+		if ( 'product_sets' === $key ) {
+			/* translators: %s property name. */
+			_doing_it_wrong( __FUNCTION__, sprintf( esc_html__( 'The %s property is protected and should not be accessed outside its class.', 'facebook-for-woocommerce' ), esc_html( $key ) ), '3.0.32' );
+			return $this->$key;
+		}
+
+		return null;
 	}
 
 	/**
@@ -438,8 +458,20 @@ class Admin {
 			return;
 		}
 
-		$product = wc_get_product( $post );
-		if ( $product && Products::product_should_be_synced( $product ) ) {
+		$product        = wc_get_product( $post );
+		$should_sync    = false;
+		$no_sync_reason = '';
+
+		if ( $product instanceof \WC_Product ) {
+			try {
+				facebook_for_woocommerce()->get_product_sync_validator( $product )->validate();
+				$should_sync = true;
+			} catch ( \Exception $e ) {
+				$no_sync_reason = $e->getMessage();
+			}
+		}
+
+		if ( $should_sync ) {
 			if ( Products::is_product_visible( $product ) ) {
 				esc_html_e( 'Sync and show', 'facebook-for-woocommerce' );
 			} else {
@@ -447,6 +479,9 @@ class Admin {
 			}
 		} else {
 			esc_html_e( 'Do not sync', 'facebook-for-woocommerce' );
+			if ( ! empty( $no_sync_reason ) ) {
+				echo wc_help_tip( $no_sync_reason );
+			}
 		}
 	}
 

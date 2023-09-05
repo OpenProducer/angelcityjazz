@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
-"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"X-Generator: GlotPress/4.0.0-alpha.7\n"
 "Language: ru\n"
 "Project-Id-Version: Plugins - WooCommerce Shipping &amp; Tax - Stable (latest release)\n"
 
@@ -86,7 +86,7 @@ msgstr ""
 msgid "Service Selection"
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:394
+#: classes/class-wc-connect-taxjar-integration.php:396
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "%s is not formatted correctly."
 msgstr ""
@@ -475,7 +475,7 @@ msgstr ""
 msgid "WooCommerce Shipping & Tax"
 msgstr "WooCommerce доставка и налоги"
 
-#: classes/class-wc-connect-taxjar-integration.php:386 i18n/strings.php:148
+#: classes/class-wc-connect-taxjar-integration.php:388 i18n/strings.php:148
 #: i18n/strings.php:340
 msgid "ZIP/Postal code"
 msgstr ""
@@ -1362,12 +1362,12 @@ msgstr "Нет местоположений, соответствующих эт
 msgid "2 character continent code."
 msgstr "2-символьный код континента."
 
-#: classes/class-wc-connect-taxjar-integration.php:396
+#: classes/class-wc-connect-taxjar-integration.php:398
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "Invalid %s entered."
 msgstr ""
 
-#: classes/class-wc-connect-taxjar-integration.php:392
+#: classes/class-wc-connect-taxjar-integration.php:394
 msgctxt "%s - ZIP/Postal code checkout field label"
 msgid "%s does not match the selected state."
 msgstr ""
@@ -2141,7 +2141,7 @@ msgstr ""
 msgid "Packaging"
 msgstr ""
 
-#: woocommerce-services.php:1617
+#: woocommerce-services.php:1615
 msgid "Section not loading? Visit the <a href=\"%s\">status page</a> for troubleshooting steps."
 msgstr ""
 
@@ -2324,7 +2324,7 @@ msgstr ""
 msgid "WooCommerce %1$s or higher is required (You are running %2$s)"
 msgstr ""
 
-#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1653
+#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1651
 msgid "Dismiss this notice"
 msgstr "Закрыть это уведомление"
 

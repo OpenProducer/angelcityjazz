@@ -2,24 +2,24 @@
     "packages": [
         {
             "name": "automattic/jetpack-assets",
-            "version": "v1.18.7",
-            "version_normalized": "1.18.7.0",
+            "version": "v1.18.8",
+            "version_normalized": "1.18.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Automattic/jetpack-assets.git",
-                "reference": "094d19cc5649b8a9e5d12beecee9371ff0ea4279"
+                "reference": "1a19a54781f0eed6e4570250cf88ba9a4da1d876"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Automattic/jetpack-assets/zipball/094d19cc5649b8a9e5d12beecee9371ff0ea4279",
-                "reference": "094d19cc5649b8a9e5d12beecee9371ff0ea4279",
+                "url": "https://api.github.com/repos/Automattic/jetpack-assets/zipball/1a19a54781f0eed6e4570250cf88ba9a4da1d876",
+                "reference": "1a19a54781f0eed6e4570250cf88ba9a4da1d876",
                 "shasum": ""
             },
             "require": {
                 "automattic/jetpack-constants": "^1.6.22"
             },
             "require-dev": {
-                "automattic/jetpack-changelogger": "^3.3.6",
+                "automattic/jetpack-changelogger": "^3.3.7",
                 "brain/monkey": "2.6.1",
                 "wikimedia/testing-access-wrapper": "^1.0 || ^2.0",
                 "yoast/phpunit-polyfills": "1.0.4"
@@ -27,7 +27,7 @@
             "suggest": {
                 "automattic/jetpack-autoloader": "Allow for better interoperability with other plugins that use this package."
             },
-            "time": "2023-07-11T05:13:08+00:00",
+            "time": "2023-08-09T18:24:25+00:00",
             "type": "jetpack-library",
             "extra": {
                 "autotagger": true,
@@ -55,34 +55,34 @@
             ],
             "description": "Asset management utilities for Jetpack ecosystem packages",
             "support": {
-                "source": "https://github.com/Automattic/jetpack-assets/tree/v1.18.7"
+                "source": "https://github.com/Automattic/jetpack-assets/tree/v1.18.8"
             },
             "install-path": "../../jetpack_vendor/automattic/jetpack-assets"
         },
         {
             "name": "automattic/jetpack-composer-plugin",
-            "version": "v1.1.11",
-            "version_normalized": "1.1.11.0",
+            "version": "v1.1.12",
+            "version_normalized": "1.1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Automattic/jetpack-composer-plugin.git",
-                "reference": "101321afbb5619168ba34b4ce8d2c473ccef40e0"
+                "reference": "30d09c4ae815f63a05b9b825e7338d795f9d3ec4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Automattic/jetpack-composer-plugin/zipball/101321afbb5619168ba34b4ce8d2c473ccef40e0",
-                "reference": "101321afbb5619168ba34b4ce8d2c473ccef40e0",
+                "url": "https://api.github.com/repos/Automattic/jetpack-composer-plugin/zipball/30d09c4ae815f63a05b9b825e7338d795f9d3ec4",
+                "reference": "30d09c4ae815f63a05b9b825e7338d795f9d3ec4",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "^2.1.0"
             },
             "require-dev": {
-                "automattic/jetpack-changelogger": "^3.3.4",
+                "automattic/jetpack-changelogger": "^3.3.7",
                 "composer/composer": "^2.2 || ^2.4",
                 "yoast/phpunit-polyfills": "1.0.4"
             },
-            "time": "2023-05-22T14:27:41+00:00",
+            "time": "2023-07-24T12:37:06+00:00",
             "type": "composer-plugin",
             "extra": {
                 "plugin-modifies-install-path": true,
@@ -114,7 +114,7 @@
                 "plugin"
             ],
             "support": {
-                "source": "https://github.com/Automattic/jetpack-composer-plugin/tree/v1.1.11"
+                "source": "https://github.com/Automattic/jetpack-composer-plugin/tree/v1.1.12"
             },
             "install-path": "../automattic/jetpack-composer-plugin"
         },

@@ -168,6 +168,7 @@ const external_wp_element_namespaceObject = window["wp"]["element"];
  * External dependencies
  */
 
+
 /**
  * WordPress dependencies
  */
@@ -180,71 +181,71 @@ const external_wp_element_namespaceObject = window["wp"]["element"];
  *
  * @return {JSX.Element} Circle component
  */
-
 const Circle = props => (0,external_wp_element_namespaceObject.createElement)('circle', props);
+
 /**
  * @param {import('react').ComponentPropsWithoutRef<'g'>} props
  *
  * @return {JSX.Element} G component
  */
-
 const G = props => (0,external_wp_element_namespaceObject.createElement)('g', props);
+
 /**
  * @param {import('react').ComponentPropsWithoutRef<'line'>} props
  *
  * @return {JSX.Element} Path component
  */
-
 const Line = props => (0,external_wp_element_namespaceObject.createElement)('line', props);
+
 /**
  * @param {import('react').ComponentPropsWithoutRef<'path'>} props
  *
  * @return {JSX.Element} Path component
  */
-
 const Path = props => (0,external_wp_element_namespaceObject.createElement)('path', props);
+
 /**
  * @param {import('react').ComponentPropsWithoutRef<'polygon'>} props
  *
  * @return {JSX.Element} Polygon component
  */
-
 const Polygon = props => (0,external_wp_element_namespaceObject.createElement)('polygon', props);
+
 /**
  * @param {import('react').ComponentPropsWithoutRef<'rect'>} props
  *
  * @return {JSX.Element} Rect component
  */
-
 const Rect = props => (0,external_wp_element_namespaceObject.createElement)('rect', props);
+
 /**
  * @param {import('react').ComponentPropsWithoutRef<'defs'>} props
  *
  * @return {JSX.Element} Defs component
  */
-
 const Defs = props => (0,external_wp_element_namespaceObject.createElement)('defs', props);
+
 /**
  * @param {import('react').ComponentPropsWithoutRef<'radialGradient'>} props
  *
  * @return {JSX.Element} RadialGradient component
  */
-
 const RadialGradient = props => (0,external_wp_element_namespaceObject.createElement)('radialGradient', props);
+
 /**
  * @param {import('react').ComponentPropsWithoutRef<'linearGradient'>} props
  *
  * @return {JSX.Element} LinearGradient component
  */
-
 const LinearGradient = props => (0,external_wp_element_namespaceObject.createElement)('linearGradient', props);
+
 /**
  * @param {import('react').ComponentPropsWithoutRef<'stop'>} props
  *
  * @return {JSX.Element} Stop component
  */
-
 const Stop = props => (0,external_wp_element_namespaceObject.createElement)('stop', props);
+
 /**
  *
  * @param {SVGProps} props isPressed indicates whether the SVG should appear as pressed.
@@ -252,22 +253,24 @@ const Stop = props => (0,external_wp_element_namespaceObject.createElement)('sto
  *
  * @return {JSX.Element} Stop component
  */
-
 const SVG = ({
   className,
   isPressed,
   ...props
 }) => {
-  const appliedProps = { ...props,
+  const appliedProps = {
+    ...props,
     className: classnames_default()(className, {
       'is-pressed': isPressed
     }) || undefined,
     'aria-hidden': true,
     focusable: false
-  }; // Disable reason: We need to have a way to render HTML tag for web.
-  // eslint-disable-next-line react/forbid-elements
+  };
 
-  return (0,external_wp_element_namespaceObject.createElement)("svg", { ...appliedProps
+  // Disable reason: We need to have a way to render HTML tag for web.
+  // eslint-disable-next-line react/forbid-elements
+  return (0,external_wp_element_namespaceObject.createElement)("svg", {
+    ...appliedProps
   });
 };
 
