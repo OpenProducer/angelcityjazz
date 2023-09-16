@@ -325,7 +325,7 @@ const getNavigationCommandLoaderPerPostType = postType => function useNavigation
   search
 }) {
   const history = site_editor_navigation_commands_useHistory();
-  const supportsSearch = !['wp_template', 'wp_template_part'].includes(postType);
+  const isBlockBasedTheme = useIsBlockBasedTheme();
   const {
     records,
     isLoading
@@ -333,42 +333,47 @@ const getNavigationCommandLoaderPerPostType = postType => function useNavigation
     const {
       getEntityRecords
     } = select(external_wp_coreData_namespaceObject.store);
-    const query = supportsSearch ? {
+    const query = {
       search: !!search ? search : undefined,
       per_page: 10,
       orderby: search ? 'relevance' : 'date',
       status: ['publish', 'future', 'draft', 'pending', 'private']
-    } : {
-      per_page: -1
     };
     return {
       records: getEntityRecords('postType', postType, query),
       isLoading: !select(external_wp_coreData_namespaceObject.store).hasFinishedResolution('getEntityRecords', ['postType', postType, query])
     };
-  }, [supportsSearch, search]);
-
-  /*
-   * wp_template and wp_template_part endpoints do not support per_page or orderby parameters.
-   * We need to sort the results based on the search query to avoid removing relevant
-   * records below using .slice().
-   */
-  const orderedRecords = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (supportsSearch) {
-      return records !== null && records !== void 0 ? records : [];
-    }
-    return orderEntityRecordsBySearch(records, search).slice(0, 10);
-  }, [supportsSearch, records, search]);
+  }, [search]);
   const commands = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    return orderedRecords.map(record => {
+    return (records !== null && records !== void 0 ? records : []).map(record => {
+      const command = {
+        name: postType + '-' + record.id,
+        searchLabel: record.title?.rendered + ' ' + record.id,
+        label: record.title?.rendered ? record.title?.rendered : (0,external_wp_i18n_namespaceObject.__)('(no title)'),
+        icon: icons[postType]
+      };
+      if (postType === 'post' || postType === 'page' && !isBlockBasedTheme) {
+        return {
+          ...command,
+          callback: ({
+            close
+          }) => {
+            const args = {
+              post: record.id,
+              action: 'edit'
+            };
+            const targetUrl = (0,external_wp_url_namespaceObject.addQueryArgs)('post.php', args);
+            document.location = targetUrl;
+            close();
+          }
+        };
+      }
       const isSiteEditor = (0,external_wp_url_namespaceObject.getPath)(window.location.href)?.includes('site-editor.php');
       const extraArgs = isSiteEditor ? {
         canvas: (0,external_wp_url_namespaceObject.getQueryArg)(window.location.href, 'canvas')
       } : {};
       return {
-        name: postType + '-' + record.id,
-        searchLabel: record.title?.rendered + ' ' + record.id,
-        label: record.title?.rendered ? record.title?.rendered : (0,external_wp_i18n_namespaceObject.__)('(no title)'),
-        icon: icons[postType],
+        ...command,
         callback: ({
           close
         }) => {
@@ -387,7 +392,74 @@ const getNavigationCommandLoaderPerPostType = postType => function useNavigation
         }
       };
     });
-  }, [orderedRecords, history]);
+  }, [records, isBlockBasedTheme, history]);
+  return {
+    commands,
+    isLoading
+  };
+};
+const getNavigationCommandLoaderPerTemplate = templateType => function useNavigationCommandLoader({
+  search
+}) {
+  const history = site_editor_navigation_commands_useHistory();
+  const isBlockBasedTheme = useIsBlockBasedTheme();
+  const {
+    records,
+    isLoading
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      getEntityRecords
+    } = select(external_wp_coreData_namespaceObject.store);
+    const query = {
+      per_page: -1
+    };
+    return {
+      records: getEntityRecords('postType', templateType, query),
+      isLoading: !select(external_wp_coreData_namespaceObject.store).hasFinishedResolution('getEntityRecords', ['postType', templateType, query])
+    };
+  }, []);
+
+  /*
+   * wp_template and wp_template_part endpoints do not support per_page or orderby parameters.
+   * We need to sort the results based on the search query to avoid removing relevant
+   * records below using .slice().
+   */
+  const orderedRecords = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    return orderEntityRecordsBySearch(records, search).slice(0, 10);
+  }, [records, search]);
+  const commands = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    if (!isBlockBasedTheme && !templateType === 'wp_template_part') {
+      return [];
+    }
+    return orderedRecords.map(record => {
+      const isSiteEditor = (0,external_wp_url_namespaceObject.getPath)(window.location.href)?.includes('site-editor.php');
+      const extraArgs = isSiteEditor ? {
+        canvas: (0,external_wp_url_namespaceObject.getQueryArg)(window.location.href, 'canvas')
+      } : {};
+      return {
+        name: templateType + '-' + record.id,
+        searchLabel: record.title?.rendered + ' ' + record.id,
+        label: record.title?.rendered ? record.title?.rendered : (0,external_wp_i18n_namespaceObject.__)('(no title)'),
+        icon: icons[templateType],
+        callback: ({
+          close
+        }) => {
+          const args = {
+            postType: templateType,
+            postId: record.id,
+            ...extraArgs
+          };
+          const targetUrl = (0,external_wp_url_namespaceObject.addQueryArgs)('site-editor.php', args);
+          if (isSiteEditor) {
+            history.push(args);
+          } else {
+            document.location = targetUrl;
+          }
+          close();
+        }
+      };
+    });
+  }, [isBlockBasedTheme, orderedRecords, history]);
   return {
     commands,
     isLoading
@@ -395,8 +467,8 @@ const getNavigationCommandLoaderPerPostType = postType => function useNavigation
 };
 const usePageNavigationCommandLoader = getNavigationCommandLoaderPerPostType('page');
 const usePostNavigationCommandLoader = getNavigationCommandLoaderPerPostType('post');
-const useTemplateNavigationCommandLoader = getNavigationCommandLoaderPerPostType('wp_template');
-const useTemplatePartNavigationCommandLoader = getNavigationCommandLoaderPerPostType('wp_template_part');
+const useTemplateNavigationCommandLoader = getNavigationCommandLoaderPerTemplate('wp_template');
+const useTemplatePartNavigationCommandLoader = getNavigationCommandLoaderPerTemplate('wp_template_part');
 function useSiteEditorBasicNavigationCommands() {
   const history = site_editor_navigation_commands_useHistory();
   const isSiteEditor = (0,external_wp_url_namespaceObject.getPath)(window.location.href)?.includes('site-editor.php');

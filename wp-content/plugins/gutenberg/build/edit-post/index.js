@@ -446,7 +446,12 @@ function CopyContentMenuItem() {
   const {
     createNotice
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
-  const getText = (0,external_wp_data_namespaceObject.useSelect)(select => () => select(external_wp_editor_namespaceObject.store).getEditedPostAttribute('content'), []);
+  const {
+    getEditedPostAttribute
+  } = (0,external_wp_data_namespaceObject.useSelect)(external_wp_editor_namespaceObject.store);
+  function getText() {
+    return getEditedPostAttribute('content');
+  }
   function onSuccess() {
     createNotice('info', (0,external_wp_i18n_namespaceObject.__)('All content copied.'), {
       isDismissible: true,
@@ -3553,7 +3558,7 @@ function isInserterOpened(state) {
  * @return {Object} The root client ID, index to insert at and starting filter value.
  */
 function __experimentalGetInsertionPoint(state) {
-  if (typeof state === 'boolean') {
+  if (typeof state.blockInserterPanel === 'boolean') {
     return EMPTY_INSERTION_POINT;
   }
   return state.blockInserterPanel;
@@ -3966,7 +3971,8 @@ function VisualEditor({
   const desktopCanvasStyles = {
     height: '100%',
     width: '100%',
-    margin: 0,
+    marginLeft: 'auto',
+    marginRight: 'auto',
     display: 'flex',
     flexFlow: 'column',
     // Default background color so that grey
@@ -3994,7 +4000,7 @@ function VisualEditor({
     paddingBottom = '40vh';
   }
   const ref = (0,external_wp_element_namespaceObject.useRef)();
-  const contentRef = (0,external_wp_compose_namespaceObject.useMergeRefs)([ref, (0,external_wp_blockEditor_namespaceObject.__unstableUseClipboardHandler)(), (0,external_wp_blockEditor_namespaceObject.__unstableUseTypewriter)(), (0,external_wp_blockEditor_namespaceObject.__unstableUseTypingObserver)(), (0,external_wp_blockEditor_namespaceObject.__unstableUseBlockSelectionClearer)()]);
+  const contentRef = (0,external_wp_compose_namespaceObject.useMergeRefs)([ref, (0,external_wp_blockEditor_namespaceObject.__unstableUseClipboardHandler)(), (0,external_wp_blockEditor_namespaceObject.__unstableUseTypewriter)(), (0,external_wp_blockEditor_namespaceObject.__unstableUseBlockSelectionClearer)()]);
   const blockSelectionClearerRef = (0,external_wp_blockEditor_namespaceObject.__unstableUseBlockSelectionClearer)();
 
   // fallbackLayout is used if there is no Post Content,
@@ -4057,6 +4063,7 @@ function VisualEditor({
   // If there is a Post Content block we use its layout for the block list;
   // if not, this must be a classic theme, in which case we use the fallback layout.
   const blockListLayout = postContentAttributes ? postContentLayout : fallbackLayout;
+  const observeTypingRef = (0,external_wp_blockEditor_namespaceObject.__unstableUseTypingObserver)();
   const titleRef = (0,external_wp_element_namespaceObject.useRef)();
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (isWelcomeGuideVisible || !isCleanNewPost()) {
@@ -4111,7 +4118,8 @@ function VisualEditor({
       'is-focus-mode': isFocusMode,
       'has-global-padding': hasRootPaddingAwareAlignments
     }),
-    contentEditable: false
+    contentEditable: false,
+    ref: observeTypingRef
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.PostTitle, {
     ref: titleRef
   })), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalRecursionProvider, {
@@ -5350,7 +5358,8 @@ function HeaderToolbar() {
     onClick: toggleListView,
     shortcut: listViewShortcut,
     showTooltip: !showIconLabels,
-    variant: showIconLabels ? 'tertiary' : undefined
+    variant: showIconLabels ? 'tertiary' : undefined,
+    "aria-expanded": isListViewOpen
   }));
   const toggleInserter = (0,external_wp_element_namespaceObject.useCallback)(() => {
     if (isInserterOpened) {
@@ -5384,7 +5393,8 @@ function HeaderToolbar() {
     disabled: !isInserterEnabled,
     icon: library_plus,
     label: showIconLabels ? shortLabel : longLabel,
-    showTooltip: !showIconLabels
+    showTooltip: !showIconLabels,
+    "aria-expanded": isInserterOpened
   }), (isWideViewport || !showIconLabels) && (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, isLargeViewport && !hasFixedToolbar && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
     as: external_wp_blockEditor_namespaceObject.ToolSelector,
     showTooltip: !showIconLabels,
@@ -7234,18 +7244,32 @@ function LastRevision() {
 
 
 
-
 /**
  * Internal dependencies
  */
 
 function TaxonomyPanel({
-  isEnabled,
   taxonomy,
-  isOpened,
-  onTogglePanel,
   children
 }) {
+  const slug = taxonomy?.slug;
+  const panelName = slug ? `taxonomy-panel-${slug}` : '';
+  const {
+    isEnabled,
+    isOpened
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      isEditorPanelEnabled,
+      isEditorPanelOpened
+    } = select(store_store);
+    return {
+      isEnabled: slug ? isEditorPanelEnabled(panelName) : false,
+      isOpened: slug ? isEditorPanelOpened(panelName) : false
+    };
+  }, [panelName, slug]);
+  const {
+    toggleEditorPanelOpened
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
   if (!isEnabled) {
     return null;
   }
@@ -7256,22 +7280,10 @@ function TaxonomyPanel({
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.PanelBody, {
     title: taxonomyMenuName,
     opened: isOpened,
-    onToggle: onTogglePanel
+    onToggle: () => toggleEditorPanelOpened(panelName)
   }, children);
 }
-/* harmony default export */ const taxonomy_panel = ((0,external_wp_compose_namespaceObject.compose)((0,external_wp_data_namespaceObject.withSelect)((select, ownProps) => {
-  const slug = ownProps.taxonomy?.slug;
-  const panelName = slug ? `taxonomy-panel-${slug}` : '';
-  return {
-    panelName,
-    isEnabled: slug ? select(store_store).isEditorPanelEnabled(panelName) : false,
-    isOpened: slug ? select(store_store).isEditorPanelOpened(panelName) : false
-  };
-}), (0,external_wp_data_namespaceObject.withDispatch)((dispatch, ownProps) => ({
-  onTogglePanel: () => {
-    dispatch(store_store).toggleEditorPanelOpened(ownProps.panelName);
-  }
-})))(TaxonomyPanel));
+/* harmony default export */ const taxonomy_panel = (TaxonomyPanel);
 
 ;// CONCATENATED MODULE: ./packages/edit-post/build-module/components/sidebar/post-taxonomies/index.js
 
@@ -7780,7 +7792,7 @@ const PluginDocumentSettingPanel = ({
     toggleEditorPanelOpened
   } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
   if (undefined === name) {
-    typeof process !== "undefined" && process.env && "production" !== "production" ? 0 : void 0;
+     false ? 0 : void 0;
   }
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(enable_plugin_document_setting_panel, {
     label: title,
@@ -8445,7 +8457,7 @@ function ActionsPanel({
 
 function useStartPatterns() {
   // A pattern is a start pattern if it includes 'core/post-content' in its blockTypes,
-  // and it has no postTypes declares and the current post type is page or if
+  // and it has no postTypes declared and the current post type is page or if
   // the current post type is part of the postTypes declared.
   const {
     blockPatternsWithPostContentBlockType,
@@ -8471,9 +8483,9 @@ function useStartPatterns() {
   }, [postType, blockPatternsWithPostContentBlockType]);
 }
 function PatternSelection({
+  blockPatterns,
   onChoosePattern
 }) {
-  const blockPatterns = useStartPatterns();
   const shownBlockPatterns = (0,external_wp_compose_namespaceObject.useAsyncList)(blockPatterns);
   const {
     resetEditorBlocks
@@ -8487,19 +8499,33 @@ function PatternSelection({
     }
   });
 }
-const START_PAGE_MODAL_STATES = {
-  INITIAL: 'INITIAL',
-  PATTERN: 'PATTERN',
-  CLOSED: 'CLOSED'
-};
-function StartPageOptions() {
-  const [modalState, setModalState] = (0,external_wp_element_namespaceObject.useState)(START_PAGE_MODAL_STATES.INITIAL);
-  const blockPatterns = useStartPatterns();
-  const hasStartPattern = blockPatterns.length > 0;
-  const shouldOpenModel = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    if (!hasStartPattern || modalState !== START_PAGE_MODAL_STATES.INITIAL) {
-      return false;
+function StartPageOptionsModal() {
+  const [modalState, setModalState] = (0,external_wp_element_namespaceObject.useState)('initial');
+  const startPatterns = useStartPatterns();
+  const hasStartPattern = startPatterns.length > 0;
+  const shouldOpenModal = hasStartPattern && modalState === 'initial';
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (shouldOpenModal) {
+      setModalState('open');
     }
+  }, [shouldOpenModal]);
+  if (modalState !== 'open') {
+    return null;
+  }
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
+    className: "edit-post-start-page-options__modal",
+    title: (0,external_wp_i18n_namespaceObject.__)('Choose a pattern'),
+    isFullScreen: true,
+    onRequestClose: () => setModalState('closed')
+  }, (0,external_wp_element_namespaceObject.createElement)("div", {
+    className: "edit-post-start-page-options__modal-content"
+  }, (0,external_wp_element_namespaceObject.createElement)(PatternSelection, {
+    blockPatterns: startPatterns,
+    onChoosePattern: () => setModalState('closed')
+  })));
+}
+function StartPageOptions() {
+  const shouldEnableModal = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getEditedPostContent,
       isEditedPostSaveable
@@ -8509,29 +8535,11 @@ function StartPageOptions() {
       isFeatureActive
     } = select(store_store);
     return !isEditedPostSaveable() && '' === getEditedPostContent() && !isEditingTemplate() && !isFeatureActive('welcomeGuide');
-  }, [modalState, hasStartPattern]);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (shouldOpenModel) {
-      setModalState(START_PAGE_MODAL_STATES.PATTERN);
-    }
-  }, [shouldOpenModel]);
-  if (modalState === START_PAGE_MODAL_STATES.INITIAL || modalState === START_PAGE_MODAL_STATES.CLOSED) {
+  }, []);
+  if (!shouldEnableModal) {
     return null;
   }
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
-    className: "edit-post-start-page-options__modal",
-    title: (0,external_wp_i18n_namespaceObject.__)('Choose a pattern'),
-    isFullScreen: true,
-    onRequestClose: () => {
-      setModalState(START_PAGE_MODAL_STATES.CLOSED);
-    }
-  }, (0,external_wp_element_namespaceObject.createElement)("div", {
-    className: "edit-post-start-page-options__modal-content"
-  }, modalState === START_PAGE_MODAL_STATES.PATTERN && (0,external_wp_element_namespaceObject.createElement)(PatternSelection, {
-    onChoosePattern: () => {
-      setModalState(START_PAGE_MODAL_STATES.CLOSED);
-    }
-  })));
+  return (0,external_wp_element_namespaceObject.createElement)(StartPageOptionsModal, null);
 }
 
 ;// CONCATENATED MODULE: ./packages/edit-post/build-module/components/layout/index.js
@@ -8774,7 +8782,7 @@ function Layout() {
       previous: previousShortcut,
       next: nextShortcut
     }
-  }), (0,external_wp_element_namespaceObject.createElement)(EditPostPreferencesModal, null), (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcut_help_modal, null), (0,external_wp_element_namespaceObject.createElement)(WelcomeGuide, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.PostSyncStatusModal, null), (0,external_wp_element_namespaceObject.createElement)(StartPageOptions, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Popover.Slot, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_plugins_namespaceObject.PluginArea, {
+  }), (0,external_wp_element_namespaceObject.createElement)(EditPostPreferencesModal, null), (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcut_help_modal, null), (0,external_wp_element_namespaceObject.createElement)(WelcomeGuide, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.PostSyncStatusModal, null), (0,external_wp_element_namespaceObject.createElement)(StartPageOptions, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_plugins_namespaceObject.PluginArea, {
     onError: onPluginAreaError
   }));
 }
@@ -9597,7 +9605,7 @@ function initializeEditor(id, postType, postId, settings, initialEdits) {
     welcomeGuide: true,
     welcomeGuideTemplate: true
   });
-  (0,external_wp_data_namespaceObject.dispatch)(external_wp_blocks_namespaceObject.store).__experimentalReapplyBlockTypeFilters();
+  (0,external_wp_data_namespaceObject.dispatch)(external_wp_blocks_namespaceObject.store).reapplyBlockTypeFilters();
 
   // Check if the block list view should be open by default.
   // If `distractionFree` mode is enabled, the block list view should not be open.

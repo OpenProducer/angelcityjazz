@@ -507,7 +507,7 @@ function isInserterOpened(state) {
  * @return {Object} The root client ID and index to insert at.
  */
 function __experimentalGetInsertionPoint(state) {
-  if (typeof state === 'boolean') {
+  if (typeof state.blockInserterPanel === 'boolean') {
     return EMPTY_INSERTION_POINT;
   }
   return state.blockInserterPanel;
@@ -2236,7 +2236,7 @@ function SidebarBlockEditor({
       sidebar: sidebar
     });
   }
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockEditorKeyboardShortcuts.Register, null), (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcuts.Register, null), (0,external_wp_element_namespaceObject.createElement)(SidebarEditorProvider, {
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcuts.Register, null), (0,external_wp_element_namespaceObject.createElement)(SidebarEditorProvider, {
     sidebar: sidebar,
     settings: settings
   }, (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcuts, {
@@ -2253,9 +2253,9 @@ function SidebarBlockEditor({
     styles: settings.defaultEditorStyles
   }), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockSelectionClearer, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.WritingFlow, {
     className: "editor-styles-wrapper"
-  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.ObserveTyping, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockList, {
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockList, {
     renderAppender: BlockAppender
-  })))))), (0,external_wp_element_namespaceObject.createPortal)(
+  }))))), (0,external_wp_element_namespaceObject.createPortal)(
   // This is a temporary hack to prevent button component inside <BlockInspector>
   // from submitting form when type="button" is not specified.
   (0,external_wp_element_namespaceObject.createElement)("form", {
@@ -3175,7 +3175,7 @@ function initialize(editorName, blockEditorSettings) {
     fixedToolbar: false,
     welcomeGuide: true
   });
-  (0,external_wp_data_namespaceObject.dispatch)(external_wp_blocks_namespaceObject.store).__experimentalReapplyBlockTypeFilters();
+  (0,external_wp_data_namespaceObject.dispatch)(external_wp_blocks_namespaceObject.store).reapplyBlockTypeFilters();
   const coreBlocks = (0,external_wp_blockLibrary_namespaceObject.__experimentalGetCoreBlocks)().filter(block => {
     return !(DISABLED_BLOCKS.includes(block.name) || block.name.startsWith('core/post') || block.name.startsWith('core/query') || block.name.startsWith('core/site') || block.name.startsWith('core/navigation'));
   });

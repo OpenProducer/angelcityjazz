@@ -44,7 +44,7 @@ const logged = new Set();
  */
 
 function isDev() {
-  return typeof process !== 'undefined' && process.env && "production" !== 'production';
+  return  true && false === true;
 }
 
 /**

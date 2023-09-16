@@ -5641,27 +5641,32 @@ const TRANSLATED_SITE_PROPERTIES = {
 };
 const useIsDirty = () => {
   const {
-    dirtyEntityRecords
+    editedEntities,
+    siteEdits
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const dirtyRecords = select(external_wp_coreData_namespaceObject.store).__experimentalGetDirtyEntityRecords();
-
+    const {
+      __experimentalGetDirtyEntityRecords,
+      getEntityRecordEdits
+    } = select(external_wp_coreData_namespaceObject.store);
+    return {
+      editedEntities: __experimentalGetDirtyEntityRecords(),
+      siteEdits: getEntityRecordEdits('root', 'site')
+    };
+  }, []);
+  const dirtyEntityRecords = (0,external_wp_element_namespaceObject.useMemo)(() => {
     // Remove site object and decouple into its edited pieces.
-    const dirtyRecordsWithoutSite = dirtyRecords.filter(record => !(record.kind === 'root' && record.name === 'site'));
-    const siteEdits = select(external_wp_coreData_namespaceObject.store).getEntityRecordEdits('root', 'site');
-    const siteEditsAsEntities = [];
+    const editedEntitiesWithoutSite = editedEntities.filter(record => !(record.kind === 'root' && record.name === 'site'));
+    const editedSiteEntities = [];
     for (const property in siteEdits) {
-      siteEditsAsEntities.push({
+      editedSiteEntities.push({
         kind: 'root',
         name: 'site',
         title: TRANSLATED_SITE_PROPERTIES[property] || property,
         property
       });
     }
-    const dirtyRecordsWithSiteItems = [...dirtyRecordsWithoutSite, ...siteEditsAsEntities];
-    return {
-      dirtyEntityRecords: dirtyRecordsWithSiteItems
-    };
-  }, []);
+    return [...editedEntitiesWithoutSite, ...editedSiteEntities];
+  }, [editedEntities, siteEdits]);
 
   // Unchecked entities to be ignored by save function.
   const [unselectedEntities, _setUnselectedEntities] = (0,external_wp_element_namespaceObject.useState)([]);

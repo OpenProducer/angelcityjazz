@@ -5439,6 +5439,7 @@ const DEFAULT_INIT_WINDOW_SIZE = 30;
  * @property {number}  [windowOverscan] Renders windowOverscan number of items before and after the calculated visible window.
  * @property {boolean} [useWindowing]   When false avoids calculating the window size
  * @property {number}  [initWindowSize] Initial window size to use on first render before we can calculate the window size.
+ * @property {any}     [expandedState]  Used to recalculate the window size when the expanded state of a list changes.
  */
 
 /**
@@ -5503,7 +5504,7 @@ function useFixedWindowList(elementRef, itemHeight, totalItems, options) {
       scrollContainer?.removeEventListener('scroll', debounceMeasureList);
       scrollContainer?.ownerDocument?.defaultView?.removeEventListener('resize', debounceMeasureList);
     };
-  }, [itemHeight, elementRef, totalItems]);
+  }, [itemHeight, elementRef, totalItems, options?.expandedState, options?.windowOverscan, useWindowing]);
   (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
     if (!useWindowing) {
       return;
@@ -5541,7 +5542,7 @@ function useFixedWindowList(elementRef, itemHeight, totalItems, options) {
     return () => {
       scrollContainer?.ownerDocument?.defaultView?.removeEventListener('keydown', handleKeyDown);
     };
-  }, [totalItems, itemHeight, elementRef, fixedListWindow.visibleItems]);
+  }, [totalItems, itemHeight, elementRef, fixedListWindow.visibleItems, useWindowing, options?.expandedState]);
   return [fixedListWindow, setFixedListWindow];
 }
 

@@ -5344,7 +5344,7 @@ function floating_ui_utils_getSide(placement) {
 function floating_ui_utils_getAlignment(placement) {
   return placement.split('-')[1];
 }
-function floating_ui_utils_getOppositeAxis(axis) {
+function getOppositeAxis(axis) {
   return axis === 'x' ? 'y' : 'x';
 }
 function getAxisLength(axis) {
@@ -5354,7 +5354,7 @@ function floating_ui_utils_getSideAxis(placement) {
   return ['top', 'bottom'].includes(floating_ui_utils_getSide(placement)) ? 'y' : 'x';
 }
 function getAlignmentAxis(placement) {
-  return floating_ui_utils_getOppositeAxis(floating_ui_utils_getSideAxis(placement));
+  return getOppositeAxis(floating_ui_utils_getSideAxis(placement));
 }
 function floating_ui_utils_getAlignmentSides(placement, rects, rtl) {
   if (rtl === void 0) {
@@ -6251,7 +6251,7 @@ const floating_ui_core_shift = function (options) {
       };
       const overflow = await detectOverflow(state, detectOverflowOptions);
       const crossAxis = floating_ui_utils_getSideAxis(floating_ui_utils_getSide(placement));
-      const mainAxis = floating_ui_utils_getOppositeAxis(crossAxis);
+      const mainAxis = getOppositeAxis(crossAxis);
       let mainAxisCoord = coords[mainAxis];
       let crossAxisCoord = coords[crossAxis];
       if (checkMainAxis) {
@@ -6304,16 +6304,16 @@ const limitShift = function (options) {
         offset = 0,
         mainAxis: checkMainAxis = true,
         crossAxis: checkCrossAxis = true
-      } = evaluate(options, state);
+      } = floating_ui_utils_evaluate(options, state);
       const coords = {
         x,
         y
       };
-      const crossAxis = getSideAxis(placement);
+      const crossAxis = floating_ui_utils_getSideAxis(placement);
       const mainAxis = getOppositeAxis(crossAxis);
       let mainAxisCoord = coords[mainAxis];
       let crossAxisCoord = coords[crossAxis];
-      const rawOffset = evaluate(offset, state);
+      const rawOffset = floating_ui_utils_evaluate(offset, state);
       const computedOffset = typeof rawOffset === 'number' ? {
         mainAxis: rawOffset,
         crossAxis: 0
@@ -6335,7 +6335,7 @@ const limitShift = function (options) {
       if (checkCrossAxis) {
         var _middlewareData$offse, _middlewareData$offse2;
         const len = mainAxis === 'y' ? 'width' : 'height';
-        const isOriginSide = ['top', 'left'].includes(getSide(placement));
+        const isOriginSide = ['top', 'left'].includes(floating_ui_utils_getSide(placement));
         const limitMin = rects.reference[crossAxis] - rects.floating[len] + (isOriginSide ? ((_middlewareData$offse = middlewareData.offset) == null ? void 0 : _middlewareData$offse[crossAxis]) || 0 : 0) + (isOriginSide ? 0 : computedOffset.crossAxis);
         const limitMax = rects.reference[crossAxis] + rects.reference[len] + (isOriginSide ? 0 : ((_middlewareData$offse2 = middlewareData.offset) == null ? void 0 : _middlewareData$offse2[crossAxis]) || 0) - (isOriginSide ? computedOffset.crossAxis : 0);
         if (crossAxisCoord < limitMin) {
@@ -7168,12 +7168,49 @@ const floating_ui_dom_computePosition = (reference, floating, options) => {
 ;// CONCATENATED MODULE: external "ReactDOM"
 const external_ReactDOM_namespaceObject = window["ReactDOM"];
 var external_ReactDOM_default = /*#__PURE__*/__webpack_require__.n(external_ReactDOM_namespaceObject);
-;// CONCATENATED MODULE: ./node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.esm.js
+;// CONCATENATED MODULE: ./packages/components/node_modules/@floating-ui/react-dom/dist/floating-ui.react-dom.esm.js
 
 
 
 
 
+
+/**
+ * Provides data to position an inner element of the floating element so that it
+ * appears centered to the reference element.
+ * This wraps the core `arrow` middleware to allow React refs as the element.
+ * @see https://floating-ui.com/docs/arrow
+ */
+const floating_ui_react_dom_esm_arrow = options => {
+  function isRef(value) {
+    return {}.hasOwnProperty.call(value, 'current');
+  }
+  return {
+    name: 'arrow',
+    options,
+    fn(state) {
+      const {
+        element,
+        padding
+      } = typeof options === 'function' ? options(state) : options;
+      if (element && isRef(element)) {
+        if (element.current != null) {
+          return arrow({
+            element: element.current,
+            padding
+          }).fn(state);
+        }
+        return {};
+      } else if (element) {
+        return arrow({
+          element,
+          padding
+        }).fn(state);
+      }
+      return {};
+    }
+  };
+};
 
 var index = typeof document !== 'undefined' ? external_React_.useLayoutEffect : external_React_.useEffect;
 
@@ -7183,60 +7220,59 @@ function deepEqual(a, b) {
   if (a === b) {
     return true;
   }
-
   if (typeof a !== typeof b) {
     return false;
   }
-
   if (typeof a === 'function' && a.toString() === b.toString()) {
     return true;
   }
-
   let length, i, keys;
-
   if (a && b && typeof a == 'object') {
     if (Array.isArray(a)) {
       length = a.length;
       if (length != b.length) return false;
-
       for (i = length; i-- !== 0;) {
         if (!deepEqual(a[i], b[i])) {
           return false;
         }
       }
-
       return true;
     }
-
     keys = Object.keys(a);
     length = keys.length;
-
     if (length !== Object.keys(b).length) {
       return false;
     }
-
     for (i = length; i-- !== 0;) {
-      if (!Object.prototype.hasOwnProperty.call(b, keys[i])) {
+      if (!{}.hasOwnProperty.call(b, keys[i])) {
         return false;
       }
     }
-
     for (i = length; i-- !== 0;) {
       const key = keys[i];
-
       if (key === '_owner' && a.$$typeof) {
         continue;
       }
-
       if (!deepEqual(a[key], b[key])) {
         return false;
       }
     }
-
     return true;
   }
-
   return a !== a && b !== b;
+}
+
+function getDPR(element) {
+  if (typeof window === 'undefined') {
+    return 1;
+  }
+  const win = element.ownerDocument.defaultView || window;
+  return win.devicePixelRatio || 1;
+}
+
+function roundByDPR(element, value) {
+  const dpr = getDPR(element);
+  return Math.round(value * dpr) / dpr;
 }
 
 function useLatestRef(value) {
@@ -7247,75 +7283,94 @@ function useLatestRef(value) {
   return ref;
 }
 
-function useFloating(_temp) {
-  let {
-    middleware,
+/**
+ * Provides data to position a floating element.
+ * @see https://floating-ui.com/docs/react
+ */
+function useFloating(options) {
+  if (options === void 0) {
+    options = {};
+  }
+  const {
     placement = 'bottom',
     strategy = 'absolute',
-    whileElementsMounted
-  } = _temp === void 0 ? {} : _temp;
+    middleware = [],
+    platform,
+    elements: {
+      reference: externalReference,
+      floating: externalFloating
+    } = {},
+    transform = true,
+    whileElementsMounted,
+    open
+  } = options;
   const [data, setData] = external_React_.useState({
-    // Setting these to `null` will allow the consumer to determine if
-    // `computePosition()` has run yet
-    x: null,
-    y: null,
+    x: 0,
+    y: 0,
     strategy,
     placement,
-    middlewareData: {}
+    middlewareData: {},
+    isPositioned: false
   });
   const [latestMiddleware, setLatestMiddleware] = external_React_.useState(middleware);
-
-  if (!deepEqual(latestMiddleware == null ? void 0 : latestMiddleware.map(_ref => {
-    let {
-      name,
-      options
-    } = _ref;
-    return {
-      name,
-      options
-    };
-  }), middleware == null ? void 0 : middleware.map(_ref2 => {
-    let {
-      name,
-      options
-    } = _ref2;
-    return {
-      name,
-      options
-    };
-  }))) {
+  if (!deepEqual(latestMiddleware, middleware)) {
     setLatestMiddleware(middleware);
   }
-
-  const reference = external_React_.useRef(null);
-  const floating = external_React_.useRef(null);
-  const cleanupRef = external_React_.useRef(null);
+  const [_reference, _setReference] = external_React_.useState(null);
+  const [_floating, _setFloating] = external_React_.useState(null);
+  const setReference = external_React_.useCallback(node => {
+    if (node != referenceRef.current) {
+      referenceRef.current = node;
+      _setReference(node);
+    }
+  }, [_setReference]);
+  const setFloating = external_React_.useCallback(node => {
+    if (node !== floatingRef.current) {
+      floatingRef.current = node;
+      _setFloating(node);
+    }
+  }, [_setFloating]);
+  const referenceEl = externalReference || _reference;
+  const floatingEl = externalFloating || _floating;
+  const referenceRef = external_React_.useRef(null);
+  const floatingRef = external_React_.useRef(null);
   const dataRef = external_React_.useRef(data);
   const whileElementsMountedRef = useLatestRef(whileElementsMounted);
+  const platformRef = useLatestRef(platform);
   const update = external_React_.useCallback(() => {
-    if (!reference.current || !floating.current) {
+    if (!referenceRef.current || !floatingRef.current) {
       return;
     }
-
-    floating_ui_dom_computePosition(reference.current, floating.current, {
-      middleware: latestMiddleware,
+    const config = {
       placement,
-      strategy
-    }).then(data => {
-      if (isMountedRef.current && !deepEqual(dataRef.current, data)) {
-        dataRef.current = data;
+      strategy,
+      middleware: latestMiddleware
+    };
+    if (platformRef.current) {
+      config.platform = platformRef.current;
+    }
+    floating_ui_dom_computePosition(referenceRef.current, floatingRef.current, config).then(data => {
+      const fullData = {
+        ...data,
+        isPositioned: true
+      };
+      if (isMountedRef.current && !deepEqual(dataRef.current, fullData)) {
+        dataRef.current = fullData;
         external_ReactDOM_namespaceObject.flushSync(() => {
-          setData(data);
+          setData(fullData);
         });
       }
     });
-  }, [latestMiddleware, placement, strategy]);
+  }, [latestMiddleware, placement, strategy, platformRef]);
   index(() => {
-    // Skip first update
-    if (isMountedRef.current) {
-      update();
+    if (open === false && dataRef.current.isPositioned) {
+      dataRef.current.isPositioned = false;
+      setData(data => ({
+        ...data,
+        isPositioned: false
+      }));
     }
-  }, [update]);
+  }, [open]);
   const isMountedRef = external_React_.useRef(false);
   index(() => {
     isMountedRef.current = true;
@@ -7323,84 +7378,61 @@ function useFloating(_temp) {
       isMountedRef.current = false;
     };
   }, []);
-  const runElementMountCallback = external_React_.useCallback(() => {
-    if (typeof cleanupRef.current === 'function') {
-      cleanupRef.current();
-      cleanupRef.current = null;
-    }
-
-    if (reference.current && floating.current) {
+  index(() => {
+    if (referenceEl) referenceRef.current = referenceEl;
+    if (floatingEl) floatingRef.current = floatingEl;
+    if (referenceEl && floatingEl) {
       if (whileElementsMountedRef.current) {
-        const cleanupFn = whileElementsMountedRef.current(reference.current, floating.current, update);
-        cleanupRef.current = cleanupFn;
+        return whileElementsMountedRef.current(referenceEl, floatingEl, update);
       } else {
         update();
       }
     }
-  }, [update, whileElementsMountedRef]);
-  const setReference = external_React_.useCallback(node => {
-    reference.current = node;
-    runElementMountCallback();
-  }, [runElementMountCallback]);
-  const setFloating = external_React_.useCallback(node => {
-    floating.current = node;
-    runElementMountCallback();
-  }, [runElementMountCallback]);
+  }, [referenceEl, floatingEl, update, whileElementsMountedRef]);
   const refs = external_React_.useMemo(() => ({
-    reference,
-    floating
-  }), []);
-  return external_React_.useMemo(() => ({ ...data,
+    reference: referenceRef,
+    floating: floatingRef,
+    setReference,
+    setFloating
+  }), [setReference, setFloating]);
+  const elements = external_React_.useMemo(() => ({
+    reference: referenceEl,
+    floating: floatingEl
+  }), [referenceEl, floatingEl]);
+  const floatingStyles = external_React_.useMemo(() => {
+    const initialStyles = {
+      position: strategy,
+      left: 0,
+      top: 0
+    };
+    if (!elements.floating) {
+      return initialStyles;
+    }
+    const x = roundByDPR(elements.floating, data.x);
+    const y = roundByDPR(elements.floating, data.y);
+    if (transform) {
+      return {
+        ...initialStyles,
+        transform: "translate(" + x + "px, " + y + "px)",
+        ...(getDPR(elements.floating) >= 1.5 && {
+          willChange: 'transform'
+        })
+      };
+    }
+    return {
+      position: strategy,
+      left: x,
+      top: y
+    };
+  }, [strategy, transform, elements.floating, data.x, data.y]);
+  return external_React_.useMemo(() => ({
+    ...data,
     update,
     refs,
-    reference: setReference,
-    floating: setFloating
-  }), [data, update, refs, setReference, setFloating]);
+    elements,
+    floatingStyles
+  }), [data, update, refs, elements, floatingStyles]);
 }
-
-/**
- * Positions an inner element of the floating element such that it is centered
- * to the reference element.
- * This wraps the core `arrow` middleware to allow React refs as the element.
- * @see https://floating-ui.com/docs/arrow
- */
-
-const floating_ui_react_dom_esm_arrow = options => {
-  const {
-    element,
-    padding
-  } = options;
-
-  function isRef(value) {
-    return Object.prototype.hasOwnProperty.call(value, 'current');
-  }
-
-  return {
-    name: 'arrow',
-    options,
-
-    fn(args) {
-      if (isRef(element)) {
-        if (element.current != null) {
-          return arrow({
-            element: element.current,
-            padding
-          }).fn(args);
-        }
-
-        return {};
-      } else if (element) {
-        return arrow({
-          element,
-          padding
-        }).fn(args);
-      }
-
-      return {};
-    }
-
-  };
-};
 
 
 
@@ -17812,7 +17844,7 @@ function useContextSystemBridge({
     es6_default()(valueRef.current, value) &&
     // But not the same reference.
     valueRef.current !== value) {
-      typeof process !== "undefined" && process.env && "production" !== "production" ? 0 : void 0;
+       false ? 0 : void 0;
     }
   }, [value]);
 
@@ -17868,10 +17900,8 @@ const BaseContextSystemProvider = ({
 const ContextSystemProvider = (0,external_wp_element_namespaceObject.memo)(BaseContextSystemProvider);
 
 ;// CONCATENATED MODULE: ./packages/components/build-module/ui/context/constants.js
-const REACT_TYPEOF_KEY = '$$typeof';
 const COMPONENT_NAMESPACE = 'data-wp-component';
 const CONNECTED_NAMESPACE = 'data-wp-c16t';
-const CONTEXT_COMPONENT_NAMESPACE = 'data-wp-c5tc8t';
 
 /**
  * Special key where the connected namespaces are stored.
@@ -20673,7 +20703,7 @@ const isSerializedStyles = o => typeof o !== 'undefined' && o !== null && ['name
  * `cx` normally knows how to handle. It also hooks into the Emotion
  * Cache, allowing `css` calls to work inside iframes.
  *
- * @example
+ * ```jsx
  * import { css } from '@emotion/react';
  *
  * const styles = css`
@@ -20687,6 +20717,7 @@ const isSerializedStyles = o => typeof o !== 'undefined' && o !== null && ['name
  *
  * 	return <span className={classes} {...props} />;
  * }
+ * ```
  */
 const useCx = () => {
   const cache = __unsafe_useEmotionCache();
@@ -20736,7 +20767,7 @@ const useCx = () => {
 function useContextSystem(props, namespace) {
   const contextSystemProps = useComponentsContext();
   if (typeof namespace === 'undefined') {
-    typeof process !== "undefined" && process.env && "production" !== "production" ? 0 : void 0;
+     false ? 0 : void 0;
   }
   const contextProps = contextSystemProps?.[namespace] || {};
 
@@ -20826,7 +20857,7 @@ function contextConnectWithoutRef(Component, namespace) {
 function _contextConnect(Component, namespace, options) {
   const WrappedComponent = options?.forwardsRef ? (0,external_wp_element_namespaceObject.forwardRef)(Component) : Component;
   if (typeof namespace === 'undefined') {
-    typeof process !== "undefined" && process.env && "production" !== "production" ? 0 : void 0;
+     false ? 0 : void 0;
   }
 
   // @ts-expect-error internal property
@@ -21125,7 +21156,6 @@ var createStyled = function createStyled(tag, options) {
  * `View` is a core component that renders everything in the library.
  * It is the principle component in the entire library.
  *
- * @example
  * ```jsx
  * import { View } from `@wordpress/components`;
  *
@@ -22560,12 +22590,14 @@ const slot_fill_context_SlotFillContext = (0,external_wp_element_namespaceObject
   slots: proxyMap(),
   fills: proxyMap(),
   registerSlot: () => {
-    typeof process !== "undefined" && process.env && "production" !== "production" ? 0 : void 0;
+     false ? 0 : void 0;
   },
   updateSlot: () => {},
   unregisterSlot: () => {},
   registerFill: () => {},
-  unregisterFill: () => {}
+  unregisterFill: () => {},
+  // This helps the provider know if it's using the default context value or not.
+  isDefault: true
 });
 /* harmony default export */ const slot_fill_context = (slot_fill_context_SlotFillContext);
 
@@ -22818,12 +22850,17 @@ function fill_Fill({
  * Internal dependencies
  */
 
-function slot_Slot({
-  name,
-  fillProps = {},
-  as: Component = 'div',
-  ...props
-}, forwardedRef) {
+
+function slot_Slot(props, forwardedRef) {
+  const {
+    name,
+    fillProps = {},
+    as,
+    // `children` is not allowed. However, if it is passed,
+    // it will be displayed as is, so remove `children`.
+    children,
+    ...restProps
+  } = props;
   const {
     registerSlot,
     unregisterSlot,
@@ -22846,9 +22883,10 @@ function slot_Slot({
   (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
     registry.updateSlot(name, fillProps);
   });
-  return (0,external_wp_element_namespaceObject.createElement)(Component, {
+  return (0,external_wp_element_namespaceObject.createElement)(component, {
+    as: as,
     ref: (0,external_wp_compose_namespaceObject.useMergeRefs)([forwardedRef, ref]),
-    ...props
+    ...restProps
   });
 }
 /* harmony default export */ const bubbles_virtually_slot = ((0,external_wp_element_namespaceObject.forwardRef)(slot_Slot));
@@ -23060,6 +23098,7 @@ class provider_SlotFillProvider extends external_wp_element_namespaceObject.Comp
 
 
 
+
 function slot_fill_Fill(props) {
   // We're adding both Fills here so they can register themselves before
   // their respective slot has been registered. Only the Fill that has a slot
@@ -23088,6 +23127,10 @@ function Provider({
   children,
   ...props
 }) {
+  const parent = (0,external_wp_element_namespaceObject.useContext)(slot_fill_context);
+  if (!parent.isDefault) {
+    return children;
+  }
   return (0,external_wp_element_namespaceObject.createElement)(provider_SlotFillProvider, {
     ...props
   }, (0,external_wp_element_namespaceObject.createElement)(SlotFillProvider, null, children));
@@ -23296,40 +23339,6 @@ const placementToMotionAnimationProps = placement => {
     }
   };
 };
-
-/**
- * Returns the offset of a document's frame element.
- *
- * @param document The iframe's owner document.
- *
- * @return The offset of the document's frame element, or undefined if the
- * document has no frame element.
- */
-const getFrameOffset = document => {
-  const frameElement = document?.defaultView?.frameElement;
-  if (!frameElement) {
-    return;
-  }
-  const iframeRect = frameElement.getBoundingClientRect();
-  return {
-    x: iframeRect.left,
-    y: iframeRect.top
-  };
-};
-const getFrameScale = document => {
-  const frameElement = document?.defaultView?.frameElement;
-  if (!frameElement) {
-    return {
-      x: 1,
-      y: 1
-    };
-  }
-  const rect = frameElement.getBoundingClientRect();
-  return {
-    x: rect.width / frameElement.offsetWidth,
-    y: rect.height / frameElement.offsetHeight
-  };
-};
 const getReferenceOwnerDocument = ({
   anchor,
   anchorRef,
@@ -23347,7 +23356,9 @@ const getReferenceOwnerDocument = ({
   // with the `getBoundingClientRect()` function (like real elements).
   // See https://floating-ui.com/docs/virtual-elements for more info.
   let resultingReferenceOwnerDoc;
-  if (anchor) {
+  if (anchor?.contextElement) {
+    resultingReferenceOwnerDoc = anchor.contextElement?.ownerDocument;
+  } else if (anchor) {
     resultingReferenceOwnerDoc = anchor.ownerDocument;
   } else if (anchorRef?.top) {
     resultingReferenceOwnerDoc = anchorRef?.top.ownerDocument;
@@ -23370,8 +23381,7 @@ const getReferenceElement = ({
   anchorRef,
   anchorRect,
   getAnchorRect,
-  fallbackReferenceElement,
-  scale
+  fallbackReferenceElement
 }) => {
   var _referenceElement;
   let referenceElement = null;
@@ -23417,16 +23427,6 @@ const getReferenceElement = ({
     // anchoring to the popover's parent node.
     referenceElement = fallbackReferenceElement.parentElement;
   }
-  if (referenceElement && (scale.x !== 1 || scale.y !== 1)) {
-    // If the popover is inside an iframe, the coordinates of the
-    // reference element need to be scaled to match the iframe's scale.
-    const rect = referenceElement.getBoundingClientRect();
-    referenceElement = {
-      getBoundingClientRect() {
-        return new window.DOMRect(rect.x * scale.x, rect.y * scale.y, rect.width * scale.x, rect.height * scale.y);
-      }
-    };
-  }
 
   // Convert any `undefined` value to `null`.
   return (_referenceElement = referenceElement) !== null && _referenceElement !== void 0 ? _referenceElement : null;
@@ -23442,129 +23442,6 @@ const getReferenceElement = ({
  *         return value means "no style set" for this coordinate.
  */
 const computePopoverPosition = c => c === null || Number.isNaN(c) ? undefined : Math.round(c);
-
-;// CONCATENATED MODULE: ./packages/components/build-module/popover/limit-shift.js
-/**
- * External dependencies
- */
-
-/**
- * Parts of this source were derived and modified from `floating-ui`,
- * released under the MIT license.
- *
- * https://github.com/floating-ui/floating-ui
- *
- * Copyright (c) 2021 Floating UI contributors
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
-/**
- * Custom limiter function for the `shift` middleware.
- * This function is mostly identical default `limitShift` from ``@floating-ui`;
- * the only difference is that, when computing the min/max shift limits, it
- * also takes into account the iframe offset that is added by the
- * custom "frameOffset" middleware.
- *
- * All unexported types and functions are also from the `@floating-ui` library,
- * and have been copied to this file for convenience.
- */
-
-function limit_shift_getSide(placement) {
-  return placement.split('-')[0];
-}
-function getMainAxisFromPlacement(placement) {
-  return ['top', 'bottom'].includes(limit_shift_getSide(placement)) ? 'x' : 'y';
-}
-function getCrossAxis(axis) {
-  return axis === 'x' ? 'y' : 'x';
-}
-const limit_shift_limitShift = (options = {}) => ({
-  options,
-  fn(middlewareArguments) {
-    const {
-      x,
-      y,
-      placement,
-      rects,
-      middlewareData
-    } = middlewareArguments;
-    const {
-      offset = 0,
-      mainAxis: checkMainAxis = true,
-      crossAxis: checkCrossAxis = true
-    } = options;
-    const coords = {
-      x,
-      y
-    };
-    const mainAxis = getMainAxisFromPlacement(placement);
-    const crossAxis = getCrossAxis(mainAxis);
-    let mainAxisCoord = coords[mainAxis];
-    let crossAxisCoord = coords[crossAxis];
-    const rawOffset = typeof offset === 'function' ? offset(middlewareArguments) : offset;
-    const computedOffset = typeof rawOffset === 'number' ? {
-      mainAxis: rawOffset,
-      crossAxis: 0
-    } : {
-      mainAxis: 0,
-      crossAxis: 0,
-      ...rawOffset
-    };
-
-    // At the moment of writing, this is the only difference
-    // with the `limitShift` function from `@floating-ui`.
-    // This offset needs to be added to all min/max limits
-    // in order to make the shift-limiting work as expected.
-    const additionalFrameOffset = {
-      x: 0,
-      y: 0,
-      ...middlewareData.frameOffset?.amount
-    };
-    if (checkMainAxis) {
-      const len = mainAxis === 'y' ? 'height' : 'width';
-      const limitMin = rects.reference[mainAxis] - rects.floating[len] + computedOffset.mainAxis + additionalFrameOffset[mainAxis];
-      const limitMax = rects.reference[mainAxis] + rects.reference[len] - computedOffset.mainAxis + additionalFrameOffset[mainAxis];
-      if (mainAxisCoord < limitMin) {
-        mainAxisCoord = limitMin;
-      } else if (mainAxisCoord > limitMax) {
-        mainAxisCoord = limitMax;
-      }
-    }
-    if (checkCrossAxis) {
-      var _middlewareData$offse, _middlewareData$offse2;
-      const len = mainAxis === 'y' ? 'width' : 'height';
-      const isOriginSide = ['top', 'left'].includes(limit_shift_getSide(placement));
-      const limitMin = rects.reference[crossAxis] - rects.floating[len] + (isOriginSide ? (_middlewareData$offse = middlewareData.offset?.[crossAxis]) !== null && _middlewareData$offse !== void 0 ? _middlewareData$offse : 0 : 0) + (isOriginSide ? 0 : computedOffset.crossAxis) + additionalFrameOffset[crossAxis];
-      const limitMax = rects.reference[crossAxis] + rects.reference[len] + (isOriginSide ? 0 : (_middlewareData$offse2 = middlewareData.offset?.[crossAxis]) !== null && _middlewareData$offse2 !== void 0 ? _middlewareData$offse2 : 0) - (isOriginSide ? computedOffset.crossAxis : 0) + additionalFrameOffset[crossAxis];
-      if (crossAxisCoord < limitMin) {
-        crossAxisCoord = limitMin;
-      } else if (crossAxisCoord > limitMax) {
-        crossAxisCoord = limitMax;
-      }
-    }
-    return {
-      [mainAxis]: mainAxisCoord,
-      [crossAxis]: crossAxisCoord
-    };
-  }
-});
 
 ;// CONCATENATED MODULE: ./packages/components/build-module/popover/overlay-middlewares.js
 /**
@@ -23634,7 +23511,6 @@ function overlayMiddlewares() {
 
 
 
-
 /**
  * Name of slot in which popover should fill.
  *
@@ -23687,8 +23563,17 @@ const AnimatedWrapper = (0,external_wp_element_namespaceObject.forwardRef)(({
   });
 });
 const slotNameContext = (0,external_wp_element_namespaceObject.createContext)(undefined);
+const fallbackContainerClassname = 'components-popover__fallback-container';
+const getPopoverFallbackContainer = () => {
+  let container = document.body.querySelector('.' + fallbackContainerClassname);
+  if (!container) {
+    container = document.createElement('div');
+    container.className = fallbackContainerClassname;
+    document.body.append(container);
+  }
+  return container;
+};
 const UnforwardedPopover = (props, forwardedRef) => {
-  var _frameOffsetRef$curre, _frameOffsetRef$curre2;
   const {
     animate = true,
     headerTitle,
@@ -23707,6 +23592,7 @@ const UnforwardedPopover = (props, forwardedRef) => {
     flip = true,
     resize = true,
     shift = false,
+    inline = false,
     variant,
     // Deprecated props
     __unstableForcePosition,
@@ -23766,39 +23652,7 @@ const UnforwardedPopover = (props, forwardedRef) => {
   const isExpanded = expandOnMobile && isMobileViewport;
   const hasArrow = !isExpanded && !noArrow;
   const normalizedPlacementFromProps = position ? positionToPlacement(position) : placementProp;
-
-  /**
-   * Offsets the position of the popover when the anchor is inside an iframe.
-   *
-   * Store the offset in a ref, due to constraints with floating-ui:
-   * https://floating-ui.com/docs/react-dom#variables-inside-middleware-functions.
-   */
-  const frameOffsetRef = (0,external_wp_element_namespaceObject.useRef)(getFrameOffset(referenceOwnerDocument));
-  const middleware = [...(placementProp === 'overlay' ? overlayMiddlewares() : []),
-  // Custom middleware which adjusts the popover's position by taking into
-  // account the offset of the anchor's iframe (if any) compared to the page.
-  {
-    name: 'frameOffset',
-    fn({
-      x,
-      y
-    }) {
-      if (!frameOffsetRef.current) {
-        return {
-          x,
-          y
-        };
-      }
-      return {
-        x: x + frameOffsetRef.current.x,
-        y: y + frameOffsetRef.current.y,
-        data: {
-          // This will be used in the customLimitShift() function.
-          amount: frameOffsetRef.current
-        }
-      };
-    }
-  }, offset(offsetProp), computedFlipProp ? floating_ui_core_flip() : undefined, computedResizeProp ? size({
+  const middleware = [...(placementProp === 'overlay' ? overlayMiddlewares() : []), offset(offsetProp), computedFlipProp && floating_ui_core_flip(), computedResizeProp && size({
     apply(sizeProps) {
       var _refs$floating$curren;
       const {
@@ -23814,13 +23668,13 @@ const UnforwardedPopover = (props, forwardedRef) => {
         overflow: 'auto'
       });
     }
-  }) : undefined, shift ? floating_ui_core_shift({
+  }), shift && floating_ui_core_shift({
     crossAxis: true,
-    limiter: limit_shift_limitShift(),
+    limiter: limitShift(),
     padding: 1 // Necessary to avoid flickering at the edge of the viewport.
-  }) : undefined, floating_ui_react_dom_esm_arrow({
+  }), floating_ui_react_dom_esm_arrow({
     element: arrowRef
-  })].filter(m => m !== undefined);
+  })];
   const slotName = (0,external_wp_element_namespaceObject.useContext)(slotNameContext) || __unstableSlotName;
   const slot = use_slot_useSlot(slotName);
   let onDialogClose;
@@ -23845,10 +23699,6 @@ const UnforwardedPopover = (props, forwardedRef) => {
     // Positioning coordinates
     x,
     y,
-    // Callback refs (not regular refs). This allows the position to be updated.
-    // when either elements change.
-    reference: referenceCallbackRef,
-    floating,
     // Object with "regular" refs to both "reference" and "floating"
     refs,
     // Type of CSS position property to use (absolute or fixed)
@@ -23862,6 +23712,7 @@ const UnforwardedPopover = (props, forwardedRef) => {
     placement: normalizedPlacementFromProps === 'overlay' ? undefined : normalizedPlacementFromProps,
     middleware,
     whileElementsMounted: (referenceParam, floatingParam, updateParam) => autoUpdate(referenceParam, floatingParam, updateParam, {
+      layoutShift: false,
       animationFrame: true
     })
   });
@@ -23886,32 +23737,22 @@ const UnforwardedPopover = (props, forwardedRef) => {
       fallbackReferenceElement,
       fallbackDocument: document
     });
-    const scale = getFrameScale(resultingReferenceOwnerDoc);
     const resultingReferenceElement = getReferenceElement({
       anchor,
       anchorRef,
       anchorRect,
       getAnchorRect,
-      fallbackReferenceElement,
-      scale
+      fallbackReferenceElement
     });
-    referenceCallbackRef(resultingReferenceElement);
+    refs.setReference(resultingReferenceElement);
     setReferenceOwnerDocument(resultingReferenceOwnerDoc);
-  }, [anchor, anchorRef, anchorRefTop, anchorRefBottom, anchorRefStartContainer, anchorRefCurrent, anchorRect, getAnchorRect, fallbackReferenceElement, referenceCallbackRef]);
+  }, [anchor, anchorRef, anchorRefTop, anchorRefBottom, anchorRefStartContainer, anchorRefCurrent, anchorRect, getAnchorRect, fallbackReferenceElement, refs]);
 
   // If the reference element is in a different ownerDocument (e.g. iFrame),
   // we need to manually update the floating's position as the reference's owner
-  // document scrolls. Also update the frame offset if the view resizes.
+  // document scrolls.
   (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
-    if (
-    // Reference and root documents are the same.
-    referenceOwnerDocument === document ||
-    // Reference and floating are in the same document.
-    referenceOwnerDocument === refs.floating.current?.ownerDocument ||
-    // The reference's document has no view (i.e. window)
-    // or frame element (ie. it's not an iframe).
-    !referenceOwnerDocument?.defaultView?.frameElement) {
-      frameOffsetRef.current = undefined;
+    if (!referenceOwnerDocument || !referenceOwnerDocument.defaultView) {
       return;
     }
     const {
@@ -23921,19 +23762,14 @@ const UnforwardedPopover = (props, forwardedRef) => {
       frameElement
     } = defaultView;
     const scrollContainer = frameElement ? (0,external_wp_dom_namespaceObject.getScrollContainer)(frameElement) : null;
-    const updateFrameOffset = () => {
-      frameOffsetRef.current = getFrameOffset(referenceOwnerDocument);
-      update();
-    };
-    defaultView.addEventListener('resize', updateFrameOffset);
-    scrollContainer?.addEventListener('scroll', updateFrameOffset);
-    updateFrameOffset();
+    defaultView.addEventListener('resize', update);
+    scrollContainer?.addEventListener('scroll', update);
     return () => {
-      defaultView.removeEventListener('resize', updateFrameOffset);
-      scrollContainer?.removeEventListener('scroll', updateFrameOffset);
+      defaultView.removeEventListener('resize', update);
+      scrollContainer?.removeEventListener('scroll', update);
     };
-  }, [referenceOwnerDocument, update, refs.floating]);
-  const mergedFloatingRef = (0,external_wp_compose_namespaceObject.useMergeRefs)([floating, dialogRef, forwardedRef]);
+  }, [referenceOwnerDocument, update]);
+  const mergedFloatingRef = (0,external_wp_compose_namespaceObject.useMergeRefs)([refs.setFloating, dialogRef, forwardedRef]);
 
   // Disable reason: We care to capture the _bubbled_ events from inputs
   // within popover as inferring close intent.
@@ -23980,21 +23816,25 @@ const UnforwardedPopover = (props, forwardedRef) => {
     ref: arrowCallbackRef,
     className: ['components-popover__arrow', `is-${computedPlacement.split('-')[0]}`].join(' '),
     style: {
-      left: typeof arrowData?.x !== 'undefined' && Number.isFinite(arrowData.x) ? `${arrowData.x + ((_frameOffsetRef$curre = frameOffsetRef.current?.x) !== null && _frameOffsetRef$curre !== void 0 ? _frameOffsetRef$curre : 0)}px` : '',
-      top: typeof arrowData?.y !== 'undefined' && Number.isFinite(arrowData.y) ? `${arrowData.y + ((_frameOffsetRef$curre2 = frameOffsetRef.current?.y) !== null && _frameOffsetRef$curre2 !== void 0 ? _frameOffsetRef$curre2 : 0)}px` : ''
+      left: typeof arrowData?.x !== 'undefined' && Number.isFinite(arrowData.x) ? `${arrowData.x}px` : '',
+      top: typeof arrowData?.y !== 'undefined' && Number.isFinite(arrowData.y) ? `${arrowData.y}px` : ''
     }
   }, (0,external_wp_element_namespaceObject.createElement)(ArrowTriangle, null)));
-  if (slot.ref) {
+  const shouldRenderWithinSlot = slot.ref && !inline;
+  const hasAnchor = anchorRef || anchorRect || anchor;
+  if (shouldRenderWithinSlot) {
     content = (0,external_wp_element_namespaceObject.createElement)(slot_fill_Fill, {
       name: slotName
     }, content);
+  } else if (!inline) {
+    content = (0,external_wp_element_namespaceObject.createPortal)(content, getPopoverFallbackContainer());
   }
-  if (anchorRef || anchorRect || anchor) {
+  if (hasAnchor) {
     return content;
   }
-  return (0,external_wp_element_namespaceObject.createElement)("span", {
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)("span", {
     ref: anchorRefFallback
-  }, content);
+  }), content);
 };
 
 /**
@@ -24046,6 +23886,19 @@ Popover.__unstableSlotNameProvider = slotNameContext.Provider;
  * Internal dependencies
  */
 
+/**
+ * Shortcut component is used to display keyboard shortcuts, and it can be customized with a custom display and aria label if needed.
+ *
+ * ```jsx
+ * import { Shortcut } from '@wordpress/components';
+ *
+ * const MyShortcut = () => {
+ * 	return (
+ * 		<Shortcut shortcut={{ display: 'Ctrl + S', ariaLabel: 'Save' }} />
+ * 	);
+ * };
+ * ```
+ */
 function Shortcut(props) {
   const {
     shortcut,
@@ -27840,44 +27693,6 @@ function getDefinedValue(values = [], fallbackValue) {
 }
 
 /**
- * @param {string} [locale]
- * @return {[RegExp, RegExp]} The delimiter and decimal regexp
- */
-const getDelimiterAndDecimalRegex = locale => {
-  const formatted = Intl.NumberFormat(locale).format(1000.1);
-  const delimiter = formatted[1];
-  const decimal = formatted[formatted.length - 2];
-  return [new RegExp(`\\${delimiter}`, 'g'), new RegExp(`\\${decimal}`, 'g')];
-};
-
-// https://en.wikipedia.org/wiki/Decimal_separator#Current_standards
-const INTERNATIONAL_THOUSANDS_DELIMITER = / /g;
-const ARABIC_NUMERAL_LOCALES = (/* unused pure expression or super */ null && (['ar', 'fa', 'ur', 'ckb', 'ps']));
-const EASTERN_ARABIC_NUMBERS = /([۰-۹]|[٠-٩])/g;
-
-/**
- * Checks to see if a value is a numeric value (`number` or `string`).
- *
- * Intentionally ignores whether the thousands delimiters are only
- * in the thousands marks.
- *
- * @param {any}    value
- * @param {string} [locale]
- * @return {boolean} Whether value is numeric.
- */
-function isValueNumeric(value, locale = window.navigator.language) {
-  if (ARABIC_NUMERAL_LOCALES.some(l => locale.startsWith(l))) {
-    locale = 'en-GB';
-    if (EASTERN_ARABIC_NUMBERS.test(value)) {
-      value = value.replace(/[٠-٩]/g, ( /** @type {string} */d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, ( /** @type {string} */d) => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/٬/g, ',').replace(/٫/g, '.');
-    }
-  }
-  const [delimiterRegexp, decimalRegexp] = getDelimiterAndDecimalRegex(locale);
-  const valueToCheck = typeof value === 'string' ? value.replace(delimiterRegexp, '').replace(decimalRegexp, '.').replace(INTERNATIONAL_THOUSANDS_DELIMITER, '') : value;
-  return !isNaN(parseFloat(valueToCheck)) && isFinite(valueToCheck);
-}
-
-/**
  * Converts a string to a number.
  *
  * @param {string} value
@@ -27885,16 +27700,6 @@ function isValueNumeric(value, locale = window.navigator.language) {
  */
 const stringToNumber = value => {
   return parseFloat(value);
-};
-
-/**
- * Converts a number to a string.
- *
- * @param {number} value
- * @return {string} Number as a string.
- */
-const numberToString = value => {
-  return `${value}`;
 };
 
 /**
@@ -27907,18 +27712,6 @@ const numberToString = value => {
  */
 const ensureNumber = value => {
   return typeof value === 'string' ? stringToNumber(value) : value;
-};
-
-/**
- * Regardless of the input being a string or a number, returns a number.
- *
- * Returns `undefined` in case the string is `undefined` or not a valid numeric value.
- *
- * @param {string | number} value
- * @return {string} The converted string, or `undefined` in case the input is `undefined` or `NaN`.
- */
-const ensureString = value => {
-  return typeof value === 'string' ? value : numberToString(value);
 };
 
 ;// CONCATENATED MODULE: ./packages/components/build-module/truncate/utils.js
@@ -31845,17 +31638,6 @@ function roundClamp(value = 0, min = Infinity, max = Infinity, step = 1) {
   const rounded = Math.round(baseValue / stepValue) * stepValue;
   const clampedValue = math_clamp(rounded, min, max);
   return precision ? getNumber(clampedValue.toFixed(precision)) : clampedValue;
-}
-
-/**
- * Clamps a value based on a min/max range with rounding.
- * Returns a string.
- *
- * @param {Parameters<typeof roundClamp>} args Arguments for roundClamp().
- * @return {string} The rounded and clamped value.
- */
-function roundClampString(...args) {
-  return roundClamp(...args).toString();
 }
 
 ;// CONCATENATED MODULE: ./packages/components/build-module/h-stack/utils.js
@@ -35957,7 +35739,7 @@ function getVariation(placement) {
   return placement.split('-')[1];
 }
 ;// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js
-function getMainAxisFromPlacement_getMainAxisFromPlacement(placement) {
+function getMainAxisFromPlacement(placement) {
   return ['top', 'bottom'].indexOf(placement) >= 0 ? 'x' : 'y';
 }
 ;// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/computeOffsets.js
@@ -36011,7 +35793,7 @@ function computeOffsets(_ref) {
       };
   }
 
-  var mainAxis = basePlacement ? getMainAxisFromPlacement_getMainAxisFromPlacement(basePlacement) : null;
+  var mainAxis = basePlacement ? getMainAxisFromPlacement(basePlacement) : null;
 
   if (mainAxis != null) {
     var len = mainAxis === 'y' ? 'height' : 'width';
@@ -36890,7 +36672,7 @@ function preventOverflow(_ref) {
   var basePlacement = getBasePlacement(state.placement);
   var variation = getVariation(state.placement);
   var isBasePlacement = !variation;
-  var mainAxis = getMainAxisFromPlacement_getMainAxisFromPlacement(basePlacement);
+  var mainAxis = getMainAxisFromPlacement(basePlacement);
   var altAxis = getAltAxis(mainAxis);
   var popperOffsets = state.modifiersData.popperOffsets;
   var referenceRect = state.rects.reference;
@@ -37023,7 +36805,7 @@ function arrow_arrow(_ref) {
   var arrowElement = state.elements.arrow;
   var popperOffsets = state.modifiersData.popperOffsets;
   var basePlacement = getBasePlacement(state.placement);
-  var axis = getMainAxisFromPlacement_getMainAxisFromPlacement(basePlacement);
+  var axis = getMainAxisFromPlacement(basePlacement);
   var isVertical = [left, right].indexOf(basePlacement) >= 0;
   var len = isVertical ? 'height' : 'width';
 
@@ -39271,12 +39053,6 @@ const extractColorNameFromCurrentValue = (currentValue, colors = [], showMultipl
   // translators: shown when the user has picked a custom color (i.e not in the palette of colors).
   return (0,external_wp_i18n_namespaceObject.__)('Custom');
 };
-const showTransparentBackground = currentValue => {
-  if (typeof currentValue === 'undefined') {
-    return true;
-  }
-  return colord(currentValue).alpha() === 0;
-};
 
 // The PaletteObject type has a `colors` property (an array of ColorObject),
 // while the ColorObject type has a `color` property (the CSS color value).
@@ -40331,7 +40107,6 @@ function UnforwardedUnitControl(unitControlProps, forwardedRef) {
  * `UnitControl` allows the user to set a numeric quantity as well as a unit (e.g. `px`).
  *
  *
- * @example
  * ```jsx
  * import { __experimentalUnitControl as UnitControl } from '@wordpress/components';
  * import { useState } from '@wordpress/element';
@@ -43800,7 +43575,6 @@ function UnconnectedItemGroup(props, forwardedRef) {
 /**
  * `ItemGroup` displays a list of `Item`s grouped and styled together.
  *
- * @example
  * ```jsx
  * import {
  *   __experimentalItemGroup as ItemGroup,
@@ -45515,7 +45289,7 @@ const NameInputControl = /*#__PURE__*/emotion_styled_base_browser_esm(input_cont
 } : 0)(Container, "{background:", COLORS.gray[100], ";border-radius:", config_values.controlBorderRadius, ";", Input, Input, Input, Input, "{height:", space(8), ";}", BackdropUI, BackdropUI, BackdropUI, "{border-color:transparent;box-shadow:none;}}" + ( true ? "" : 0));
 const PaletteItem = /*#__PURE__*/emotion_styled_base_browser_esm(component,  true ? {
   target: "e5bw3227"
-} : 0)("padding:3px 0 3px ", space(3), ";height:calc( 40px - ", config_values.borderWidth, " );border:1px solid ", config_values.surfaceBorderColor, ";border-bottom-color:transparent;&:first-of-type{border-top-left-radius:", config_values.controlBorderRadius, ";border-top-right-radius:", config_values.controlBorderRadius, ";}&:last-of-type{border-bottom-left-radius:", config_values.controlBorderRadius, ";border-bottom-right-radius:", config_values.controlBorderRadius, ";border-bottom-color:", config_values.surfaceBorderColor, ";}&.is-selected+&{border-top-color:transparent;}&.is-selected{border-color:", COLORS.theme.accent, ";}" + ( true ? "" : 0));
+} : 0)("padding:3px 0 3px ", space(3), ";border:1px solid ", config_values.surfaceBorderColor, ";border-bottom-color:transparent;&:first-of-type{border-top-left-radius:", config_values.controlBorderRadius, ";border-top-right-radius:", config_values.controlBorderRadius, ";}&:last-of-type{border-bottom-left-radius:", config_values.controlBorderRadius, ";border-bottom-right-radius:", config_values.controlBorderRadius, ";border-bottom-color:", config_values.surfaceBorderColor, ";}&.is-selected+&{border-top-color:transparent;}&.is-selected{border-color:", COLORS.theme.accent, ";}" + ( true ? "" : 0));
 const NameContainer = emotion_styled_base_browser_esm("div",  true ? {
   target: "e5bw3226"
 } : 0)("line-height:", space(8), ";margin-left:", space(2), ";margin-right:", space(2), ";white-space:nowrap;overflow:hidden;", PaletteItem, ":hover &{color:", COLORS.theme.accent, ";}" + ( true ? "" : 0));
@@ -60221,7 +59995,6 @@ function UnconnectedItem(props, forwardedRef) {
  * `Item` is used in combination with `ItemGroup` to display a list of items
  * grouped and styled together.
  *
- * @example
  * ```jsx
  * import {
  *   __experimentalItemGroup as ItemGroup,
@@ -60443,7 +60216,7 @@ function MenuGroup(props) {
 
 
 
-function MenuItem(props, ref) {
+function UnforwardedMenuItem(props, ref) {
   let {
     children,
     info,
@@ -60506,6 +60279,7 @@ function MenuItem(props, ref) {
  * 		<MenuItem
  * 			icon={ isActive ? 'yes' : 'no' }
  * 			isSelected={ isActive }
+ * 			role="menuitemcheckbox"
  * 			onClick={ () => setIsActive( ( state ) => ! state ) }
  * 		>
  * 			Toggle
@@ -60514,7 +60288,8 @@ function MenuItem(props, ref) {
  * };
  * ```
  */
-/* harmony default export */ const menu_item = ((0,external_wp_element_namespaceObject.forwardRef)(MenuItem));
+const MenuItem = (0,external_wp_element_namespaceObject.forwardRef)(UnforwardedMenuItem);
+/* harmony default export */ const menu_item = (MenuItem);
 
 ;// CONCATENATED MODULE: ./packages/components/build-module/menu-items-choice/index.js
 
@@ -61062,7 +60837,6 @@ const navigation_noop = () => {};
 /**
  * Render a navigation list with optional groupings and hierarchy.
  *
- * @example
  * ```jsx
  * import {
  *   __experimentalNavigation as Navigation,
@@ -62510,7 +62284,6 @@ function UnconnectedNavigatorProvider(props, forwardedRef) {
  * view (via the `NavigatorButton` and `NavigatorBackButton` components or the
  * `useNavigator` hook).
  *
- * @example
  * ```jsx
  * import {
  *   __experimentalNavigatorProvider as NavigatorProvider,
@@ -63597,7 +63370,6 @@ function getSelectOptions(tree, level = 0) {
 /**
  * TreeSelect component is used to generate select input fields.
  *
- * @example
  * ```jsx
  * import { TreeSelect } from '@wordpress/components';
  * import { useState } from '@wordpress/element';
@@ -65637,7 +65409,7 @@ function SandBox({
     defaultView?.addEventListener('message', checkMessageForResize);
     return () => {
       iframe?.removeEventListener('load', tryNoForceSandBox, false);
-      defaultView?.addEventListener('message', checkMessageForResize);
+      defaultView?.removeEventListener('message', checkMessageForResize);
     };
     // Ignore reason: passing `exhaustive-deps` will likely involve a more detailed refactor.
     // See https://github.com/WordPress/gutenberg/pull/44378
@@ -65753,7 +65525,7 @@ function UnforwardedSnackbar({
   });
   if (actions && actions.length > 1) {
     // We need to inform developers that snackbar only accepts 1 action.
-    typeof process !== "undefined" && process.env && "production" !== "production" ? 0 : void 0;
+     false ? 0 : void 0;
     // return first element only while keeping it inside an array
     actions = [actions[0]];
   }
@@ -65985,7 +65757,6 @@ function UnforwardedSpinner({
 /**
  * `Spinner` is a component used to notify users that their action is being processed.
  *
- * @example
  * ```js
  *   import { Spinner } from '@wordpress/components';
  *
@@ -70453,7 +70224,7 @@ function toolbar_item_ToolbarItem({
   const accessibleToolbarStore = (0,external_wp_element_namespaceObject.useContext)(toolbar_context);
   const isRenderProp = typeof children === 'function';
   if (!isRenderProp && !Component) {
-    typeof process !== "undefined" && process.env && "production" !== "production" ? 0 : void 0;
+     false ? 0 : void 0;
     return null;
   }
   const allProps = {
@@ -71279,7 +71050,11 @@ const component_ToolsPanelHeader = (props, forwardedRef) => {
     items: optionalItems,
     toggleItem: toggleItem
   }), (0,external_wp_element_namespaceObject.createElement)(menu_group, null, (0,external_wp_element_namespaceObject.createElement)(menu_item, {
-    "aria-disabled": !canResetAll,
+    "aria-disabled": !canResetAll
+    // @ts-expect-error - TODO: If this "tertiary" style is something we really want to allow on MenuItem,
+    // we should rename it and explicitly allow it as an official API. All the other Button variants
+    // don't make sense in a MenuItem context, and should be disallowed.
+    ,
     variant: 'tertiary',
     onClick: () => {
       if (canResetAll) {
@@ -71605,7 +71380,6 @@ const UnconnectedToolsPanel = (props, forwardedRef) => {
  * by a header. The header includes a dropdown menu which is automatically
  * generated from the panel's inner `ToolsPanelItems`.
  *
- * @example
  * ```jsx
  * import { __ } from '@wordpress/i18n';
  * import {
@@ -73041,7 +72815,8 @@ const Indicator = emotion_styled_base_browser_esm("div",  true ? {
   animationName: animateProgressBar,
   width: `${INDETERMINATE_TRACK_WIDTH}%`
 },  true ? "" : 0,  true ? "" : 0) : /*#__PURE__*/emotion_react_browser_esm_css({
-  width: `${value}%`
+  width: `${value}%`,
+  transition: 'width 0.4s ease-in-out'
 },  true ? "" : 0,  true ? "" : 0), ";" + ( true ? "" : 0));
 const ProgressElement = emotion_styled_base_browser_esm("progress",  true ? {
   target: "e15u147w0"
@@ -78865,7 +78640,7 @@ function generateThemeVariables(inputs) {
 function validateInputs(inputs) {
   for (const [key, value] of Object.entries(inputs)) {
     if (typeof value !== 'undefined' && !colord_w(value).isValid()) {
-      typeof process !== "undefined" && process.env && "production" !== "production" ? 0 : void 0;
+       false ? 0 : void 0;
     }
   }
 }
@@ -78883,7 +78658,7 @@ function checkContrasts(inputs, outputs) {
 function warnContrastIssues(issues) {
   for (const error of Object.values(issues)) {
     if (error) {
-      typeof process !== "undefined" && process.env && "production" !== "production" ? 0 : void 0;
+       false ? 0 : void 0;
     }
   }
 }
@@ -78955,7 +78730,6 @@ function generateShades(background, foreground) {
  * Multiple `Theme` components can be nested in order to override specific theme variables.
  *
  *
- * @example
  * ```jsx
  * const Example = () => {
  *   return (

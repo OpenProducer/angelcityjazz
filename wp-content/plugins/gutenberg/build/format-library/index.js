@@ -971,7 +971,9 @@ function link_Edit({
     onClick: onRemoveFormat,
     isActive: isActive,
     shortcutType: "primaryShift",
-    shortcutCharacter: "k"
+    shortcutCharacter: "k",
+    "aria-haspopup": "true",
+    "aria-expanded": addingLink || isActive
   }), !isActive && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichTextToolbarButton, {
     name: "link",
     icon: library_link,
@@ -979,7 +981,9 @@ function link_Edit({
     onClick: addLink,
     isActive: isActive,
     shortcutType: "primary",
-    shortcutCharacter: "k"
+    shortcutCharacter: "k",
+    "aria-haspopup": "true",
+    "aria-expanded": addingLink || isActive
   }), (addingLink || isActive) && (0,external_wp_element_namespaceObject.createElement)(inline, {
     addingLink: addingLink,
     stopAddingLink: stopAddingLink,
@@ -1749,7 +1753,6 @@ function InlineLanguageUI({
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Popover, {
     className: "block-editor-format-toolbar__language-popover",
     anchor: popoverAnchor,
-    placement: "bottom",
     onClose: onClose
   }, (0,external_wp_element_namespaceObject.createElement)("form", {
     className: "block-editor-format-toolbar__language-container-content",

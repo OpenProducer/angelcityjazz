@@ -420,7 +420,9 @@ function PatternConvertButton({
   };
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
     icon: library_symbol,
-    onClick: () => setIsModalOpen(true)
+    onClick: () => setIsModalOpen(true),
+    "aria-expanded": isModalOpen,
+    "aria-haspopup": "dialog"
   }, (0,external_wp_i18n_namespaceObject.__)('Create pattern')), isModalOpen && (0,external_wp_element_namespaceObject.createElement)(CreatePatternModal, {
     clientIds: clientIds,
     onSuccess: pattern => {
