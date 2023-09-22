@@ -14,6 +14,11 @@ defined( 'ABSPATH' ) || exit;
  */
 class Stripe_Sync {
 	/**
+	 * A flag to indicate that a Stripe subscription was migrated from Stripe to WooCommerce.
+	 */
+	const MIGRATION_CANCELLATION_FLAG = 'newspack_subscription_migrated_to_woo';
+
+	/**
 	 * The final results object.
 	 *
 	 * @var array
@@ -504,9 +509,10 @@ Running script to set next payment dates on migrated subscriptions...
 
 				// Get the next payment date.
 				$next_payment_date = $subscription->get_date( 'next_payment' );
+				$is_in_past        = $next_payment_date && strtotime( $next_payment_date ) < time();
 
 				// If there's no next payment, set it.
-				if ( ! $next_payment_date ) {
+				if ( ! $next_payment_date || $is_in_past ) {
 					$next_payment_date = $subscription->calculate_date( 'next_payment' );
 					\WP_CLI::log( sprintf( 'No next payment date set. Setting to %s.', $next_payment_date ) );
 
@@ -570,7 +576,7 @@ Running script to set next payment dates on migrated subscriptions...
 	 * @param int $offset Offset to start at.
 	 * @return array Array of WC Subscriptions.
 	 */
-	protected static function get_migrated_subscriptions( $batch_size = 0, $offset = 0 ) {
+	public static function get_migrated_subscriptions( $batch_size = 0, $offset = 0 ) {
 		$args = [
 			'fields'         => 'ids',
 			'offset'         => $offset,
@@ -764,7 +770,14 @@ Running script to set next payment dates on migrated subscriptions...
 							sprintf( '    * Would cancel Stripe subscription %s.', $existing_subscription->id )
 						);
 					} else {
-						$stripe->subscriptions->cancel( $existing_subscription->id );
+						$stripe->subscriptions->cancel(
+							$existing_subscription->id,
+							[
+								'cancellation_details' => [
+									'comment' => self::MIGRATION_CANCELLATION_FLAG, // Add a flag so we know not to sync this subscription in the future.
+								],
+							]
+						);
 						\WP_CLI::success( sprintf( 'Cancelled old subscription: %s', $existing_subscription->id ) );
 					}
 				} catch ( \Throwable $e ) {
