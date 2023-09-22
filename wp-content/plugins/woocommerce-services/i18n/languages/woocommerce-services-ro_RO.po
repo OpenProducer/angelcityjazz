@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n % 100 >= 2 && n % 100 <= 19) ? 1 : 2);\n"
-"X-Generator: GlotPress/4.0.0-alpha.7\n"
+"X-Generator: GlotPress/4.0.0-alpha.8\n"
 "Language: ro\n"
 "Project-Id-Version: Plugins - WooCommerce Shipping &amp; Tax - Stable (latest release)\n"
 
@@ -1392,11 +1392,11 @@ msgstr ""
 msgid "There was a problem updating your saved credit cards."
 msgstr "A fost o problemă la actualizarea cardurilor de credit salvate."
 
-#: classes/class-wc-connect-label-reports.php:219
+#: classes/class-wc-connect-label-reports.php:225
 msgid "No labels found for this period"
 msgstr "Nicio etichetă găsită în această perioadă"
 
-#: classes/class-wc-connect-label-reports.php:205 i18n/strings.php:268
+#: classes/class-wc-connect-label-reports.php:211 i18n/strings.php:268
 msgid "Total"
 msgstr "Total"
 
