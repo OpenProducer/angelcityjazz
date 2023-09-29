@@ -4,7 +4,7 @@ Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, the events calendar, widget, pro
 Donate link: https://evnt.is/29
 Requires at least: 6.1.0
-Stable tag: 6.2.1
+Stable tag: 6.2.1.1
 Tested up to: 6.3.1
 Requires PHP: 7.4
 License: GPLv2 or later
@@ -213,6 +213,10 @@ Previous versions of Events Calendar Pro are not cross-compatible with 6.X add-o
 Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
+
+= [6.2.1.1] 2023-09-28 =
+
+* Fix - Don't trigger `register_tec_telemetry_plugins()` from ECP [TEC-4920]
 
 = [6.2.1] 2023-09-05 =
 
