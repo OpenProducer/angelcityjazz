@@ -2,15 +2,15 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: The Events Calendar Pro 6.2.0\n"
+"Project-Id-Version: The Events Calendar Pro 6.2.2\n"
 "Report-Msgid-Bugs-To: https://evnt.is/191x\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-08-13T21:33:44-07:00\n"
-"PO-Revision-Date: 2023-08-14 04:33\n"
+"POT-Creation-Date: 2023-10-02T10:58:16-07:00\n"
+"PO-Revision-Date: 2023-10-02 17:58\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: tribe-events-calendar-pro\n"
 
@@ -3070,13 +3070,13 @@ msgstr ""
 
 #: src/Tribe/Geo_Loc.php:214
 #: src/Tribe/Geo_Loc_Filter.php:23
-#: src/Tribe/Views/V2/Views/Map_View.php:490
+#: src/Tribe/Views/V2/Views/Map_View.php:492
 msgid "Miles"
 msgstr ""
 
 #: src/Tribe/Geo_Loc.php:215
 #: src/Tribe/Geo_Loc_Filter.php:26
-#: src/Tribe/Views/V2/Views/Map_View.php:486
+#: src/Tribe/Views/V2/Views/Map_View.php:488
 msgid "Kilometers"
 msgstr ""
 
@@ -5442,7 +5442,7 @@ msgstr ""
 msgid "Map of %1$s from %2$s"
 msgstr ""
 
-#: src/Tribe/Views/V2/Views/Map_View.php:84
+#: src/Tribe/Views/V2/Views/Map_View.php:86
 msgctxt "The text label for the Map View."
 msgid "Map"
 msgstr ""
@@ -5457,12 +5457,12 @@ msgctxt "Content title for the View, displays right above the date selector on t
 msgid "%1$s from this %2$s"
 msgstr ""
 
-#: src/Tribe/Views/V2/Views/Photo_View.php:62
+#: src/Tribe/Views/V2/Views/Photo_View.php:64
 msgctxt "The text label for the Photo View."
 msgid "Photo"
 msgstr ""
 
-#: src/Tribe/Views/V2/Views/Summary_View.php:53
+#: src/Tribe/Views/V2/Views/Summary_View.php:56
 msgctxt "The text label for the Summary View."
 msgid "Summary"
 msgstr ""
@@ -5472,12 +5472,12 @@ msgctxt "The text label for the Venue View."
 msgid "Venue"
 msgstr ""
 
-#: src/Tribe/Views/V2/Views/Venue_View.php:514
+#: src/Tribe/Views/V2/Views/Venue_View.php:515
 msgctxt "Content title for the View, displays right above the date selector on the Venue View."
 msgid "%1$s at this %2$s"
 msgstr ""
 
-#: src/Tribe/Views/V2/Views/Week_View.php:111
+#: src/Tribe/Views/V2/Views/Week_View.php:113
 msgctxt "The text label for the Week View."
 msgid "Week"
 msgstr ""

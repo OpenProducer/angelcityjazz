@@ -451,6 +451,7 @@ class Venue_View extends List_View {
 	 * @param View  $view        The instance of the view being rendered.
 	 *
 	 * @param array $breadcrumbs The breadcrumbs array.
+	 * @param View  $view        The instance of the view being rendered.
 	 *
 	 * @return array The filtered breadcrumbs
 	 *

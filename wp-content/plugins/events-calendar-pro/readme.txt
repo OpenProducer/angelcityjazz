@@ -4,7 +4,7 @@ Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, the events calendar, widget, pro
 Donate link: https://evnt.is/29
 Requires at least: 6.1.0
-Stable tag: 6.2.1.1
+Stable tag: 6.2.2
 Tested up to: 6.3.1
 Requires PHP: 7.4
 License: GPLv2 or later
@@ -214,6 +214,14 @@ Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
 
+= [6.2.2] 2023-10-03 =
+
+* Version - Events Calendar PRO 6.2.2 is only compatible with The Events Calendar 6.2.3 and higher
+* Fix - Handle some issues with incorrect application of noindex meta tags. [TEC-4717]
+* Tweak - Updated focus state for relevant elements to have default outline ensuring improved accessibility and consistent browser behavior. [TEC-4888]
+* Tweak - Changed views: `v2/components/multi-venue/suffix`, `v2/widgets/shortcodes/components/after`, `v2/widgets/shortcodes/components/before`
+* Language - 0 new strings added, 7 updated, 0 fuzzied, and 0 obsoleted
+
 = [6.2.1.1] 2023-09-28 =
 
 * Fix - Don't trigger `register_tec_telemetry_plugins()` from ECP [TEC-4920]
@@ -226,6 +234,7 @@ Remember to always make a backup of your database and files before updating!
 * Fix - After a 6.0 migration, some recurring events with date instances that were marked as `same-time` would show wrong times in classic editor. This edge case should be resolved now. The underlying data was correct but the interface support was no longer handling `same-time` dates. [ECP-1511]
 * Fix - Modify output of additional fields for Event Automator to provide consistent output and prevent infinite growth of fields in Zapier. [EVA-103]
 * Tweak - Removed 'Series' post type from the list of available post types under "Tickets > Settings" in Event Tickets. [ECP-1568]
+* Tweak - Support the `post__not_recurring` query argument in CT1 queries to exclude Recurring Events from the results. [ET-1812]
 
 = [6.2.0] 2023-08-15 =
 

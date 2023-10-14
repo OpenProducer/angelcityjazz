@@ -83,7 +83,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 */
 		public $template_namespace = 'events-pro';
 
-		const VERSION = '6.2.1.1';
+		const VERSION = '6.2.2';
 
 	    /**
 		 * The Events Calendar Required Version
@@ -92,7 +92,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 * @deprecated 4.6
 		 *
 		 */
-		const REQUIRED_TEC_VERSION = '6.2.2.1';
+		const REQUIRED_TEC_VERSION = '6.2.3';
 
 		private function __construct() {
 			$this->pluginDir = trailingslashit( basename( EVENTS_CALENDAR_PRO_DIR ) );

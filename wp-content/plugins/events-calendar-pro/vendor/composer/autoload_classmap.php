@@ -149,6 +149,8 @@ return array(
     'TEC\\Events_Pro\\Custom_Tables\\V1\\WP_Query\\Condense_Events_Series' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/WP_Query/Condense_Events_Series.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\WP_Query\\Custom_Query_Filters' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/WP_Query/Custom_Query_Filters.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\WP_Query\\Modifiers\\Events_Not_In_Series_Modifier' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/WP_Query/Modifiers/Events_Not_In_Series_Modifier.php',
+    'TEC\\Events_Pro\\Custom_Tables\\V1\\WP_Query\\Modifiers\\Events_Not_Recurring_Custom_Tables_Query_Modifier' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/WP_Query/Modifiers/Events_Not_Recurring_Custom_Tables_Query_Modifier.php',
+    'TEC\\Events_Pro\\Custom_Tables\\V1\\WP_Query\\Modifiers\\Events_Not_Recurring_Query_Modifier' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/WP_Query/Modifiers/Events_Not_Recurring_Query_Modifier.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\WP_Query\\Modifiers\\Events_Series_Relationship_Modifier' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/WP_Query/Modifiers/Events_Series_Relationship_Modifier.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\WP_Query\\Modifiers\\Occurrences_Series_Relationship_Modifier' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/WP_Query/Modifiers/Occurrences_Series_Relationship_Modifier.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\WP_Query\\Modifiers\\With_Series_Normalization' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/WP_Query/Modifiers/With_Series_Normalization.php',
