@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.9\n"
+"X-Generator: GlotPress/4.0.0-alpha.11\n"
 "Language: sv_SE\n"
 "Project-Id-Version: Plugins - WooCommerce Shipping &amp; Tax - Stable (latest release)\n"
 
@@ -767,7 +767,7 @@ msgstr "Dina fraktpaket har sparats."
 msgid "0.0"
 msgstr "0.0"
 
-#: woocommerce-services.php:1469
+#: woocommerce-services.php:1476
 msgid "Shipment Tracking"
 msgstr "Fraktspårning"
 
@@ -775,23 +775,23 @@ msgstr "Fraktspårning"
 msgid "Customs information valid"
 msgstr "Tullinformation giltig"
 
-#: woocommerce-services.php:1513
+#: woocommerce-services.php:1520
 msgid "Packing Log:"
 msgstr "Paketeringslogg:"
 
-#: woocommerce-services.php:1500
+#: woocommerce-services.php:1507
 msgid "Chosen Rate:"
 msgstr "Vald avgift:"
 
-#: woocommerce-services.php:1496
+#: woocommerce-services.php:1503
 msgid "Shipping Method ID:"
 msgstr "Fraktmetodens ID:"
 
-#: woocommerce-services.php:1492
+#: woocommerce-services.php:1499
 msgid "Shipping Method Name:"
 msgstr "Fraktmetodens namn:"
 
-#: woocommerce-services.php:1476
+#: woocommerce-services.php:1483
 msgid "Shipping Debug"
 msgstr "Felsökning av frakt"
 
@@ -799,15 +799,15 @@ msgstr "Felsökning av frakt"
 msgid "<strong>\"%2$s\" is missing weight, length, width, or height.</strong><br />Shipping rates cannot be calculated. <a href=\"%1$s\">Enter dimensions and weight for %2$s</a> so your customers can purchase this item."
 msgstr ""
 
-#: classes/class-wc-connect-api-client.php:588
+#: classes/class-wc-connect-api-client.php:597
 msgid "Unable to send request to WooCommerce Shipping & Tax server. The timestamp generated for the signature is too old."
 msgstr ""
 
-#: classes/class-wc-connect-api-client.php:527
+#: classes/class-wc-connect-api-client.php:536
 msgid "Unable to send request to WooCommerce Shipping & Tax server. Jetpack Token is malformed."
 msgstr ""
 
-#: classes/class-wc-connect-api-client.php:520
+#: classes/class-wc-connect-api-client.php:529
 msgid "Unable to send request to WooCommerce Shipping & Tax server. Jetpack Token is missing"
 msgstr ""
 
@@ -1385,11 +1385,11 @@ msgstr ""
 msgid "There was a problem updating your saved credit cards."
 msgstr "Det var ett problem att uppdatera dina sparade kreditkort."
 
-#: classes/class-wc-connect-label-reports.php:225
+#: classes/class-wc-connect-label-reports.php:228
 msgid "No labels found for this period"
 msgstr "Inga etiketter hittades för denna period"
 
-#: classes/class-wc-connect-label-reports.php:211 i18n/strings.php:268
+#: classes/class-wc-connect-label-reports.php:214 i18n/strings.php:268
 msgid "Total"
 msgstr "Totalt"
 
@@ -1497,11 +1497,11 @@ msgstr "Länka ett PayPal-konto"
 msgid "Refresh"
 msgstr "Uppdatera"
 
-#: woocommerce-services.php:1249
+#: woocommerce-services.php:1256
 msgid "Tracking number"
 msgstr "Spårningsnummer"
 
-#: woocommerce-services.php:1248
+#: woocommerce-services.php:1255
 msgid "Provider"
 msgstr "Leverantör"
 
@@ -1849,7 +1849,7 @@ msgid "#%1$d - %2$s"
 msgstr "#%1$d - %2$s"
 
 #. translators: %s Support url
-#: woocommerce-services.php:1583
+#: woocommerce-services.php:1590
 msgid "<a href=\"%s\">Support</a>"
 msgstr "<a href=\"%s\">Support</a>"
 
@@ -1857,8 +1857,8 @@ msgstr "<a href=\"%s\">Support</a>"
 msgid "There was an error installing Jetpack. Please try installing it manually."
 msgstr "Det var det fel att installera JetPack. Prova installera det manuellt."
 
-#: i18n/strings.php:45 woocommerce-services.php:1082
-#: woocommerce-services.php:1085
+#: i18n/strings.php:45 woocommerce-services.php:1083
+#: woocommerce-services.php:1086
 msgid "Shipping Labels"
 msgstr "Fraktetiketter"
 
@@ -1867,8 +1867,8 @@ msgstr "Fraktetiketter"
 msgid "https://woocommerce.com/"
 msgstr "https://woocommerce.com/"
 
-#: i18n/strings.php:149 i18n/strings.php:333 woocommerce-services.php:1536
-#: woocommerce-services.php:1564
+#: i18n/strings.php:149 i18n/strings.php:333 woocommerce-services.php:1543
+#: woocommerce-services.php:1571
 msgid "Phone"
 msgstr "Telefon"
 
@@ -1968,7 +1968,7 @@ msgstr "Prisjustering"
 msgid "Saved Packages"
 msgstr "Sparade paket"
 
-#: woocommerce-services.php:1237 woocommerce-services.php:1244
+#: woocommerce-services.php:1244 woocommerce-services.php:1251
 msgid "Tracking"
 msgstr "Spårning"
 
@@ -2130,7 +2130,7 @@ msgstr "Det gick inte att uppdatera inställningarna. %s"
 msgid "Packaging"
 msgstr "Förpackning"
 
-#: woocommerce-services.php:1615
+#: woocommerce-services.php:1665
 msgid "Section not loading? Visit the <a href=\"%s\">status page</a> for troubleshooting steps."
 msgstr ""
 
@@ -2142,7 +2142,7 @@ msgstr ""
 msgid "Note: Jetpack is connected, but development mode is also enabled on this site. Please disable development mode."
 msgstr "Obs! Jetpack är ansluten, men utvecklingsläget är också aktiverat på denna webbplats. Inaktivera utvecklingsläget."
 
-#: woocommerce-services.php:1471
+#: woocommerce-services.php:1478
 msgid "Shipping Label"
 msgstr "Fraktetikett"
 
@@ -2313,7 +2313,7 @@ msgstr "Ställ in basplats i WooCommerce-inställningar > Allmänt"
 msgid "WooCommerce %1$s or higher is required (You are running %2$s)"
 msgstr "WooCommerce %1$s eller högre krävs (Du kör %2$s)"
 
-#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1651
+#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1701
 msgid "Dismiss this notice"
 msgstr "Avfärda denna notis"
 

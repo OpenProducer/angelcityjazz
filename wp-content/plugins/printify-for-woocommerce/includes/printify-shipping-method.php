@@ -9,7 +9,7 @@ class Printify_Shipping_Method extends WC_Shipping_Method
 
     const DEFAULT_ENABLED = self::WOO_TRUE;
     const DEFAULT_OVERRIDE = self::WOO_TRUE;
-    const VERSION = '2.7';
+    const VERSION = '2.8';
 
     private $shipping_enabled;
     private $shipping_override;

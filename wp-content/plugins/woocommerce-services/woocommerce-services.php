@@ -7,11 +7,11 @@
  * Author URI: https://woocommerce.com/
  * Text Domain: woocommerce-services
  * Domain Path: /i18n/languages/
- * Version: 2.3.6
+ * Version: 2.4.0
  * Requires at least: 4.6
  * Tested up to: 6.3
  * WC requires at least: 3.6
- * WC tested up to: 8.1
+ * WC tested up to: 8.2
  *
  * Copyright (c) 2017-2023 Automattic
  *
@@ -36,6 +36,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once __DIR__ . '/vendor/autoload_packages.php';
+
 require_once __DIR__ . '/classes/class-wc-connect-extension-compatibility.php';
 require_once __DIR__ . '/classes/class-wc-connect-functions.php';
 require_once __DIR__ . '/classes/class-wc-connect-jetpack.php';
@@ -43,21 +45,10 @@ require_once __DIR__ . '/classes/class-wc-connect-options.php';
 
 if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 	define( 'WOOCOMMERCE_CONNECT_MINIMUM_WOOCOMMERCE_VERSION', '2.6' );
-	define( 'WOOCOMMERCE_CONNECT_MINIMUM_JETPACK_VERSION', '7.5' );
 	define( 'WOOCOMMERCE_CONNECT_MAX_JSON_DECODE_DEPTH', 32 );
 
 	if ( ! defined( 'WOOCOMMERCE_CONNECT_SERVER_API_VERSION' ) ) {
 		define( 'WOOCOMMERCE_CONNECT_SERVER_API_VERSION', '5' );
-	}
-
-	// Check for CI environment variable to trigger test mode.
-	if ( false !== getenv( 'WOOCOMMERCE_SERVICES_CI_TEST_MODE' ) ) {
-		if ( ! defined( 'WOOCOMMERCE_SERVICES_LOCAL_TEST_MODE' ) ) {
-			define( 'WOOCOMMERCE_SERVICES_LOCAL_TEST_MODE', true );
-		}
-		if ( ! defined( 'JETPACK_DEV_DEBUG' ) ) {
-			define( 'JETPACK_DEV_DEBUG', true );
-		}
 	}
 
 	class WC_Connect_Loader {
@@ -195,6 +186,11 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 		 */
 		protected $rest_tos_controller;
 
+		/**
+		 * @var WC_Connect_Jetpack_Deleted_Notice
+		 */
+		protected $jetpack_deleted_notice;
+
 		protected $services = array();
 
 		protected $service_object_cache = array();
@@ -284,12 +280,6 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			}
 		}
 
-		public function wpcom_static_url( $file ) {
-			$i   = hexdec( substr( md5( $file ), -1 ) ) % 2;
-			$url = 'http://s' . $i . '.wp.com' . $file;
-			return set_url_scheme( $url );
-		}
-
 		public function __construct() {
 			$this->wc_connect_base_url = self::get_wc_connect_base_url();
 			add_action(
@@ -300,6 +290,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 					}
 				}
 			);
+			add_action( 'plugins_loaded', array( $this, 'jetpack_on_plugins_loaded' ), 1 );
 			add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );
 		}
 
@@ -524,6 +515,17 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			load_plugin_textdomain( 'woocommerce-services', false, dirname( plugin_basename( __FILE__ ) ) . '/i18n/languages' );
 		}
 
+		public function jetpack_on_plugins_loaded() {
+			$jetpack_config = new Automattic\Jetpack\Config();
+			$jetpack_config->ensure(
+				'connection',
+				array(
+					'slug' => WC_Connect_Jetpack::JETPACK_PLUGIN_SLUG,
+					'name' => __( 'WooCommerce Shipping & Tax', 'woocommerce-services' ),
+				)
+			);
+		}
+
 		public function on_plugins_loaded() {
 			$this->load_textdomain();
 
@@ -537,6 +539,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 				);
 				return;
 			}
+
 			add_action( 'before_woocommerce_init', array( $this, 'pre_wc_init' ) );
 		}
 
@@ -564,17 +567,14 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			add_action( 'admin_init', array( $this, 'admin_enqueue_scripts' ) );
 			add_action( 'admin_init', array( $this->nux, 'set_up_nux_notices' ) );
 
-			// Plugin should be enabled if dev mode or connected + TOS.
-			$jetpack_status       = $this->nux->get_jetpack_install_status();
-			$is_jetpack_connected = WC_Connect_Nux::JETPACK_CONNECTED === $jetpack_status;
-			$is_jetpack_dev_mode  = WC_Connect_Nux::JETPACK_DEV === $jetpack_status;
-
-			if ( ! $is_jetpack_connected && ! $is_jetpack_dev_mode ) {
+			if ( WC_Connect_Nux::JETPACK_NOT_CONNECTED === $this->nux->get_jetpack_install_status() ) {
 				return;
 			}
 
 			add_action( 'rest_api_init', array( $this, 'tos_rest_init' ) );
+			$this->jetpack_deleted_notice->register_hooks();
 
+			// The entire plugin should be enabled if dev mode or connected + TOS.
 			if ( ! $tos_accepted ) {
 				return;
 			}
@@ -697,6 +697,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			require_once __DIR__ . '/classes/class-wc-connect-continents.php';
 			require_once __DIR__ . '/classes/class-wc-connect-order-presenter.php';
 			require_once __DIR__ . '/classes/class-wc-connect-cart-validation.php';
+			require_once __DIR__ . '/classes/class-wc-connect-jetpack-deleted-notice.php';
 
 			$core_logger     = new WC_Logger();
 			$logger          = new WC_Connect_Logger( $core_logger );
@@ -738,6 +739,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			$this->set_taxjar( $taxjar );
 			$this->set_paypal_ec( $paypal_ec );
 			$this->set_label_reports( $label_reports );
+			$this->jetpack_deleted_notice = new WC_Connect_Jetpack_Deleted_Notice( self::get_wc_connect_base_url() );
 
 			$cart_validation = new WC_Connect_Cart_Validation();
 			$cart_validation->register_filters();
@@ -818,6 +820,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			add_action( 'woocommerce_email_after_order_table', array( $this, 'add_tracking_info_to_emails' ), 10, 3 );
 			add_filter( 'woocommerce_admin_reports', array( $this, 'reports_tabs' ) );
 			add_action( 'woocommerce_checkout_order_processed', array( $this, 'track_completed_order' ), 10, 3 );
+			add_action( 'admin_print_footer_scripts', array( $this, 'add_sift_js_tracker' ) );
 
 			$tracks = $this->get_tracks();
 			$tracks->init();
@@ -1594,6 +1597,45 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			return $links;
 		}
 
+		/**
+		 * Adds the Sift JS page tracker if needed. See the comments for the detailed logic.
+		 *
+		 * @return  void
+		 */
+		public function add_sift_js_tracker() {
+			$sift_configurations = $this->api_client->get_sift_configuration();
+
+			$connected_data  = WC_Connect_Jetpack::get_connection_owner_wpcom_data();
+
+			if ( is_wp_error( $sift_configurations ) || empty( $sift_configurations->beacon_key ) || empty( $connected_data['ID'] ) ) {
+				// Don't add sift tracking if we can't have the parameters to initialize Sift
+				return;
+			}
+
+			$fraud_config = array(
+				'beacon_key' => $sift_configurations->beacon_key,
+				'user_id'    => $connected_data['ID']
+			);
+
+			?>
+			<script type="text/javascript">
+				var src = 'https://cdn.sift.com/s.js';
+
+				var _sift = ( window._sift = window._sift || [] );
+				_sift.push( [ '_setAccount', '<?php echo esc_attr( $fraud_config['beacon_key'] ); ?>' ] );
+				_sift.push( [ '_setUserId', '<?php echo esc_attr( $fraud_config['user_id'] ); ?>' ] );
+				_sift.push( [ '_trackPageview' ] );
+
+				if ( ! document.querySelector( '[src="' + src + '"]' ) ) {
+					var script = document.createElement( 'script' );
+					script.src = src;
+					script.async = true;
+					document.body.appendChild( script );
+				}
+			</script>
+			<?php
+		}
+
 		public function enqueue_wc_connect_script( $root_view, $extra_args = array() ) {
 			$is_alive = $this->api_client->is_alive_cached();
 
@@ -1662,12 +1704,14 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			}
 		}
 	}
-
-	if ( ! defined( 'WC_UNIT_TESTING' ) ) {
-		new WC_Connect_Loader();
-	}
 }
 
 register_deactivation_hook( __FILE__, array( 'WC_Connect_Loader', 'plugin_deactivation' ) );
 register_uninstall_hook( __FILE__, array( 'WC_Connect_Loader', 'plugin_uninstall' ) );
 
+// Jetpack's Rest_Authentication needs to be initialized even before plugins_loaded.
+Automattic\Jetpack\Connection\Rest_Authentication::init();
+
+if ( ! defined( 'WC_UNIT_TESTING' ) ) {
+	new WC_Connect_Loader();
+}

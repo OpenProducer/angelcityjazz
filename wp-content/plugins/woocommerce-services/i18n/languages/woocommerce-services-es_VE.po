@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.9\n"
+"X-Generator: GlotPress/4.0.0-alpha.11\n"
 "Language: es_VE\n"
 "Project-Id-Version: Plugins - WooCommerce Shipping &amp; Tax - Stable (latest release)\n"
 
@@ -767,7 +767,7 @@ msgstr "Han sido guardados tus paquetes de envío."
 msgid "0.0"
 msgstr "0.0"
 
-#: woocommerce-services.php:1469
+#: woocommerce-services.php:1476
 msgid "Shipment Tracking"
 msgstr "Seguimiento de envíos"
 
@@ -775,23 +775,23 @@ msgstr "Seguimiento de envíos"
 msgid "Customs information valid"
 msgstr "Información de aduanas válida"
 
-#: woocommerce-services.php:1513
+#: woocommerce-services.php:1520
 msgid "Packing Log:"
 msgstr "Registro de paquetería:"
 
-#: woocommerce-services.php:1500
+#: woocommerce-services.php:1507
 msgid "Chosen Rate:"
 msgstr "Tarifa elegida:"
 
-#: woocommerce-services.php:1496
+#: woocommerce-services.php:1503
 msgid "Shipping Method ID:"
 msgstr "ID del método de envío:"
 
-#: woocommerce-services.php:1492
+#: woocommerce-services.php:1499
 msgid "Shipping Method Name:"
 msgstr "Nombre del método de envío:"
 
-#: woocommerce-services.php:1476
+#: woocommerce-services.php:1483
 msgid "Shipping Debug"
 msgstr "Depuración de envíos"
 
@@ -799,15 +799,15 @@ msgstr "Depuración de envíos"
 msgid "<strong>\"%2$s\" is missing weight, length, width, or height.</strong><br />Shipping rates cannot be calculated. <a href=\"%1$s\">Enter dimensions and weight for %2$s</a> so your customers can purchase this item."
 msgstr "<strong>A «%2$s» le falta el peso, la longitud, la anchura o la altura.</strong><br />No se pueden calcular las tarifas de envío. <a href=\"%1$s\">Introduce las dimensiones y el peso de %2$s</a> para que tus clientes puedan comprar este artículo."
 
-#: classes/class-wc-connect-api-client.php:588
+#: classes/class-wc-connect-api-client.php:597
 msgid "Unable to send request to WooCommerce Shipping & Tax server. The timestamp generated for the signature is too old."
 msgstr "No ha sido posible enviar la solicitud al servidor de WooCommerce Shipping & Tax. La marca temporal generada para la firma es demasiado antigua."
 
-#: classes/class-wc-connect-api-client.php:527
+#: classes/class-wc-connect-api-client.php:536
 msgid "Unable to send request to WooCommerce Shipping & Tax server. Jetpack Token is malformed."
 msgstr "No ha sido posible enviar la solicitud al servidor de WooCommerce Shipping & Tax. El token de JetPack está mal formado."
 
-#: classes/class-wc-connect-api-client.php:520
+#: classes/class-wc-connect-api-client.php:529
 msgid "Unable to send request to WooCommerce Shipping & Tax server. Jetpack Token is missing"
 msgstr "No ha sido posible enviar la solicitud al servidor de WooCommerce Shipping & Tax. Falta el token de JetPack."
 
@@ -1385,11 +1385,11 @@ msgstr "Al usar esta extensión puede que estés almacenando datos personales o 
 msgid "There was a problem updating your saved credit cards."
 msgstr "Hubo un problema al actualizar tus tarjetas de crédito guardadas."
 
-#: classes/class-wc-connect-label-reports.php:225
+#: classes/class-wc-connect-label-reports.php:228
 msgid "No labels found for this period"
 msgstr "No se han encontrado etiquetas en este periodo"
 
-#: classes/class-wc-connect-label-reports.php:211 i18n/strings.php:268
+#: classes/class-wc-connect-label-reports.php:214 i18n/strings.php:268
 msgid "Total"
 msgstr "Total"
 
@@ -1497,11 +1497,11 @@ msgstr "Enlaza a una cuenta PayPal"
 msgid "Refresh"
 msgstr "Recargar"
 
-#: woocommerce-services.php:1249
+#: woocommerce-services.php:1256
 msgid "Tracking number"
 msgstr "Número de seguimiento"
 
-#: woocommerce-services.php:1248
+#: woocommerce-services.php:1255
 msgid "Provider"
 msgstr "Proveedor"
 
@@ -1849,7 +1849,7 @@ msgid "#%1$d - %2$s"
 msgstr "#%1$d - %2$s"
 
 #. translators: %s Support url
-#: woocommerce-services.php:1583
+#: woocommerce-services.php:1590
 msgid "<a href=\"%s\">Support</a>"
 msgstr "<a href=\"%s\">Soporte</a>"
 
@@ -1857,8 +1857,8 @@ msgstr "<a href=\"%s\">Soporte</a>"
 msgid "There was an error installing Jetpack. Please try installing it manually."
 msgstr "Hubo un error al instalar Jetpack. Por favor, trata de instalarlo manualmente."
 
-#: i18n/strings.php:45 woocommerce-services.php:1082
-#: woocommerce-services.php:1085
+#: i18n/strings.php:45 woocommerce-services.php:1083
+#: woocommerce-services.php:1086
 msgid "Shipping Labels"
 msgstr "Etiquetas de envío"
 
@@ -1867,8 +1867,8 @@ msgstr "Etiquetas de envío"
 msgid "https://woocommerce.com/"
 msgstr "https://woocommerce.com/"
 
-#: i18n/strings.php:149 i18n/strings.php:333 woocommerce-services.php:1536
-#: woocommerce-services.php:1564
+#: i18n/strings.php:149 i18n/strings.php:333 woocommerce-services.php:1543
+#: woocommerce-services.php:1571
 msgid "Phone"
 msgstr "Teléfono"
 
@@ -1968,7 +1968,7 @@ msgstr "Ajuste de precio"
 msgid "Saved Packages"
 msgstr "Paquetes guardados"
 
-#: woocommerce-services.php:1237 woocommerce-services.php:1244
+#: woocommerce-services.php:1244 woocommerce-services.php:1251
 msgid "Tracking"
 msgstr "Seguimiento"
 
@@ -2130,7 +2130,7 @@ msgstr "No ha sido posible actualizar los ajustes. %s"
 msgid "Packaging"
 msgstr "Paquetería"
 
-#: woocommerce-services.php:1615
+#: woocommerce-services.php:1665
 msgid "Section not loading? Visit the <a href=\"%s\">status page</a> for troubleshooting steps."
 msgstr "¿No carga la sección? Visita la <a href=\"%s\">página de estado</a> para ver los pasos de solución de problemas."
 
@@ -2142,7 +2142,7 @@ msgstr "Nota: El modo de desarrollo de Jetpack está activo en este sitio. Este 
 msgid "Note: Jetpack is connected, but development mode is also enabled on this site. Please disable development mode."
 msgstr "Nota: Jetpack está conectado, pero también está activo el modo de desarrollo en este sitio. Por favor, desactiva el modo de desarrollo."
 
-#: woocommerce-services.php:1471
+#: woocommerce-services.php:1478
 msgid "Shipping Label"
 msgstr "Etiqueta de envío"
 
@@ -2313,7 +2313,7 @@ msgstr "Por favor, establece la ubicación base en Ajustes de WooCommerce > Gene
 msgid "WooCommerce %1$s or higher is required (You are running %2$s)"
 msgstr "Se necesita WooCommerce %1$s o superior (estás ejecutando la versión %2$s)"
 
-#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1651
+#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1701
 msgid "Dismiss this notice"
 msgstr "Descartar este aviso"
 

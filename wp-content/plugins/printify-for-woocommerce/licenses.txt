@@ -1,4 +1,4 @@
-Printify Plugin for WooCommerce Version 2.7
+Printify Plugin for WooCommerce Version 2.8
 Copyright (C) 2021, Printify, Inc.
 
 This program is free software: you can redistribute it and/or modify
