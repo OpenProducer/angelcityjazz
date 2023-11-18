@@ -97,7 +97,7 @@ function mailchimp_environment_variables() {
     return (object) array(
         'repo' => 'master',
         'environment' => 'production', // staging or production
-        'version' => '3.2',
+        'version' => '3.3',
         'php_version' => phpversion(),
         'wp_version' => (empty($wp_version) ? 'Unknown' : $wp_version),
         'wc_version' => function_exists('WC') ? WC()->version : null,
@@ -336,8 +336,9 @@ function mailchimp_get_list_id() {
  * @return string
  */
 function mailchimp_build_webhook_url( $key ) {
-    //$key = base64_encode($key);
-    return MailChimp_WooCommerce_Rest_Api::url('member-sync') . '?auth=' . $key;
+	$rest_url = MailChimp_WooCommerce_Rest_Api::url('member-sync');
+	$qs = mailchimp_string_contains($rest_url, '/wp-json/') ? '?' : '&';
+    return $rest_url.$qs."auth={$key}";
 }
 /**
  * Generate random string
@@ -1387,7 +1388,7 @@ function mailchimp_member_data_update($user_email = null, $language = null, $cal
             if ($member['status'] === 'transactional' && in_array($status_if_new, array('subscribed', 'pending'))) {
                 $member['status'] = $status_if_new;
             }
-            if (($member['status'] === 'transactional' && in_array($status_if_new, array('subscribed', 'pending'))) || $member['status'] === 'subscribed') {
+            if (($member['status'] === 'transactional' && in_array($status_if_new, array('subscribed', 'pending'))) || $member['status'] === 'subscribed' || $member['status'] === 'pending') {
                 if (!empty($gdpr_fields) && is_array($gdpr_fields)) {
                     $gdpr_fields_to_save = [];
                     foreach ($gdpr_fields as $id => $value) {

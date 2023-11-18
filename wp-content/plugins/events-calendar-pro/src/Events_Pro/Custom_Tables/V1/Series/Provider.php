@@ -84,6 +84,7 @@ class Provider extends Service_Provider {
 
 		add_filter( 'tribe_events_community_allowed_event_fields', [ $this, 'register_events_to_series_request_key' ] );
 		add_filter( 'tribe_tickets_settings_post_types', [ $this, 'filter_remove_series_post_type' ] );
+		add_action( 'init', [ $this, 'remove_series_from_ticketable_post_types' ] );
 
 		if ( ! has_action( "transition_post_status", [ $this, 'update_series_post_status' ] ) ) {
 			add_action( "transition_post_status", [ $this, 'update_series_post_status' ], 10,3 );
@@ -310,5 +311,31 @@ class Provider extends Service_Provider {
 		unset( $post_types[ Series::POSTTYPE ] );
 
 		return $post_types;
+	}
+
+	/**
+	 * Removes the Series post type from the list of post types that can have tickets.
+	 *
+	 * @since TBD
+	 *
+	 * @return void
+	 */
+	public function remove_series_from_ticketable_post_types() {
+		// Get the current ticket-enabled post types.
+		$options = get_option( TEC::OPTIONNAME, [] );
+
+		// Check if 'ticket-enabled-post-types' key exists in options.
+		if ( isset( $options['ticket-enabled-post-types'] ) ) {
+			// Search for the Series post type in the list of enabled post types.
+			$key = array_search( Series::POSTTYPE, $options['ticket-enabled-post-types'] );
+
+			// If the Series post type is found, remove it from the list.
+			if ( $key !== false ) {
+				unset( $options['ticket-enabled-post-types'][ $key ] );
+			}
+
+			// Update the option with the new list of post types.
+			update_option( TEC::OPTIONNAME, $options );
+		}
 	}
 }

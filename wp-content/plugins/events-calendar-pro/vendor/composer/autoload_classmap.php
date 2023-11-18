@@ -67,6 +67,7 @@ return array(
     'TEC\\Events_Pro\\Custom_Tables\\V1\\Integrations\\Provider' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/Integrations/Provider.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\Integrations\\WPML\\WPML_Integration' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/Integrations/WPML/WPML_Integration.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\Legacy_Compat\\Provider' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/Legacy_Compat/Provider.php',
+    'TEC\\Events_Pro\\Custom_Tables\\V1\\Legacy_Compat\\RecurrenceMeta' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/Legacy_Compat/RecurrenceMeta.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\Links\\Event_Links' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/Links/Event_Links.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\Links\\Links' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/Links/Links.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\Links\\Provider' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/Links/Provider.php',

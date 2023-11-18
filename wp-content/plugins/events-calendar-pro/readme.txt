@@ -4,8 +4,8 @@ Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, the events calendar, widget, pro
 Donate link: https://evnt.is/29
 Requires at least: 6.2.0
-Stable tag: 6.2.3.1
-Tested up to: 6.4.0
+Stable tag: 6.2.4
+Tested up to: 6.4.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -214,12 +214,21 @@ Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
 
+= [6.2.4] 2023-11-14 =
+
+* Fix - WPML permalink resolution was failing to retain the `lang` query param in some edge cases, namely on single posts with Pro activated. [TEC-4798]
+* Fix - Added legacy compatibility for `tribe_get_recurrence_start_dates()` to function with the Custom Tables feature. [ECP-1422]
+* Fix - Resolved several `Deprecated: Creation of dynamic property` warnings on: `\TEC\Events_Pro\Custom_Tables\V1\Duplicate\Duplicate::$url`, `\TEC\Events\Custom_Tables\V1\Models\Validators\Validator::$error_message` and `\Tribe__Events__Pro__PUE::$pue_instance` [BTRIA-2088]
+* Tweak - Added filters: `tec_events_pro_recurrence_get_start_dates`
+* Language - 0 new strings added, 64 updated, 0 fuzzied, and 0 obsoleted
+
 = [6.2.3.1] 2023-11-09 =
 
 * Fix - Ensure Recurring Events are saved correctly on WordPress version 6.4. [ECP-1614]
 
 = [6.2.3] 2023-10-19 =
 
+* Tweak - Remove the Tickets/RSVPs options from Series. [ECP-1587]
 * Fix - Organizer and venue views were not paginating to the past events due to a `past` flag getting lost during context switching. [ECP-1591]
 * Tweak - Updated recurrence pattern warning text when tickets are already attached. [ECP-1529]
 * Language - 1 new strings added, 0 updated, 0 fuzzied, and 1 obsoleted

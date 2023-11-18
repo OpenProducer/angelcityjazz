@@ -95,6 +95,7 @@ class ComposerStaticInit1e41a74fdee86bbcd31ce5322208a56d
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Integrations\\Provider' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Integrations/Provider.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Integrations\\WPML\\WPML_Integration' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Integrations/WPML/WPML_Integration.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Legacy_Compat\\Provider' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Legacy_Compat/Provider.php',
+        'TEC\\Events_Pro\\Custom_Tables\\V1\\Legacy_Compat\\RecurrenceMeta' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Legacy_Compat/RecurrenceMeta.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Links\\Event_Links' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Links/Event_Links.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Links\\Links' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Links/Links.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Links\\Provider' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Links/Provider.php',

@@ -242,13 +242,18 @@ class MailChimp_Service extends MailChimp_WooCommerce_Options
 
             // if the user chose to send to subscribers only we need to do a quick check
             // to see if this email has already subscribed.
-            if (!$this->cart_subscribe && (mailchimp_carts_subscribers_only() || mailchimp_submit_subscribed_only())) {
+            if (mailchimp_carts_subscribers_only() || mailchimp_submit_subscribed_only()) {
                 $transient_key = mailchimp_hash_trim_lower($user_email).".mc.status";
                 $cached_status = mailchimp_get_transient($transient_key);
                 if ($cached_status === null) {
                     $cached_status = mailchimp_get_subscriber_status($user_email);
                     mailchimp_set_transient($transient_key, $cached_status ? $cached_status : false, 300);
                 }
+
+                if (isset($cached_status['value'])) {
+	                $cached_status = $cached_status['value'];
+                }
+
                 if ($cached_status !== 'subscribed') {
                     mailchimp_debug('filter', "preventing {$user_email} from submitting cart data due to subscriber settings.");
                     return $updated;
@@ -607,6 +612,12 @@ class MailChimp_Service extends MailChimp_WooCommerce_Options
         // only update this person if they were marked as subscribed before
         $is_subscribed = get_user_meta($user_id, 'mailchimp_woocommerce_is_subscribed', true);
         $gdpr_fields = get_user_meta($user_id, 'mailchimp_woocommerce_gdpr_fields', true);
+
+        if ( ! $is_subscribed && mailchimp_submit_subscribed_only() ) {
+	        mailchimp_debug('filter', "{$old_user_data->user_email} was blocked due to subscriber only settings");
+
+	        return;
+        }
 
         $job = new MailChimp_WooCommerce_User_Submit(
             $user_id,

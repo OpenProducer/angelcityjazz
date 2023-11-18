@@ -1668,7 +1668,6 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
 
 		$submission->setContact( $this->address( $data ) );
 
-
 		// let's turn this on for debugging purposes.
 		mailchimp_debug( 'admin', 'list info submission', array( 'submission' => print_r( $submission->getSubmission(), true ) ) );
 
@@ -2120,7 +2119,9 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
 	 */
 	protected function adminOnlyMiddleware( $message = "You're not allowed to do this" ) {
 		if ( ! current_user_can( mailchimp_get_allowed_capability() ) ) {
-			wp_send_json_error( array( 'message' => $message ) );
+            $error = new \Exception();
+            mailchimp_debug('admin', 'tracing admin json error', $error->getTrace());
+			wp_send_json_error( array( 'message' => $message, 'from' => 'mailchimp-for-woocommerce' ) );
 		}
 		return true;
 	}
