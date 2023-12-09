@@ -11,7 +11,7 @@ class MailChimp_WooCommerce_Rest_Api
 	 */
     public static function url($path)
     {
-        return esc_url_raw(rest_url(static::$namespace.'/'.ltrim($path, '/')));
+	    return esc_url_raw(rest_url(static::$namespace.'/'.ltrim($path, '/')));
     }
     /**
      * Register all Mailchimp API routes.
