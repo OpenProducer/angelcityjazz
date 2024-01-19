@@ -1,3 +1,17 @@
+## [2.8.2](https://github.com/Automattic/newspack-newsletters/compare/v2.8.1...v2.8.2) (2024-01-19)
+
+
+### Bug Fixes
+
+* get all verified domains from Mailchimp ([3ea41dc](https://github.com/Automattic/newspack-newsletters/commit/3ea41dc141222658a7c2d70522d15c1c755ff142))
+
+## [2.8.1](https://github.com/Automattic/newspack-newsletters/compare/v2.8.0...v2.8.1) (2024-01-15)
+
+
+### Bug Fixes
+
+* always use cache to retrieve groups ([#1378](https://github.com/Automattic/newspack-newsletters/issues/1378)) ([6a4e59c](https://github.com/Automattic/newspack-newsletters/commit/6a4e59cf294ea05b0192bb0d49810363de12afb1))
+
 # [2.8.0](https://github.com/Automattic/newspack-newsletters/compare/v2.7.0...v2.8.0) (2024-01-08)
 
 
