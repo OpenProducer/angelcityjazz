@@ -1,4 +1,10 @@
 == Changelog ==
+= 3.6 =
+* Add support for product image size changes
+* Add sync filter for order post types
+* Fix for double order issue w/ Woo subscription plugin 
+* Support for changing variable products to simple products 
+* Enhancement in Webhook handling due to permalink structures 
 = 3.5 =
 * Support for updated Mailchimp attribution methods
 * Adds a Continue to Mailchimp CTA to Woo Dashboard UI
@@ -16,6 +22,7 @@
 * Fix for GDPR Marketing Preferences not captured on checkout 
 * Word-wrap version update to 1.2.3 in blocks 
 = 3.2 =
+* Released: 08-21-2023
 * fix for too few arguments to function MailChimp_Service::handleOrderUpdate()
 * update to lateset version of core blocks for the site editor
 * adds the plugin icon back to wp-admin menu

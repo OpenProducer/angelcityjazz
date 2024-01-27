@@ -15676,58 +15676,64 @@ function DocumentTools({
   /* translators: button label text should, if possible, be under 16 characters. */
   const longLabel = (0,external_wp_i18n_namespaceObject._x)('Toggle block inserter', 'Generic label for block inserter button');
   const shortLabel = !isInserterOpened ? (0,external_wp_i18n_namespaceObject.__)('Add') : (0,external_wp_i18n_namespaceObject.__)('Close');
-  return (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.NavigableToolbar, {
-    className: classnames_default()('editor-document-tools', className),
-    "aria-label": toolbarAriaLabel,
-    shouldUseKeyboardFocusShortcut: !blockToolbarCanBeFocused,
-    variant: "unstyled"
-  }, (0,external_React_.createElement)("div", {
-    className: "editor-document-tools__left"
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
-    ref: inserterButton,
-    as: external_wp_components_namespaceObject.Button,
-    className: "editor-document-tools__inserter-toggle",
-    variant: "primary",
-    isPressed: isInserterOpened,
-    onMouseDown: preventDefault,
-    onClick: toggleInserter,
-    disabled: disableBlockTools,
-    icon: library_plus,
-    label: showIconLabels ? shortLabel : longLabel,
-    showTooltip: !showIconLabels,
-    "aria-expanded": isInserterOpened
-  }), (isWideViewport || !showIconLabels) && (0,external_React_.createElement)(external_React_.Fragment, null, isLargeViewport && !hasFixedToolbar && (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
-    as: external_wp_blockEditor_namespaceObject.ToolSelector,
-    showTooltip: !showIconLabels,
-    variant: showIconLabels ? 'tertiary' : undefined,
-    disabled: disableBlockTools,
-    size: "compact"
-  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
-    as: editor_history_undo,
-    showTooltip: !showIconLabels,
-    variant: showIconLabels ? 'tertiary' : undefined,
-    size: "compact"
-  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
-    as: editor_history_redo,
-    showTooltip: !showIconLabels,
-    variant: showIconLabels ? 'tertiary' : undefined,
-    size: "compact"
-  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
-    as: external_wp_components_namespaceObject.Button,
-    className: "editor-document-tools__document-overview-toggle",
-    icon: list_view,
-    disabled: disableBlockTools,
-    isPressed: isListViewOpen
-    /* translators: button label text should, if possible, be under 16 characters. */,
-    label: listViewLabel,
-    onClick: toggleListView,
-    shortcut: listViewShortcut,
-    showTooltip: !showIconLabels,
-    variant: showIconLabels ? 'tertiary' : undefined,
-    "aria-expanded": isListViewOpen,
-    ref: listViewToggleRef,
-    size: "compact"
-  })), children));
+  return (
+    // Some plugins expect and use the `edit-post-header-toolbar` CSS class to
+    // find the toolbar and inject UI elements into it. This is not officially
+    // supported, but we're keeping it in the list of class names for backwards
+    // compatibility.
+    (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.NavigableToolbar, {
+      className: classnames_default()('editor-document-tools', 'edit-post-header-toolbar', className),
+      "aria-label": toolbarAriaLabel,
+      shouldUseKeyboardFocusShortcut: !blockToolbarCanBeFocused,
+      variant: "unstyled"
+    }, (0,external_React_.createElement)("div", {
+      className: "editor-document-tools__left"
+    }, (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
+      ref: inserterButton,
+      as: external_wp_components_namespaceObject.Button,
+      className: "editor-document-tools__inserter-toggle",
+      variant: "primary",
+      isPressed: isInserterOpened,
+      onMouseDown: preventDefault,
+      onClick: toggleInserter,
+      disabled: disableBlockTools,
+      icon: library_plus,
+      label: showIconLabels ? shortLabel : longLabel,
+      showTooltip: !showIconLabels,
+      "aria-expanded": isInserterOpened
+    }), (isWideViewport || !showIconLabels) && (0,external_React_.createElement)(external_React_.Fragment, null, isLargeViewport && !hasFixedToolbar && (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
+      as: external_wp_blockEditor_namespaceObject.ToolSelector,
+      showTooltip: !showIconLabels,
+      variant: showIconLabels ? 'tertiary' : undefined,
+      disabled: disableBlockTools,
+      size: "compact"
+    }), (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
+      as: editor_history_undo,
+      showTooltip: !showIconLabels,
+      variant: showIconLabels ? 'tertiary' : undefined,
+      size: "compact"
+    }), (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
+      as: editor_history_redo,
+      showTooltip: !showIconLabels,
+      variant: showIconLabels ? 'tertiary' : undefined,
+      size: "compact"
+    }), (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
+      as: external_wp_components_namespaceObject.Button,
+      className: "editor-document-tools__document-overview-toggle",
+      icon: list_view,
+      disabled: disableBlockTools,
+      isPressed: isListViewOpen
+      /* translators: button label text should, if possible, be under 16 characters. */,
+      label: listViewLabel,
+      onClick: toggleListView,
+      shortcut: listViewShortcut,
+      showTooltip: !showIconLabels,
+      variant: showIconLabels ? 'tertiary' : undefined,
+      "aria-expanded": isListViewOpen,
+      ref: listViewToggleRef,
+      size: "compact"
+    })), children))
+  );
 }
 /* harmony default export */ var document_tools = (DocumentTools);
 
