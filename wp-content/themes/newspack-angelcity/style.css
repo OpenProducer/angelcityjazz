@@ -521,8 +521,10 @@ margin-bottom:0;
 /* ### Events grid using homepage blocks - Making subtitle bold  */
 
 .events-grid article .entry-wrapper p,
-.events-grid article .newspack-post-subtitle {
+.events-grid article .newspack-post-subtitle,
+.events-grid article .tribe-events-pro-photo__event-title-link {
  font-weight: 700;
+ color:#fff;
 }
 
 /* ### Single page */
@@ -857,8 +859,13 @@ padding: 0;
 
 /* font color in front and festival page shortcode */
 .home .tribe-common .tribe-common-h6,
-.page-template-newspack-angel-city .tribe-common .tribe-common-h6 {
-    color: inherit;
+.home .tribe-common .tribe-common-h6 a,
+.home .tribe-common .tribe-common-h6 a:hover,
+.page-template-newspack-angel-city .tribe-common .tribe-common-h6,
+.page-template-newspack-angel-city .tribe-common .tribe-common-h6 a,
+.page-template-newspack-angel-city .tribe-common .tribe-common-h6 a:hover
+ {
+    color: inherit; !important;
 }
 
 
