@@ -968,7 +968,9 @@ function gutenberg_block_core_navigation_block_contains_core_navigation( $inner_
 function gutenberg_block_core_navigation_get_fallback_blocks() {
 	$page_list_fallback = array(
 		array(
-			'blockName' => 'core/page-list',
+			'blockName'    => 'core/page-list',
+			'innerContent' => array(),
+			'attrs'        => array(),
 		),
 	);
 

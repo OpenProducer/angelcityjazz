@@ -1,3 +1,17 @@
+## [2.6.2](https://github.com/Automattic/newspack-blocks/compare/v2.6.1...v2.6.2) (2024-02-08)
+
+
+### Bug Fixes
+
+* properly handle states when Country field is disabled ([#1667](https://github.com/Automattic/newspack-blocks/issues/1667)) ([eecce3b](https://github.com/Automattic/newspack-blocks/commit/eecce3bca1f1ace6da63bb4aba83425f3adb4586))
+
+## [2.6.1](https://github.com/Automattic/newspack-blocks/compare/v2.6.0...v2.6.1) (2024-01-31)
+
+
+### Bug Fixes
+
+* **modal-checkout:** treat express checkouts as modal checkouts ([#1654](https://github.com/Automattic/newspack-blocks/issues/1654)) ([a352511](https://github.com/Automattic/newspack-blocks/commit/a3525115aab8f0c6de8038de6e94c1705c7afe9e))
+
 # [2.6.0](https://github.com/Automattic/newspack-blocks/compare/v2.5.0...v2.6.0) (2024-01-25)
 
 
