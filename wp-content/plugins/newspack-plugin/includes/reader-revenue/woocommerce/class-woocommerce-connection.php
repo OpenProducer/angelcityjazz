@@ -34,10 +34,14 @@ class WooCommerce_Connection {
 		\add_filter( 'default_option_woocommerce_subscriptions_enable_retry', [ __CLASS__, 'force_allow_failed_payment_retry' ] );
 		\add_filter( 'woocommerce_email_enabled_customer_completed_order', [ __CLASS__, 'send_customizable_receipt_email' ], 10, 3 );
 		\add_action( 'woocommerce_order_status_completed', [ __CLASS__, 'maybe_update_reader_display_name' ], 10, 2 );
+		\add_action( 'option_woocommerce_feature_order_attribution_enabled', [ __CLASS__, 'force_disable_order_attribution' ] );
 		\add_action( 'cli_init', [ __CLASS__, 'register_cli_commands' ] );
 
 		// WooCommerce Subscriptions.
 		\add_filter( 'wc_stripe_generate_payment_request', [ __CLASS__, 'stripe_gateway_payment_request_data' ], 10, 2 );
+
+		// woocommerce-memberships-for-teams plugin.
+		\add_filter( 'wc_memberships_for_teams_product_team_user_input_fields', [ __CLASS__, 'wc_memberships_for_teams_product_team_user_input_fields' ] );
 
 		\add_action( 'woocommerce_payment_complete', [ __CLASS__, 'order_paid' ], 101 );
 	}
@@ -311,6 +315,24 @@ class WooCommerce_Connection {
 	}
 
 	/**
+	 * Force option for enabling order attribution to OFF unless the
+	 * NEWSPACK_PREVENT_WC_ALLOW_ORDER_ATTRIBUTION_OVERRIDE constant is set.
+	 * Right now, it causes JavaScript errors in the modal checkout.
+	 *
+	 * See:https://woo.com/document/order-attribution-tracking/
+	 *
+	 * @param bool $should_allow Whether WooCommerce should allow enabling Order Attribution.
+	 *
+	 * @return string Option value.
+	 */
+	public static function force_disable_order_attribution( $should_allow ) {
+		if ( defined( 'NEWSPACK_PREVENT_WC_ALLOW_ORDER_ATTRIBUTION_OVERRIDE' ) && NEWSPACK_PREVENT_WC_ALLOW_ORDER_ATTRIBUTION_OVERRIDE ) {
+			return $should_allow;
+		}
+		return false;
+	}
+
+	/**
 	 * Send the customizable receipt email instead of WooCommerce's default receipt.
 	 *
 	 * @param bool     $enable Whether to send the default receipt email.
@@ -457,6 +479,30 @@ class WooCommerce_Connection {
 			return;
 		}
 		\wc_add_notice( $message, $type );
+	}
+
+	/**
+	 * Fix woocommerce-memberships-for-teams when on /order-pay page. This page is available
+	 * from edit order screen -> "Customer payment page" link when the order is pending payment.
+	 * It allows the customer to pay for the order.
+	 * If woocommerce-memberships-for-teams is used, a cart validation error prevents the customer from
+	 * paying for the order because the team name is not set. This filter sets the team name from the order item.
+	 *
+	 * @param array $fields associative array of user input fields.
+	 */
+	public static function wc_memberships_for_teams_product_team_user_input_fields( $fields ) {
+		global $wp;
+		if ( ! isset( $wp->query_vars['order-pay'] ) || ! class_exists( 'WC_Order' ) || ! function_exists( 'wc_memberships_for_teams_get_team_for_order_item' ) ) {
+			return $fields;
+		}
+		$order = new \WC_Order( $wp->query_vars['order-pay'] );
+		foreach ( $order->get_items( 'line_item' ) as $id => $item ) {
+			$team = wc_memberships_for_teams_get_team_for_order_item( $item );
+			if ( $team ) {
+				$_REQUEST['team_name'] = $team->get_name();
+			}
+		}
+		return $fields;
 	}
 }
 

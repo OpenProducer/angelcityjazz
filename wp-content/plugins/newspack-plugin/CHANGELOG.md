@@ -1,3 +1,24 @@
+## [3.0.5](https://github.com/Automattic/newspack-plugin/compare/v3.0.4...v3.0.5) (2024-02-15)
+
+
+### Bug Fixes
+
+* **perfmatters:** use ignore-defaults constant when applying unused CSS ([#2863](https://github.com/Automattic/newspack-plugin/issues/2863)) ([6d52be3](https://github.com/Automattic/newspack-plugin/commit/6d52be38e8266d13506676675ffc57ec509b393d))
+
+## [3.0.4](https://github.com/Automattic/newspack-plugin/compare/v3.0.3...v3.0.4) (2024-02-15)
+
+
+### Bug Fixes
+
+* **woocommerce:** fix order-pay page when using woocommerce-memberships-for-teams plugin ([#2923](https://github.com/Automattic/newspack-plugin/issues/2923)) ([e87e2dc](https://github.com/Automattic/newspack-plugin/commit/e87e2dc2192771e151dbc78c2b30a9c431a6a976))
+
+## [3.0.3](https://github.com/Automattic/newspack-plugin/compare/v3.0.2...v3.0.3) (2024-02-08)
+
+
+### Bug Fixes
+
+* turn off WooCommerce's Order Attribution ([#2911](https://github.com/Automattic/newspack-plugin/issues/2911)) ([f3387e3](https://github.com/Automattic/newspack-plugin/commit/f3387e35df946ea48e49ac0b6553d7724cb20816))
+
 ## [3.0.2](https://github.com/Automattic/newspack-plugin/compare/v3.0.1...v3.0.2) (2024-02-07)
 
 
