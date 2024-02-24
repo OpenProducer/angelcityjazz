@@ -7,7 +7,7 @@ function tcmp_ui_manager() {
 	if ( tcmp_sqs( 'action' ) === 'delete' && $id > 0 && wp_verify_nonce( tcmp_qs( 'tcmp_nonce' ), 'tcmp_delete' ) ) {
 		$snippet = $tcmp->manager->get( $id );
 		if ( $tcmp->manager->remove( $id ) ) {
-			$tcmp->options->pushSuccessMessage( 'CodeDeleteNotice', $id, $snippet['name'] );
+			$tcmp->options->pushSuccessMessage( 'CodeDeleteNotice', $id, esc_html( $snippet['name'] ) );
 		}
 	} elseif ( '' != $id && 0 != $id ) {
 		$snippet = $tcmp->manager->get( $id );
@@ -15,7 +15,7 @@ function tcmp_ui_manager() {
 			$snippet['active'] = ( 0 === $snippet['active'] ? 1 : 0 );
 			$tcmp->manager->put( $snippet['id'], $snippet );
 		}
-		$tcmp->options->pushSuccessMessage( 'CodeUpdateNotice', $id, $snippet['name'] );
+		$tcmp->options->pushSuccessMessage( 'CodeUpdateNotice', $id, esc_html( $snippet['name'] ) );
 	}
 
 	$tcmp->manager->is_limit_reached( true );

@@ -198,6 +198,7 @@ class TCMP_Manager {
 				}
 			}
 		}
+		$snippet['name']     = sanitize_text_field( $snippet['name'] );
 		$snippet['code']     = trim( $snippet['code'] );
 		$snippet['position'] = intval( $snippet['position'] );
 		if ( '' == $snippet['trackMode'] ) {
@@ -232,7 +233,9 @@ class TCMP_Manager {
 
 		if ( $is_integer ) {
 			for ( $i = 0; $i < count( $array ); $i++ ) {
-				$array[ $i ] = intval( $array[ $i ] );
+				if ( isset( $array[ $i ]) ) {
+					$array[ $i ] = intval( $array[ $i ] );
+				}
 			}
 		}
 

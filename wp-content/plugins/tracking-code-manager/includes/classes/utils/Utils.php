@@ -764,6 +764,9 @@ class TCMP_Utils {
 	}
 	public function parse_date_to_time( $date ) {
 		global $tcmp;
+		if ( is_null($date) ) {
+			$date = 'now';
+		}
 		if ( is_numeric( $date ) || trim( $date ) == '' ) {
 			$date = intval( $date );
 			return $date;
