@@ -51,6 +51,7 @@ class TCMP_Tabs {
 
 		$this->wpEnqueueScript( 'assets/js/editor.js' );
 		$this->wpEnqueueScript( 'assets/js/manager.js' );
+		wp_localize_script('TCMP__manager', 'ajax_vars', array ('nonce' => wp_create_nonce('change_order')));
 		$this->wpEnqueueScript( 'assets/js/delete-confirm.js' );
 		$this->wpEnqueueScript( 'assets/js/ace/ace.js' );
 

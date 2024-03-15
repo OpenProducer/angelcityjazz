@@ -21,7 +21,14 @@ class TCMP_Manager {
 		return $result;
 	}
 	public function change_order() {
-		global $tcmp;
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'change_order' ) ) {
+			wp_send_json_error( 'Invalid nonce' );
+		}
+
+		if ( ! current_user_can( 'edit_plugins' ) ) {
+			return;
+		}
+
 		if ( ! isset( $_POST['order'] ) ) {
 			return;
 		}
