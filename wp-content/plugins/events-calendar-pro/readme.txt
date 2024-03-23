@@ -4,7 +4,7 @@ Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, the events calendar, widget, pro
 Donate link: https://evnt.is/29
 Requires at least: 6.2.0
-Stable tag: 6.3.1.1
+Stable tag: 6.3.2
 Tested up to: 6.4.3
 Requires PHP: 7.4
 License: GPLv2 or later
@@ -213,6 +213,14 @@ Previous versions of Events Calendar Pro are not cross-compatible with 6.X add-o
 Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
+
+= [6.3.2] 2024-03-20 =
+
+* Feature - Adding Site Editor Single Venue template for use in themes that support Site Editor. [ECP-1620]
+* Fix - Site Editor themes did not properly display the venue Google Map. This has been resolved in ECP-1620. [TEC-4938]
+* Fix - Site Editor themes did not properly display venue details such as their addresses. This has been resolved in ECP-1620. [ECP-1534]
+* Fix - When Events Calendar Pro is active the admin menu does not highlight the correct items when viewing a post type index. [ECP-1682]
+* Language - 0 new strings added, 0 updated, 0 fuzzied, and 1 obsoleted
 
 = [6.3.1.1] 2024-02-22 =
 

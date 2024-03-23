@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
+// phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid
 // phpcs:disable StellarWP.Classes.ValidClassName.NotSnakeCase
 
 /**
@@ -38,7 +39,16 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 	 *
 	 * @var array
 	 */
-	protected $placeholders = array();
+	protected $placeholders = [];
+
+	/**
+	 * The shortcode object.
+	 *
+	 * @since 4.4
+	 *
+	 * @var Tribe__Events__Pro__Shortcodes__Tribe_Inline
+	 */
+	protected $shortcode;
 
 	/**
 	 * Argument placeholders to be parsed when the Event is private or password-protected.
@@ -65,7 +75,7 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 	 *
 	 * @var array
 	 */
-	protected $atts = array();
+	protected $atts = [];
 
 	/**
 	 * The Event ID.
@@ -83,7 +93,7 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 	 *
 	 * @var array
 	 */
-	protected $organizer_id = array();
+	protected $organizer_id = [];
 
 	/**
 	 * The content for the shortcode.
@@ -95,20 +105,13 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 	protected $content = '';
 
 	/**
-	 * The shortcode instance.
-	 *
-	 * @since 4.4
-	 *
-	 * @var Tribe__Events__Pro__Shortcodes__Tribe_Inline
-	 */
-	public $shortcode;
-
-	/**
 	 * Constructor.
 	 *
 	 * @since 4.4
 	 *
-	 * @param Tribe__Events__Pro__Shortcodes__Tribe_Inline $shortcode
+	 * @since 4.4
+	 *
+	 * @param Tribe__Events__Pro__Shortcodes__Tribe_Inline $shortcode The shortcode object.
 	 */
 	public function __construct( Tribe__Events__Pro__Shortcodes__Tribe_Inline $shortcode ) {
 
@@ -129,7 +132,6 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 		$this->process();
 
 		$this->process_multiple_organizers();
-
 	}
 
 	/**
@@ -140,37 +142,37 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 	 * @return array
 	 */
 	protected function placeholders() {
-		return array(
+		return [
 			'{title}'              => 'get_the_title',
 			'{name}'               => 'get_the_title',
-			'{title:linked}'       => array( $this, 'linked_title' ),
+			'{title:linked}'       => [ $this, 'linked_title' ],
 			'{link}'               => 'get_permalink',
-			'{url}'                => array( $this, 'url_open' ),
-			'{/url}'               => array( $this, 'url_close' ),
-			'{content}'            => array( $this, 'content' ),
-			'{content:unfiltered}' => array( $this, 'content_unfiltered' ),
-			'{description}'        => array( $this, 'content' ),
-			'{excerpt}'            => array( $this, 'tribe_events_get_the_excerpt' ),
-			'{thumbnail}'          => array( $this, 'thumbnail' ),
-			'{start_date}'         => array( $this, 'start_date' ),
-			'{start_time}'         => array( $this, 'start_time' ),
-			'{end_date}'           => array( $this, 'end_date' ),
-			'{end_time}'           => array( $this, 'end_time' ),
+			'{url}'                => [ $this, 'url_open' ],
+			'{/url}'               => [ $this, 'url_close' ],
+			'{content}'            => [ $this, 'content' ],
+			'{content:unfiltered}' => [ $this, 'content_unfiltered' ],
+			'{description}'        => [ $this, 'content' ],
+			'{excerpt}'            => [ $this, 'tribe_events_get_the_excerpt' ],
+			'{thumbnail}'          => [ $this, 'thumbnail' ],
+			'{start_date}'         => [ $this, 'start_date' ],
+			'{start_time}'         => [ $this, 'start_time' ],
+			'{end_date}'           => [ $this, 'end_date' ],
+			'{end_time}'           => [ $this, 'end_time' ],
 			'{event_website}'      => 'tribe_get_event_website_link',
 			'{cost}'               => 'tribe_get_cost',
-			'{cost:formatted}'     => array( $this, 'tribe_get_cost' ),
+			'{cost:formatted}'     => [ $this, 'tribe_get_cost' ],
 			'{venue}'              => 'tribe_get_venue',
 			'{venue:name}'         => 'tribe_get_venue',
-			'{venue:linked}'       => array( $this, 'linked_title_venue' ),
-			'{venue_address}'      => array( $this, 'venue_address' ),
+			'{venue:linked}'       => [ $this, 'linked_title_venue' ],
+			'{venue_address}'      => [ $this, 'venue_address' ],
 			'{venue_phone}'        => 'tribe_get_phone',
 			'{venue_website}'      => 'tribe_get_venue_website_link',
-			'{organizer}'          => array( $this, 'tribe_get_organizer' ),
-			'{organizer:linked}'   => array( $this, 'linked_title_organizer' ),
-			'{organizer_phone}'    => array( $this, 'tribe_get_organizer_phone' ),
-			'{organizer_email}'    => array( $this, 'tribe_get_organizer_email' ),
-			'{organizer_website}'  => array( $this, 'tribe_get_organizer_website_link' ),
-		);
+			'{organizer}'          => [ $this, 'tribe_get_organizer' ],
+			'{organizer:linked}'   => [ $this, 'linked_title_organizer' ],
+			'{organizer_phone}'    => [ $this, 'tribe_get_organizer_phone' ],
+			'{organizer_email}'    => [ $this, 'tribe_get_organizer_email' ],
+			'{organizer_website}'  => [ $this, 'tribe_get_organizer_website_link' ],
+		];
 	}
 
 	/**
@@ -184,20 +186,8 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 		// Prevents unbalanced tags (and thus broken HTML) on final shortcode output.
 		$this->content = force_balance_tags( $this->content );
 
-		/*if ( current_user_can( 'read', $this->id ) ) {
-			$this->process_placeholders();
-		} else {
-			$this->process_protected_placeholders();
-		}*/
 		if ( current_user_can( 'read', $this->id ) ) {
 			$this->process_placeholders();
-		} elseif ( 'private' === get_post_status ( $this->id ) ) {
-			$this->content = sprintf(
-				/* translators: %1$s and %2$s are the opening and closing paragraph tags, respectively */
-				__( '%1$sYou must log in to access this content.%2$s', 'tribe-events-calendar-pro' ),
-				'<p>',
-				'</p>'
-			);
 		} else {
 			$this->process_protected_placeholders();
 		}
@@ -216,7 +206,7 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 	/**
 	 * Process the placeholders.
 	 *
-	 * @since 6.3.1.1
+	 * @since 6.3.2
 	 */
 	protected function process_placeholders() {
 		$this->organizer_id = tribe_get_organizer_ids( $this->id );
@@ -227,7 +217,7 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 			}
 
 			$id = $this->id;
-			//Used to support multiple organizers
+			// Used to support multiple organizers.
 			if ( 'organizer' === substr( $tag, 1, 9 ) ) {
 				$id = 0;
 			}
@@ -335,8 +325,8 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 					$this->content = str_replace( $replace, $value, $this->content );
 
 				}
-
 			}
+
 			/**
 			 * Filter Processed Content After Multiple Organizers
 			 *
@@ -427,9 +417,7 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 	 * @return string
 	 */
 	public function tribe_events_get_the_excerpt() {
-
 		return tribe_events_get_the_excerpt( $this->id, wp_kses_allowed_html( 'post' ) );
-
 	}
 
 	/**
@@ -533,15 +521,15 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 	 */
 	public function venue_address() {
 
-		$venue_address = array(
+		$venue_address = [
 			'address'       => tribe_get_address( $this->id ),
 			'city'          => tribe_get_city( $this->id ),
 			'stateprovince' => tribe_get_stateprovince( $this->id ),
 			'zip'           => tribe_get_zip( $this->id ),
 			'country'       => tribe_get_country( $this->id ),
-		);
+		];
 
-		//Unset any address with no value for line
+		// Unset any address with no value for line.
 		foreach ( $venue_address as $key => $line ) {
 			if ( ! $venue_address[ $key ] ) {
 				unset( $venue_address[ $key ] );
@@ -553,11 +541,14 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 		}
 
 		return false;
-
 	}
 
 	/**
 	 * Organizer name.
+	 *
+	 * @since 4.4
+	 *
+	 * @param int $org_id The Organizer ID.
 	 *
 	 * @return string
 	 */
@@ -578,6 +569,8 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 	 *
 	 * @since 4.4
 	 *
+	 * @param int $org_id The Organizer ID.
+	 *
 	 * @return bool|string
 	 */
 	public function linked_title_organizer( $org_id ) {
@@ -597,6 +590,8 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 	 *
 	 * @since 4.4
 	 *
+	 * @param int $org_id The Organizer ID.
+	 *
 	 * @return bool|string
 	 */
 	public function tribe_get_organizer_phone( $org_id ) {
@@ -610,11 +605,14 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 		}
 
 		return false;
-
 	}
 
 	/**
 	 * Get Organizer email.
+	 *
+	 * @since 4.4
+	 *
+	 * @param int $org_id The Organizer ID.
 	 *
 	 * @return bool|string
 	 */
@@ -628,13 +626,14 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 		}
 
 		return false;
-
 	}
 
 	/**
 	 * Get Organizer website Link.
 	 *
 	 * @since 4.4
+	 *
+	 * @param int $org_id The Organizer ID.
 	 *
 	 * @return bool|string
 	 */
@@ -648,7 +647,6 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 		}
 
 		return false;
-
 	}
 
 	/**
