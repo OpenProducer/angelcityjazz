@@ -2,36 +2,41 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Autocomplete WooCommerce Orders 3.2.0\n"
+"Project-Id-Version: Autocomplete WooCommerce Orders 3.2.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/autocomplete-woocommerce-orders\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-01-10T09:55:22+00:00\n"
+"POT-Creation-Date: 2024-03-30T10:18:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.9.0\n"
+"X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: autocomplete-woocommerce-orders\n"
 
 #. Plugin Name of the plugin
+#: autocomplete-woocommerce-orders.php
 msgid "Autocomplete WooCommerce Orders"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: autocomplete-woocommerce-orders.php
 msgid "https://wordpress.org/plugins/autocomplete-woocommerce-orders/"
 msgstr ""
 
 #. Description of the plugin
+#: autocomplete-woocommerce-orders.php
 msgid "Autocomplete your WooCommerce orders with ease. This plugins works with most major payment providers including PayPal, SagePay and Stripe."
 msgstr ""
 
 #. Author of the plugin
+#: autocomplete-woocommerce-orders.php
 #: lib/backend/view/header.php:37
 msgid "QuadLayers"
 msgstr ""
 
 #. Author URI of the plugin
+#: autocomplete-woocommerce-orders.php
 msgid "https://quadlayers.com"
 msgstr ""
 
