@@ -4,8 +4,8 @@ Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, the events calendar, widget, pro
 Donate link: https://evnt.is/29
 Requires at least: 6.2.0
-Stable tag: 6.3.2
-Tested up to: 6.4.3
+Stable tag: 6.3.3
+Tested up to: 6.5
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -213,6 +213,14 @@ Previous versions of Events Calendar Pro are not cross-compatible with 6.X add-o
 Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
+
+= [6.3.3] 2024-04-09 =
+
+* Fix - Resolve some issues around [tribe_event_inline] content parsing. [ECP-1684]
+* Tweak - Added filters: `tec_events_pro_inline_excluded_placeholders`
+* Tweak - Removed filters: `tribe_events_pro_inline_placeholders`, `tribe_events_pro_inline_protected_placeholders`, `tribe_events_pro_inline_excluded_placeholders`, `tribe_events_pro_inline_output`, `tribe_events_pro_inline_event_multi_organizer_output`
+* Tweak - Changed views: `v2/map/top-bar/datepicker`, `v2/photo/top-bar/datepicker`, `v2/summary/top-bar/datepicker`, `v2/week/top-bar/datepicker`
+* Language - 1 new strings added, 2 updated, 0 fuzzied, and 0 obsoleted
 
 = [6.3.2] 2024-03-20 =
 

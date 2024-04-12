@@ -5,7 +5,7 @@
  *
  * @since 4.4
  *
- * @see Tribe__Events__Pro__Shortcodes__Tribe_Inline
+ * @see   Tribe__Events__Pro__Shortcodes__Tribe_Inline
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -37,7 +37,7 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 	 *
 	 * @since 4.4
 	 *
-	 * @var array
+	 * @var array<string,callable>
 	 */
 	protected $placeholders = [];
 
@@ -54,17 +54,18 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 	 * Argument placeholders to be parsed when the Event is private or password-protected.
 	 *
 	 * @since 6.3.1.1
+	 * @since 6.3.3 Renamed to be more clear.
 	 *
-	 * @var array
+	 * @var array<string,callable>
 	 */
-	protected $protected_placeholders = [];
+	protected $public_placeholders = [];
 
 	/**
 	 * Argument placeholders to be excluded/removed when the Event is private or password-protected.
 	 *
 	 * @since 6.3.1.1
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected $excluded_placeholders = [];
 
@@ -114,35 +115,25 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 	 * @param Tribe__Events__Pro__Shortcodes__Tribe_Inline $shortcode The shortcode object.
 	 */
 	public function __construct( Tribe__Events__Pro__Shortcodes__Tribe_Inline $shortcode ) {
-
 		$this->shortcode = $shortcode;
 		$this->atts      = $shortcode->atts;
 		$this->id        = $this->atts['id'];
 		$this->content   = $shortcode->content;
 
-		/**
-		 * Filter the Placeholders to be parsed in the inline content
-		 *
-		 * @param array $placeholders
-		 */
-		$this->placeholders           = apply_filters( 'tribe_events_pro_inline_placeholders', $this->placeholders() );
-		$this->protected_placeholders = apply_filters( 'tribe_events_pro_inline_protected_placeholders', $this->protected_placeholders() );
-		$this->excluded_placeholders  = apply_filters( 'tribe_events_pro_inline_excluded_placeholders', $this->excluded_placeholders() );
+		$this->public_placeholders = [
+			'{title}'        => 'get_the_title',
+			'{name}'         => 'get_the_title',
+			'{title:linked}' => [ $this, 'linked_title' ],
+			'{link}'         => 'get_permalink',
+			'{url}'          => [ $this, 'url_open' ],
+			'{/url}'         => [ $this, 'url_close' ],
+			'{start_date}'   => [ $this, 'start_date' ],
+			'{start_time}'   => [ $this, 'start_time' ],
+			'{end_date}'     => [ $this, 'end_date' ],
+			'{end_time}'     => [ $this, 'end_time' ],
+		];
 
-		$this->process();
-
-		$this->process_multiple_organizers();
-	}
-
-	/**
-	 * Placeholders to be parsed.
-	 *
-	 * @since 4.4
-	 *
-	 * @return array
-	 */
-	protected function placeholders() {
-		return [
+		$this->placeholders = [
 			'{title}'              => 'get_the_title',
 			'{name}'               => 'get_the_title',
 			'{title:linked}'       => [ $this, 'linked_title' ],
@@ -173,6 +164,39 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 			'{organizer_email}'    => [ $this, 'tribe_get_organizer_email' ],
 			'{organizer_website}'  => [ $this, 'tribe_get_organizer_website_link' ],
 		];
+
+		$this->process();
+		$this->process_multiple_organizers();
+	}
+
+	/**
+	 * @return array<string,callable>
+	 * @deprecated Updated name to placeholder_callbacks().
+	 */
+	protected function placeholders() {
+		_deprecated_function( __METHOD__, '6.3.3', 'Use placeholder_callbacks() instead.' );
+
+		return $this->placeholder_callbacks();
+	}
+
+	/**
+	 * Placeholders to be parsed.
+	 *
+	 * @since 4.4
+	 * @since 6.3.3 Renamed to more closely match intent.
+	 *
+	 * @return array<string,callable>
+	 */
+	protected function placeholder_callbacks() {
+		/**
+		 * Filter the Placeholders to be parsed in the inline content
+		 *
+		 * @param array<string,callable> $placeholders
+		 */
+		$this->placeholders = (array) apply_filters( 'tec_events_pro_inline_placeholders', $this->placeholders );
+		$this->placeholders = (array) apply_filters_deprecated( 'tribe_events_pro_inline_placeholders', [ $this->placeholders ], '6.3.3', 'tec_events_pro_inline_placeholders' );
+
+		return $this->placeholders;
 	}
 
 	/**
@@ -182,14 +206,25 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 	 * @since 6.3.1.1 Excludes private and password-protected posts.
 	 */
 	protected function process() {
-
 		// Prevents unbalanced tags (and thus broken HTML) on final shortcode output.
 		$this->content = force_balance_tags( $this->content );
 
-		if ( current_user_can( 'read', $this->id ) ) {
-			$this->process_placeholders();
+		$placeholders = [];
+		if ( ! is_user_logged_in() && 'private' === get_post_status( $this->id ) ) {
+			$this->content = sprintf(
+				/* translators: %1$s and %2$s are the opening and closing paragraph tags, respectively */
+				_x(
+					'%1$sYou must log in to access this content.%2$s',
+					'Message to display for inline shortcodes when the event is private.',
+					'tribe-events-calendar-pro'
+				),
+				'<p>',
+				'</p>'
+			);
+		} elseif ( ! is_user_logged_in() || current_user_can( 'read', $this->id ) ) {
+			$placeholders = $this->placeholder_callbacks();
 		} else {
-			$this->process_protected_placeholders();
+			$placeholders = $this->public_placeholder_callbacks();
 		}
 
 		/**
@@ -200,97 +235,123 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 		 *
 		 * @param string $html
 		 */
-		$this->output = apply_filters( 'tribe_events_pro_inline_output', $this->content );
+		$this->output = apply_filters( 'tec_events_pro_inline_output', $this->parse_content( $placeholders ) );
+		$this->output = apply_filters_deprecated( 'tribe_events_pro_inline_output', [ $this->output ], '6.3.3', 'tec_events_pro_inline_output' );
+	}
+
+	/**
+	 * For the passed placeholders, rendering the content with the appropriate content.
+	 *
+	 * @since 6.3.3
+	 *
+	 * @param array<string,callable> $placeholders The list of placeholders we are parsing the content for.
+	 *
+	 * @return string The content with placeholders rendered.
+	 */
+	protected function parse_content( array $placeholders ) {
+		$this->organizer_id    = tribe_get_organizer_ids( $this->id );
+		$content               = $this->content;
+		$excluded_placeholders = $this->excluded_placeholders();
+
+		// Iterate on all of them.
+		foreach ( $this->placeholder_callbacks() as $tag => $handler ) {
+			// Not even there? Skip other steps.
+			if ( false === strpos( $this->content, $tag ) ) {
+				continue;
+			}
+
+			// If it is not one of the placeholders we are parsing for, remove the tag.
+			if ( ! isset( $placeholders[ $tag ] ) || in_array( $tag, $excluded_placeholders, true ) ) {
+				$content = str_replace( $tag, '', $content );
+				continue;
+			}
+
+			$id = $this->id;
+			// Used to support multiple organizers.
+			if ( 'organizer' === substr( $tag, 1, 9 ) ) {
+				$id = 0;
+			}
+
+			$value   = is_callable( $handler ) ? call_user_func( $handler, $id ) : '';
+			$content = str_replace( $tag, $value, $content );
+		}
+
+		return $content;
 	}
 
 	/**
 	 * Process the placeholders.
 	 *
-	 * @since 6.3.2
+	 * @since      6.3.1.1
+	 * @deprecated Handling processing in a centralized location.
 	 */
 	protected function process_placeholders() {
-		$this->organizer_id = tribe_get_organizer_ids( $this->id );
-
-		foreach ( $this->placeholders as $tag => $handler ) {
-			if ( false === strpos( $this->content, $tag ) ) {
-				continue;
-			}
-
-			$id = $this->id;
-			// Used to support multiple organizers.
-			if ( 'organizer' === substr( $tag, 1, 9 ) ) {
-				$id = 0;
-			}
-
-			$value         = is_callable( $handler ) ? call_user_func( $handler, $id ) : '';
-			$this->content = str_replace( $tag, $value, $this->content );
-		}
+		_deprecated_function( __METHOD__, '6.3.3', 'Use parse_content() instead.' );
 	}
 
 	/**
 	 * Process the placeholders for private and password-protected events.
 	 *
-	 * This only processes the placeholders in the $this->protected_placeholders array
+	 * This only processes the placeholders in the $this->public_placeholders array
 	 * and it removes the ones in the $this->excluded_placeholders array.
 	 *
-	 * @since 6.3.1.1
+	 * @since      6.3.1.1
+	 * @deprecated Moving processing to a centralized parser.
 	 */
 	protected function process_protected_placeholders() {
-		foreach ( $this->protected_placeholders as $tag => $handler ) {
-			if ( false === strpos( $this->content, $tag ) ) {
-				continue;
-			}
-
-			$id = $this->id;
-			// Used to support multiple organizers.
-			if ( 'organizer' === substr( $tag, 1, 9 ) ) {
-				$id = 0;
-			}
-
-			if ( in_array( $tag, $this->excluded_placeholders, true ) ) {
-				// Remove excluded placeholders.
-				$value = '';
-			} elseif ( is_callable( $handler ) ) {
-				// Process the placeholder.
-				$value = call_user_func( $handler, $id );
-			} else {
-				// Remove invalid placeholders.
-				$value = '';
-			}
-
-			$this->content = str_replace( $tag, $value, $this->content );
-		}
+		_deprecated_function( __METHOD__, '6.3.3', 'Use parse_content() instead.' );
 	}
 
 	/**
 	 * Placeholders to be parsed when the Event is private or password-protected.
 	 *
 	 * @since 6.3.1.1
+	 * @since 6.3.3 Renamed as this takes a different structure to the other placeholder properties.
 	 */
-	protected function protected_placeholders() {
-		return [
-			'{title}'        => 'get_the_title',
-			'{name}'         => 'get_the_title',
-			'{title:linked}' => [ $this, 'linked_title' ],
-			'{link}'         => 'get_permalink',
-			'{url}'          => [ $this, 'url_open' ],
-			'{/url}'         => [ $this, 'url_close' ],
-			'{start_date}'   => [ $this, 'start_date' ],
-			'{start_time}'   => [ $this, 'start_time' ],
-			'{end_date}'     => [ $this, 'end_date' ],
-			'{end_time}'     => [ $this, 'end_time' ],
-		];
+	protected function public_placeholder_callbacks() {
+		/**
+		 * Filter the Protected Placeholders to be parsed in the inline content
+		 *
+		 * @since 6.3.1.1
+		 *
+		 * @param array<string,callable> $placeholders
+		 */
+		$this->public_placeholders = (array) apply_filters( 'tribe_events_pro_inline_public_placeholders', $this->public_placeholders );
+		$this->public_placeholders = (array) apply_filters_deprecated( 'tribe_events_pro_inline_protected_placeholders', [ $this->public_placeholders ], '6.3.3', 'tribe_events_pro_inline_public_placeholders' ); // @todo
+
+		return $this->public_placeholders;
 	}
 
 	/**
-	 * Placeholders to be removed when the Event is private or password-protected.
+	 * @since      6.3.1.1
+	 * @deprecated Moved to protected_placeholder_callbacks().
+	 */
+	protected function protected_placeholders() {
+		_deprecated_function( __METHOD__, '6.3.3', 'Use protected_placeholder_callbacks() instead.' );
+
+		return $this->protected_placeholder_callbacks();
+	}
+
+	/**
+	 * Placeholders to be removed.
 	 *
 	 * Generated on the fly to allow for filtering of the original placeholder arrays.
 	 *
 	 * @since 6.3.1.1
+	 * @since 6.3.3 Removed default which is redundant to the already evaluated set of placeholders to use based on event
+	 *        status.
 	 */
-	protected function excluded_placeholders() {
-		return array_keys( array_diff_key( $this->placeholders(), $this->protected_placeholders() ) );
+	protected function excluded_placeholders(): array {
+		$placeholders = (array) apply_filters_deprecated( 'tribe_events_pro_inline_excluded_placeholders', [ [] ], '6.3.3', 'tec_events_pro_inline_excluded_placeholders' );
+
+		/**
+		 * Filter the Protected Placeholder tags to be parsed in the inline content
+		 *
+		 * @since 6.3.1.1
+		 *
+		 * @param array<string> $placeholders
+		 */
+		return (array) apply_filters( 'tec_events_pro_inline_excluded_placeholders', $placeholders );
 	}
 
 	/**
@@ -332,7 +393,8 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 			 *
 			 * @param string $html
 			 */
-			$this->output = apply_filters( 'tribe_events_pro_inline_event_multi_organizer_output', $this->content );
+			$this->output = apply_filters( 'tec_events_pro_inline_event_multi_organizer_output', $this->content );
+			$this->output = apply_filters_deprecated( 'tribe_events_pro_inline_event_multi_organizer_output', [ $this->output ], '6.3.3', 'tec_events_pro_inline_event_multi_organizer_output' );
 		}
 
 		return false;
@@ -402,7 +464,7 @@ class Tribe__Events__Pro__Shortcodes__Inline__Parser {
 		$content = '';
 
 		// If the user can't access the post, we bail.
-		if ( current_user_can( 'read', $this->id ) ) {
+		if ( ! is_user_logged_in() || current_user_can( 'read', $this->id ) ) {
 			$content = get_post_field( 'post_content', $this->id );
 		}
 

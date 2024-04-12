@@ -191,6 +191,7 @@ class ComposerStaticInit13ecfd95755378c953c32cedf6e9b6ad
         'TEC\\Events_Pro\\Custom_Tables\\V1\\WP_Query\\Replace_Results' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/WP_Query/Replace_Results.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\WP_Query\\Repository\\Custom_Tables_Query_Filters' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/WP_Query/Repository/Custom_Tables_Query_Filters.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\WP_Query\\WP_Query_Monitor_Filters' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/WP_Query/WP_Query_Monitor_Filters.php',
+        'TEC\\Events_Pro\\Integrations\\Plugins\\Elementor\\Widgets\\Event_Organizer' => __DIR__ . '/../..' . '/src/Events_Pro/Integrations/Plugins/Elementor/Widgets/Event_Organizer.php',
         'TEC\\Events_Pro\\Legacy\\Query_Filters' => __DIR__ . '/../..' . '/src/Events_Pro/Legacy/Query_Filters.php',
         'TEC\\Events_Pro\\Linked_Posts\\Contracts\\Taxonomy_Abstract' => __DIR__ . '/../..' . '/src/Events_Pro/Linked_Posts/Contracts/Taxonomy_Abstract.php',
         'TEC\\Events_Pro\\Linked_Posts\\Contracts\\Taxonomy_Interface' => __DIR__ . '/../..' . '/src/Events_Pro/Linked_Posts/Contracts/Taxonomy_Interface.php',

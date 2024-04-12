@@ -163,6 +163,7 @@ return array(
     'TEC\\Events_Pro\\Custom_Tables\\V1\\WP_Query\\Replace_Results' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/WP_Query/Replace_Results.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\WP_Query\\Repository\\Custom_Tables_Query_Filters' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/WP_Query/Repository/Custom_Tables_Query_Filters.php',
     'TEC\\Events_Pro\\Custom_Tables\\V1\\WP_Query\\WP_Query_Monitor_Filters' => $baseDir . '/src/Events_Pro/Custom_Tables/V1/WP_Query/WP_Query_Monitor_Filters.php',
+    'TEC\\Events_Pro\\Integrations\\Plugins\\Elementor\\Widgets\\Event_Organizer' => $baseDir . '/src/Events_Pro/Integrations/Plugins/Elementor/Widgets/Event_Organizer.php',
     'TEC\\Events_Pro\\Legacy\\Query_Filters' => $baseDir . '/src/Events_Pro/Legacy/Query_Filters.php',
     'TEC\\Events_Pro\\Linked_Posts\\Contracts\\Taxonomy_Abstract' => $baseDir . '/src/Events_Pro/Linked_Posts/Contracts/Taxonomy_Abstract.php',
     'TEC\\Events_Pro\\Linked_Posts\\Contracts\\Taxonomy_Interface' => $baseDir . '/src/Events_Pro/Linked_Posts/Contracts/Taxonomy_Interface.php',
