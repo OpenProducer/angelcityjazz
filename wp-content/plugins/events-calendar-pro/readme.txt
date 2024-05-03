@@ -3,9 +3,9 @@
 Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp, GeoffBel, jentheo, leahkoerper, lucatume, neillmcshea, vicskf, zbtirrell, juanfra
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, the events calendar, widget, pro
 Donate link: https://evnt.is/29
-Requires at least: 6.2.0
-Stable tag: 6.3.3
-Tested up to: 6.5
+Requires at least: 6.3
+Stable tag: 6.4.0
+Tested up to: 6.5.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -213,6 +213,18 @@ Previous versions of Events Calendar Pro are not cross-compatible with 6.X add-o
 Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
+
+= [6.4.0] 2024-04-30 =
+
+* Feature - Elementor Compatibility. Compatible with Elementor Free 3.21+ and Elementor Pro 3.20+.
+* Feature - Added component Elementor widgets for the single event page.
+* Feature - New widgets: Additional Fields and Related Events. Can be used outside of a single-event post by specifying an event ID or event query parameters.
+* Feature - Modified widgets: Event Organizer and Venue widgets support linking to the PRO Organizer and Venue pages, respectively.
+* Feature - All widgets utilize our PHP templating system, allowing customization of the widget templates.
+* Fix - Resolved an integration bug with Elementor and the ability to save widgets on a Recurring Event page. [ECP-1660]
+* Tweak - Added filters: `tec_events_pro_elementor_event_additional_fields_widget_label_text`, `tec_events_pro_elementor_event_related_events_widget_container_class`, `tec_events_pro_elementor_event_related_events_widget_header_class`, `tec_events_pro_elementor_event_related_events_widget_list_class`, `tec_events_pro_elementor_event_related_events_widget_image_link_class`, `tec_events_pro_elementor_event_related_events_widget_title_link_class`, `tec_events_pro_elementor_event_related_events_widget_list_item_class`, `tec_events_pro_elementor_event_related_events_widget_thumbnail_class`, `tec_events_pro_elementor_event_related_events_widget_info_class`, `tec_events_pro_elementor_event_related_events_widget_title_class`, `tec_events_pro_elementor_event_related_events_widget_datetime_class`
+* Tweak - Changed views: `integrations/elementor/widgets/event-additional-fields`, `integrations/elementor/widgets/event-additional-fields/field/label`, `integrations/elementor/widgets/event-additional-fields/field/value`, `integrations/elementor/widgets/event-additional-fields/fields`, `integrations/elementor/widgets/event-additional-fields/header`, `integrations/elementor/widgets/event-organizer/names`, `integrations/elementor/widgets/event-related`, `integrations/elementor/widgets/event-related/header`, `integrations/elementor/widgets/event-related/item/datetime`, `integrations/elementor/widgets/event-related/item/thumb`, `integrations/elementor/widgets/event-related/item/title`, `integrations/elementor/widgets/event-related/list-item`, `integrations/elementor/widgets/event-related/list`, `integrations/elementor/widgets/event-venue/name`
+* Language - 14 new strings added, 201 updated, 13 fuzzied, and 32 obsoleted
 
 = [6.3.3] 2024-04-09 =
 

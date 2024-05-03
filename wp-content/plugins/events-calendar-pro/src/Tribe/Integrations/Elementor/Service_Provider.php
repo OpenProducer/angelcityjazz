@@ -40,8 +40,6 @@ class Service_Provider extends Provider_Contract {
 			$this->container->singleton( Widgets\Widget_Events_View::class, Widgets\Widget_Events_View::class );
 		}
 
-		$this->container->singleton( Templates::class, Templates::class );
-
 		// Register the hooks related to this integration.
 		$this->register_hooks();
 	}
@@ -63,8 +61,6 @@ class Service_Provider extends Provider_Contract {
 		}
 
 		add_action( 'elementor/widgets/register', [ $this, 'action_register_widgets_manager_registration' ] );
-		add_action( 'elementor/elements/categories_registered', [ $this, 'action_register_elementor_category' ] );
-		add_action( 'elementor/controls/controls_registered', [ $this, 'action_register_elementor_controls' ] );
 		add_action( 'elementor/preview/enqueue_styles', [ $this, 'action_enqueue_resources' ] );
 	}
 
@@ -73,7 +69,7 @@ class Service_Provider extends Provider_Contract {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @param mixed $meta_value The meta value being protected.
+	 * @param mixed  $meta_value The meta value being protected.
 	 * @param string $meta_key The meta key.
 	 *
 	 * @return mixed|string
@@ -92,17 +88,13 @@ class Service_Provider extends Provider_Contract {
 	 *
 	 * @since 5.1.4
 	 */
-	public function support_archive_shortcode() {
-		add_filter( 'do_shortcode_tag', [ $this->container->make( Shortcodes::class ), 'support_archive_shortcode' ], 10, 2 );
-	}
-
-	/**
-	 * Registers controls for Elementor.
-	 *
-	 * @since 5.4.0
-	 */
-	public function action_register_elementor_controls() {
-		return $this->container->make( Controls_Manager::class )->register();
+	public function support_archive_shortcode() { // phpcs:ignore WordPressVIPMinimum.Hooks.AlwaysReturnInFilter.MissingReturnStatement -- it does return a value.
+		add_filter(
+			'do_shortcode_tag',
+			[ $this->container->make( Shortcodes::class ), 'support_archive_shortcode' ],
+			10,
+			2
+		);
 	}
 
 	/**
@@ -123,10 +115,13 @@ class Service_Provider extends Provider_Contract {
 	 * Registers widget categories for Elementor.
 	 *
 	 * @since 5.4.0
+	 * @deprecated 6.4.0 Moved to The Events Calendar plugin.
 	 *
 	 * @param Elements_Manager $elements_manager Elementor Manager instance.
 	 */
 	public function action_register_elementor_category( $elements_manager ) {
+		_deprecated_function( __METHOD__, '6.4.0', 'TEC\Events\Integrations\Plugins\ElementorController::action_register_elementor_category()' );
+
 		$elements_manager->add_category(
 			'the-events-calendar',
 			[

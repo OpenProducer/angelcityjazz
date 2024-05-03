@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit08f5a02cf4f4e3caf04bf79b7743404b
+class ComposerStaticInitb29016a4ad6c2afdc5a94ae3a827457e
 {
     public static $prefixLengthsPsr4 = array (
         'W' => 
@@ -50,7 +50,6 @@ class ComposerStaticInit08f5a02cf4f4e3caf04bf79b7743404b
         'WooCommerce\\Facebook\\API\\Catalog\\Send_Item_Updates\\Response' => __DIR__ . '/../..' . '/includes/API/Catalog/Send_Item_Updates/Response.php',
         'WooCommerce\\Facebook\\API\\Exceptions\\ConnectApiException' => __DIR__ . '/../..' . '/includes/API/Exceptions/ConnectApiException.php',
         'WooCommerce\\Facebook\\API\\Exceptions\\Request_Limit_Reached' => __DIR__ . '/../..' . '/includes/API/Exceptions/Request_Limit_Reached.php',
-        'WooCommerce\\Facebook\\API\\FBE\\Configuration\\Messenger' => __DIR__ . '/../..' . '/includes/API/FBE/Configuration/Messenger.php',
         'WooCommerce\\Facebook\\API\\FBE\\Configuration\\Read\\Response' => __DIR__ . '/../..' . '/includes/API/FBE/Configuration/Read/Response.php',
         'WooCommerce\\Facebook\\API\\FBE\\Configuration\\Request' => __DIR__ . '/../..' . '/includes/API/FBE/Configuration/Request.php',
         'WooCommerce\\Facebook\\API\\FBE\\Configuration\\Update\\Request' => __DIR__ . '/../..' . '/includes/API/FBE/Configuration/Update/Request.php',
@@ -122,7 +121,6 @@ class ComposerStaticInit08f5a02cf4f4e3caf04bf79b7743404b
         'WooCommerce\\Facebook\\Admin\\Settings' => __DIR__ . '/../..' . '/includes/Admin/Settings.php',
         'WooCommerce\\Facebook\\Admin\\Settings_Screens\\Advertise' => __DIR__ . '/../..' . '/includes/Admin/Settings_Screens/Advertise.php',
         'WooCommerce\\Facebook\\Admin\\Settings_Screens\\Connection' => __DIR__ . '/../..' . '/includes/Admin/Settings_Screens/Connection.php',
-        'WooCommerce\\Facebook\\Admin\\Settings_Screens\\Messenger' => __DIR__ . '/../..' . '/includes/Admin/Settings_Screens/Messenger.php',
         'WooCommerce\\Facebook\\Admin\\Settings_Screens\\Product_Sets' => __DIR__ . '/../..' . '/includes/Admin/Settings_Screens/Product_Sets.php',
         'WooCommerce\\Facebook\\Admin\\Settings_Screens\\Product_Sync' => __DIR__ . '/../..' . '/includes/Admin/Settings_Screens/Product_Sync.php',
         'WooCommerce\\Facebook\\Admin\\Tasks\\Setup' => __DIR__ . '/../..' . '/includes/Admin/Tasks/Setup.php',
@@ -184,9 +182,9 @@ class ComposerStaticInit08f5a02cf4f4e3caf04bf79b7743404b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit08f5a02cf4f4e3caf04bf79b7743404b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit08f5a02cf4f4e3caf04bf79b7743404b::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit08f5a02cf4f4e3caf04bf79b7743404b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb29016a4ad6c2afdc5a94ae3a827457e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb29016a4ad6c2afdc5a94ae3a827457e::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitb29016a4ad6c2afdc5a94ae3a827457e::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -2,24 +2,24 @@
 # This file is distributed under the same license as the Facebook for WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Facebook for WooCommerce 3.1.15\n"
+"Project-Id-Version: Facebook for WooCommerce 3.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/facebook-for-woocommerce\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-04-16T14:05:09+00:00\n"
+"POT-Creation-Date: 2024-05-01T08:40:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: facebook-for-woocommerce\n"
 
 #. Plugin Name of the plugin
-#: class-wc-facebookcommerce.php:761
-#: facebook-commerce.php:211
+#: class-wc-facebookcommerce.php:760
+#: facebook-commerce.php:208
 #: includes/Admin.php:1501
-#: includes/Admin/Settings.php:111
-#: includes/Admin/Settings.php:179
+#: includes/Admin/Settings.php:110
+#: includes/Admin/Settings.php:178
 msgid "Facebook for WooCommerce"
 msgstr ""
 
@@ -33,8 +33,8 @@ msgstr ""
 
 #. Author of the plugin
 #: includes/Admin.php:1159
-#: includes/Admin/Settings.php:112
-#: includes/Admin/Settings.php:351
+#: includes/Admin/Settings.php:111
+#: includes/Admin/Settings.php:347
 msgid "Facebook"
 msgstr ""
 
@@ -44,131 +44,134 @@ msgstr ""
 
 #. translators: %s property name.
 #: class-wc-facebookcommerce.php:148
-#: facebook-commerce-messenger-chat.php:60
-#: facebook-commerce.php:405
+#: facebook-commerce.php:394
 #: includes/Admin/Enhanced_Catalog_Attribute_Fields.php:68
 #: includes/fbbackground.php:41
 #: includes/fbproduct.php:134
 msgid "The %s property is private and should not be accessed outside its class."
 msgstr ""
 
-#: class-wc-facebookcommerce.php:382
+#: class-wc-facebookcommerce.php:381
+#: includes/Admin/Settings.php:140
 #: includes/Admin/Settings.php:141
-#: includes/Admin/Settings.php:142
 msgid "Facebook Product Sets"
 msgstr ""
 
-#: class-wc-facebookcommerce.php:383
+#: class-wc-facebookcommerce.php:382
 msgid "Facebook Product Set"
 msgstr ""
 
 #. translators: Edit item label
-#: class-wc-facebookcommerce.php:391
+#: class-wc-facebookcommerce.php:390
 msgid "Edit %s"
 msgstr ""
 
 #. translators: Add new label
-#: class-wc-facebookcommerce.php:393
+#: class-wc-facebookcommerce.php:392
 msgid "Add new %s"
 msgstr ""
 
 #. translators: No items found text
-#: class-wc-facebookcommerce.php:395
+#: class-wc-facebookcommerce.php:394
 msgid "No %s found."
 msgstr ""
 
 #. translators: Search label
-#: class-wc-facebookcommerce.php:397
+#: class-wc-facebookcommerce.php:396
 msgid "Search %s."
 msgstr ""
 
 #. translators: Text label
-#: class-wc-facebookcommerce.php:399
+#: class-wc-facebookcommerce.php:398
 msgid "Separate %s with commas"
 msgstr ""
 
 #. translators: Text label
-#: class-wc-facebookcommerce.php:401
+#: class-wc-facebookcommerce.php:400
 msgid "Choose from the most used %s"
 msgstr ""
 
 #. translators: Backlink item label
-#: class-wc-facebookcommerce.php:403
+#: class-wc-facebookcommerce.php:402
 msgid "&larr; Go to %s"
 msgstr ""
 
-#: class-wc-facebookcommerce.php:538
+#: class-wc-facebookcommerce.php:537
 msgid "Cannot create the API instance because the access token is missing."
 msgstr ""
 
-#: facebook-commerce.php:215
+#: facebook-commerce.php:212
 msgid "Facebook Commerce and Dynamic Ads (Pixel) Extension"
 msgstr ""
 
 #. translators: %1$s is referring to facebook product group id.
-#: facebook-commerce.php:1305
+#: facebook-commerce.php:1294
 msgid "Nothing to update for product group for %1$s"
 msgstr ""
 
-#: facebook-commerce.php:2094
+#: facebook-commerce.php:2083
 msgid "Your connection has expired."
 msgstr ""
 
-#: facebook-commerce.php:2094
+#: facebook-commerce.php:2083
 msgid "Please click Manage connection > Advanced Options > Update Token to refresh your connection to Facebook."
 msgstr ""
 
 #. translators: Placeholders %s - error message
-#: facebook-commerce.php:2101
+#: facebook-commerce.php:2090
 msgid "There was an error trying to sync the products to Facebook. %s"
 msgstr ""
 
-#: facebook-commerce.php:2120
+#: facebook-commerce.php:2109
 msgid "Product sync is disabled."
 msgstr ""
 
-#: facebook-commerce.php:2125
+#: facebook-commerce.php:2114
 msgid "The plugin is not configured or the Catalog ID is missing."
 msgstr ""
 
-#: facebook-commerce.php:2145
+#: facebook-commerce.php:2134
 msgid "A product sync is in progress. Please wait until the sync finishes before starting a new one."
 msgstr ""
 
-#: facebook-commerce.php:2161
+#: facebook-commerce.php:2150
 msgid "We've detected that your Facebook Product Catalog is no longer valid. This may happen if it was deleted, but could also be a temporary error. If the error persists, please click Manage connection > Advanced Options > Remove and setup the plugin again."
 msgstr ""
 
-#: facebook-commerce.php:2533
+#: facebook-commerce.php:2511
 msgid "Hi! We're here to answer any questions you may have."
 msgstr ""
 
-#: facebook-commerce.php:2845
+#: facebook-commerce.php:2730
+msgid "The Facebook Messenger chat plugin was deprecated in May 2024."
+msgstr ""
+
+#: facebook-commerce.php:2816
 msgid "Facebook for WooCommerce error:"
 msgstr ""
 
 #. translators: Placeholders %1$s - original error message from Facebook API
-#: facebook-commerce.php:3080
+#: facebook-commerce.php:3051
 msgid "There was an issue connecting to the Facebook API: %s"
 msgstr ""
 
 #. translators: %1$s - plugin name, %2$s - minimum WordPress version required, %3$s - update WordPress link open, %4$s - update WordPress link close
-#: facebook-for-woocommerce.php:224
+#: facebook-for-woocommerce.php:222
 msgid "%1$s requires WordPress version %2$s or higher. Please %3$supdate WordPress &raquo;%4$s"
 msgstr ""
 
 #. translators: %1$s - Plugin Name, %2$s - activate WooCommerce link open, %3$s - activate WooCommerce link close.
-#: facebook-for-woocommerce.php:250
+#: facebook-for-woocommerce.php:248
 msgid "%1$s requires WooCommerce to be activated. Please %2$sactivate WooCommerce%3$s."
 msgstr ""
 
 #. translators: %1$s - Plugin Name, %2$s - install WooCommerce link open, %3$s - install WooCommerce link close.
-#: facebook-for-woocommerce.php:267
+#: facebook-for-woocommerce.php:265
 msgid "%1$s requires WooCommerce to be installed and activated. Please %2$sinstall WooCommerce%3$s."
 msgstr ""
 
 #. translators: %1$s - Plugin Name, %2$s - minimum WooCommerce version, %3$s - update WooCommerce link open, %4$s - update WooCommerce link close, %5$s - download minimum WooCommerce link open, %6$s - download minimum WooCommerce link close.
-#: facebook-for-woocommerce.php:287
+#: facebook-for-woocommerce.php:285
 msgid "%1$s requires WooCommerce version %2$s or higher. Please %3$supdate WooCommerce%4$s to the latest version, or %5$sdownload the minimum required version &raquo;%6$s"
 msgstr ""
 
@@ -478,20 +481,13 @@ msgstr ""
 msgid "This product is not yet synced to Facebook."
 msgstr ""
 
-#: includes/Admin/Settings.php:184
+#: includes/Admin/Settings.php:183
 #: includes/Admin/Settings_Screens/Connection.php:35
 #: includes/Admin/Settings_Screens/Connection.php:36
 msgid "Connection"
 msgstr ""
 
-#: includes/Admin/Settings.php:187
-#: includes/Admin/Settings_Screens/Messenger.php:37
-#: includes/Admin/Settings_Screens/Messenger.php:38
-#: includes/Admin/Settings_Screens/Messenger.php:132
-msgid "Messenger"
-msgstr ""
-
-#: includes/Admin/Settings.php:190
+#: includes/Admin/Settings.php:186
 #: includes/Admin/Settings_Screens/Product_Sync.php:42
 #: includes/Admin/Settings_Screens/Product_Sync.php:43
 #: includes/Admin/Settings_Screens/Product_Sync.php:171
@@ -499,22 +495,22 @@ msgstr ""
 msgid "Product sync"
 msgstr ""
 
-#: includes/Admin/Settings.php:193
+#: includes/Admin/Settings.php:189
 #: includes/Admin/Settings_Screens/Advertise.php:35
 #: includes/Admin/Settings_Screens/Advertise.php:36
 msgid "Advertise"
 msgstr ""
 
-#: includes/Admin/Settings.php:258
+#: includes/Admin/Settings.php:254
 msgid "You do not have permission to save these settings."
 msgstr ""
 
-#: includes/Admin/Settings.php:263
+#: includes/Admin/Settings.php:259
 msgid "Your settings have been saved."
 msgstr ""
 
 #. translators: Placeholders: %s - user-friendly error message
-#: includes/Admin/Settings.php:268
+#: includes/Admin/Settings.php:264
 msgid "Your settings could not be saved. %s"
 msgstr ""
 
@@ -622,41 +618,6 @@ msgstr ""
 
 #: includes/Admin/Settings_Screens/Connection.php:338
 msgid "Experimental feature. Only enable this if you are experiencing problems with feed generation. This is an experimental feature in testing phase."
-msgstr ""
-
-#. translators: Placeholders: %1$s - <a> tag, %2$s - </a> tag
-#: includes/Admin/Settings_Screens/Messenger.php:109
-msgid "%1$sClick here%2$s to manage your Messenger greeting and colors."
-msgstr ""
-
-#: includes/Admin/Settings_Screens/Messenger.php:137
-msgid "Enable Messenger"
-msgstr ""
-
-#: includes/Admin/Settings_Screens/Messenger.php:139
-msgid "Enable and customize Facebook Messenger on your store"
-msgstr ""
-
-#: includes/Admin/Settings_Screens/Messenger.php:147
-msgid "Language"
-msgstr ""
-
-#: includes/Admin/Settings_Screens/Messenger.php:151
-msgid "Greeting & Colors"
-msgstr ""
-
-#. translators: Placeholders: %1$s - <a> tag, %2$s - </a> tag
-#: includes/Admin/Settings_Screens/Messenger.php:181
-msgid "️<strong>Facebook for WooCommerce</strong>: Since %1$sMeta plans to discontinue the Chat Plugin%2$s, the Messenger feature will be removed by May, 2024."
-msgstr ""
-
-#. translators: Placeholders: %1$s - <a> tag, %2$s - </a> tag
-#: includes/Admin/Settings_Screens/Messenger.php:198
-msgid "Please %1$sconnect to Facebook%2$s to enable and manage Facebook Messenger."
-msgstr ""
-
-#: includes/Admin/Settings_Screens/Messenger.php:256
-msgid "Please try again."
 msgstr ""
 
 #: includes/Admin/Settings_Screens/Product_Sets.php:31
@@ -984,7 +945,7 @@ msgstr ""
 msgid "Page %s not authorized."
 msgstr ""
 
-#: includes/Handlers/Connection.php:1300
+#: includes/Handlers/Connection.php:1291
 msgid "You do not have permission to finish App Store login."
 msgstr ""
 
