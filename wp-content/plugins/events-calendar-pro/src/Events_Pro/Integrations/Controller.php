@@ -49,8 +49,8 @@ class Controller extends Controller_Base {
 	public function do_register(): void {
 		$this->boot();
 
-		// Load plugin integration providers once their plugin has loaded.
-		$this->container->register_on_action( 'elementor/loaded', Plugins\Elementor\Controller::class );
+		// Load plugin integration providers once the TEC integration has loaded.
+		$this->container->register_on_action( 'tec_events_elementor_loaded', Plugins\Elementor\Controller::class );
 	}
 
 	/**

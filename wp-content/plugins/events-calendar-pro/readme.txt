@@ -4,8 +4,8 @@ Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, the events calendar, widget, pro
 Donate link: https://evnt.is/29
 Requires at least: 6.3
-Stable tag: 6.4.0
-Tested up to: 6.5.2
+Stable tag: 6.5.0
+Tested up to: 6.5.3
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -131,7 +131,6 @@ The plugin is produced by <a href="https://evnt.is/45">The Events Calendar</a>.
 = Current Contributors =
 
 <a href="https://profiles.wordpress.org/brianjessee">Brian Jessee</a>
-<a href="https://profiles.wordpress.org/geoffgraham">Geoff Graham</a>
 <a href="https://profiles.wordpress.org/bordoni">Gustavo Bordoni</a>
 <a href="https://profiles.wordpress.org/leahkoerper">Leah Koerper</a>
 <a href="https://profiles.wordpress.org/lucatume">Luca Tumedei</a>
@@ -144,6 +143,7 @@ The plugin is produced by <a href="https://evnt.is/45">The Events Calendar</a>.
 = Past Contributors =
 
 <a href="https://profiles.wordpress.org/mitogh">Crisoforo Gaspar</a>
+<a href="https://profiles.wordpress.org/geoffgraham">Geoff Graham</a>
 <a href="https://profiles.wordpress.org/paulskim">Paul Kim</a>
 <a href="https://profiles.wordpress.org/peterchester">Peter Chester</a>
 <a href="https://profiles.wordpress.org/roblagatta">Rob La Gatta</a>
@@ -213,6 +213,21 @@ Previous versions of Events Calendar Pro are not cross-compatible with 6.X add-o
 Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
+
+= [6.5.0] 2024-05-14 =
+
+* Version - Events Calendar PRO 6.5.0 is only compatible with The Events Calendar 6.5.0 and higher.
+* Fix - Upsell Notice for Event Tickets was not dismissible. [ECP-1685]
+* Fix - Use Google geolocation API to get proper address data for Venues when importing Events via Google Calendars. [TEC-5007]
+* Fix - Replace uses of the retired moment.js with Day.js [TEC-5011]
+* Tweak - Removed filters: `tribe_distance_units`
+
+= [6.4.0.1] 2024-05-06 =
+
+* Version - Events Calendar PRO 6.4.0.1 is only compatible with The Events Calendar 6.4.0.1 and higher.
+* Fix - Ensure Elementor compatibility doesn't load until the TEC Elementor compatibility has loaded. [ECP-1789]
+* Fix - Correct a user permissions check.
+* Language - 0 new strings added, 3 updated, 0 fuzzied, and 0 obsoleted
 
 = [6.4.0] 2024-04-30 =
 
@@ -1136,7 +1151,6 @@ Remember to always make a backup of your database and files before updating!
 * Language - 2 new strings added, 58 updated, 0 fuzzied, and 1 obsoleted
 
 = [4.5.2.1] 2019-01-14 =
-
 * Fix - Display recurrence section in classic editor for all users that don't have blocks [119912]
 
 = [4.5.2] 2018-12-19 =

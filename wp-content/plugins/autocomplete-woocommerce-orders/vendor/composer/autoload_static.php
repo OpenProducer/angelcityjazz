@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3a27fca7fde7cd6e0e6db14798642039
+class ComposerStaticInitf9427d4510e501cbc0af8ef7ebc1e311
 {
     public static $files = array (
         '3773ef3f09c37da5478d578e32b03a4b' => __DIR__ . '/../..' . '/jetpack_vendor/automattic/jetpack-assets/actions.php',
@@ -15,6 +15,7 @@ class ComposerStaticInit3a27fca7fde7cd6e0e6db14798642039
         array (
             'QuadLayers\\WP_Plugin_Table_Links\\' => 33,
             'QuadLayers\\WP_Plugin_Suggestions\\' => 33,
+            'QuadLayers\\WP_Plugin_Install_Tab\\' => 33,
             'QuadLayers\\WP_Notice_Plugin_Required\\' => 37,
             'QuadLayers\\WP_Notice_Plugin_Promote\\' => 36,
             'QuadLayers\\WP_Dashboard_Widget_News\\' => 36,
@@ -29,6 +30,10 @@ class ComposerStaticInit3a27fca7fde7cd6e0e6db14798642039
         'QuadLayers\\WP_Plugin_Suggestions\\' => 
         array (
             0 => __DIR__ . '/../..' . '/jetpack_vendor/quadlayers/wp-plugin-suggestions/src',
+        ),
+        'QuadLayers\\WP_Plugin_Install_Tab\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/jetpack_vendor/quadlayers/wp-plugin-install-tab/src',
         ),
         'QuadLayers\\WP_Notice_Plugin_Required\\' => 
         array (
@@ -64,6 +69,7 @@ class ComposerStaticInit3a27fca7fde7cd6e0e6db14798642039
         'QuadLayers\\WP_Notice_Plugin_Promote\\Traits\\PluginDataByFile' => __DIR__ . '/../..' . '/jetpack_vendor/quadlayers/wp-notice-plugin-promote/src/Traits/PluginDataByFile.php',
         'QuadLayers\\WP_Notice_Plugin_Required\\Load' => __DIR__ . '/../..' . '/jetpack_vendor/quadlayers/wp-notice-plugin-required/src/Load.php',
         'QuadLayers\\WP_Notice_Plugin_Required\\Plugin' => __DIR__ . '/../..' . '/jetpack_vendor/quadlayers/wp-notice-plugin-required/src/Plugin.php',
+        'QuadLayers\\WP_Plugin_Install_Tab\\Load' => __DIR__ . '/../..' . '/jetpack_vendor/quadlayers/wp-plugin-install-tab/src/Load.php',
         'QuadLayers\\WP_Plugin_Suggestions\\Load' => __DIR__ . '/../..' . '/jetpack_vendor/quadlayers/wp-plugin-suggestions/src/Load.php',
         'QuadLayers\\WP_Plugin_Suggestions\\Page' => __DIR__ . '/../..' . '/jetpack_vendor/quadlayers/wp-plugin-suggestions/src/Page.php',
         'QuadLayers\\WP_Plugin_Suggestions\\Table' => __DIR__ . '/../..' . '/jetpack_vendor/quadlayers/wp-plugin-suggestions/src/Table.php',
@@ -73,9 +79,9 @@ class ComposerStaticInit3a27fca7fde7cd6e0e6db14798642039
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3a27fca7fde7cd6e0e6db14798642039::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3a27fca7fde7cd6e0e6db14798642039::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit3a27fca7fde7cd6e0e6db14798642039::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf9427d4510e501cbc0af8ef7ebc1e311::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf9427d4510e501cbc0af8ef7ebc1e311::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitf9427d4510e501cbc0af8ef7ebc1e311::$classMap;
 
         }, null, ClassLoader::class);
     }

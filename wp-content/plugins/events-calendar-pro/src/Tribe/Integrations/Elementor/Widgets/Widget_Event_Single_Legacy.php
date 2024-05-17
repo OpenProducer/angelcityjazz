@@ -303,15 +303,12 @@ class Widget_Event_Single_Legacy extends Widget_Abstract {
 			tribe_asset_enqueue( 'event-tickets-details-js' );
 			tribe_asset_enqueue( 'tribe-tickets-forms-style' );
 
-			if ( class_exists( 'Tribe__Tickets__Main' ) ) {
-				if ( tribe_tickets_new_views_is_enabled() || tribe_tickets_rsvp_new_views_is_enabled() ) {
-					tribe_asset_enqueue( 'tribe-tickets-loader' );
-				}
-
-				if ( tribe_tickets_new_views_is_enabled() ) {
-					tribe_asset_enqueue( 'tribe-common-responsive' );
-					tribe_asset_enqueue( 'tribe-tickets-utils' );
-				}
+			if ( function_exists( 'tribe_tickets_new_views_is_enabled' ) && tribe_tickets_new_views_is_enabled() ) {
+				tribe_asset_enqueue( 'tribe-tickets-loader' );
+				tribe_asset_enqueue( 'tribe-common-responsive' );
+				tribe_asset_enqueue( 'tribe-tickets-utils' );
+			} elseif ( function_exists( 'tribe_tickets_rsvp_new_views_is_enabled' ) && tribe_tickets_rsvp_new_views_is_enabled() ) {
+				tribe_asset_enqueue( 'tribe-tickets-loader' );
 			}
 		}
 
@@ -2681,15 +2678,12 @@ class Widget_Event_Single_Legacy extends Widget_Abstract {
 		tribe_asset_enqueue( 'event-tickets-details-js' );
 		tribe_asset_enqueue( 'tribe-tickets-forms-style' );
 
-		if ( class_exists( 'Tribe__Tickets__Main' ) ) {
-			if ( tribe_tickets_new_views_is_enabled() || tribe_tickets_rsvp_new_views_is_enabled() ) {
-				tribe_asset_enqueue( 'tribe-tickets-loader' );
-			}
-
-			if ( tribe_tickets_new_views_is_enabled() ) {
-				tribe_asset_enqueue( 'tribe-common-responsive' );
-				tribe_asset_enqueue( 'tribe-tickets-utils' );
-			}
+		if ( function_exists( 'tribe_tickets_new_views_is_enabled' ) && tribe_tickets_new_views_is_enabled() ) {
+			tribe_asset_enqueue( 'tribe-tickets-loader' );
+			tribe_asset_enqueue( 'tribe-common-responsive' );
+			tribe_asset_enqueue( 'tribe-tickets-utils' );
+		} elseif ( function_exists( 'tribe_tickets_rsvp_new_views_is_enabled' ) && tribe_tickets_rsvp_new_views_is_enabled() ) {
+			tribe_asset_enqueue( 'tribe-tickets-loader' );
 		}
 
 		if ( tribe( Assets::class )->should_enqueue_full_styles() ) {

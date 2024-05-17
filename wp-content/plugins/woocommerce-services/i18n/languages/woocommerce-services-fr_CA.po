@@ -11,6 +11,10 @@ msgstr ""
 "Language: fr_CA\n"
 "Project-Id-Version: Plugins - WooCommerce Shipping &amp; Tax - Stable (latest release)\n"
 
+#: woocommerce-services.php:1801
+msgid "Woo Shipping and Woo Tax plugins are already active. Please deactivate WooCommerce Shipping & Tax."
+msgstr ""
+
 #: i18n/strings.php:71
 msgid "WordPress.com Connection"
 msgstr ""
@@ -495,7 +499,7 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: woocommerce-services.php classes/class-wc-connect-privacy.php:36
-#: classes/class-wc-connect-settings-pages.php:137 woocommerce-services.php:572
+#: classes/class-wc-connect-settings-pages.php:137 woocommerce-services.php:585
 msgid "WooCommerce Shipping & Tax"
 msgstr ""
 
@@ -681,7 +685,7 @@ msgid "You save %s with WooCommerce Shipping"
 msgstr ""
 
 #. translators: %s WC download URL link.
-#: woocommerce-services.php:585
+#: woocommerce-services.php:614
 msgid "WooCommerce Shipping & Tax requires the WooCommerce plugin to be installed and active. You can download %s here."
 msgstr ""
 
@@ -791,7 +795,7 @@ msgstr ""
 msgid "0.0"
 msgstr ""
 
-#: woocommerce-services.php:1523
+#: woocommerce-services.php:1552
 msgid "Shipment Tracking"
 msgstr ""
 
@@ -799,23 +803,23 @@ msgstr ""
 msgid "Customs information valid"
 msgstr ""
 
-#: woocommerce-services.php:1567
+#: woocommerce-services.php:1596
 msgid "Packing Log:"
 msgstr ""
 
-#: woocommerce-services.php:1554
+#: woocommerce-services.php:1583
 msgid "Chosen Rate:"
 msgstr ""
 
-#: woocommerce-services.php:1550
+#: woocommerce-services.php:1579
 msgid "Shipping Method ID:"
 msgstr ""
 
-#: woocommerce-services.php:1546
+#: woocommerce-services.php:1575
 msgid "Shipping Method Name:"
 msgstr ""
 
-#: woocommerce-services.php:1530
+#: woocommerce-services.php:1559
 msgid "Shipping Debug"
 msgstr ""
 
@@ -1513,11 +1517,11 @@ msgstr ""
 msgid "Refresh"
 msgstr ""
 
-#: woocommerce-services.php:1303
+#: woocommerce-services.php:1332
 msgid "Tracking number"
 msgstr ""
 
-#: woocommerce-services.php:1302
+#: woocommerce-services.php:1331
 msgid "Provider"
 msgstr ""
 
@@ -1837,7 +1841,7 @@ msgid "#%1$d - %2$s"
 msgstr "%1$d - %2$s"
 
 #. translators: %s Support url
-#: woocommerce-services.php:1637
+#: woocommerce-services.php:1666
 msgid "<a href=\"%s\">Support</a>"
 msgstr "<a href=\"%s\">Assistance</a>"
 
@@ -1845,8 +1849,8 @@ msgstr "<a href=\"%s\">Assistance</a>"
 msgid "Connected to WordPress.com"
 msgstr ""
 
-#: i18n/strings.php:161 woocommerce-services.php:1130
-#: woocommerce-services.php:1133
+#: i18n/strings.php:161 woocommerce-services.php:1159
+#: woocommerce-services.php:1162
 msgid "Shipping Labels"
 msgstr "Étiquette d'expédition"
 
@@ -1856,8 +1860,8 @@ msgstr "Étiquette d'expédition"
 msgid "https://woocommerce.com/"
 msgstr "https://woocommerce.com/"
 
-#: i18n/strings.php:265 i18n/strings.php:448 woocommerce-services.php:1590
-#: woocommerce-services.php:1618
+#: i18n/strings.php:265 i18n/strings.php:448 woocommerce-services.php:1619
+#: woocommerce-services.php:1647
 msgid "Phone"
 msgstr "Téléphone"
 
@@ -1957,7 +1961,7 @@ msgstr "Ajustement du prix"
 msgid "Saved Packages"
 msgstr "Emballages enregistrés"
 
-#: woocommerce-services.php:1291 woocommerce-services.php:1298
+#: woocommerce-services.php:1320 woocommerce-services.php:1327
 msgid "Tracking"
 msgstr ""
 
@@ -2119,11 +2123,11 @@ msgstr "Impossible de mettre à jour les paramètres. %s"
 msgid "Packaging"
 msgstr "Emballage"
 
-#: woocommerce-services.php:1708
+#: woocommerce-services.php:1737
 msgid "Section not loading? Visit the <a href=\"%s\">status page</a> for troubleshooting steps."
 msgstr "La section ne se charge pas? Consultez la <a href=\"%s\">page d'état </a> pour connaître les étapes de dépannage."
 
-#: woocommerce-services.php:1525
+#: woocommerce-services.php:1554
 msgid "Shipping Label"
 msgstr "Etiquette de l'expédition"
 
@@ -2270,7 +2274,7 @@ msgstr "S’il vous plaît définir l'emplacement de base dans Paramètres WooCo
 msgid "WooCommerce %1$s or higher is required (You are running %2$s)"
 msgstr ""
 
-#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1744
+#: classes/class-wc-connect-error-notice.php:104 woocommerce-services.php:1773
 msgid "Dismiss this notice"
 msgstr "Cacher cet avertissement"
 

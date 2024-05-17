@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'facebookincubator/facebook-for-woocommerce',
-        'pretty_version' => 'dev-release/3.2.0',
-        'version' => 'dev-release/3.2.0',
-        'reference' => '839bf33a1fdea56c2bddfd9d0168cf6bf60b586a',
+        'pretty_version' => 'dev-release/3.2.2',
+        'version' => 'dev-release/3.2.2',
+        'reference' => 'b6b67991df8ffbe8257a5494406c06dfc7a2dc67',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'facebookincubator/facebook-for-woocommerce' => array(
-            'pretty_version' => 'dev-release/3.2.0',
-            'version' => 'dev-release/3.2.0',
-            'reference' => '839bf33a1fdea56c2bddfd9d0168cf6bf60b586a',
+            'pretty_version' => 'dev-release/3.2.2',
+            'version' => 'dev-release/3.2.2',
+            'reference' => 'b6b67991df8ffbe8257a5494406c06dfc7a2dc67',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

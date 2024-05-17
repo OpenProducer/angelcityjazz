@@ -31,14 +31,10 @@ class Service_Provider extends Provider_Contract {
 	 */
 	public function register() {
 		$this->container->singleton( Shortcodes::class, Shortcodes::class );
-
-		// Support Elementor widgets if views v2 is enabled and the Elementor\Widget_Base class exists.
-		if ( tribe_events_views_v2_is_enabled() && class_exists( 'Elementor\Widget_Base', false ) ) {
-			$this->container->singleton( Widgets\Widget_Countdown::class, Widgets\Widget_Countdown::class );
-			$this->container->singleton( Widgets\Widget_Event_List::class, Widgets\Widget_Event_List::class );
-			$this->container->singleton( Widgets\Widget_Event_Single_Legacy::class, Widgets\Widget_Event_Single_Legacy::class );
-			$this->container->singleton( Widgets\Widget_Events_View::class, Widgets\Widget_Events_View::class );
-		}
+		$this->container->singleton( Widgets\Widget_Countdown::class, Widgets\Widget_Countdown::class );
+		$this->container->singleton( Widgets\Widget_Event_List::class, Widgets\Widget_Event_List::class );
+		$this->container->singleton( Widgets\Widget_Event_Single_Legacy::class, Widgets\Widget_Event_Single_Legacy::class );
+		$this->container->singleton( Widgets\Widget_Events_View::class, Widgets\Widget_Events_View::class );
 
 		// Register the hooks related to this integration.
 		$this->register_hooks();
@@ -56,11 +52,13 @@ class Service_Provider extends Provider_Contract {
 		// Ensure that elementor data is not butchered as it is copied to recurring event children.
 		add_filter( 'tribe_events_meta_copier_copy_meta_value', [ $this, 'filter_protect_elementor_data' ], 10, 2 );
 
-		if ( ! tribe_events_views_v2_is_enabled() ) {
-			return;
+		if ( ! did_action( 'elementor/widgets/register' ) ) {
+			add_action( 'elementor/widgets/register', [ $this, 'action_register_widgets_manager_registration' ] );
+		} else {
+			$this->action_register_widgets_manager_registration();
 		}
 
-		add_action( 'elementor/widgets/register', [ $this, 'action_register_widgets_manager_registration' ] );
+
 		add_action( 'elementor/preview/enqueue_styles', [ $this, 'action_enqueue_resources' ] );
 	}
 

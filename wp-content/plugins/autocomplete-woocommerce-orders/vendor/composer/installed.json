@@ -2,25 +2,25 @@
     "packages": [
         {
             "name": "automattic/jetpack-assets",
-            "version": "v2.1.8",
-            "version_normalized": "2.1.8.0",
+            "version": "v2.1.9",
+            "version_normalized": "2.1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Automattic/jetpack-assets.git",
-                "reference": "ae03b367983624c81bda8f1a5ab7dcf903e4012e"
+                "reference": "add537211e3caf4cce64fc6f6a63dc610dc26271"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Automattic/jetpack-assets/zipball/ae03b367983624c81bda8f1a5ab7dcf903e4012e",
-                "reference": "ae03b367983624c81bda8f1a5ab7dcf903e4012e",
+                "url": "https://api.github.com/repos/Automattic/jetpack-assets/zipball/add537211e3caf4cce64fc6f6a63dc610dc26271",
+                "reference": "add537211e3caf4cce64fc6f6a63dc610dc26271",
                 "shasum": ""
             },
             "require": {
-                "automattic/jetpack-constants": "^2.0.1",
+                "automattic/jetpack-constants": "^2.0.2",
                 "php": ">=7.0"
             },
             "require-dev": {
-                "automattic/jetpack-changelogger": "^4.2.2",
+                "automattic/jetpack-changelogger": "^4.2.3",
                 "brain/monkey": "2.6.1",
                 "wikimedia/testing-access-wrapper": "^1.0 || ^2.0 || ^3.0",
                 "yoast/phpunit-polyfills": "1.1.0"
@@ -28,7 +28,7 @@
             "suggest": {
                 "automattic/jetpack-autoloader": "Allow for better interoperability with other plugins that use this package."
             },
-            "time": "2024-04-22T18:47:55+00:00",
+            "time": "2024-05-06T17:33:33+00:00",
             "type": "jetpack-library",
             "extra": {
                 "autotagger": true,
@@ -56,7 +56,7 @@
             ],
             "description": "Asset management utilities for Jetpack ecosystem packages",
             "support": {
-                "source": "https://github.com/Automattic/jetpack-assets/tree/v2.1.8"
+                "source": "https://github.com/Automattic/jetpack-assets/tree/v2.1.9"
             },
             "install-path": "../../jetpack_vendor/automattic/jetpack-assets"
         },
@@ -122,31 +122,31 @@
         },
         {
             "name": "automattic/jetpack-constants",
-            "version": "v2.0.1",
-            "version_normalized": "2.0.1.0",
+            "version": "v2.0.2",
+            "version_normalized": "2.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Automattic/jetpack-constants.git",
-                "reference": "b159a8777450721a2e898a80930be1fdf59bae92"
+                "reference": "6f7991f9e4475d4e2c3fd843111abfadb8a8c187"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Automattic/jetpack-constants/zipball/b159a8777450721a2e898a80930be1fdf59bae92",
-                "reference": "b159a8777450721a2e898a80930be1fdf59bae92",
+                "url": "https://api.github.com/repos/Automattic/jetpack-constants/zipball/6f7991f9e4475d4e2c3fd843111abfadb8a8c187",
+                "reference": "6f7991f9e4475d4e2c3fd843111abfadb8a8c187",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.0"
             },
             "require-dev": {
-                "automattic/jetpack-changelogger": "^4.1.1",
+                "automattic/jetpack-changelogger": "^4.2.2",
                 "brain/monkey": "2.6.1",
                 "yoast/phpunit-polyfills": "1.1.0"
             },
             "suggest": {
                 "automattic/jetpack-autoloader": "Allow for better interoperability with other plugins that use this package."
             },
-            "time": "2024-03-12T22:00:13+00:00",
+            "time": "2024-04-30T19:01:57+00:00",
             "type": "jetpack-library",
             "extra": {
                 "autotagger": true,
@@ -170,7 +170,7 @@
             ],
             "description": "A wrapper for defining constants in a more testable way.",
             "support": {
-                "source": "https://github.com/Automattic/jetpack-constants/tree/v2.0.1"
+                "source": "https://github.com/Automattic/jetpack-constants/tree/v2.0.2"
             },
             "install-path": "../../jetpack_vendor/automattic/jetpack-constants"
         },
@@ -342,6 +342,59 @@
                 "source": "https://github.com/quadlayers/wp-notice-plugin-required/tree/2.0.7"
             },
             "install-path": "../../jetpack_vendor/quadlayers/wp-notice-plugin-required"
+        },
+        {
+            "name": "quadlayers/wp-plugin-install-tab",
+            "version": "1.0.1",
+            "version_normalized": "1.0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/franmastromarino/wp-plugin-install-tab.git",
+                "reference": "7f29b6bcebf6cebdd2ad300fb096e05e3ad0f398"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/franmastromarino/wp-plugin-install-tab/zipball/7f29b6bcebf6cebdd2ad300fb096e05e3ad0f398",
+                "reference": "7f29b6bcebf6cebdd2ad300fb096e05e3ad0f398",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "quadlayers/wp-plugin-suggestions": "*"
+            },
+            "time": "2023-12-18T10:21:33+00:00",
+            "type": "jetpack-library",
+            "extra": {
+                "textdomain": "wp-plugin-install-tab"
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "QuadLayers\\WP_Plugin_Install_Tab\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "QuadLayers",
+                    "email": "noreply@quadlayers.com"
+                }
+            ],
+            "description": "WP Plugin Install Tab",
+            "keywords": [
+                "admin",
+                "install",
+                "plugin",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/franmastromarino/wp-plugin-install-tab/issues",
+                "source": "https://github.com/franmastromarino/wp-plugin-install-tab/tree/1.0.1"
+            },
+            "install-path": "../../jetpack_vendor/quadlayers/wp-plugin-install-tab"
         },
         {
             "name": "quadlayers/wp-plugin-suggestions",

@@ -55,10 +55,11 @@ class Tribe_Events extends Shortcode_Abstract {
 	protected $default_arguments = [
 		'author'               => null,
 		'category'             => null,
-		'exclude-category'     => null,
 		'container-classes'    => [],
 		'date'                 => null,
 		'events_per_page'      => null,
+		'exclude-category'     => null,
+		'exclude-tag'          => null,
 		'featured'             => null,
 		'filter-bar'           => false,
 		'hide_weekends'        => false,
@@ -66,25 +67,20 @@ class Tribe_Events extends Shortcode_Abstract {
 		'hide-export'          => false,
 		'id'                   => null,
 		'is-widget'            => false,
+		'jsonld'               => true,
 		'keyword'              => null,
+		'layout'               => 'vertical', // @todo Change to auto when we enable that option.
 		'main-calendar'        => false,
+		'month_events_per_day' => null,
 		'organizer'            => null,
+		'should_manage_url'    => false, // @todo @bordoni @lucatume @be Update this when shortcode URL management is fixed.
 		'tag'                  => null,
-		'exclude-tag'          => null,
 		'tax-operand'          => 'OR',
 		'tribe-bar'            => true,
-		'view'                 => null,
-		'jsonld'               => true,
 		'venue'                => null,
-		'month_events_per_day' => null,
+		'view'                 => null,
 		'week_events_per_day'  => null,
-		'layout'               => 'vertical', // @todo Change to auto when we enable that option.
 		'week_offset'          => null,
-
-		/**
-		 * @todo @bordoni @lucatume @be Update this when shortcode URL management is fixed.
-		 */
-		'should_manage_url'    => false,
 	];
 
 	/**
@@ -242,7 +238,8 @@ class Tribe_Events extends Shortcode_Abstract {
 		}
 
 		/* Week view & widget only. */
-		if ( 0 === stripos( $this->get_argument( 'view' ), \Tribe\Events\Pro\Views\V2\Views\Week_View::get_view_slug() ) ) {
+		$view = (string) $this->get_argument( 'view' );
+		if ( 0 === stripos( $view, \Tribe\Events\Pro\Views\V2\Views\Week_View::get_view_slug() ) ) {
 			// Allows for the "hide_weekends" attribute.
 			if ( tribe_is_truthy( $this->get_argument( 'hide_weekends' ) ) ) {
 				add_filter( 'tribe_get_option', [ $this, 'week_view_hide_weekends' ], 10, 2 );
