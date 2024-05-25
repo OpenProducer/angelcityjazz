@@ -119,6 +119,15 @@ textarea {
 	font-weight: 700;
 }
 
+/* removing margins on front page carousel */	
+.newspack-front-page .wp-block-newspack-blocks-carousel {
+	margin: 0;
+}
+
+.newspack-front-page .wp-block-newspack-blocks-carousel .swiper-pagination-bullets {
+	display: none;
+}
+
 
 /* Reusable block like LA Creators  */
 .accent-header,
