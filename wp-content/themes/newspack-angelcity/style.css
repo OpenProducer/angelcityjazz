@@ -5,7 +5,7 @@ Author: Automattic
 Author URI: https://newspack.blog
 Description: Newspack child theme for Angel City Jazz
 Version: 1.12.0.1596158016
-Updated: 2020-07-30 18:13:36
+Updated: 2024-03-04
 
 */
 
@@ -232,9 +232,8 @@ textarea {
 
 
  /*adding bottom margin to commerce pages */
- .woocommerce-account .entry-content .woocommerce,
- .woocommerce-cart .entry-content .woocommerce {
-  margin-bottom: 32px;
+ .woocommerce-account .entry-content .woocommerce {
+  margin: 32px 0;
 }	
 
 /*adding bottom margin to 404 and search pages */
@@ -354,6 +353,17 @@ textarea {
 ## Layout - Young Artist Competition
 --------------------------------------------------------------*/
 
+/* margins in Past Competition Winners Group */
+.post-465 .wp-block-cover .cat-links
+ {
+    margin: 0;
+}
+
+/* font Past Competition Winners Group */
+.post-465 .wp-block-cover h2.entry-title
+ {
+    font-size: 1.2em;
+}
 
 	
 
@@ -904,6 +914,16 @@ width: 17%;
   text-transform: uppercase;
 }
 
+/* making sure links are white */
+.tribe-events-view--shortcode .tribe-events-pro-photo a {
+	color: white !important;
+}
+
+/* making event cost is hidden */
+.tribe-events-view--shortcode .tribe-events-pro-photo .tribe-events-pro-photo__event-cost {
+	display: none;
+}
+
 /*--------------------------------------------------------------
 ## Eventbrite / ticket landing page
 --------------------------------------------------------------*/
@@ -931,15 +951,22 @@ width: 17%;
 --------------------------------------------------------------*/
 
 
-/* font size on shop grid - check against customizer */
+/* font size on shop grid */
 
-.wc-block-grid.has-5-columns .wc-block-grid__product {
-  font-size:.92em
+.wc-block-grid__product-title {
+  font-size:var(--newspack-theme-font-size-md)!important;
  }
- 
- .wc-block-grid.has-5-columns.alignfull .wc-block-grid__product {
-  font-size:.92em
+
+.woocommerce .related h2 {
+  font-size: var(--newspack-theme-font-size-lg);
+}
+
+.product .related, 
+.wc-block-grid__product {
+  font-size:var(--newspack-theme-font-size-sm)!important;
  }
+
+
 
 /* WooCommerce 3.0 Gallery */
  
@@ -1079,7 +1106,7 @@ credit: https://gist.github.com/vanbo/c05e9b9512bd53e3680c82e1c6e4e6a3
 }
 
 
-
+ 
 
 
 
