@@ -1,8 +1,8 @@
 <?php return array(
     'root' => array(
         'name' => 'wpauth/pdf-embedder',
-        'pretty_version' => '4.7.0',
-        'version' => '4.7.0.0',
+        'pretty_version' => '4.7.1',
+        'version' => '4.7.1.0',
         'reference' => null,
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
@@ -13,7 +13,7 @@
         'roave/security-advisories' => array(
             'pretty_version' => 'dev-latest',
             'version' => 'dev-latest',
-            'reference' => 'd8ab7c4dd4b7172603942f188754ec46cc3327bb',
+            'reference' => 'a15ad8154eb2cc8f8f8ecb9def0f02bebee6309e',
             'type' => 'metapackage',
             'install_path' => null,
             'aliases' => array(
@@ -22,17 +22,17 @@
             'dev_requirement' => true,
         ),
         'woocommerce/action-scheduler' => array(
-            'pretty_version' => '3.7.2',
-            'version' => '3.7.2.0',
-            'reference' => 'cb3c7854b31a285b46964931425fef6f485be145',
+            'pretty_version' => '3.7.4',
+            'version' => '3.7.4.0',
+            'reference' => '5fb655253dc004bb7a6d840da807f0949aea8bcd',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../woocommerce/action-scheduler',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'wpauth/pdf-embedder' => array(
-            'pretty_version' => '4.7.0',
-            'version' => '4.7.0.0',
+            'pretty_version' => '4.7.1',
+            'version' => '4.7.1.0',
             'reference' => null,
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',

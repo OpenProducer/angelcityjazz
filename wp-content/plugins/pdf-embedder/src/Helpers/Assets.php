@@ -10,6 +10,33 @@ namespace PDFEmbedder\Helpers;
 class Assets {
 
 	/**
+	 * Plugin version.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @var string
+	 */
+	public static $base_ver = PDFEMB_VERSION;
+
+	/**
+	 * Path to the main plugin file.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @var string
+	 */
+	public static $base_file = PDFEMB_PLUGIN_FILE;
+
+	/**
+	 * Path to the plugin directory.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @var string
+	 */
+	public static $base_dir = PDFEMB_PLUGIN_DIR;
+
+	/**
 	 * Based on the SCRIPT_DEBUG const add or not the `.min` to the file name.
 	 * Usage: `Assets::min( 'file.js' );`.
 	 *
@@ -21,7 +48,7 @@ class Assets {
 
 		$chunks = explode( '.', $file );
 		$ext    = (array) array_pop( $chunks );
-		$min    = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? [] : [ 'min' ];
+		$min    = Check::is_script_debug() ? [] : [ 'min' ];
 
 		return implode( '.', array_merge( $chunks, $min, $ext ) );
 	}
@@ -36,7 +63,7 @@ class Assets {
 	public static function ver( string $current = '' ): string {
 
 		if ( empty( $current ) ) {
-			$current = PDFEMB_VERSION;
+			$current = static::$base_ver;
 		}
 
 		return defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : $current;
@@ -58,7 +85,7 @@ class Assets {
 			$file = self::min( $file );
 		}
 
-		return plugins_url( '/assets/' . $file, PDFEMB_PLUGIN_FILE );
+		return plugins_url( '/assets/' . $file, static::$base_file );
 	}
 
 	/**
@@ -76,9 +103,10 @@ class Assets {
 			return '';
 		}
 
-		$path = PDFEMB_PLUGIN_DIR . 'assets/' . ltrim( $file, '/\\' );
+		$path = static::$base_dir . 'assets/' . ltrim( $file, '/\\' );
 
 		if ( is_readable( $path ) ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 			return (string) file_get_contents( $path );
 		}
 

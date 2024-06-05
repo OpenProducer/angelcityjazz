@@ -106,56 +106,25 @@ final class Plugin {
 	 */
 	public function hook_init() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
 
-		add_shortcode( PdfEmbedder::TAG, [ new PdfEmbedder(), 'render' ] );
+		$shortcode = new PdfEmbedder();
+
+		add_shortcode( PdfEmbedder::TAG, [ $shortcode, 'render' ] );
 
 		register_block_type(
-			PDFEMB_PLUGIN_DIR . 'block/build',
+			PDFEMB_PLUGIN_DIR . 'block/build/block.json',
 			[
-				'render_callback' => [ new PdfEmbedder(), 'render' ],
+				'render_callback' => [ $shortcode, 'render' ],
 			]
 		);
 
-		add_action(
-			'enqueue_block_editor_assets',
-			static function () {
-
-				$current_screen = get_current_screen();
-
-				if ( $current_screen === null || ! method_exists( $current_screen, 'is_block_editor' ) || ! $current_screen->is_block_editor() ) {
-					return;
-				}
-
-				static $once = false;
-
-				if ( $once ) {
-					return;
-				}
-
-				$once = true;
-
-				$options   = pdf_embedder()->options()->get();
-				$processed = [];
-
-				foreach ( $options as $key => $value ) {
-
-					if ( is_array( $value ) ) {
-						continue;
-					}
-
-					$processed[ str_replace( 'pdfemb_', '', $key ) ] = $value;
-				}
-
-				$data = 'const pdfembPluginOptions=' . wp_json_encode( $processed ) . ';';
-
-				wp_add_inline_script( 'pdfemb-pdf-embedder-viewer-editor-script', $data, 'before' );
-			}
-		);
+		add_action( 'enqueue_block_assets', [ $this, 'enqueue_block_assets' ] );
 
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ], 5, 0 );
 	}
 
 	/**
 	 * Register front-end scripts.
+	 * TODO: move to the Viewer.
 	 *
 	 * @since 4.7.0
 	 */
@@ -166,22 +135,21 @@ final class Plugin {
 			'pdfemb_pdfjs',
 			Assets::url( 'js/pdfjs/pdf.js' ),
 			[ 'jquery' ],
-			'2.2.228'
+			'2.2.228',
+			false
 		);
 
 		wp_register_script(
 			'pdfemb_embed_pdf',
 			Assets::url( 'js/pdfemb.js' ),
 			[ 'jquery', 'pdfemb_pdfjs' ],
-			Assets::ver()
+			Assets::ver(),
+			false
 		);
-
-		$options = pdf_embedder()->options()->get();
 
 		$front = [
 			'worker_src' => Assets::url( 'js/pdfjs/pdf.worker.js' ),
 			'cmap_url'   => PDFEMB_PLUGIN_URL . 'assets/js/pdfjs/cmaps/',
-			'poweredby'  => $options['poweredby'],
 			'objectL10n' => [
 				'loading'            => esc_html__( 'Loading...', 'pdf-embedder' ),
 				'page'               => esc_html__( 'Page', 'pdf-embedder' ),
@@ -205,7 +173,44 @@ final class Plugin {
 	}
 
 	/**
-	 * Plugin logic that should be available admin area only.
+	 * Register block editor scripts.
+	 *
+	 * @since 4.8.0
+	 */
+	public function enqueue_block_assets() {
+
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		// As the block is extended by Premium, we need this "once" flag to load all assets only once.
+		static $once = false;
+
+		if ( $once ) {
+			return;
+		}
+
+		$once = true;
+
+		$options   = pdf_embedder()->options()->get();
+		$processed = [];
+
+		foreach ( $options as $key => $value ) {
+
+			if ( is_array( $value ) ) {
+				continue;
+			}
+
+			$processed[ str_replace( 'pdfemb_', '', $key ) ] = $value;
+		}
+
+		$data = 'const pdfembPluginOptions=' . wp_json_encode( $processed ) . ';';
+
+		wp_add_inline_script( 'pdfemb-pdf-embedder-viewer-editor-script', $data, 'before' );
+	}
+
+	/**
+	 * Plugin logic that should be available in admin area only.
 	 *
 	 * @since 4.7.0
 	 */

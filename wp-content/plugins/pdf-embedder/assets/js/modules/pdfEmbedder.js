@@ -34,7 +34,7 @@ export function jQueryPDFEmbedder( cmapURL ) {
 		);
 
 		// Disable right click?
-		if ( divContainer.data( 'disablerightclick' ) === 'on' ) {
+		if ( divContainer.data( 'disablerightclick' ) === 'on' || divContainer.data( 'disablerightclick' ) === '1' ) {
 			divContainer.bind( 'contextmenu', function( e ) {
 				e.preventDefault();
 			} );
@@ -68,7 +68,14 @@ export function jQueryPDFEmbedder( cmapURL ) {
 				return;
 			}
 
-			var loadingTask = pdfjsLib.getDocument( pdf, cmapURL );
+			let params = {};
+
+			params.url = pdf;
+			params.cMapUrl = cmapURL;
+			// Do not allow scripts execution in FontMatrix used for rendering glyphs.
+			params.isEvalSupported = false;
+
+			var loadingTask = pdfjsLib.getDocument( params );
 
 			loadingTask.promise.then( function( pdfDoc_ ) {
 					// you can now use *pdf* here

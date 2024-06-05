@@ -49,7 +49,7 @@ class Options {
 				'pdfemb_height'       => 'max',
 				'pdfemb_toolbar'      => 'bottom',
 				'pdfemb_toolbarfixed' => 'off',
-				'poweredby'           => 'off',
+				'poweredby'           => 'off', // Removed.
 				'usagetracking'       => 'off',
 			]
 		);
@@ -156,14 +156,8 @@ class Options {
 
 		$validated['pdfemb_version'] = PDFEMB_VERSION;
 
-		if (
-			isset( $input['poweredby'] ) &&
-			in_array( $input['poweredby'], [ 'on', 'off' ], true )
-		) {
-			$validated['poweredby'] = $input['poweredby'];
-		} else {
-			$validated['poweredby'] = 'off';
-		}
+		// Always off, legacy, removed.
+		$validated['poweredby'] = 'off';
 
 		if (
 			isset( $input['usagetracking'] ) &&
@@ -236,6 +230,48 @@ class Options {
 	 */
 	public static function is_on( $value ): bool {
 
-		return is_scalar( $value ) && ( $value === true || $value === 'on' );
+		return is_scalar( $value ) && ( $value === true || $value === 'on' || $value === '1' || $value === 'true' );
+	}
+
+	/**
+	 * Prepend "pdfemb_" string to each key in the $atts array.
+	 *
+	 * @since 4.8.0
+	 *
+     * @param array $options Options to prefix.
+	 */
+	public static function prefix( array $options ): array {
+
+		return (array) array_combine(
+			array_map(
+				static function ( $key ) {
+
+					return 'pdfemb_' . $key;
+				},
+				array_keys( $options )
+			),
+			array_values( $options )
+		);
+	}
+
+	/**
+	 * Remove "pdfemb_" prefix from each key in the $options array.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @param array $options Options to unprefix.
+	 */
+	public static function unprefix( $options ): array {
+
+		return (array) array_combine(
+			array_map(
+				static function ( $key ) {
+
+					return str_replace( 'pdfemb_', '', $key );
+				},
+				array_keys( $options )
+			),
+			array_values( $options )
+		);
 	}
 }

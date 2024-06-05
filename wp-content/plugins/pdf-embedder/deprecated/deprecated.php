@@ -5,14 +5,14 @@
  * Don't use it, it will be removed in the near future.
  *
  * @since      1.0.0
- * @deprecated {VERSION}
+ * @deprecated 4.7.0
  */
 /**
  * Class Core_PDF_Embedder.
  * Don't use it, it will be removed in the near future.
  *
  * @since 1.0.0
- * @deprecated {VERSION}
+ * @deprecated 4.7.0
  */
 class Core_PDF_Embedder {
 
@@ -47,7 +47,7 @@ class Core_PDF_Embedder {
  * DO NOT USE IT. This class will be removed soon.
  *
  * @since      1.0.0
- * @deprecated {VERSION}
+ * @deprecated 4.7.0
  */
 final class PDF_Embedder_Basic extends Core_PDF_Embedder {
 
@@ -58,7 +58,7 @@ final class PDF_Embedder_Basic extends Core_PDF_Embedder {
  * This function will soon be removed, do not use it!
  *
  * @since      1.0.0
- * @deprecated {VERSION}
+ * @deprecated 4.7.0
  *
  * @return Core_PDF_Embedder
  */

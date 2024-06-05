@@ -1,17 +1,29 @@
 ( function( $ ) {
 	$( function() {
-		function pdfembSetActionToTab( id ) {
-			let frm = $( '#pdfemb_form' );
-			frm.attr(
+		function pdfembSetFormActionToTab( id ) {
+			let form = $( '#pdfemb_form' );
+
+			form.attr(
 				'action',
-				frm.attr( 'action' ).replace( /(#.+)?$/, '#' + id ),
+				form.attr( 'action' ).replace( /(#.+)?$/, '#' + id ),
 			);
+		}
+
+		function decodeHtml(html) {
+			var txt = document.createElement("textarea");
+			txt.innerHTML = html;
+			return txt.value;
 		}
 
 		$( '#pdfemb-tabs a' )
 			.on( 'click', function() {
+
+				// Tab nav item.
 				$( '#pdfemb-tabs' ).find( 'a' ).removeClass( 'nav-tab-active' );
+
+				// Tab content.
 				$( '.pdfembtab' ).removeClass( 'active' );
+
 				let id = $( this ).attr( 'id' ).replace( '-tab', '' );
 				$( '#' + id + '-section' ).addClass( 'active' );
 				$( this ).addClass( 'nav-tab-active' );
@@ -21,10 +33,17 @@
 				} else {
 					$( '.submit' ).show();
 				}
+
 				// Set submit URL to this tab
-				pdfembSetActionToTab( id );
+				pdfembSetFormActionToTab( id );
+
+				// Update upgrade URL dynamically based on URL hash.
+				let url = getPdfembUpdateURL( id );
+
+				$( '#pdfemb-settings-bottom-cta a.pdfemb-upgrade-url' ).attr( 'href', decodeHtml( url ) );
 			} );
 
+		// Process the "free plugins" link in the footer.
 		$('#pdfemb-footer .free-plugins')
 			.on( 'click', function( e ) {
 				e.preventDefault();
@@ -37,9 +56,9 @@
 			} );
 
 		// Move the default "settings update" notice under tabs.
-		$('#wpbody-content > .notice')
-			.prependTo('#pdfemb-tabswrapper')
-			.css("display", "block");
+		$( '#wpbody-content > .notice' )
+			.prependTo( '#pdfemb-tabswrapper' )
+			.css( 'display', 'block' );
 
 		// Did page load with a tab active?
 		var active_tab = window.location.hash.replace( '#', '' );
@@ -58,12 +77,16 @@
 
 				activeSection.addClass( 'active' );
 				activeTab.addClass( 'nav-tab-active' );
-				pdfembSetActionToTab( active_tab );
+				pdfembSetFormActionToTab( active_tab );
+
+				let url = getPdfembUpdateURL( active_tab );
+
+				$( '#pdfemb-settings-bottom-cta a.pdfemb-upgrade-url' ).attr( 'href', decodeHtml( url ) );
 			}
 		}
 
 		/**
-		 * Plugin installation.
+		 * Partner plugin installation.
 		 */
 		$( '.pdfemb-partners .pdfemb-partners-install' ).on(
 			'click',
@@ -136,7 +159,7 @@
 		);
 
 		/**
-		 * Plugin activation.
+		 * Partner plugin activation.
 		 */
 		$( '.pdfemb-partners .pdfemb-partners-activate' ).on(
 			'click',
@@ -208,7 +231,7 @@
 		);
 
 		/**
-		 * Plugin deactivation.
+		 * Partner plugin deactivation.
 		 */
 		$( '.pdfemb-partners .pdfemb-partners-deactivate' ).on(
 			'click',

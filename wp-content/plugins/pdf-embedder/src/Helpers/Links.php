@@ -69,7 +69,7 @@ class Links {
 		 *
 		 * @param string $source The source of the UTM link.
 		 */
-		$source = apply_filters( 'pbfemb_tracking_src', strpos( $link, 'https://wp-pdf.com' ) === 0 ? 'WordPress' : 'pdfplugin' );
+		$source = apply_filters( 'pdfemb_tracking_src', strpos( $link, 'https://wp-pdf.com' ) === 0 ? 'WordPress' : 'pdfplugin' );
 
 		if ( defined( 'PDFEMB_TRACKING_SRC' ) && is_string( PDFEMB_TRACKING_SRC ) ) {
 			$source = PDFEMB_TRACKING_SRC;

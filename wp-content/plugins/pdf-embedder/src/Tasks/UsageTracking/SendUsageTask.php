@@ -88,7 +88,7 @@ class SendUsageTask extends Task {
 		 */
 		return (bool) apply_filters(
 			'pdfemb_usage_tracking_enabled',
-			isset( $options['usagetracking'] ) && $options['usagetracking'] === 'on'
+			Options::is_on( $options['usagetracking'] )
 		);
 	}
 

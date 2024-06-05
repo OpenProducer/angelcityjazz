@@ -212,7 +212,7 @@ class Partners {
 
 			// Prepare variables.
 			$method = '';
-			$url    = add_query_arg( 'page', 'pdfemb_list_options', admin_url( 'options-general.php' ) );
+			$url    = add_query_arg( 'page', Admin::SLUG, admin_url( 'options-general.php' ) );
 			$url    = esc_url( $url );
 
 			// Start output bufferring to catch the filesystem form if credentials are needed.

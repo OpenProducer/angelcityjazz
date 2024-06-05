@@ -62,7 +62,11 @@ class Admin {
 		// Embed PDF shortcode instead of link.
 		add_filter( 'media_send_to_editor', [ $this, 'media_send_shortcode_to_editor' ], 20, 3 );
 
+		// Modify footer text on our admin page.
 		add_filter( 'admin_footer_text', [ $this, 'render_page_footer' ], 1, 2 );
+		add_filter( 'update_footer', '__return_empty_string' );
+
+		add_action( 'admin_print_scripts', [ $this, 'hide_unrelated_notices' ] );
 
 		( new Partners() )->hooks();
 
@@ -85,7 +89,7 @@ class Admin {
 	/**
 	 * Register plugin admin area.
 	 *
-	 * @since 1.0.0
+	 * @since 4.7.0
 	 */
 	public function register_menu() {
 
@@ -145,7 +149,8 @@ class Admin {
 			'pdfemb_admin',
 			Assets::url( 'js/admin/pdfemb-admin.js', true ),
 			[ 'jquery' ],
-			Assets::ver()
+			Assets::ver(),
+			false
 		);
 
 		wp_enqueue_style(
@@ -262,9 +267,12 @@ class Admin {
 					<?php esc_html_e( 'Made with ♥ by the WP PDF Team', 'pdf-embedder' ); ?>
 				</p>
 				<p class="links">
-					<a href="https://wordpress.org/support/plugin/pdf-embedder/" target="_blank"><?php esc_html_e( 'Support', 'pdf-embedder' ); ?></a>
+					<?php
+					$support_url = pdf_embedder()->is_premium() ? Links::get_utm_link( 'https://wp-pdf.com/contact/', 'Admin - Footer', 'Support' ) : 'https://wordpress.org/support/plugin/pdf-embedder/';
+					?>
+					<a href="<?php echo esc_url( $support_url ); ?>" target="_blank"><?php esc_html_e( 'Support', 'pdf-embedder' ); ?></a>
 					<span>/</span>
-					<a href="<?php esc_url( Links::get_utm_link( 'https://wp-pdf.com/docs/', 'Admin Footer', 'Docs' ) ); ?>" target="_blank"><?php esc_html_e( 'Docs', 'pdf-embedder' ); ?></a>
+					<a href="<?php echo esc_url( Links::get_utm_link( 'https://wp-pdf.com/docs/', 'Admin Footer', 'Docs' ) ); ?>" target="_blank"><?php esc_html_e( 'Docs', 'pdf-embedder' ); ?></a>
 					<span>/</span>
 					<a href="#about" class="free-plugins"><?php esc_html_e( 'Free Plugins', 'pdf-embedder' ); ?></a>
 				</p>
@@ -399,19 +407,6 @@ class Admin {
 			<?php esc_html_e( 'Miscellaneous', 'pdf-embedder' ); ?>
 		</h3>
 
-		<div class="pdfemb-admin-setting pdfemb-admin-setting-credit">
-			<label for="poweredby" class="textinput">
-				<?php esc_html_e( 'Display Credit', 'pdf-embedder' ); ?>
-			</label>
-			<span>
-				<input type='checkbox' name='pdfemb[poweredby]' id='poweredby' class='checkbox' <?php echo $options['poweredby'] === 'on' ? 'checked' : ''; ?>/>
-
-				<label for="poweredby" class="checkbox plain">
-					<?php esc_html_e( 'Display "wp-pdf.com" inside PDF Viewer with a link to our site. Spread the love!', 'pdf-embedder' ); ?>
-				</label>
-			</span>
-		</div>
-
 		<br class="clear"/>
 
 		<?php
@@ -485,7 +480,7 @@ class Admin {
 			<?php
 			echo wp_kses(
 				__(
-					"Our <strong>PDF Embedder Premium</strong> plugin solves this problem with an intelligent 'full screen' mode.
+					"Our <strong>PDF Embedder Premium</strong> plugin on its Basic plan solves this problem with an intelligent 'full screen' mode.
 						When the document is smaller than a certain width, the document displays only as a 'thumbnail' with a large
 						'View in Full Screen' button for the user to click when they want to study your document.
 						This opens up the document in a way that has the full focus of the mobile browser, and the user can move around the
@@ -533,12 +528,12 @@ class Admin {
 		?>
 
 		<h3>
-			<?php esc_html_e( 'Protect your PDFs using PDF Embedder Secure', 'pdf-embedder' ); ?>
+			<?php esc_html_e( 'Protect your PDFs using PDF Embedder Premium', 'pdf-embedder' ); ?>
 		</h3>
 		<p>
 			<?php
 			echo wp_kses(
-				__( 'Our <strong>PDF Embedder Premium Secure</strong> plugin provides the same simple but elegant viewer for your website visitors, with the added protection that it is difficult for users to download or print the original PDF document.', 'pdf-embedder' ),
+				__( 'Our <strong>PDF Embedder Premium</strong> plugin on its Pro plan provides the same simple but elegant viewer for your website visitors, with the added protection that it is difficult for users to download or print the original PDF document.', 'pdf-embedder' ),
 				[
 					'strong' => [],
 				]
@@ -606,26 +601,26 @@ class Admin {
 	 */
 	public function render_page_footer( string $text ): string {
 
-		global $current_screen;
-
-		if ( ! empty( $current_screen->id ) && strpos( $current_screen->id, 'pdfemb_list_options' ) !== false ) {
-			$url  = 'https://wordpress.org/support/plugin/pdf-embedder/reviews/?filter=5#new-post';
-			$text = sprintf(
-				wp_kses( /* translators: $1$s - PDF Embedder plugin name, $2$s - WP.org review link, $3$s - WP.org review link. */
-					__( 'Please rate %1$s <a href="%2$s" target="_blank" rel="noopener noreferrer">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href="%3$s" target="_blank">WordPress.org</a> to help us spread the word.', 'pdf-embedder' ),
-					[
-						'a' => [
-							'href'   => [],
-							'target' => [],
-							'rel'    => [],
-						],
-					]
-				),
-				'<strong>PDF Embedder</strong>',
-				$url,
-				$url
-			);
+		if ( ! $this->is_admin_page() ) {
+			return $text;
 		}
+
+		$url  = 'https://wordpress.org/support/plugin/pdf-embedder/reviews/?filter=5#new-post';
+		$text = sprintf(
+			wp_kses( /* translators: $1$s - PDF Embedder plugin name, $2$s - WP.org review link, $3$s - WP.org review link. */
+				__( 'Please rate %1$s <a href="%2$s" target="_blank" rel="noopener noreferrer">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href="%3$s" target="_blank">WordPress.org</a> to help us spread the word.', 'pdf-embedder' ),
+				[
+					'a' => [
+						'href'   => [],
+						'target' => [],
+						'rel'    => [],
+					],
+				]
+			),
+			'<strong>PDF Embedder</strong>',
+			$url,
+			$url
+		);
 
 		return $text;
 	}
@@ -695,6 +690,32 @@ class Admin {
 	}
 
 	/**
+	 * Check if the user is on our admin page.
+	 *
+	 * @since 4.8.0
+	 */
+	public function is_admin_page(): bool {
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+
+		if ( ! is_admin() ) {
+			return false;
+		}
+
+		// Check against basic requirements.
+		if (
+			empty( $_REQUEST['page'] ) ||
+			strpos( $_REQUEST['page'], self::SLUG ) === false
+		) {
+			return false;
+		}
+
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+
+		return true;
+	}
+
+	/**
 	 * Get the plugin settings page URL.
 	 *
 	 * @since 4.7.0
@@ -740,9 +761,12 @@ class Admin {
 	/**
 	 * Save plugin settings when in a network environment.
 	 * TODO: rewrite, see Admin::save_network_options().
+	 *
+	 * @since 4.7.0
 	 */
 	protected function network_save_settings() {
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] ) {
 			?>
 			<div id="setting-error-settings_updated" class="updated settings-error">
@@ -753,14 +777,17 @@ class Admin {
 			<?php
 		}
 
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if (
 			isset( $_REQUEST['error_setting'] ) &&
 			is_array( $_REQUEST['error_setting'] ) &&
 			isset( $_REQUEST['error_code'] ) &&
 			is_array( $_REQUEST['error_code'] )
 		) {
+			// phpcs:disable WordPress.Security.ValidatedSanitizedInput
 			$error_code    = $_REQUEST['error_code'];
 			$error_setting = $_REQUEST['error_setting'];
+			// phpcs:enable WordPress.Security.ValidatedSanitizedInput
 
 			if (
 				count( $error_code ) > 0 &&
@@ -773,9 +800,7 @@ class Admin {
 					<div id="setting-error-settings_<?php echo esc_attr( $i ); ?>" class="error settings-error">
 						<p>
 							<strong>
-								<?php
-								echo htmlentities2( Options::get_error_text( $error_setting[ $i ] . '|' . $error_code[ $i ] ) );
-								?>
+								<?php echo esc_html( htmlentities2( Options::get_error_text( $error_setting[ $i ] . '|' . $error_code[ $i ] ) ) ); ?>
 							</strong>
 						</p>
 					</div>
@@ -783,13 +808,14 @@ class Admin {
 				}
 			}
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	}
 
 	/**
 	 * Save all the plugin options in the network environment.
 	 * TODO: rewrite, see Admin::network_save_settings().
 	 *
-	 * @since 1.0.0
+	 * @since 4.7.0
 	 */
 	public function save_network_options() {
 
@@ -848,5 +874,76 @@ class Admin {
 			)
 		);
 		exit;
+	}
+
+	/**
+	 * Remove unrelated notices from our plugin admin page.
+	 *
+	 * @since 4.8.0
+	 */
+	public function hide_unrelated_notices() { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded, Generic.Metrics.NestingLevel.MaxExceeded
+
+		if ( ! $this->is_admin_page() ) {
+			return;
+		}
+
+		global $wp_filter;
+
+		// Define rules to remove callbacks.
+		$rules = [
+			'user_admin_notices' => [], // remove all callbacks.
+			'admin_notices'      => [],
+			'all_admin_notices'  => [],
+			'admin_footer'       => [
+				'render_delayed_admin_notices', // remove this particular callback.
+			],
+		];
+
+		// Extra deny callbacks (will be removed for each hook tag defined in $rules).
+		$common_deny_callbacks = [];
+
+		$notice_types = array_keys( $rules );
+
+		foreach ( $notice_types as $notice_type ) {
+			if ( empty( $wp_filter[ $notice_type ]->callbacks ) || ! is_array( $wp_filter[ $notice_type ]->callbacks ) ) {
+				continue;
+			}
+
+			$remove_all_filters = empty( $rules[ $notice_type ] );
+
+			foreach ( $wp_filter[ $notice_type ]->callbacks as $priority => $hooks ) {
+				foreach ( $hooks as $name => $arr ) {
+					if ( is_object( $arr['function'] ) && is_callable( $arr['function'] ) ) {
+						if ( $remove_all_filters ) {
+							unset( $wp_filter[ $notice_type ]->callbacks[ $priority ][ $name ] );
+						}
+						continue;
+					}
+
+					$class = ! empty( $arr['function'][0] ) && is_object( $arr['function'][0] ) ? strtolower( get_class( $arr['function'][0] ) ) : '';
+
+					// Remove all callbacks except our notices.
+					if ( $remove_all_filters && strpos( $class, 'pdfembedder' ) === false ) {
+						unset( $wp_filter[ $notice_type ]->callbacks[ $priority ][ $name ] );
+						continue;
+					}
+
+					$cb = is_array( $arr['function'] ) ? $arr['function'][1] : $arr['function'];
+
+					// Remove a specific callback.
+					if ( ! $remove_all_filters ) {
+						if ( in_array( $cb, $rules[ $notice_type ], true ) ) {
+							unset( $wp_filter[ $notice_type ]->callbacks[ $priority ][ $name ] );
+						}
+						continue;
+					}
+
+					// Remove callbacks from `$common_deny_callbacks` denylist.
+					if ( in_array( $cb, $common_deny_callbacks, true ) ) {
+						unset( $wp_filter[ $notice_type ]->callbacks[ $priority ][ $name ] );
+					}
+				}
+			}
+		}
 	}
 }

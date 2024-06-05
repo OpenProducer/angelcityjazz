@@ -150,6 +150,10 @@
 #pdfemb-content #pdfemb-tabswrapper .pdfemb-admin-setting input.checkbox {
   margin-right: 10px;
 }
+#pdfemb-content #pdfemb-tabswrapper .pdfemb-admin-setting p.desc {
+  margin-left: 255px;
+  padding-left: 0;
+}
 #pdfemb-content #pdfemb-tabswrapper label {
   float: left;
   font-size: 14px;
@@ -188,7 +192,7 @@
 #pdfemb-content #pdfemb-tabswrapper textarea#pdfemb_wm_text {
   width: 350px;
   height: 150px;
-  border: 1px solid;
+  border: 1px solid #8c8f94;
 }
 #pdfemb-content #pdfemb-tabswrapper select.select {
   padding: 0 24px 0 8px;

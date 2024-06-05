@@ -1001,7 +1001,7 @@ jQuery( document ).ready( function( $ ) {
 
 				var wanthide = htoolbar.is( ':visible' );
 
-				if ( htoolbar.data( 'no-hover' ) == true ) {
+				if ( htoolbar.data( 'no-hover' ) === true ) {
 					wanthide = true;
 				}
 
@@ -1020,11 +1020,6 @@ jQuery( document ).ready( function( $ ) {
 			} );
 
 		}
-
-		// Powered by
-		if ( pdfemb_trans.poweredby === "on" ) {
-			toolbar.append( $( '<div></div>', { 'class': 'pdfemb-poweredby' } ).append( $( '<a href="https://wp-pdf.com/?utm_campaign=liteplugin&utm_source=WordPress&utm_medium=Viewer&utm_content=PoweredBy" target="_blank">wp-pdf.com</a>' ) ) );
-		}
 	};
 
 	pdfembPagesViewer.prototype.magnifyEvent = function( event ) {
@@ -1032,7 +1027,7 @@ jQuery( document ).ready( function( $ ) {
 		//var divContainer = gtpe.closest('.pdfemb-viewer');
 		var mag = event.originalEvent.magnification;
 
-		if ( mag == - 1 ) {
+		if ( mag === - 1 ) {
 			// End of touch
 			this.resizeViewer();
 			this.resizeInnerDivs();

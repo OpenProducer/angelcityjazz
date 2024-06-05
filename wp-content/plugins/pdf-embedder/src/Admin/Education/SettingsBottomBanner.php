@@ -107,9 +107,41 @@ class SettingsBottomBanner {
 					<li><?php esc_html_e( 'Secure Feature: Add watermark on top of your PDF files', 'pdf-embedder' ); ?></li>
 				</ul>
 			</div>
+
+			<script>
+				function getPdfembUpdateURL( hash ) {
+					let url;
+
+					switch ( hash ) {
+						case 'mobile':
+							url = '<?php echo esc_url( Links::get_upgrade_link( 'Settings Bottom Mobile', 'Upgrade to Premium' ) ); ?>'.replace(/(\/secure\/|\/thumbnails\/)/, '/premium/');
+							break;
+
+						case 'secure':
+							url = '<?php echo esc_url( Links::get_upgrade_link( 'Settings Bottom Secure', 'Upgrade to Premium' ) ); ?>'.replace(/(\/thumbnails\/|\/premium\/)/, '/secure/');
+							break;
+
+						case 'thumbnails':
+							url = '<?php echo esc_url( Links::get_upgrade_link( 'Settings Bottom Thumbnails', 'Upgrade to Premium' ) ); ?>'.replace(/(\/secure\/|\/premium\/)/, '/thumbnails/');
+							break;
+
+						case 'about':
+							url = '<?php echo esc_url( Links::get_upgrade_link( 'Settings Bottom About', 'Upgrade to Premium' ) ); ?>';
+							break;
+
+						case 'settings':
+						case '':
+						default:
+							url = '<?php echo esc_url( Links::get_upgrade_link( 'Settings Bottom Education', 'Upgrade to Premium' ) ); ?>';
+					}
+
+					return url;
+				}
+			</script>
+
 			<p>
-				<a href="<?php echo esc_url( Links::get_upgrade_link( 'Settings Bottom Education', 'Upgrade to Premium' ) ); ?>" target="_blank">
-					<?php esc_html_e( 'Get PDF Embedder Pro Today and Unlock all the Powerful Features »', 'pdf-embedder' ); ?>
+				<a href="<?php echo esc_url( Links::get_upgrade_link( 'Settings Bottom Education', 'Upgrade to Premium' ) ); ?>" target="_blank" class="pdfemb-upgrade-url">
+					<?php esc_html_e( 'Get PDF Embedder Premium Today and Unlock all the Powerful Features »', 'pdf-embedder' ); ?>
 				</a>
 			</p>
 			<p>

@@ -1,11 +1,11 @@
 === PDF Embedder ===
 Contributors: slaFFik, jaredatch, smub
-Tags: pdf, pdf viewer, embed pdf, office, embed, document
+Tags: pdf, pdf viewer, embed pdf, pdf document, pdf block
 Requires at least: 5.8
 Requires PHP: 7.0
-Tested up to: 6.4
-Stable tag: 4.7.1
-License: GNU General Public License v2.0 or later
+Tested up to: 6.5
+Stable tag: 4.8.0
+License: GPL-2.0-or-later
 
 Seamlessly embed PDFs into your content, with customizations and intelligent responsive resizing, and no third-party services or iframes.
 
@@ -180,6 +180,15 @@ If you cannot install from the WordPress plugins directory for any reason, and n
 1. Click Activate on the "Plugins" screen.
 
 == Changelog ==
+
+= 4.8.0 =
+* Changed: Compatibility with WordPress 6.5.
+* Changed: Make the PDF Embedder block extensible.
+* Changed: Improved the look and feel of the PDF Embedder block inside the Block Editor.
+* Changed: Removed some unnecessary files from the released version to decrease the zip size.
+* Fixed: Improved performance for the majority of sites by not loading an internal Action Scheduler library (which was also updated to v3.7.4) when it is not used.
+* Fixed: Hide the Toolbar Hover options in the block if the "No Toolbar" option is chosen.
+* Fixed: Security fixes in the way certain PDF files are rendered to prevent arbitrary scripts execution.
 
 = 4.7.1 =
 * Changed: The logic for displaying notices was adjusted.

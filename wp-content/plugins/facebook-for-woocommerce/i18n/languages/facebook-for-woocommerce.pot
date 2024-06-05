@@ -2,20 +2,21 @@
 # This file is distributed under the same license as the Facebook for WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Facebook for WooCommerce 3.2.2\n"
+"Project-Id-Version: Facebook for WooCommerce 3.2.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/facebook-for-woocommerce\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-05-14T14:06:14+00:00\n"
+"POT-Creation-Date: 2024-05-28T10:11:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.8.1\n"
+"X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: facebook-for-woocommerce\n"
 
 #. Plugin Name of the plugin
-#: class-wc-facebookcommerce.php:760
+#: facebook-for-woocommerce.php
+#: class-wc-facebookcommerce.php:759
 #: facebook-commerce.php:208
 #: includes/Admin.php:1501
 #: includes/Admin/Settings.php:110
@@ -24,14 +25,17 @@ msgid "Facebook for WooCommerce"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: facebook-for-woocommerce.php
 msgid "https://github.com/woocommerce/facebook-for-woocommerce/"
 msgstr ""
 
 #. Description of the plugin
+#: facebook-for-woocommerce.php
 msgid "Grow your business on Facebook! Use this official plugin to help sell more of your products using Facebook. After completing the setup, you'll be ready to create ads that promote your products and you can also create a shop section on your Page where customers can browse your products on Facebook."
 msgstr ""
 
 #. Author of the plugin
+#: facebook-for-woocommerce.php
 #: includes/Admin.php:1159
 #: includes/Admin/Settings.php:111
 #: includes/Admin/Settings.php:347
@@ -39,11 +43,12 @@ msgid "Facebook"
 msgstr ""
 
 #. Author URI of the plugin
+#: facebook-for-woocommerce.php
 msgid "https://www.facebook.com/"
 msgstr ""
 
 #. translators: %s property name.
-#: class-wc-facebookcommerce.php:148
+#: class-wc-facebookcommerce.php:147
 #: facebook-commerce.php:394
 #: includes/Admin/Enhanced_Catalog_Attribute_Fields.php:68
 #: includes/fbbackground.php:41
@@ -51,52 +56,52 @@ msgstr ""
 msgid "The %s property is private and should not be accessed outside its class."
 msgstr ""
 
-#: class-wc-facebookcommerce.php:381
+#: class-wc-facebookcommerce.php:380
 #: includes/Admin/Settings.php:140
 #: includes/Admin/Settings.php:141
 msgid "Facebook Product Sets"
 msgstr ""
 
-#: class-wc-facebookcommerce.php:382
+#: class-wc-facebookcommerce.php:381
 msgid "Facebook Product Set"
 msgstr ""
 
 #. translators: Edit item label
-#: class-wc-facebookcommerce.php:390
+#: class-wc-facebookcommerce.php:389
 msgid "Edit %s"
 msgstr ""
 
 #. translators: Add new label
-#: class-wc-facebookcommerce.php:392
+#: class-wc-facebookcommerce.php:391
 msgid "Add new %s"
 msgstr ""
 
 #. translators: No items found text
-#: class-wc-facebookcommerce.php:394
+#: class-wc-facebookcommerce.php:393
 msgid "No %s found."
 msgstr ""
 
 #. translators: Search label
-#: class-wc-facebookcommerce.php:396
+#: class-wc-facebookcommerce.php:395
 msgid "Search %s."
 msgstr ""
 
 #. translators: Text label
-#: class-wc-facebookcommerce.php:398
+#: class-wc-facebookcommerce.php:397
 msgid "Separate %s with commas"
 msgstr ""
 
 #. translators: Text label
-#: class-wc-facebookcommerce.php:400
+#: class-wc-facebookcommerce.php:399
 msgid "Choose from the most used %s"
 msgstr ""
 
 #. translators: Backlink item label
-#: class-wc-facebookcommerce.php:402
+#: class-wc-facebookcommerce.php:401
 msgid "&larr; Go to %s"
 msgstr ""
 
-#: class-wc-facebookcommerce.php:537
+#: class-wc-facebookcommerce.php:536
 msgid "Cannot create the API instance because the access token is missing."
 msgstr ""
 
@@ -153,26 +158,6 @@ msgstr ""
 #. translators: Placeholders %1$s - original error message from Facebook API
 #: facebook-commerce.php:3051
 msgid "There was an issue connecting to the Facebook API: %s"
-msgstr ""
-
-#. translators: %1$s - plugin name, %2$s - minimum WordPress version required, %3$s - update WordPress link open, %4$s - update WordPress link close
-#: facebook-for-woocommerce.php:223
-msgid "%1$s requires WordPress version %2$s or higher. Please %3$supdate WordPress &raquo;%4$s"
-msgstr ""
-
-#. translators: %1$s - Plugin Name, %2$s - activate WooCommerce link open, %3$s - activate WooCommerce link close.
-#: facebook-for-woocommerce.php:249
-msgid "%1$s requires WooCommerce to be activated. Please %2$sactivate WooCommerce%3$s."
-msgstr ""
-
-#. translators: %1$s - Plugin Name, %2$s - install WooCommerce link open, %3$s - install WooCommerce link close.
-#: facebook-for-woocommerce.php:266
-msgid "%1$s requires WooCommerce to be installed and activated. Please %2$sinstall WooCommerce%3$s."
-msgstr ""
-
-#. translators: %1$s - Plugin Name, %2$s - minimum WooCommerce version, %3$s - update WooCommerce link open, %4$s - update WooCommerce link close, %5$s - download minimum WooCommerce link open, %6$s - download minimum WooCommerce link close.
-#: facebook-for-woocommerce.php:286
-msgid "%1$s requires WooCommerce version %2$s or higher. Please %3$supdate WooCommerce%4$s to the latest version, or %5$sdownload the minimum required version &raquo;%6$s"
 msgstr ""
 
 #. translators: %s property name.
@@ -632,18 +617,18 @@ msgid_plural "{count} items remaining."
 msgstr[0] ""
 msgstr[1] ""
 
-#. translators: Placeholders %s - html code for a spinner icon
-#: includes/Admin/Settings_Screens/Product_Sync.php:91
+#: includes/Admin/Settings_Screens/Product_Sync.php:90
 msgid "Your products will now be resynced to Facebook, this may take some time."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Product_Sync.php:92
+#: includes/Admin/Settings_Screens/Product_Sync.php:91
 msgid ""
 "Facebook for WooCommerce automatically syncs your products on create/update. Are you sure you want to force product resync?\n"
 "\n"
 "This will query all published products and may take some time. You only need to do this if your products are out of sync or some of your products did not sync."
 msgstr ""
 
+#. translators: Placeholders %s - html code for a spinner icon
 #: includes/Admin/Settings_Screens/Product_Sync.php:93
 msgid "Your products are syncing - you may safely leave this page %s"
 msgstr ""
@@ -846,10 +831,12 @@ msgctxt "verb"
 msgid "Review"
 msgstr ""
 
+#. translators: System Requirement %1$s - Actual value; %2$s - required value.
 #: includes/Framework/Plugin.php:472
 msgid "%1$s - A minimum of %2$s is required."
 msgstr ""
 
+#. translators: System Requirement %1$s - Actual value; %2$s - required value.
 #: includes/Framework/Plugin.php:481
 msgid "Set as %1$s - %2$s is required."
 msgstr ""
@@ -872,6 +859,7 @@ msgid_plural "%1$s requires the following PHP functions to exist: %2$s.  Contact
 msgstr[0] ""
 msgstr[1] ""
 
+#. translators: Placeholders: %s - a PHP setting value
 #: includes/Framework/Plugin/Dependencies.php:178
 msgid "%s or higher"
 msgstr ""
@@ -889,14 +877,12 @@ msgid ""
 "\t\t\t\t\tYour hosting provider can do this for you. %4$sHere are some resources to help you upgrade%5$s and to explain PHP versions further."
 msgstr ""
 
-#. translators: %s - string representing data key.
 #. translators: Placeholders: %s - user-friendly error message
 #: includes/Framework/Utilities/BackgroundJobHandler.php:625
 #: includes/Products/Sync/Background.php:59
 msgid "Job data key \"%s\" not set"
 msgstr ""
 
-#. translators: %s - string representing data key.
 #. translators: Placeholders: %s - user-friendly error message
 #: includes/Framework/Utilities/BackgroundJobHandler.php:630
 #: includes/Products/Sync/Background.php:64

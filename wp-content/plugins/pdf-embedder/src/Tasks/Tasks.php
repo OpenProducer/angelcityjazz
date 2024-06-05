@@ -188,18 +188,18 @@ class Tasks {
 			isset( $wpdb->actionscheduler_actions ) &&
 			isset( $wpdb->actionscheduler_groups )
 		) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$group_id = $wpdb->get_var(
 				$wpdb->prepare( "SELECT group_id FROM {$wpdb->actionscheduler_groups} WHERE slug=%s", $group )
 			);
 
 			if ( ! empty( $group_id ) ) {
 				// Delete actions.
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$wpdb->delete( $wpdb->actionscheduler_actions, [ 'group_id' => (int) $group_id ], [ '%d' ] );
 
 				// Delete group.
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$wpdb->delete( $wpdb->actionscheduler_groups, [ 'slug' => $group ], [ '%s' ] );
 			}
 		}
@@ -267,11 +267,8 @@ class Tasks {
 					JOIN {$wpdb->prefix}actionscheduler_groups g ON g.group_id = a.group_id
 					WHERE g.slug = '$group' AND a.status IN ('in-progress', 'pending')";
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, 'ARRAY_N' );
-		// phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching
-		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
 		return $results ? array_merge( ...$results ) : [];
 	}
