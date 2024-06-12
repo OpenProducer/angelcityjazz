@@ -5,7 +5,7 @@
  * Description:       Embed PDFs straight into your posts and pages, with flexible width and height. No third-party services required. Compatible with Gutenberg Editor WordPress
  * Requires at least: 5.8
  * Requires PHP:      7.0
- * Version:           4.8.0
+ * Version:           4.8.2
  * Author:            PDF Embedder
  * Author URI:        https://wp-pdf.com
  * Text Domain:       pdf-embedder
@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 4.7.0
  */
-const PDFEMB_VERSION = '4.8.0';
+const PDFEMB_VERSION = '4.8.2';
 
 /**
  * Plugin Folder Path.

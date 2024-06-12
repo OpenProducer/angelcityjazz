@@ -102,37 +102,41 @@ class Options {
 
 		$validated = [];
 
-		$validated['pdfemb_width'] = isset( $input['pdfemb_width'] ) ? trim( strtolower( $input['pdfemb_width'] ) ) : 'max';
+		$validated['pdfemb_width'] = isset( $input['pdfemb_width'] ) ? strtolower( trim( $input['pdfemb_width'] ) ) : 'max';
 
 		if (
 			! is_numeric( $validated['pdfemb_width'] ) &&
 			$validated['pdfemb_width'] !== 'max' &&
 			$validated['pdfemb_width'] !== 'auto'
 		) {
-			add_settings_error(
-				'pdfemb_width',
-				'widtherror',
-				self::get_error_text( 'pdfemb_width|widtherror' ),
-				'error'
-			);
+			if ( function_exists( 'add_settings_error' ) ) {
+				add_settings_error(
+					'pdfemb_width',
+					'widtherror',
+					self::get_error_text( 'pdfemb_width|widtherror' ),
+					'error'
+				);
+			}
 
 			// Revert back to max as last resort, don't leave field blank.
 			$validated['pdfemb_width'] = 'max';
 		}
 
-		$validated['pdfemb_height'] = isset( $input['pdfemb_height'] ) ? trim( strtolower( $input['pdfemb_height'] ) ) : 'max';
+		$validated['pdfemb_height'] = isset( $input['pdfemb_height'] ) ? strtolower( trim( $input['pdfemb_height'] ) ) : 'max';
 
 		if (
 			! is_numeric( $validated['pdfemb_height'] ) &&
 			$validated['pdfemb_height'] !== 'max' &&
 			$validated['pdfemb_height'] !== 'auto'
 		) {
-			add_settings_error(
-				'pdfemb_height',
-				'heighterror',
-				self::get_error_text( 'pdfemb_height|heighterror' ),
-				'error'
-			);
+			if ( function_exists( 'add_settings_error' ) ) {
+				add_settings_error(
+					'pdfemb_height',
+					'heighterror',
+					self::get_error_text( 'pdfemb_height|heighterror' ),
+					'error'
+				);
+			}
 
 			// Revert back to max as last resort, don't leave field blank.
 			$validated['pdfemb_height'] = 'max';
