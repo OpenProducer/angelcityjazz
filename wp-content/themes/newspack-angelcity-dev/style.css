@@ -3,7 +3,7 @@ Theme Name: Newspack Angel City (dev)
 Template: newspack-theme
 Author: Automattic
 Author URI: https://newspack.blog
-Description: Newspack child theme for Angel City Jazz (dev branch)
+Description: Newspack child theme for Angel City Jazz (Pantheon theme branch)
 Version: 1.12.0.1596158016
 Updated: 2020-07-30 18:13:36
 
@@ -71,6 +71,10 @@ html
   font-size: .975em
 }	
 
+/* making blockquote citations inherit */	
+blockquote cite {
+  color: inherit;
+}
 
 /*--------------------------------------------------------------
 ## Navigation
@@ -532,6 +536,12 @@ margin-bottom:0;
 	display:none;
 }
 
+ /* Hiding end date */
+ .post-type-archive-tribe_events .tribe-event-date-end
+ {
+   display:none;
+ }
+
  
 .tribe-events-view {
  position:relative;
@@ -609,8 +619,7 @@ padding: 0;
  margin-bottom: 32px;
 }
 
-* this removes the margin between the top container on pages and events */
-/* .page .site-content, */
+/* this removes the margin between the top container on pages and events */
 .single-tribe_events .site-content, 
 .single-tribe_events .entry .entry-content > *:first-child {
  margin-top:0;
