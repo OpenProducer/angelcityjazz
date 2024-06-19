@@ -1,8 +1,8 @@
 <?php return array(
     'root' => array(
         'name' => 'wpauth/pdf-embedder',
-        'pretty_version' => '4.7.1',
-        'version' => '4.7.1.0',
+        'pretty_version' => '4.8.2',
+        'version' => '4.8.2.0',
         'reference' => null,
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
@@ -13,7 +13,7 @@
         'roave/security-advisories' => array(
             'pretty_version' => 'dev-latest',
             'version' => 'dev-latest',
-            'reference' => 'a15ad8154eb2cc8f8f8ecb9def0f02bebee6309e',
+            'reference' => 'cac81dc38cb1ea099552433245d0790b6e172211',
             'type' => 'metapackage',
             'install_path' => null,
             'aliases' => array(
@@ -31,8 +31,8 @@
             'dev_requirement' => false,
         ),
         'wpauth/pdf-embedder' => array(
-            'pretty_version' => '4.7.1',
-            'version' => '4.7.1.0',
+            'pretty_version' => '4.8.2',
+            'version' => '4.8.2.0',
             'reference' => null,
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
