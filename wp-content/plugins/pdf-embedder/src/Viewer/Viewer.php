@@ -46,8 +46,6 @@ class Viewer implements ViewerInterface {
 		$html_node   = '';
 		$extra_style = '';
 
-		$defaults = pdf_embedder()->options()->get_defaults();
-
 		/*
 		 * Extra styles based on the PDF width and height settings.
 		 */

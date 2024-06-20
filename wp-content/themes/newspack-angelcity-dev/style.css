@@ -3,7 +3,7 @@ Theme Name: Newspack Angel City (dev)
 Template: newspack-theme
 Author: Automattic
 Author URI: https://newspack.blog
-Description: Newspack child theme for Angel City Jazz (dev branch)
+Description: Newspack child theme for Angel City Jazz (Pantheon theme branch)
 Version: 1.12.0.1596158016
 Updated: 2020-07-30 18:13:36
 */
@@ -61,10 +61,21 @@ html {
   font-size: 18px;
 }
 
+<<<<<<< HEAD
 /* Specific adjustments */
 .tag-2020-vr-festival p,
 .single-tribe_events p {
   font-size: .975em;
+=======
+/* Paragraph font size for event pages and 2020 VR fest */
+.tag-2020-vr-festival p, .single-tribe_events p {
+  font-size: .975em
+}	
+
+/* making blockquote citations inherit */	
+blockquote cite {
+  color: inherit;
+>>>>>>> 43d43f37c8098c8cc1499d0551bdf3bf446b7f18
 }
 
 /*--------------------------------------------------------------
@@ -369,6 +380,16 @@ html {
   display: none;
 }
 
+<<<<<<< HEAD
+=======
+ /* Hiding end date */
+ .post-type-archive-tribe_events .tribe-event-date-end
+ {
+   display:none;
+ }
+
+ 
+>>>>>>> 43d43f37c8098c8cc1499d0551bdf3bf446b7f18
 .tribe-events-view {
   position: relative;
 }
@@ -424,8 +445,13 @@ html {
   margin-bottom: 32px;
 }
 
+<<<<<<< HEAD
 /* Removing margin between top container on pages and events */
 .single-tribe_events .site-content,
+=======
+/* this removes the margin between the top container on pages and events */
+.single-tribe_events .site-content, 
+>>>>>>> 43d43f37c8098c8cc1499d0551bdf3bf446b7f18
 .single-tribe_events .entry .entry-content > *:first-child {
   margin-top: 0;
 }
