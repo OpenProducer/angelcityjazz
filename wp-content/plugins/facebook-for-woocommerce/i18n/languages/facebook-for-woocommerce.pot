@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Facebook for WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Facebook for WooCommerce 3.2.3\n"
+"Project-Id-Version: Facebook for WooCommerce 3.2.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/facebook-for-woocommerce\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-05-28T10:11:58+00:00\n"
+"POT-Creation-Date: 2024-06-13T10:15:43+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: facebook-for-woocommerce\n"
@@ -17,7 +17,7 @@ msgstr ""
 #. Plugin Name of the plugin
 #: facebook-for-woocommerce.php
 #: class-wc-facebookcommerce.php:759
-#: facebook-commerce.php:208
+#: facebook-commerce.php:196
 #: includes/Admin.php:1501
 #: includes/Admin/Settings.php:110
 #: includes/Admin/Settings.php:178
@@ -49,7 +49,7 @@ msgstr ""
 
 #. translators: %s property name.
 #: class-wc-facebookcommerce.php:147
-#: facebook-commerce.php:394
+#: facebook-commerce.php:382
 #: includes/Admin/Enhanced_Catalog_Attribute_Fields.php:68
 #: includes/fbbackground.php:41
 #: includes/fbproduct.php:134
@@ -105,58 +105,50 @@ msgstr ""
 msgid "Cannot create the API instance because the access token is missing."
 msgstr ""
 
-#: facebook-commerce.php:212
+#: facebook-commerce.php:200
 msgid "Facebook Commerce and Dynamic Ads (Pixel) Extension"
 msgstr ""
 
 #. translators: %1$s is referring to facebook product group id.
-#: facebook-commerce.php:1294
+#: facebook-commerce.php:1282
 msgid "Nothing to update for product group for %1$s"
 msgstr ""
 
-#: facebook-commerce.php:2083
+#: facebook-commerce.php:2071
 msgid "Your connection has expired."
 msgstr ""
 
-#: facebook-commerce.php:2083
+#: facebook-commerce.php:2071
 msgid "Please click Manage connection > Advanced Options > Update Token to refresh your connection to Facebook."
 msgstr ""
 
 #. translators: Placeholders %s - error message
-#: facebook-commerce.php:2090
+#: facebook-commerce.php:2078
 msgid "There was an error trying to sync the products to Facebook. %s"
 msgstr ""
 
-#: facebook-commerce.php:2109
+#: facebook-commerce.php:2097
 msgid "Product sync is disabled."
 msgstr ""
 
-#: facebook-commerce.php:2114
+#: facebook-commerce.php:2102
 msgid "The plugin is not configured or the Catalog ID is missing."
 msgstr ""
 
-#: facebook-commerce.php:2134
+#: facebook-commerce.php:2122
 msgid "A product sync is in progress. Please wait until the sync finishes before starting a new one."
 msgstr ""
 
-#: facebook-commerce.php:2150
+#: facebook-commerce.php:2138
 msgid "We've detected that your Facebook Product Catalog is no longer valid. This may happen if it was deleted, but could also be a temporary error. If the error persists, please click Manage connection > Advanced Options > Remove and setup the plugin again."
 msgstr ""
 
-#: facebook-commerce.php:2511
-msgid "Hi! We're here to answer any questions you may have."
-msgstr ""
-
-#: facebook-commerce.php:2730
-msgid "The Facebook Messenger chat plugin was deprecated in May 2024."
-msgstr ""
-
-#: facebook-commerce.php:2816
+#: facebook-commerce.php:2720
 msgid "Facebook for WooCommerce error:"
 msgstr ""
 
 #. translators: Placeholders %1$s - original error message from Facebook API
-#: facebook-commerce.php:3051
+#: facebook-commerce.php:2955
 msgid "There was an issue connecting to the Facebook API: %s"
 msgstr ""
 
