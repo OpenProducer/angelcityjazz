@@ -206,4 +206,35 @@ function custom_search_filter($query) {
       }
   }
 }
-add_action('pre_get_posts', 'custom_search_filter');
+
+// Hook into 'the_content' to modify event content
+function add_series_to_event_content($content) {
+    // Check if we are on a single event page
+    if (is_singular('tribe_events')) {
+        $event_id = get_the_ID();
+        $series = get_the_terms($event_id, 'tribe_series');
+
+        if ($series && !is_wp_error($series)) {
+            // Assuming there's only one series per event
+            $series_name = $series[0]->name;
+            $series_link = get_term_link($series[0]);
+
+            // HTML to display series name
+            $series_html = '<div class="event-series-name">';
+            $series_html .= '<strong>Series:</strong> <a href="' . esc_url($series_link) . '">' . esc_html($series_name) . '</a>';
+            $series_html .= '</div>';
+
+            // Append or prepend the series HTML to the content
+           $content = $series_html . $content;
+        }
+    }
+
+    return $content;
+}
+add_filter('the_content', 'add_series_to_event_content');
+
+
+
+
+
+
