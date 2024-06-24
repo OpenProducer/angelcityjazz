@@ -556,50 +556,112 @@ margin-bottom:0;
  font-weight: 700;
 }
 
-/* ### Single page */
+/* ### Single Event page */
+
 
 /* removing margin in event html */
 .tribe-events-before-html p {
   margin: 0;
 }
 
-/* removes notices like 'this event has passed' */
-
-.tribe-events-notices {
-	display:none;
-}
-
-/* padding for single event template */
+/* padding and margins for event page */
 .single-tribe_events #tribe-events, #tribe-events-pg-template, .tribe-events-pg-template {
-padding: 0;	
+padding: 0;
+margin: 0;	
 }
 
-/* hides title from single event page */
-.single-tribe_events .entry .entry-content > * {
-	margin-top:0;
-	margin-bottom:0;
+/* margin on primary section */
+.single-tribe_events #primary {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 0;
 }
+
+/* padding and margins for site content */
 
 .single-tribe_events .site-content {
-    margin-top: 0;
-    margin-bottom: 0;
+  padding: 0;
+  margin: 0;	
 }
 
-
-/* hides title from single event page */
-.single-tribe_events .tribe-events-single-event-title {
-	display:none
+/* Category-specific styling */
+.single-tribe_events .event-category-full-width {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 20px;
+  padding-bottom: 0;
+  max-width: 100vw;
 }
 
-/* link colors on event pages - check against customizer */
-#tribe-events-content a, .tribe-events-event-meta a {
-  color: inherit;
+/* Category-specific styling */
+.single-tribe_events .tribe-events-category-2024-angel-city-jazz-festival {
+  background-color: var(--newspack-theme-color-secondary); /* background color for specific category */
+}
+
+.single-tribe_events .tribe-events-category-2023-angel-city-jazz-festival {
+  background-color: var(--newspack-theme-color-secondary); /* background color for specific category */
+}
+
+.single-tribe_events .tribe-events-category-2022-angel-city-jazz-festival {
+  background-color: var(--newspack-theme-color-secondary); /* background color for specific category */
+}
+
+.single-tribe_events .tribe-events-category-2021-angel-city-jazz-festival {
+  background-color: var(--newspack-theme-color-secondary); /* background color for specific category */
+}
+
+.single-tribe_events .tribe-events-category-2020-angel-city-jazz-festival {
+  background-color: #0073aa; /* background color for specific category */
+}
+
+/* Container for event category links */
+.single-tribe_events .event-category-container {
+  margin: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+  max-width: 90vw;
+  width: 1200px;
+}
+
+/* Styling for the event category links */
+.single-tribe_events .event-category {
+  display: inline-block;
+  line-height: 1;
+  color: #fff;
+  background-color: none;
+  text-transform: uppercase;
+  font-size: var(--newspack-theme-font-size-xs);
+  font-weight: 700;
+  font-family: var(--newspack-theme-font-heading);
+  margin: 0 0 0.75rem;
+}
+
+.single-tribe_events .event-category a {
+  color: #fff;
+  background-color: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
+
+.event-category-full-width .event-category a:hover {
+  background-color: none; /* Example link color */
+  text-decoration: underline;
+}
+
+.single-tribe_events .event-category a:visited {
+  background-color: none; /* Example link color */
   text-decoration: none;
 }
 
-/* hides links back to the events page */
-.single-tribe_events .tribe-events-back {
-    display: none;
+
+/* link colors on event pages - check against customizer */
+#tribe-events-content a,
+.tribe-events-event-meta a {
+  color: inherit;
+  text-decoration: none;
 }
 
 /* was hiding overflow on mobile view */
@@ -609,30 +671,11 @@ padding: 0;
 	  padding: 0;
 }
 
-/* hides end time from  single event page */
-.tribe-events-schedule__separator.tribe-events-schedule__separator--time, .tribe-events-schedule__time.tribe-events-schedule__time--end {
- display:none;
+.single-tribe_events .tribe-events-single .event-header.has-background {
+  padding-top: 0;
 }
 
 
-
-/* adds margin between artist descriptions on single event page */
-.tribe_events-template-default .wp-block-media-text {
- margin-bottom: 32px;
-}
-
-* this removes the margin between the top container on pages and events */
-/* .page .site-content, */
-.single-tribe_events .site-content, 
-.single-tribe_events .entry .entry-content > *:first-child {
- margin-top:0;
-}
-
-/* adds margin between columns on single event page */
-.tribe_events-template-default .wp-block-columns {
- margin-top: 32px;
- margin-bottom: 32px;
-}
 
 /* ### Events - Blocks and widgets */
 
@@ -659,6 +702,10 @@ padding: 0;
     display: none;
 }
 
+/* event detail date and time - hides end time */
+.tribe-events-schedule__separator.tribe-events-schedule__separator--time, .tribe-events-schedule__time.tribe-events-schedule__time--end {
+  display:none;
+ }
 
 /* event detail date and time - background, margin, and padding */
 .single-tribe_events .tribe-events-schedule {
