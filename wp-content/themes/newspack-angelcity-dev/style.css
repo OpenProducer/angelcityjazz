@@ -166,6 +166,145 @@ textarea {
 	display: none;
 }
 
+/*--------------------------------------------------------------
+## Layout - Groups, Covers and Columns
+--------------------------------------------------------------*/
+
+
+/* removes the margin for a full-width group with columns */
+.entry .entry-content .wp-block-group.alignfull .wp-block-group__inner-container .wp-block-columns .wp-block-column >{
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+/* this removes the top margin if the first bit of content is a full-width group*/
+.entry .entry-content .wp-block-group.alignfull:first-child {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+
+/* this removes the top margin if the first bit of content is a full-width group*/
+.tag-2021-angel-city-jazz-fest .entry .entry-content > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.entry .entry-content .wp-block-group .wp-block-group__inner-container > *:first-child {
+  margin-top: 0;
+}
+
+/* this removes the top margin if the first bit of content is a full-width group*/
+.entry .entry-content .wp-block-group.alignfull:last-child {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.entry .entry-content .wp-block-group .wp-block-group__inner-container > *:last-child {
+  margin-bottom: 0;
+}
+
+/* this overrides the negative margin for stacking two group blocks - line 5296 */
+.entry .entry-content .wp-block-group.has-background + .wp-block-group.has-background {
+  margin-top: inherit;
+}
+
+/* this removes the vertical margins between containers on pages; the margin-top also removed space between paragraphs */
+.entry .entry-content .no-vertical-margin,
+.entry .entry-content .no-horizontal-margin .wp-block-columns {
+margin-top:0;
+margin-bottom:0;
+margin-left: 0;
+margin-right: 0;
+gap:0;
+}
+
+/* this removes the horizontal margins between columns with the class .no-horizontal-margin */
+.entry .entry-content .no-horizontal-margin .wp-block-columns > .wp-block-column {
+margin-left: 0;
+margin-right: 0;
+margin-top:0;
+margin-bottom:0;	
+}
+
+/* removes the top and bottom margin for a cover with columns */
+.entry .entry-content .wp-block-cover__inner-container .wp-block-columns .wp-block-column {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* makes the column width 100% in allignfull/wide groups on front and festival pages - check against customizer */
+.newspack-front-page .entry .entry-content .alignfull .alignwide, 
+.page-template-newspack-angel-city .entry .entry-content .alignfull .alignwide {
+  max-width: 100%;
+  width: 100%;
+}
+
+
+/* trying to get covers equal height*/
+.page-id-4670 .wp-block-cover img.wp-block-cover__image-background,
+.home .wp-block-cover img.wp-block-cover__image-background
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    -o-object-fit: cover;
+    object-fit: cover;
+} 
+
+
+/* controls the margins in the supporters block */
+.entry .entry-content .supporters .wp-block-group__inner-container > *  {
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.supporters .wp-block-columns .wp-block-column > * {
+    margin-bottom: 0px;
+    margin-top: 16px;
+}
+
+
+
+
+/* this removes the negative margin in the supporter column on the festival page */
+.page-template-single-wide .entry .entry-content .supporters .wp-block-group.has-background + .wp-block-group.has-background {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+
+
+
+/* this removes the borders in the supporters block */
+
+
+.entry .entry-content .wp-block-separator, .entry .entry-content hr {
+    display: none;
+}
+
+
+
+.wp-block-columns.is-style-borders > .wp-block-column::after {
+	  border: 0;
+}
+
+/* this removes the text in the supporters block */
+.wp-block-columns .newspack-supporter-info > p {
+    visibility: hidden;
+}
+
+
+/* ensure the citation is the same color as the pullquote */
+.wp-block-pullquote cite, .wp-block-pullquote footer {
+	color: inherit;
+}
+
+
 
 /*--------------------------------------------------------------
 ## Layout - Page and post templates
@@ -319,13 +458,6 @@ textarea {
 ## Layout - Watch
 --------------------------------------------------------------*/
 
-/* this removes header margin on Watch landing page 
-.page-id-531 .site-content,
-.page-id-531 .entry .entry-content:first-child {
- margin-top: 0;
- margin-bottom: 0;	
-}
-*/
 
 /* formatting category link on watch pages*/
 .cat-watch .cat-links a,
@@ -380,150 +512,11 @@ textarea {
     font-size: 1.2em;
 }
 
-	
-
-/*--------------------------------------------------------------
-## Layout - Groups, Covers and Columns
---------------------------------------------------------------*/
-
-
-/* removes the margin for a full-width group with columns */
-.entry .entry-content .wp-block-group.alignfull .wp-block-group__inner-container .wp-block-columns .wp-block-column >{
-  margin-bottom: 0px;
-  margin-top: 0px;
-}
-
-/* this removes the top margin if the first bit of content is a full-width group*/
-.entry .entry-content .wp-block-group.alignfull:first-child {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-
-/* this removes the top margin if the first bit of content is a full-width group*/
-.tag-2021-angel-city-jazz-fest .entry .entry-content > * {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.entry .entry-content .wp-block-group .wp-block-group__inner-container > *:first-child {
-  margin-top: 0;
-}
-
-/* this removes the top margin if the first bit of content is a full-width group*/
-.entry .entry-content .wp-block-group.alignfull:last-child {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.entry .entry-content .wp-block-group .wp-block-group__inner-container > *:last-child {
-  margin-bottom: 0;
-}
-
-/* this overrides the negative margin for stacking two group blocks - line 5296 */
-.entry .entry-content .wp-block-group.has-background + .wp-block-group.has-background {
-  margin-top: inherit;
-}
-
-/* this removes the vertical margins between containers on pages; the margin-top also removed space between paragraphs */
-.entry .entry-content .no-vertical-margin,
-.entry .entry-content .no-horizontal-margin .wp-block-columns {
-margin-top:0;
-margin-bottom:0;
-margin-left: 0;
-margin-right: 0;
-gap:0;
-}
-
-/* this removes the horizontal margins between columns with the class .no-horizontal-margin */
-.entry .entry-content .no-horizontal-margin .wp-block-columns > .wp-block-column {
-margin-left: 0;
-margin-right: 0;
-margin-top:0;
-margin-bottom:0;	
-}
-
-/* removes the top and bottom margin for a cover with columns */
-.entry .entry-content .wp-block-cover__inner-container .wp-block-columns .wp-block-column {
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-/* makes the column width 100% in allignfull/wide groups on front and festival pages - check against customizer */
-.newspack-front-page .entry .entry-content .alignfull .alignwide, 
-.page-template-newspack-angel-city .entry .entry-content .alignfull .alignwide {
-  max-width: 100%;
-  width: 100%;
-}
-
-
-/* trying to get covers equal height*/
-.page-id-4670 .wp-block-cover img.wp-block-cover__image-background,
-.home .wp-block-cover img.wp-block-cover__image-background
-{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    max-height: none;
-    -o-object-fit: cover;
-    object-fit: cover;
-} 
-
-
-/* controls the margins in the supporters block */
-.entry .entry-content .supporters .wp-block-group__inner-container > *  {
-    margin-bottom: 0px;
-    margin-top: 0px;
-}
-
-.supporters .wp-block-columns .wp-block-column > * {
-    margin-bottom: 0px;
-    margin-top: 16px;
-}
-
-
-
-
-/* this removes the negative margin in the supporter column on the festival page */
-.page-template-single-wide .entry .entry-content .supporters .wp-block-group.has-background + .wp-block-group.has-background {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-
-
-
-/* this removes the borders in the supporters block */
-
-
-.entry .entry-content .wp-block-separator, .entry .entry-content hr {
-    display: none;
-}
-
-
-
-.wp-block-columns.is-style-borders > .wp-block-column::after {
-	  border: 0;
-}
-
-/* this removes the text in the supporters block */
-.wp-block-columns .newspack-supporter-info > p {
-    visibility: hidden;
-}
-
-
-/* ensure the citation is the same color as the pullquote */
-.wp-block-pullquote cite, .wp-block-pullquote footer {
-	color: inherit;
-}
 
 
 
 /*--------------------------------------------------------------
-## Events
+## Layout - Events
 --------------------------------------------------------------*/
 
 /* Hide the main Tribe Events header on event archive page */
@@ -533,14 +526,10 @@ margin-bottom:0;
 }
 
 
- /* Hiding header stuff on event archive pages  */
-.post-type-archive-tribe_events .entry-header,
-{
-	display:none;
-}
 
-/* this hides author and date from events */
-.tribe_events-template-default  .entry-meta   {
+ /* Hiding author on event archive page  */  
+.post-type-archive-tribe_events .entry-header 
+{
 	display:none;
 }
 
@@ -1000,30 +989,9 @@ width: 17%;
 	display: none;
 }
 
-/*--------------------------------------------------------------
-## Eventbrite / ticket landing page
---------------------------------------------------------------*/
-
-/* Hiding titles on ticket pages  */
-
-.page-id-16424 h1.entry-title
-
-{
-	display:none;
-}
-
-/* Hiding header on ticket page  */
-
-.page-id-16424 .site-content,
-.page-id-16424 .entry .entry-content * {
- margin-top: 0;
- margin-bottom: 0;	
-} 
-
-
 
 /*--------------------------------------------------------------
-##Shop / WooCommerce
+## Layout - Shop / WooCommerce
 --------------------------------------------------------------*/
 
 
