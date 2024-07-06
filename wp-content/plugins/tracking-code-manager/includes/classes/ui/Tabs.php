@@ -177,6 +177,17 @@ class TCMP_Tabs {
 				?>
 				<div id="tcmp-page" style="<?php echo esc_attr( $styles ); ?>">
 					<?php
+					if (is_multisite())
+					{
+						if (!current_user_can('unfiltered_html'))
+						{
+							// Only the Super-Admin role has unfiltered_html by default
+							echo '<div class="tcmp-box-error">';
+							echo '<p>For a multisite only, changing plugin settings requires the unfiltered_html capability.</p>';
+							echo '</div>';
+							die;
+						}
+					}
 					switch ( $tab ) {
 						case TCMP_TAB_WHATS_NEW:
 							tcmp_ui_whats_new();
