@@ -12,3 +12,18 @@
 @import url("../newspack-theme/style.css");
 
 /* Add your custom styles here */
+
+:root {
+  --newspack-primary-color: #bc27f6;
+  --newspack-secondary-color: #007f91;
+  --newspack-cta-color: #dd3333;
+  --newspack-header-color: #252c71;
+  --newspack-primary-menu-color:;
+  --newspack-footer-color: #000000;
+  --newspack-primary-contrast-color: white;
+  --newspack-secondary-contrast-color: white;
+  --newspack-cta-contrast-color: white;
+  --newspack-header-contrast-color: white;
+  --newspack-primary-menu-contrast-color: white;
+  --newspack-footer-contrast-color: white;
+}
