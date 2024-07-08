@@ -1,0 +1,14 @@
+/*
+ Theme Name:     Newspack AngelCity 2024
+ Theme URI:      https://github.com/OpenProducer/newspack-angelcity-2024
+ Description:    A child theme of Newspack theme
+ Author:         OpenProducer
+ Author URI:     https://www.openproducer.org/
+ Template:       newspack-theme
+ Version:        1.0.0
+ */
+
+/* Import parent theme styles */
+@import url("../newspack-theme/style.css");
+
+/* Add your custom styles here */
