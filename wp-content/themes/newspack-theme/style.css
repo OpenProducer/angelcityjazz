@@ -6,7 +6,7 @@ Author: Automattic
 Author URI: https://newspack.com
 Description:
 Requires at least: WordPress 4.9.6
-Version: 1.90.3
+Version: 1.90.5
 License: GNU General Public License v2 or later
 License URI: LICENSE
 Text Domain: newspack
@@ -5956,6 +5956,9 @@ hr.has-background.is-style-dots::before {
     width: 400px !important;
   }
 }
+.wp-block-group > .wp-block-group-is-layout-grid > * {
+  margin: 0;
+}
 
 @media only screen and (min-width: 600px) {
   .entry .entry-content > .wp-block-group.alignleft:not(:first-child),
@@ -5977,8 +5980,8 @@ hr.has-background.is-style-dots::before {
   }
 }
 
-.wp-block-group.has-background + .wp-block-group.has-background,
-[id=pico] > .wp-block-group.has-background + .wp-block-group.has-background {
+.wp-block-group.has-background.alignfull + .wp-block-group.has-background.alignfull,
+[id=pico] > .wp-block-group.has-background.alignfull + .wp-block-group.has-background.alignfull {
   margin-top: -32px;
 }
 
