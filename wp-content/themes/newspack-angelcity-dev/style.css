@@ -3,7 +3,7 @@ Theme Name: Newspack Angel City (dev)
 Template: newspack-theme
 Author: Automattic
 Author URI: https://newspack.blog
-Description: Newspack child theme for Angel City Jazz (dev branch)
+Description: Newspack child theme for Angel City Jazz (theme branch)
 Version: 1.12.0.1596158016
 Updated: 2020-07-30 18:13:36
 
@@ -166,216 +166,6 @@ textarea {
 	display: none;
 }
 
-
-/*--------------------------------------------------------------
-## Layout - Page and post templates
---------------------------------------------------------------*/
-
-.post-template-single-feature .main-content,
-.page-template-single-feature .main-content,
-.page-template-no-header-footer .main-content,
-.archive-one-column #main,
-.newspack-front-page.page-template-single-feature .site-main,
-.woocommerce .content-area .site-main
-{
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1000px;
-  width: 100%;
-}
-
-@media only screen and (min-width: 782px) {
-  .page-template-single-feature .entry-header,
-  .page-template-no-header-footer .entry-header,
-  .archive.archive-one-column .page-header,
-  .search #main {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1000px;
-    width: 100%;
-  }
-}
-
-.search #primary,
-.error404 #primary
-{
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 90vw;
-  width: 1000px;
-}
-
-.search .no-results,
-.error404 .search-form
-{
-  width: 65%;
-}
-
-.search .no-results .page-header,
-.search .no-results .search-form
-{
-  display: none;
-}
-
-
-/*--------------------------------------------------------------
-## Layout - Landing Pages
---------------------------------------------------------------*/
-
-
-/* Hiding titles on landing pages  */
-
-.hide-page-title .entry-header h1.entry-title,
-.page-template-single-wide.hide-homepage-title .entry-header h1.entry-title {
-	display:none;
-}
-
-/* this removes header margin pages with hide page title selected */
-.hide-page-title .site-content,
-.hide-page-title .entry .entry-content:first-child,
-.page-template-single-wide.hide-homepage-title .site-content,
-.page-template-single-wide.hide-homepage-title .entry .entry-content:first-child {
- margin-top: 0;
- margin-bottom: 0;	
-}
-
-
- /*adding bottom margin to commerce pages */
- .woocommerce-account .entry-content .woocommerce {
-  margin: 32px 0;
-}	
-
-/*adding bottom margin to 404 and search pages */
-.error-404,
-.search .site-content {
-    margin-bottom: 64px;
-}	
-
-/* removing category and author display on search results */
-.search .cat-links,
-.search .entry-meta {
-    display: none;
-}	
-
-
-
-
-
-/*--------------------------------------------------------------
-## Layout - Angel City Jazz Festival
---------------------------------------------------------------*/
-
-
-
-/* trying to get covers equal height*/
-.page-template-newspack-angel-city .wp-block-group__inner-container .wp-block-columns .wp-block-cover,
-.home .wp-block-group__inner-container .wp-block-columns .wp-block-cover {
-	min-height:100%;
-}
-
-
-/* hides price from home page and ACJ landing page*/ 
-.home .tribe-events-pro-photo__event-cost,
-.page-template-newspack-angel-city .tribe-events-pro-photo__event-cost{
- display:none;
-}
-
-
-/*--------------------------------------------------------------
-## Layout - Explorations
---------------------------------------------------------------*/
-
-
-/* LA Creators */
-.tag-la-creators .entry-content .wp-block-group .wp-block-group__inner-container:first-child {
-    padding-top: 20px;
-}
-
-.tag-la-creators .entry-footer {
-	margin-bottom: 20px;
-	margin-top: 0;
-}
-
-/*making youtube vids the same height in ornette coleman post*/
-.postid-1687 .wp-block-column .wp-block-embed-youtube iframe {
-	max-height: 290px;
-}
-
-/*making youtube vids the same height in charlie haden post*/
-.postid-5369 .wp-block-column .wp-block-embed-youtube iframe {
-	height: 100%;
-	max-height: 315px;
-}
-
-
-
-/*--------------------------------------------------------------
-## Layout - Watch
---------------------------------------------------------------*/
-
-/* this removes header margin on Watch landing page 
-.page-id-531 .site-content,
-.page-id-531 .entry .entry-content:first-child {
- margin-top: 0;
- margin-bottom: 0;	
-}
-*/
-
-/* formatting category link on watch pages*/
-.cat-watch .cat-links a,
-.cat-watch .cat-links a:visited {
-  color: #fff;
-	background-color: transparent;
-  text-decoration: none;
-	margin: 0 0 0.75rem;
-	padding: 0;
-}
-
-
-/* this hides titles on vr festival grid display */
-.wp-block-newspack-blocks-homepage-articles .tag-2020-vr-festival .entry-title,
-.wp-block-newspack-blocks-homepage-articles .tag-2021-angel-city-jazz-fest .entry-title,
-.wp-block-newspack-blocks-homepage-articles .tag-inglewood-sessions .entry-title {
-    margin: 0 0 .25em;
-    display: none;
-}
-
-/* this hides featured image on vr watch archives */
-.tag-2020-vr-festival .featured-image-behind,
-.tag-2021-angel-city-jazz-fest .featured-image-behind,
-.tag-inglewood-sessions .featured-image-behind  {
-	display:none;
-}
-
-/* this hides author and date from posts in the 2020 VR Festival category */
-.category-2020-vr-festival .entry-meta   {
-	display:none;
-}
-
-/* this hides author and date from posts in the watch category */
-.category-watch .entry-meta   {
-	display:none;
-}
-
-
-/*--------------------------------------------------------------
-## Layout - Young Artist Competition
---------------------------------------------------------------*/
-
-/* margins in Past Competition Winners Group */
-.post-465 .wp-block-cover .cat-links
- {
-    margin: 0;
-}
-
-/* font Past Competition Winners Group */
-.post-465 .wp-block-cover h2.entry-title
- {
-    font-size: 1.2em;
-}
-
-	
-
 /*--------------------------------------------------------------
 ## Layout - Groups, Covers and Columns
 --------------------------------------------------------------*/
@@ -517,24 +307,241 @@ margin-bottom:0;
 
 
 /*--------------------------------------------------------------
-## Events
+## Layout - Page and post templates
 --------------------------------------------------------------*/
 
-
- /* Hiding header stuff on event archive pages  */
-.post-type-archive-tribe_events .entry-header
+.post-template-single-feature .main-content,
+.page-template-single-feature .main-content,
+.page-template-no-header-footer .main-content,
+.archive-one-column #main,
+.newspack-front-page.page-template-single-feature .site-main,
+.woocommerce .content-area .site-main
 {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1000px;
+  width: 100%;
+}
+
+@media only screen and (min-width: 782px) {
+  .page-template-single-feature .entry-header,
+  .page-template-no-header-footer .entry-header,
+  .archive.archive-one-column .page-header,
+  .search #main {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1000px;
+    width: 100%;
+  }
+}
+
+.search #primary,
+.error404 #primary
+{
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 90vw;
+  width: 1000px;
+}
+
+.search .no-results,
+.error404 .search-form
+{
+  width: 65%;
+}
+
+.search .no-results .page-header,
+.search .no-results .search-form
+{
+  display: none;
+}
+
+
+/*--------------------------------------------------------------
+## Layout - Landing Pages
+--------------------------------------------------------------*/
+
+/* Hiding featured image on landing pages  */
+
+.page-template-single-wide .attachment-newspack-featured-image {
 	display:none;
 }
 
-/* this hides author and date from events */
-.tribe_events-template-default  .entry-meta   {
+
+/* Hiding titles on landing pages  */
+
+.hide-page-title .entry-header h1.entry-title,
+.page-template-single-wide.hide-homepage-title .entry-header h1.entry-title {
+	display:none;
+}
+
+/* this removes header margin pages with hide page title selected */
+.hide-page-title .site-content,
+.hide-page-title .entry .entry-content:first-child,
+.page-template-single-wide.hide-homepage-title .site-content,
+.page-template-single-wide.hide-homepage-title .entry .entry-content:first-child {
+ margin-top: 0;
+ margin-bottom: 0;	
+}
+
+
+ /*adding bottom margin to commerce pages */
+ .woocommerce-account .entry-content .woocommerce {
+  margin: 32px 0;
+}	
+
+/*adding bottom margin to 404 and search pages */
+.error-404,
+.search .site-content {
+    margin-bottom: 64px;
+}	
+
+/* removing category and author display on search results */
+.search .cat-links,
+.search .entry-meta {
+    display: none;
+}	
+
+
+
+
+
+/*--------------------------------------------------------------
+## Layout - Angel City Jazz Festival
+--------------------------------------------------------------*/
+
+
+
+/* trying to get covers equal height*/
+.page-template-newspack-angel-city .wp-block-group__inner-container .wp-block-columns .wp-block-cover,
+.home .wp-block-group__inner-container .wp-block-columns .wp-block-cover {
+	min-height:100%;
+}
+
+
+/* hides price from home page and ACJ landing page*/ 
+.home .tribe-events-pro-photo__event-cost,
+.page-template-newspack-angel-city .tribe-events-pro-photo__event-cost{
+ display:none;
+}
+
+
+/*--------------------------------------------------------------
+## Layout - Explorations
+--------------------------------------------------------------*/
+
+
+/* LA Creators */
+.tag-la-creators .entry-content .wp-block-group .wp-block-group__inner-container:first-child {
+    padding-top: 20px;
+}
+
+.tag-la-creators .entry-footer {
+	margin-bottom: 20px;
+	margin-top: 0;
+}
+
+/*making youtube vids the same height in ornette coleman post*/
+.postid-1687 .wp-block-column .wp-block-embed-youtube iframe {
+	max-height: 290px;
+}
+
+/*making youtube vids the same height in charlie haden post*/
+.postid-5369 .wp-block-column .wp-block-embed-youtube iframe {
+	height: 100%;
+	max-height: 315px;
+}
+
+
+
+/*--------------------------------------------------------------
+## Layout - Watch
+--------------------------------------------------------------*/
+
+
+/* formatting category link on watch pages*/
+.cat-watch .cat-links a,
+.cat-watch .cat-links a:visited {
+  color: #fff;
+	background-color: transparent;
+  text-decoration: none;
+	margin: 0 0 0.75rem;
+	padding: 0;
+}
+
+
+/* this hides titles on vr festival grid display */
+.wp-block-newspack-blocks-homepage-articles .tag-2020-vr-festival .entry-title,
+.wp-block-newspack-blocks-homepage-articles .tag-2021-angel-city-jazz-fest .entry-title,
+.wp-block-newspack-blocks-homepage-articles .tag-inglewood-sessions .entry-title {
+    margin: 0 0 .25em;
+    display: none;
+}
+
+/* this hides featured image on vr watch archives */
+.tag-2020-vr-festival .featured-image-behind,
+.tag-2021-angel-city-jazz-fest .featured-image-behind,
+.tag-inglewood-sessions .featured-image-behind  {
+	display:none;
+}
+
+/* this hides author and date from posts in the 2020 VR Festival category */
+.category-2020-vr-festival .entry-meta   {
+	display:none;
+}
+
+/* this hides author and date from posts in the watch category */
+.category-watch .entry-meta   {
+	display:none;
+}
+
+
+/*--------------------------------------------------------------
+## Layout - Young Artist Competition
+--------------------------------------------------------------*/
+
+/* margins in Past Competition Winners Group */
+.post-465 .wp-block-cover .cat-links
+ {
+    margin: 0;
+}
+
+/* font Past Competition Winners Group */
+.post-465 .wp-block-cover h2.entry-title
+ {
+    font-size: 1.2em;
+}
+
+
+
+
+/*--------------------------------------------------------------
+## Layout - Events
+--------------------------------------------------------------*/
+
+/* Hide the main Tribe Events header on event archive page */
+.post-type-archive-tribe_events .tribe-events-header,
+.page-template-single-wide .tribe-events-header {
+  display: none;
+}
+
+
+
+ /* Hiding author on event archive page  */  
+.post-type-archive-tribe_events .entry-header 
+{
 	display:none;
 }
 
  
 .tribe-events-view {
  position:relative;
+}
+
+
+/* Hiding venue address on event listings  */  
+.post-type-archive-tribe_events .tribe-events-calendar-list__event-venue-address {
+	display:none;
 }
 
 /* ### Events grid using homepage blocks - Making subtitle bold  */
@@ -544,50 +551,114 @@ margin-bottom:0;
  font-weight: 700;
 }
 
-/* ### Single page */
+/* ### Single Event page */
+
 
 /* removing margin in event html */
 .tribe-events-before-html p {
   margin: 0;
 }
 
-/* removes notices like 'this event has passed' */
-
-.tribe-events-notices {
-	display:none;
-}
-
-/* padding for single event template */
+/* padding and margins for event page */
 .single-tribe_events #tribe-events, #tribe-events-pg-template, .tribe-events-pg-template {
-padding: 0;	
+padding: 0;
+margin: 0;	
 }
 
-/* hides title from single event page */
-.single-tribe_events .entry .entry-content > * {
-	margin-top:0;
-	margin-bottom:0;
+/* margin on primary section */
+.single-tribe_events #primary {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 0;
 }
+
+/* padding and margins for site content */
 
 .single-tribe_events .site-content {
-    margin-top: 0;
-    margin-bottom: 0;
+  padding: 0;
+  margin: 0;	
 }
 
-
-/* hides title from single event page */
-.single-tribe_events .tribe-events-single-event-title {
-	display:none
+/* full width container for event categories */
+.single-tribe_events .event-category-full-width {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 1.25em;
+  padding-bottom: 0;
+  padding-left: 2.375em;
+  padding-right: 2.375em;
+  max-width: 100vw;
 }
 
-/* link colors on event pages - check against customizer */
-#tribe-events-content a, .tribe-events-event-meta a {
+/* Category-specific styling */
+.single-tribe_events .tribe-events-category-2024-angel-city-jazz-festival {
+  background-color: #bc27f6; /* background color for specific category */
+}
+
+.single-tribe_events .tribe-events-category-2023-angel-city-jazz-festival {
+  background-color: #bc27f6; /* background color for specific category */
+}
+
+.single-tribe_events .tribe-events-category-2022-angel-city-jazz-festival {
+  background-color: #bc27f6; /* background color for specific category */
+}
+
+.single-tribe_events .tribe-events-category-2021-angel-city-jazz-festival {
+  background-color: #bc27f6; /* background color for specific category */
+}
+
+.single-tribe_events .tribe-events-category-2020-angel-city-jazz-festival {
+  background-color: #bc27f6; /* background color for specific category */
+}
+
+/* Container for event category links */
+.single-tribe_events .event-category-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+}
+
+/* Styling for the event category links */
+.single-tribe_events .event-category {
+  display: inline-block;
+  line-height: 1;
+  color: #fff;
+  background-color: none;
+  text-transform: uppercase;
+  font-size: var(--newspack-theme-font-size-xs);
+  font-weight: 700;
+  font-family: var(--newspack-theme-font-heading);
+  margin: 0 0 0.75rem;
+}
+
+.single-tribe_events .event-category a {
+  color: #fff;
+  background-color: none;
+  text-decoration: none;
+  transition: opacity 110ms ease-in-out;
+  margin: 0;
+  padding: 0;
+}
+
+.event-category-full-width .event-category a:hover {
   color: inherit;
+  background-color: none; 
   text-decoration: none;
 }
 
-/* hides links back to the events page */
-.single-tribe_events .tribe-events-back {
-    display: none;
+.single-tribe_events .event-category a:visited {
+  background-color: none; /* Example link color */
+  text-decoration: none;
+}
+
+
+/* link colors on event pages - check against customizer */
+#tribe-events-content a,
+.tribe-events-event-meta a {
+  color: inherit;
+  text-decoration: none;
 }
 
 /* was hiding overflow on mobile view */
@@ -597,30 +668,11 @@ padding: 0;
 	  padding: 0;
 }
 
-/* hides end time from  single event page */
-.tribe-events-schedule__separator.tribe-events-schedule__separator--time, .tribe-events-schedule__time.tribe-events-schedule__time--end {
- display:none;
+.single-tribe_events .tribe-events-single .event-header.has-background {
+  padding-top: 0;
 }
 
 
-
-/* adds margin between artist descriptions on single event page */
-.tribe_events-template-default .wp-block-media-text {
- margin-bottom: 32px;
-}
-
-* this removes the margin between the top container on pages and events */
-/* .page .site-content, */
-.single-tribe_events .site-content, 
-.single-tribe_events .entry .entry-content > *:first-child {
- margin-top:0;
-}
-
-/* adds margin between columns on single event page */
-.tribe_events-template-default .wp-block-columns {
- margin-top: 32px;
- margin-bottom: 32px;
-}
 
 /* ### Events - Blocks and widgets */
 
@@ -647,6 +699,10 @@ padding: 0;
     display: none;
 }
 
+/* event detail date and time - hides end time */
+.tribe-events-schedule__separator.tribe-events-schedule__separator--time, .tribe-events-schedule__time.tribe-events-schedule__time--end {
+  display:none;
+ }
 
 /* event detail date and time - background, margin, and padding */
 .single-tribe_events .tribe-events-schedule {
@@ -824,6 +880,12 @@ padding: 0;
 
 /* ### Grid view / Shortcode */
 
+/* removing top and bottom navigation on event grid shortcodes */
+.tribe-events-view--shortcode .tribe-events-pro-photo-nav,
+.tribe-events-view--shortcode .tribe-events-l-container .tribe-events-c-subscribe-dropdown__container {
+  display: none;
+}
+
 /* ensures featured image display in grids is flex? */
 .tribe-events-pro .tribe-events-pro-photo__event-featured-image-wrapper {
     display: flex;
@@ -865,13 +927,15 @@ padding: 0;
 .tribe-common .tribe-common-g-row--gutters > .tribe-common-g-col {
  padding-left:24px;
  padding-right:24px;
- margin-bottom:  24px;
+ margin-top:  12px;
+ margin-bottom:  12px;
 }
 
-.tribe-common--breakpoint-medium.tribe-common .tribe-common-g-row--gutters>.tribe-common-g-col {
+.tribe-common--breakpoint-medium.tribe-common .tribe-common-g-row--gutters> .tribe-common-g-col {
  padding-left:24px;
  padding-right:24px;
- margin-bottom:  24px;
+ margin-top:  12px;
+ margin-bottom:  12px;
 }
 
 /* font color in front and festival page shortcode */
@@ -933,30 +997,9 @@ width: 17%;
 	display: none;
 }
 
-/*--------------------------------------------------------------
-## Eventbrite / ticket landing page
---------------------------------------------------------------*/
-
-/* Hiding titles on ticket pages  */
-
-.page-id-16424 h1.entry-title
-
-{
-	display:none;
-}
-
-/* Hiding header on ticket page  */
-
-.page-id-16424 .site-content,
-.page-id-16424 .entry .entry-content * {
- margin-top: 0;
- margin-bottom: 0;	
-} 
-
-
 
 /*--------------------------------------------------------------
-##Shop / WooCommerce
+## Layout - Shop / WooCommerce
 --------------------------------------------------------------*/
 
 

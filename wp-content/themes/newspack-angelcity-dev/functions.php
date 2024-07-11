@@ -206,4 +206,9 @@ function custom_search_filter($query) {
       }
   }
 }
-add_action('pre_get_posts', 'custom_search_filter');
+
+
+
+
+
+
