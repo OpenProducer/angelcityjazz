@@ -1,7 +1,7 @@
 /*
  Theme Name:     Newspack AngelCity 2024
  Theme URI:      https://github.com/OpenProducer/newspack-angelcity-2024
- Description:    A child theme of Newspack theme
+ Description:    Newspack child theme for Angel City Jazz 2024
  Author:         OpenProducer
  Author URI:     https://www.openproducer.org/
  Template:       newspack-theme
@@ -25,17 +25,71 @@
   --newspack-theme-color-secondary-variation: #005769;
 }
 
+/* Overriding Colors in Newspack theme */
+
+:root {
+  --newspack-theme-color-highlight: #01F7F4;
+  --newspack-theme-color-primary-darken-5: #E600FF;
+  --newspack-theme-color-primary-darken-10: #BF36FE;
+  --newspack-theme-color-primary-against-white: var( --newspack-theme-color-primary );
+  --newspack-theme-color-secondary-against-white: var( --newspack-theme-color-secondary );
+  --newspack-theme-color-against-primary: #fff;
+  --newspack-theme-color-against-secondary: #fff;
+  --newspack-theme-color-bg-body: #fff;
+  --newspack-theme-color-bg-input: var( --newspack-theme-color-bg-body );
+  --newspack-theme-color-bg-light: #f0f0f0;
+  --newspack-theme-color-bg-button-hover: #111;
+  --newspack-theme-color-bg-pre: #eee;
+  --newspack-theme-color-bg-pre-lighten-5: #fbfbfb;
+  --newspack-theme-color-bg-dark: #333;
+  --newspack-theme-color-bg-dark-lighten-5: #404040;
+  --newspack-theme-color-bg-dark-darken-5: #262626;
+  --newspack-theme-color-text-main: #111;
+  --newspack-theme-color-text-light: #515151;
+  --newspack-theme-color-text-hover: var( --newspack-theme-color-bg-dark-lighten-5 );
+  --newspack-theme-color-text-screen: #21759b;
+  --newspack-theme-color-link: var( --newspack-theme-color-secondary );
+  --newspack-theme-color-link-hover: var( --newspack-theme-color-secondary-variation-against-white );
+  --newspack-theme-color-border: #ccc;
+  --newspack-theme-color-border-light: #e0e0e0;
+  --newspack-theme-color-alert-yellow: #f0b849;
+  --newspack-theme-color-alert-red: #cc1818;
+  --newspack-theme-color-alert-green: #4ab866;
+}
+
 /*--------------------------------------------------------------
 ## Typography
 --------------------------------------------------------------*/
 
+html
+{
+  font-size: 18px;
+}
+
+@media only screen and (min-width: 600px) {
+  html {
+    font-size: 18px;
+}
+}	
+	
+.has-normal-font-size {
+    font-size: 18px;
+}
+
+/* Paragraph font size for event pages and 2020 VR fest */
+.tag-2020-vr-festival p, .single-tribe_events p {
+  font-size: .975em
+}
 
 
 /*--------------------------------------------------------------
 ## Navigation
 --------------------------------------------------------------*/
 
-
+.nav3 a {
+  background-color: var(--newspack-theme-color-primary);
+  color: var(--wp--preset--color--white) !important;
+}
 
 /*--------------------------------------------------------------
 ## Links
@@ -497,11 +551,33 @@ margin-bottom:0;
  position:relative;
 }
 
+/* Customize the margins of the event info on the event archive page */
+.post-type-archive-tribe_events .tribe-common .tribe-common-g-row--gutters > .tribe-common-g-col {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Customize the margins and padding of the featured image on the event archive page */
+.post-type-archive-tribe_events .tribe-events-calendar-list__event-featured-image {
+  margin-top: 0;    /* Adjust the top margin */
+  margin-bottom: 0; /* Adjust the bottom margin */
+  margin-left: auto;   /* Center the image horizontally if needed */
+  margin-right: auto;  /* Center the image horizontally if needed */
+  padding: 0;       /* Add padding around the image */
+  /* Add other custom styles as needed */
+}
+
+
 
 /* Hiding venue address on event listings  */  
 .post-type-archive-tribe_events .tribe-events-calendar-list__event-venue-address {
 	display:none;
 }
+
+/* Hide 'Subscribe to Calendar' button */
+.tribe-events .tribe-events-c-subscribe-dropdown__container {
+  display: none;
+} 
 
 /* ### Events grid using homepage blocks - Making subtitle bold  */
 
@@ -538,81 +614,6 @@ margin: 0;
   margin: 0;	
 }
 
-/* full width container for event categories */
-.single-tribe_events .event-category-full-width {
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-top: 1.25em;
-  padding-bottom: 0;
-  padding-left: 2.375em;
-  padding-right: 2.375em;
-  max-width: 100vw;
-}
-
-/* Category-specific styling */
-.single-tribe_events .tribe-events-category-2024-angel-city-jazz-festival {
-  background-color: #bc27f6; /* background color for specific category */
-}
-
-.single-tribe_events .tribe-events-category-2023-angel-city-jazz-festival {
-  background-color: #bc27f6; /* background color for specific category */
-}
-
-.single-tribe_events .tribe-events-category-2022-angel-city-jazz-festival {
-  background-color: #bc27f6; /* background color for specific category */
-}
-
-.single-tribe_events .tribe-events-category-2021-angel-city-jazz-festival {
-  background-color: #bc27f6; /* background color for specific category */
-}
-
-.single-tribe_events .tribe-events-category-2020-angel-city-jazz-festival {
-  background-color: #bc27f6; /* background color for specific category */
-}
-
-/* Container for event category links */
-.single-tribe_events .event-category-container {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1200px;
-}
-
-/* Styling for the event category links */
-.single-tribe_events .event-category {
-  display: inline-block;
-  line-height: 1;
-  color: #fff;
-  background-color: none;
-  text-transform: uppercase;
-  font-size: var(--newspack-theme-font-size-xs);
-  font-weight: 700;
-  font-family: var(--newspack-theme-font-heading);
-  margin: 0 0 0.75rem;
-}
-
-.single-tribe_events .event-category a {
-  color: #fff;
-  background-color: none;
-  text-decoration: none;
-  transition: opacity 110ms ease-in-out;
-  margin: 0;
-  padding: 0;
-}
-
-.event-category-full-width .event-category a:hover {
-  color: inherit;
-  background-color: none; 
-  text-decoration: none;
-}
-
-.single-tribe_events .event-category a:visited {
-  background-color: none; /* Example link color */
-  text-decoration: none;
-}
-
-
 /* link colors on event pages - check against customizer */
 #tribe-events-content a,
 .tribe-events-event-meta a {
@@ -627,11 +628,6 @@ margin: 0;
 	  padding: 0;
 }
 
-.single-tribe_events .tribe-events-single .event-header.has-background {
-  padding-top: 0;
-}
-
-
 
 /* ### Events - Blocks and widgets */
 
@@ -645,7 +641,19 @@ margin: 0;
     margin: 0;
 }
 
-/* margins in event header featured image - check against customizer */
+/* margins in event title */
+.event-header h2.wp-block-post-title {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+/* margins in event header container */
+.event-header .wp-block-group__inner-container .wp-block-columns {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+/* margins in event header featured image */
 .event-header .wp-block-columns .wp-block-column .wp-block-post-featured-image {
 	margin-top: 0px;
 	margin-bottom: 0px;
@@ -828,12 +836,64 @@ margin: 0;
     width: 100%;
 }
 
-/*related events block - margin between title and date  */
+/* Hide previous/next event navigation */
+.single-tribe_events #tribe-events-footer {
+  display: none !important;
+}
+
+
+/* Default styles for the related events block */
+.single-tribe_events ul.tribe-related-events {
+  display: flex;  /* Use flexbox for layout */
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  gap: 0; /* No space between items */
+  list-style: none; /* Remove default list styling */
+}
+
+/* Default styles for individual related event items */
+.single-tribe_events ul.tribe-related-events li {
+  flex: 1 1 30%; /* Allow each item to take up 30% of the container */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+}
+
+/* Styles for smaller screens (tablets and below) */
+@media (max-width: 768px) {
+  .single-tribe_events ul.tribe-related-events {
+      flex-direction: row; /* Arrange items in a row */
+      flex-wrap: wrap; /* Allow items to wrap to the next line */
+      margin: 0; /* Remove default margin */
+      padding: 0; /* Remove default padding */
+  }
+  
+  .single-tribe_events ul.tribe-related-events li {
+      flex: 1 1 48%; /* Each item takes up 48% of the container */
+      box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  }
+
+  /* Hide the last item if it's the only item on the last row */
+  .single-tribe_events ul.tribe-related-events li:nth-last-child(1):nth-child(odd) {
+      display: none; /* Hide the last item if it's in an odd position */
+  }
+}
+
+/* Styles for even smaller screens (mobile) */
+@media (max-width: 480px) {
+  .single-tribe_events ul.tribe-related-events li {
+      flex: 1 1 100%; /* Each item takes full width on smaller screens */
+  }
+}
+
+
+
+/*related events block - margin between title and date  
 .single-tribe_events ul.tribe-related-events .tribe-related-events-title {
   line-height:1.4;
 	margin-top:0;
 	margin-bottom:12px;
 }
+*/  
 
 
 
