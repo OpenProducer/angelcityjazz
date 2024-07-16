@@ -64,6 +64,7 @@ spl_autoload_register(function($class) {
         'MailChimp_WooCommerce_SingleCoupon' => 'includes/processes/class-mailchimp-woocommerce-single-coupon.php',
         'MailChimp_WooCommerce_Single_Order' => 'includes/processes/class-mailchimp-woocommerce-single-order.php',
         'MailChimp_WooCommerce_Single_Product' => 'includes/processes/class-mailchimp-woocommerce-single-product.php',
+        'MailChimp_WooCommerce_Single_Product_Variation' => 'includes/processes/class-mailchimp-woocommerce-single-product-variation.php',
         'MailChimp_WooCommerce_User_Submit' => 'includes/processes/class-mailchimp-woocommerce-user-submit.php',
         'MailChimp_WooCommerce_Process_Full_Sync_Manager' => 'includes/processes/class-mailchimp-woocommerce-full-sync-manager.php',
         'MailChimp_WooCommerce_Subscriber_Sync' => 'includes/processes/class-mailchimp-woocommerce-subscriber-sync.php',
@@ -97,7 +98,7 @@ function mailchimp_environment_variables() {
     return (object) array(
         'repo' => 'master',
         'environment' => 'production', // staging or production
-        'version' => '4.1',
+        'version' => '4.2.1',
         'php_version' => phpversion(),
         'wp_version' => (empty($wp_version) ? 'Unknown' : $wp_version),
         'wc_version' => function_exists('WC') ? WC()->version : null,
@@ -219,6 +220,13 @@ function mailchimp_handle_or_queue(Mailchimp_Woocommerce_Job $job, $delay = 0)
 
         if ( apply_filters( 'mailchimp_should_push_product', $job->id ) === false ) {
 			mailchimp_debug( 'action_scheduler.queue_job.product', "Product {$job->id} not pushed do to filter." );
+			return null;
+		}
+	} else if ( $job instanceof \MailChimp_WooCommerce_Single_Product_Variation ) {
+		$filter_delay = apply_filters('mailchimp_handle_or_queue_product_variation_delay', $delay);
+
+		if ( apply_filters( 'mailchimp_should_push_product_variations', $job->id ) === false ) {
+			mailchimp_debug( 'action_scheduler.queue_job.product_variation', "Product {$job->id} not pushed do to filter." );
 			return null;
 		}
 	} else if ( $job instanceof \MailChimp_WooCommerce_User_Submit ) {
@@ -764,9 +772,6 @@ function mailchimp_log($action, $message, $data = array()) {
     if (mailchimp_environment_variables()->logging !== 'none' && function_exists('wc_get_logger')) {
         if (is_array($data) && !empty($data)) $message .= " :: ".wc_print_r($data, true);
         wc_get_logger()->notice("{$action} :: {$message}", array('source' => 'mailchimp_woocommerce'));
-    } else {
-        if (is_array($data) && !empty($data)) $message .= " :: ".wc_print_r($data, true);
-        wc_get_logger()->notice("{$action} :: {$message}", array('source' => 'mailchimp_woocommerce'));
     }
 }
 
@@ -1207,19 +1212,23 @@ function mailchimp_delete_as_jobs() {
         return true;
     }
     return false;
-
 }
+
 function mailchimp_flush_sync_pointers() {
     // clean up the initial sync pointers
     delete_option( 'mailchimp-woocommerce-resource-last-updated' );
     delete_option( 'mailchimp-woocommerce-sync.started_at' );
     delete_option( 'mailchimp-woocommerce-sync.completed_at' );
     foreach (array('orders', 'products', 'coupons') as $resource_type) {
-        delete_option("mailchimp-woocommerce-sync.{$resource_type}.started_at");
-        delete_option("mailchimp-woocommerce-sync.{$resource_type}.completed_at");
-        delete_option("mailchimp-woocommerce-sync.{$resource_type}.started_at");
-        delete_option("mailchimp-woocommerce-sync.{$resource_type}.current_page");
+        mailchimp_flush_specific_resource_pointers($resource_type);
     }
+}
+
+function mailchimp_flush_specific_resource_pointers($resource_type) {
+    delete_option("mailchimp-woocommerce-sync.{$resource_type}.started_at");
+    delete_option("mailchimp-woocommerce-sync.{$resource_type}.completed_at");
+    delete_option("mailchimp-woocommerce-sync.{$resource_type}.started_at");
+    delete_option("mailchimp-woocommerce-sync.{$resource_type}.current_page");
 }
 
 /**
