@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'quadlayers/autocomplete-woocommerce-orders',
-        'pretty_version' => 'v3.3.2',
-        'version' => '3.3.2.0',
-        'reference' => 'b6bf1c2d9a2484bf91f65b9373248539deb0175f',
+        'pretty_version' => 'v3.3.3',
+        'version' => '3.3.3.0',
+        'reference' => '30d728c304c793375015ad8a9ddb580d7bcc3496',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'automattic/jetpack-assets' => array(
-            'pretty_version' => 'v2.1.12',
-            'version' => '2.1.12.0',
-            'reference' => '229b447156dfdc8c3fcc84443feeb0ee36258b0f',
+            'pretty_version' => 'v2.1.13',
+            'version' => '2.1.13.0',
+            'reference' => 'be2738e899ca46648999a6e1a7744b4da5001533',
             'type' => 'jetpack-library',
             'install_path' => __DIR__ . '/../../jetpack_vendor/automattic/jetpack-assets',
             'aliases' => array(),
@@ -38,9 +38,9 @@
             'dev_requirement' => false,
         ),
         'quadlayers/autocomplete-woocommerce-orders' => array(
-            'pretty_version' => 'v3.3.2',
-            'version' => '3.3.2.0',
-            'reference' => 'b6bf1c2d9a2484bf91f65b9373248539deb0175f',
+            'pretty_version' => 'v3.3.3',
+            'version' => '3.3.3.0',
+            'reference' => '30d728c304c793375015ad8a9ddb580d7bcc3496',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
