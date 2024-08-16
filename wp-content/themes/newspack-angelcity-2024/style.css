@@ -551,23 +551,6 @@ margin-bottom:0;
  position:relative;
 }
 
-/* Customize the margins of the event info on the event archive page */
-.post-type-archive-tribe_events .tribe-common .tribe-common-g-row--gutters > .tribe-common-g-col {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-/* Customize the margins and padding of the featured image on the event archive page */
-.post-type-archive-tribe_events .tribe-events-calendar-list__event-featured-image {
-  margin-top: 0;    /* Adjust the top margin */
-  margin-bottom: 0; /* Adjust the bottom margin */
-  margin-left: auto;   /* Center the image horizontally if needed */
-  margin-right: auto;  /* Center the image horizontally if needed */
-  padding: 0;       /* Add padding around the image */
-  /* Add other custom styles as needed */
-}
-
-
 
 /* Hiding venue address on event listings  */  
 .post-type-archive-tribe_events .tribe-events-calendar-list__event-venue-address {
@@ -641,19 +624,7 @@ margin: 0;
     margin: 0;
 }
 
-/* margins in event title */
-.event-header h2.wp-block-post-title {
-  margin-top: 24px;
-  margin-bottom: 24px;
-}
-
-/* margins in event header container */
-.event-header .wp-block-group__inner-container .wp-block-columns {
-	margin-top: 0px;
-	margin-bottom: 0px;
-}
-
-/* margins in event header featured image */
+/* margins in event header featured image - check against customizer */
 .event-header .wp-block-columns .wp-block-column .wp-block-post-featured-image {
 	margin-top: 0px;
 	margin-bottom: 0px;
@@ -842,58 +813,12 @@ margin: 0;
 }
 
 
-/* Default styles for the related events block */
-.single-tribe_events ul.tribe-related-events {
-  display: flex;  /* Use flexbox for layout */
-  flex-wrap: wrap; /* Allow items to wrap to the next line */
-  gap: 0; /* No space between items */
-  list-style: none; /* Remove default list styling */
-}
-
-/* Default styles for individual related event items */
-.single-tribe_events ul.tribe-related-events li {
-  flex: 1 1 30%; /* Allow each item to take up 30% of the container */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
-}
-
-/* Styles for smaller screens (tablets and below) */
-@media (max-width: 768px) {
-  .single-tribe_events ul.tribe-related-events {
-      flex-direction: row; /* Arrange items in a row */
-      flex-wrap: wrap; /* Allow items to wrap to the next line */
-      margin: 0; /* Remove default margin */
-      padding: 0; /* Remove default padding */
-  }
-  
-  .single-tribe_events ul.tribe-related-events li {
-      flex: 1 1 48%; /* Each item takes up 48% of the container */
-      box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  }
-
-  /* Hide the last item if it's the only item on the last row */
-  .single-tribe_events ul.tribe-related-events li:nth-last-child(1):nth-child(odd) {
-      display: none; /* Hide the last item if it's in an odd position */
-  }
-}
-
-/* Styles for even smaller screens (mobile) */
-@media (max-width: 480px) {
-  .single-tribe_events ul.tribe-related-events li {
-      flex: 1 1 100%; /* Each item takes full width on smaller screens */
-  }
-}
-
-
-
-/*related events block - margin between title and date  
+/*related events block - margin between title and date  */
 .single-tribe_events ul.tribe-related-events .tribe-related-events-title {
   line-height:1.4;
 	margin-top:0;
 	margin-bottom:12px;
 }
-*/  
 
 
 
