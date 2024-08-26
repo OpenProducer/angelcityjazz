@@ -41,7 +41,7 @@ class MailChimp_Service extends MailChimp_WooCommerce_Options
     public function wooIsRunning()
     {
         // make sure the site option for setting the mailchimp_carts has been saved.
-        $this->validated_cart_db = get_site_option('mailchimp_woocommerce_db_mailchimp_carts');
+        $this->validated_cart_db = \Mailchimp_Woocommerce_DB_Helpers::get_option('mailchimp_woocommerce_db_mailchimp_carts');
         $this->is_admin = current_user_can('administrator');
     }
 
@@ -686,21 +686,8 @@ class MailChimp_Service extends MailChimp_WooCommerce_Options
     {
         if (!$this->isAdmin()) return false;
         $this->removePointers(true, ($only_products ? false : true));
-        update_option('mailchimp-woocommerce-sync.orders.prevent', $only_products);
+        \Mailchimp_Woocommerce_DB_Helpers::update_option('mailchimp-woocommerce-sync.orders.prevent', $only_products);
         MailChimp_WooCommerce_Process_Products::push();
-        return true;
-    }
-
-    /**
-     * Delete all the options pointing to the pages, and re-start the sync process.
-     * @return bool
-     */
-    protected function syncOrders()
-    {
-        if (!$this->isAdmin()) return false;
-        $this->removePointers(false);
-        // since the products are all good, let's sync up the orders now.
-        mailchimp_handle_or_queue(new MailChimp_WooCommerce_Process_Orders());
         return true;
     }
 
@@ -1147,12 +1134,12 @@ class MailChimp_Service extends MailChimp_WooCommerce_Options
         $transient_key = "mailchimp-woocommerce-cart-{$hash}";
 
         // let's set a transient here to block dup inserts
-        if (get_site_transient($transient_key)) {
+        if (get_transient($transient_key)) {
             return false;
         }
 
         // insert the transient
-        set_site_transient($transient_key, true, 5);
+        set_transient($transient_key, true, 5);
 
         global $wpdb;
 
@@ -1171,7 +1158,7 @@ class MailChimp_Service extends MailChimp_WooCommerce_Options
             $sql = $wpdb->prepare($statement, array(maybe_serialize($this->cart), $email, $user_id, $uid));
             try {
                 $wpdb->query($sql);
-                delete_site_transient($transient_key);
+                delete_transient($transient_key);
             } catch (Exception $e) {
                 return false;
             }
@@ -1184,7 +1171,7 @@ class MailChimp_Service extends MailChimp_WooCommerce_Options
                     'cart'  => maybe_serialize($this->cart),
                     'created_at'   => gmdate('Y-m-d H:i:s', time()),
                 ));
-                delete_site_transient($transient_key);
+                delete_transient($transient_key);
             } catch (Exception $e) {
                 return false;
             }
@@ -1288,7 +1275,7 @@ class MailChimp_Service extends MailChimp_WooCommerce_Options
 		    $email_hash = md5( strtolower( trim( $user->user_email ) ) );
 		    $list_id = mailchimp_get_list_id();
 		    $transient = "mailchimp-woocommerce-subscribed.{$list_id}.{$email_hash}";
-		    delete_site_transient( $transient );
+		    \Mailchimp_Woocommerce_DB_Helpers::delete_transient( $transient );
 	    }
 
         update_user_meta($user_id, 'mailchimp_woocommerce_is_subscribed', $subscribed);
