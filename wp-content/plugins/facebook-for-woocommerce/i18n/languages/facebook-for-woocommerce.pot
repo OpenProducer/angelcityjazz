@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Facebook for WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Facebook for WooCommerce 3.2.8\n"
+"Project-Id-Version: Facebook for WooCommerce 3.2.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/facebook-for-woocommerce\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-03T15:54:32+00:00\n"
+"POT-Creation-Date: 2024-09-12T07:32:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: facebook-for-woocommerce\n"
@@ -19,8 +19,8 @@ msgstr ""
 #: class-wc-facebookcommerce.php:759
 #: facebook-commerce.php:196
 #: includes/Admin.php:1501
-#: includes/Admin/Settings.php:110
-#: includes/Admin/Settings.php:178
+#: includes/Admin/Settings.php:100
+#: includes/Admin/Settings.php:167
 msgid "Facebook for WooCommerce"
 msgstr ""
 
@@ -37,8 +37,7 @@ msgstr ""
 #. Author of the plugin
 #: facebook-for-woocommerce.php
 #: includes/Admin.php:1159
-#: includes/Admin/Settings.php:111
-#: includes/Admin/Settings.php:349
+#: includes/Admin/Settings.php:101
 msgid "Facebook"
 msgstr ""
 
@@ -57,8 +56,8 @@ msgid "The %s property is private and should not be accessed outside its class."
 msgstr ""
 
 #: class-wc-facebookcommerce.php:380
-#: includes/Admin/Settings.php:140
-#: includes/Admin/Settings.php:141
+#: includes/Admin/Settings.php:129
+#: includes/Admin/Settings.php:130
 msgid "Facebook Product Sets"
 msgstr ""
 
@@ -458,13 +457,13 @@ msgstr ""
 msgid "This product is not yet synced to Facebook."
 msgstr ""
 
-#: includes/Admin/Settings.php:185
+#: includes/Admin/Settings.php:174
 #: includes/Admin/Settings_Screens/Connection.php:35
 #: includes/Admin/Settings_Screens/Connection.php:36
 msgid "Connection"
 msgstr ""
 
-#: includes/Admin/Settings.php:188
+#: includes/Admin/Settings.php:177
 #: includes/Admin/Settings_Screens/Product_Sync.php:42
 #: includes/Admin/Settings_Screens/Product_Sync.php:43
 #: includes/Admin/Settings_Screens/Product_Sync.php:171
@@ -472,22 +471,22 @@ msgstr ""
 msgid "Product sync"
 msgstr ""
 
-#: includes/Admin/Settings.php:191
+#: includes/Admin/Settings.php:180
 #: includes/Admin/Settings_Screens/Advertise.php:35
 #: includes/Admin/Settings_Screens/Advertise.php:36
 msgid "Advertise"
 msgstr ""
 
-#: includes/Admin/Settings.php:256
+#: includes/Admin/Settings.php:243
 msgid "You do not have permission to save these settings."
 msgstr ""
 
-#: includes/Admin/Settings.php:261
+#: includes/Admin/Settings.php:248
 msgid "Your settings have been saved."
 msgstr ""
 
 #. translators: Placeholders: %s - user-friendly error message
-#: includes/Admin/Settings.php:266
+#: includes/Admin/Settings.php:253
 msgid "Your settings could not be saved. %s"
 msgstr ""
 
