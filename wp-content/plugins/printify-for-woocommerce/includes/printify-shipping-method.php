@@ -9,7 +9,7 @@ class Printify_Shipping_Method extends WC_Shipping_Method
 
     const DEFAULT_ENABLED = self::WOO_TRUE;
     const DEFAULT_OVERRIDE = self::WOO_TRUE;
-    const VERSION = '2.14';
+    const VERSION = '3.0';
 
     private $shipping_enabled;
     private $shipping_override;
@@ -116,6 +116,7 @@ class Printify_Shipping_Method extends WC_Shipping_Method
                     if (!isset($requestParameters['skus'][$productVariation->get_sku()])) {
                         $requestParameters['skus'][$productVariation->get_sku()] = [
                             'sku' => $productVariation->get_sku(),
+                            'product_id' => $productVariation->get_id(),
                             'parent_id' => $productVariation->get_parent_id(),
                             'permalink' => $productVariation->get_permalink(),
                             'quantity' => $variation['quantity'],
@@ -123,6 +124,7 @@ class Printify_Shipping_Method extends WC_Shipping_Method
                     } else {
                         $requestParameters['skus'][$productVariation->get_sku()] = [
                             'sku' => $productVariation->get_sku(),
+                            'product_id' => $productVariation->get_id(),
                             'parent_id' => $productVariation->get_parent_id(),
                             'permalink' => $productVariation->get_permalink(),
                             'quantity' => $requestParameters['skus'][$productVariation->get_sku()]['quantity'] + $variation['quantity'],

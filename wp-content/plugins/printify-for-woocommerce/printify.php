@@ -4,7 +4,7 @@
  * Plugin Name: Printify Shipping Method
  * Plugin URI: https://wordpress.org/plugins/printify-for-woocommerce/
  * Description: Calculate shipping rates for products managed by Printify.
- * Version: 2.14
+ * Version: 3.0
  * Author: Printify
  * Author URI: https://www.printify.com
  */
