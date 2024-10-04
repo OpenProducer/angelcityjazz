@@ -318,7 +318,7 @@ class MailChimp_WooCommerce_MailChimpApi {
 		mailchimp_debug( 'api.update_member', "Updating {$email}", $data );
 
 		try {
-			return $this->patch( "lists/$list_id/members/$hash?skip_merge_validation=true", $data );
+			return $this->put( "lists/$list_id/members/$hash?skip_merge_validation=true", $data );
 		} catch ( Exception $e ) {
 
 			// If mailchimp says is already a member lets send the update by PUT
@@ -1176,10 +1176,11 @@ class MailChimp_WooCommerce_MailChimpApi {
 			if ( ! $this->validateStoreSubmission( $customer ) ) {
 				return false;
 			}
-			$data     = $this->patch( "ecommerce/stores/$store_id/customers/{$customer->getId()}", $customer->toArray() );
+			$data     = $this->put( "ecommerce/stores/$store_id/customers/{$customer->getId()}", $customer->toArray() );
 			$customer = new MailChimp_WooCommerce_Customer();
 			return $customer->fromArray( $data );
 		} catch ( Exception $e ) {
+            mailchimp_log('api', "error updating customer {$customer->getId()} - {$e->getMessage()}");
 			if ( ! $silent ) {
 				throw $e;
 			}
@@ -1943,6 +1944,10 @@ class MailChimp_WooCommerce_MailChimpApi {
 		if ( ! is_email( $email ) || mailchimp_email_is_amazon( $email ) || mailchimp_email_is_privacy_protected( $email ) ) {
 			return false;
 		}
+
+        if (!$customer->getId()) {
+            return false;
+        }
 
 		return true;
 	}
