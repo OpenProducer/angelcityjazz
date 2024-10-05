@@ -727,7 +727,7 @@ class Custom_Tables_Query extends WP_Query {
 	/**
 	 * Sanitizes the order direction.
 	 *
-	 * @since 6.7.0
+	 * @since TBD
 	 *
 	 * @param string $order The order direction to sanitize.
 	 *

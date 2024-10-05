@@ -335,7 +335,7 @@ class Tribe__Events__Aggregator__Settings {
 			return;
 		}
 
-		$tab = include_once tribe( 'tec.main' )->plugin_path . 'src/admin-views/tribe-options-imports.php';
+		include_once tribe( 'tec.main' )->plugin_path . 'src/admin-views/aggregator/settings.php';
 	}
 
 	public function get_all_default_settings() {

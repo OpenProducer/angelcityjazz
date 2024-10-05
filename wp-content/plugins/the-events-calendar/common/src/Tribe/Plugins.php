@@ -39,7 +39,7 @@ if ( ! class_exists( 'Tribe__Plugins' ) ) {
 				'thickbox_url' => 'https://theeventscalendar.com/product/wordpress-events-calendar-pro/?TB_iframe=true',
 			],
 			[
-				'short_name'   => 'Community',
+				'short_name'   => 'Community Events',
 				'class'        => 'Tribe__Events__Community__Main',
 				'thickbox_url' => 'https://theeventscalendar.com/product/wordpress-community-events/?TB_iframe=true',
 			],
