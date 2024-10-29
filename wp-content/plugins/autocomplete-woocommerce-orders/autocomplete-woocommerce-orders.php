@@ -4,7 +4,7 @@
  * Plugin Name:             Autocomplete WooCommerce Orders
  * Plugin URI:              https://wordpress.org/plugins/autocomplete-woocommerce-orders/
  * Description:             Autocomplete your WooCommerce orders with ease. This plugins works with most major payment providers including PayPal, SagePay and Stripe.
- * Version:                 3.3.5
+ * Version:                 3.3.6
  * Text Domain:             autocomplete-woocommerce-orders
  * Author:                  QuadLayers
  * Author URI:              https://quadlayers.com
@@ -14,7 +14,7 @@
  * Tested up to:            6.6
  * Requires PHP:            5.6
  * WC requires at least:    4.0
- * WC tested up to:         9.2
+ * WC tested up to:         9.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   Definition globals variables
  */
 define( 'ACO_PLUGIN_NAME', 'Autocomplete WooCommerce Orders' );
-define( 'ACO_PLUGIN_VERSION', '3.3.5' );
+define( 'ACO_PLUGIN_VERSION', '3.3.6' );
 define( 'ACO_PLUGIN_FILE', __FILE__ );
 define( 'ACO_PLUGIN_DIR', __DIR__ . DIRECTORY_SEPARATOR );
 define( 'ACO_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -60,7 +60,7 @@ require_once __DIR__ . '/lib/class-plugin.php';
  */
 register_activation_hook(
 	__FILE__,
-	function() {
+	function () {
 		do_action( 'aco_activation' );
 	}
 );
@@ -70,7 +70,7 @@ register_activation_hook(
  */
 register_deactivation_hook(
 	__FILE__,
-	function() {
+	function () {
 		do_action( 'aco_deactivation' );
 	}
 );
@@ -80,10 +80,9 @@ register_deactivation_hook(
  */
 add_action(
 	'before_woocommerce_init',
-	function() {
+	function () {
 		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 		}
 	}
 );
-
