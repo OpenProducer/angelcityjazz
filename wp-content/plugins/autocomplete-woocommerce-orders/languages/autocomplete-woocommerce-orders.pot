@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Autocomplete WooCommerce Orders 3.3.6\n"
+"Project-Id-Version: Autocomplete WooCommerce Orders 3.3.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/autocomplete-woocommerce-orders\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-10-14T07:31:46+00:00\n"
+"POT-Creation-Date: 2024-11-26T15:47:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: autocomplete-woocommerce-orders\n"
@@ -147,41 +147,6 @@ msgstr ""
 msgid "This plugin allows you to add custom fields to the checkout page, related to billing, shipping or additional fields sections."
 msgstr ""
 
-#: vendor_packages/wp-notice-plugin-promote.php:30
+#: vendor_packages/wp-notice-plugin-promote.php:31
 msgid "It allows you to reduce the steps in the checkout process by skipping the shopping cart page. This can encourage buyers to shop more and quickly. You will increase your sales reducing cart abandonment."
-msgstr ""
-
-#: vendor_packages/wp-notice-plugin-promote.php:41
-msgid "Hello! Thank you for choosing the %s plugin!"
-msgstr ""
-
-#: vendor_packages/wp-notice-plugin-promote.php:47
-msgid "Could you please give it a 5-star rating on WordPress? Your feedback boosts our motivation, helps us promote, and continues to improve this product. Your support matters!"
-msgstr ""
-
-#: vendor_packages/wp-notice-plugin-promote.php:49
-msgid "Yes, of course!"
-msgstr ""
-
-#: vendor_packages/wp-notice-plugin-promote.php:54
-msgid "Report a bug"
-msgstr ""
-
-#: vendor_packages/wp-notice-plugin-promote.php:63
-msgid "Hello! We have a special gift!"
-msgstr ""
-
-#: vendor_packages/wp-notice-plugin-promote.php:68
-msgid "Today we want to make you a special gift. Using the coupon code %1$s before the next 48 hours you can get a 20 percent discount on the premium version of the %2$s plugin."
-msgstr ""
-
-#: vendor_packages/wp-notice-plugin-promote.php:76
-#: vendor_packages/wp-notice-plugin-promote.php:94
-#: vendor_packages/wp-notice-plugin-promote.php:112
-msgid "More info!"
-msgstr ""
-
-#: vendor_packages/wp-notice-plugin-promote.php:86
-#: vendor_packages/wp-notice-plugin-promote.php:104
-msgid "Hello! We want to invite you to try our %s plugin!"
 msgstr ""
