@@ -40,6 +40,7 @@ $clicked_sync_button      	= $mc_configured && $is_mailchimp_post && MC_WC_OVERV
 $has_api_error            	= isset( $options['api_ping_error'] ) && ! empty( $options['api_ping_error'] ) ? $options['api_ping_error'] : null;
 $audience_name 				= $handler->getListName() ? $handler->getListName() : '';
 $account_name               = $handler->getAccountName();
+$mailchimp_user_id          = $handler->getUserID();
 $store_name                 = get_option( 'blogname' );
 
 // only do this if we haven't selected an audience.
@@ -137,7 +138,7 @@ $promo_active = false;
 			<?php if ( MC_WC_CONNECT_ACCOUNTS === $active_breadcrumb) : ?>
 				<?php Mailchimp_Woocommerce_Event::track('connect_accounts:view_screen', new DateTime()); ?>
 				<?php include_once 'connect-accounts/header.php'; ?>
-      <?php elseif (MC_WC_REVIEW_SYNC_SETTINGS === $active_breadcrumb && $has_valid_api_key): ?>
+            <?php elseif (MC_WC_REVIEW_SYNC_SETTINGS === $active_breadcrumb && $has_valid_api_key): ?>
 				<?php Mailchimp_Woocommerce_Event::track('review_settings:view_screen', new DateTime()); ?>
 				<?php include_once 'review-sync-settings/header.php'; ?>
 			<?php elseif (MC_WC_CONFIRMATION === $active_breadcrumb && $is_confirmation): ?>
