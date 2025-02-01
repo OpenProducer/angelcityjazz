@@ -1,15 +1,15 @@
-# Copyright (C) 2024 Facebook
+# Copyright (C) 2025 Facebook
 # This file is distributed under the same license as the Facebook for WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Facebook for WooCommerce 3.3.1\n"
+"Project-Id-Version: Facebook for WooCommerce 3.3.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/facebook-for-woocommerce\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-12-06T11:43:52+00:00\n"
+"POT-Creation-Date: 2025-01-21T17:26:28+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: facebook-for-woocommerce\n"
@@ -18,7 +18,7 @@ msgstr ""
 #: facebook-for-woocommerce.php
 #: class-wc-facebookcommerce.php:759
 #: facebook-commerce.php:196
-#: includes/Admin.php:1509
+#: includes/Admin.php:1497
 #: includes/Admin/Settings.php:89
 #: includes/Admin/Settings.php:160
 msgid "Facebook for WooCommerce"
@@ -111,41 +111,41 @@ msgstr ""
 msgid "Nothing to update for product group for %1$s"
 msgstr ""
 
-#: facebook-commerce.php:2071
+#: facebook-commerce.php:2073
 msgid "Your connection has expired."
 msgstr ""
 
-#: facebook-commerce.php:2071
+#: facebook-commerce.php:2073
 msgid "Please click Manage connection > Advanced Options > Update Token to refresh your connection to Facebook."
 msgstr ""
 
 #. translators: Placeholders %s - error message
-#: facebook-commerce.php:2078
+#: facebook-commerce.php:2080
 msgid "There was an error trying to sync the products to Facebook. %s"
 msgstr ""
 
-#: facebook-commerce.php:2097
+#: facebook-commerce.php:2099
 msgid "Product sync is disabled."
 msgstr ""
 
-#: facebook-commerce.php:2102
+#: facebook-commerce.php:2104
 msgid "The plugin is not configured or the Catalog ID is missing."
 msgstr ""
 
-#: facebook-commerce.php:2122
+#: facebook-commerce.php:2124
 msgid "A product sync is in progress. Please wait until the sync finishes before starting a new one."
 msgstr ""
 
-#: facebook-commerce.php:2138
+#: facebook-commerce.php:2140
 msgid "We've detected that your Facebook Product Catalog is no longer valid. This may happen if it was deleted, but could also be a temporary error. If the error persists, please click Manage connection > Advanced Options > Remove and setup the plugin again."
 msgstr ""
 
-#: facebook-commerce.php:2720
+#: facebook-commerce.php:2722
 msgid "Facebook for WooCommerce error:"
 msgstr ""
 
 #. translators: Placeholders %1$s - original error message from Facebook API
-#: facebook-commerce.php:2955
+#: facebook-commerce.php:2957
 msgid "There was an issue connecting to the Facebook API: %s"
 msgstr ""
 
@@ -219,7 +219,7 @@ msgstr ""
 #: includes/Admin.php:479
 #: includes/Admin.php:507
 #: includes/Admin.php:1208
-#: includes/Admin.php:1348
+#: includes/Admin.php:1336
 msgid "Do not sync"
 msgstr ""
 
@@ -259,42 +259,42 @@ msgid "%1$sHeads up!%2$s Facebook's %3$sCommerce Policies%4$s do not support sel
 msgstr ""
 
 #: includes/Admin.php:1204
-#: includes/Admin.php:1344
+#: includes/Admin.php:1332
 msgid "Facebook Sync"
 msgstr ""
 
 #: includes/Admin.php:1206
-#: includes/Admin.php:1346
+#: includes/Admin.php:1334
 msgid "Sync and show in catalog"
 msgstr ""
 
 #: includes/Admin.php:1207
-#: includes/Admin.php:1347
+#: includes/Admin.php:1335
 msgid "Sync and hide in catalog"
 msgstr ""
 
 #: includes/Admin.php:1212
-#: includes/Admin.php:1352
+#: includes/Admin.php:1340
 msgid "Choose whether to sync this product to Facebook and, if synced, whether it should be visible in the catalog."
 msgstr ""
 
 #: includes/Admin.php:1219
-#: includes/Admin.php:1362
+#: includes/Admin.php:1350
 msgid "Facebook Description"
 msgstr ""
 
 #: includes/Admin.php:1221
-#: includes/Admin.php:1364
+#: includes/Admin.php:1352
 msgid "Custom (plain-text only) description for product on Facebook. If blank, product description will be used. If product description is blank, shortname will be used."
 msgstr ""
 
 #: includes/Admin.php:1232
-#: includes/Admin.php:1377
+#: includes/Admin.php:1365
 msgid "Facebook Product Image"
 msgstr ""
 
 #: includes/Admin.php:1234
-#: includes/Admin.php:1379
+#: includes/Admin.php:1367
 msgid "Choose the product image that should be synced to the Facebook catalog and displayed for this product."
 msgstr ""
 
@@ -303,40 +303,40 @@ msgid "Use WooCommerce image"
 msgstr ""
 
 #: includes/Admin.php:1237
-#: includes/Admin.php:1383
+#: includes/Admin.php:1371
 msgid "Use custom image"
 msgstr ""
 
 #: includes/Admin.php:1248
-#: includes/Admin.php:1395
+#: includes/Admin.php:1383
 msgid "Custom Image URL"
 msgstr ""
 
 #: includes/Admin.php:1252
-#: includes/Admin.php:1400
+#: includes/Admin.php:1388
 msgid "Please enter an absolute URL (e.g. https://domain.com/image.jpg)."
 msgstr ""
 
 #. translators: Placeholders %1$s - WC currency symbol
 #: includes/Admin.php:1261
-#: includes/Admin.php:1410
+#: includes/Admin.php:1398
 msgid "Facebook Price (%1$s)"
 msgstr ""
 
 #: includes/Admin.php:1265
-#: includes/Admin.php:1414
+#: includes/Admin.php:1402
 msgid "Custom price for product on Facebook. Please enter in monetary decimal (.) format without thousand separators and currency symbols. If blank, product price will be used."
 msgstr ""
 
-#: includes/Admin.php:1381
+#: includes/Admin.php:1369
 msgid "Use variation image"
 msgstr ""
 
-#: includes/Admin.php:1382
+#: includes/Admin.php:1370
 msgid "Use parent image"
 msgstr ""
 
-#: includes/Admin.php:1511
+#: includes/Admin.php:1499
 msgid "Close modal panel"
 msgstr ""
 
@@ -380,27 +380,6 @@ msgstr ""
 
 #: includes/Admin/Products.php:130
 msgid "Choose the Google product category and (optionally) sub-categories associated with this product."
-msgstr ""
-
-#: includes/Admin/Products.php:193
-msgid "Sell on Instagram"
-msgstr ""
-
-#: includes/Admin/Products.php:195
-msgid "Enable to sell this product on Instagram. Products that are hidden in the Facebook catalog can be synced, but won’t be available for purchase."
-msgstr ""
-
-#: includes/Admin/Products.php:205
-msgid "This product does not meet the requirements to sell on Instagram."
-msgstr ""
-
-#: includes/Admin/Products.php:206
-msgid "Click here to learn more."
-msgstr ""
-
-#. translators: Placeholders %1$s - strong opening tag, %2$s - strong closing tag
-#: includes/Admin/Products.php:215
-msgid "To sell this product on Instagram, at least one variation must be synced to Facebook. You can control variation sync on the %1$sVariations%2$s tab with the %1$sFacebook Sync%2$s setting."
 msgstr ""
 
 #: includes/Admin/Product_Categories.php:99
@@ -449,27 +428,23 @@ msgstr ""
 msgid "Facebook Product Sync"
 msgstr ""
 
-#: includes/Admin/Product_Sync_Meta_Box.php:83
-msgid "Facebook ID:"
-msgstr ""
-
-#: includes/Admin/Product_Sync_Meta_Box.php:94
+#: includes/Admin/Product_Sync_Meta_Box.php:93
 msgid "Variant IDs:"
 msgstr ""
 
-#: includes/Admin/Product_Sync_Meta_Box.php:123
+#: includes/Admin/Product_Sync_Meta_Box.php:122
 msgid "Product title in all capital letters can lead to the server rejecting the product. To ensure successful product synchronization, please convert the product title to a sentence case."
 msgstr ""
 
-#: includes/Admin/Product_Sync_Meta_Box.php:131
+#: includes/Admin/Product_Sync_Meta_Box.php:130
 msgid "Reset Facebook metadata"
 msgstr ""
 
-#: includes/Admin/Product_Sync_Meta_Box.php:136
+#: includes/Admin/Product_Sync_Meta_Box.php:135
 msgid "Delete product(s) on Facebook"
 msgstr ""
 
-#: includes/Admin/Product_Sync_Meta_Box.php:148
+#: includes/Admin/Product_Sync_Meta_Box.php:147
 msgid "This product is not yet synced to Facebook."
 msgstr ""
 
@@ -552,67 +527,67 @@ msgstr ""
 msgid "Commerce Merchant Settings ID"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:253
+#: includes/Admin/Settings_Screens/Connection.php:260
 msgid "Reach the Right People and Sell More Online"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:255
+#: includes/Admin/Settings_Screens/Connection.php:262
 msgid "Grow your business on Facebook"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:258
+#: includes/Admin/Settings_Screens/Connection.php:265
 msgid "Use this WooCommerce and Facebook integration to:"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:260
+#: includes/Admin/Settings_Screens/Connection.php:267
 msgid "Create an ad in a few steps"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:261
+#: includes/Admin/Settings_Screens/Connection.php:268
 msgid "Use built-in best practices for online sales"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:262
+#: includes/Admin/Settings_Screens/Connection.php:269
 msgid "Get reporting on sales and revenue"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:285
+#: includes/Admin/Settings_Screens/Connection.php:292
 msgid "Manage Connection"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:289
+#: includes/Admin/Settings_Screens/Connection.php:296
 msgid "Disconnect"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:295
+#: includes/Admin/Settings_Screens/Connection.php:302
 msgid "Get Started"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:320
+#: includes/Admin/Settings_Screens/Connection.php:327
 msgid "Debug"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:326
+#: includes/Admin/Settings_Screens/Connection.php:333
 msgid "Enable debug mode"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:328
+#: includes/Admin/Settings_Screens/Connection.php:335
 msgid "Log plugin events for debugging."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:332
+#: includes/Admin/Settings_Screens/Connection.php:339
 msgid "Only enable this if you are experiencing problems with the plugin. <a href=\"%s\" target=\"_blank\">Learn more</a>."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:338
+#: includes/Admin/Settings_Screens/Connection.php:345
 msgid "Experimental! Enable new style feed generation"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:340
+#: includes/Admin/Settings_Screens/Connection.php:347
 msgid "Use new, memory improved, feed generation process."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:344
+#: includes/Admin/Settings_Screens/Connection.php:351
 msgid "This is an experimental feature in testing phase. Only enable this if you are experiencing problems with feed generation. <a href=\"%s\" target=\"_blank\">Learn more</a>."
 msgstr ""
 

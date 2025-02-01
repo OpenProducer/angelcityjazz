@@ -3,6 +3,7 @@
 namespace PDFEmbedder;
 
 use PDFEmbedder\Tasks\Tasks;
+use PDFEmbedder\Helpers\Check;
 use PDFEmbedder\Helpers\Assets;
 use PDFEmbedder\Helpers\Multisite;
 use PDFEmbedder\Shortcodes\PdfEmbedder;
@@ -86,6 +87,8 @@ final class Plugin {
 			[ $this->admin, 'register_menu' ]
 		);
 
+		add_filter( 'pdfemb_options_validated', [ pdf_embedder()->options(), 'validate_options' ], 0, 2 );
+
 		add_action( 'admin_init', [ $this, 'hook_admin_init' ] );
 
 		/**
@@ -106,6 +109,10 @@ final class Plugin {
 	 */
 	public function hook_init() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
 
+		if ( wp_doing_cron() || Check::is_heartbeat() ) {
+			return;
+		}
+
 		$shortcode = new PdfEmbedder();
 
 		add_shortcode( PdfEmbedder::TAG, [ $shortcode, 'render' ] );
@@ -116,6 +123,8 @@ final class Plugin {
 				'render_callback' => [ $shortcode, 'render' ],
 			]
 		);
+
+		wp_set_script_translations( 'pdfemb-pdf-embedder-viewer-editor-script', 'pdf-embedder' );
 
 		add_action( 'enqueue_block_assets', [ $this, 'enqueue_block_assets' ] );
 
@@ -141,7 +150,7 @@ final class Plugin {
 
 		wp_register_script(
 			'pdfemb_embed_pdf',
-			Assets::url( 'js/pdfemb.js' ),
+			Assets::url( 'js/pdfemb.min.js', false ),
 			[ 'jquery', 'pdfemb_pdfjs' ],
 			Assets::ver(),
 			false

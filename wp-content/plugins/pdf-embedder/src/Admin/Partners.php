@@ -4,6 +4,7 @@ namespace PDFEmbedder\Admin;
 
 use WPPDF_Skin;
 use Plugin_Upgrader;
+use PDFEmbedder\Helpers\Assets;
 
 /**
  * Partners class handles plugins list rendering and installation.
@@ -137,7 +138,7 @@ class Partners {
 			'google_apps_login'     => [
 				'name'        => 'Google Apps Login',
 				'description' => 'Simple secure login and user management through your Google Workspace (uses secure OAuth2, and MFA if enabled).',
-				'icon'        => plugins_url( 'assets/img/partners/google-apps.png', PDFEMB_PLUGIN_FILE ),
+				'icon'        => Assets::url( 'img/partners/google-apps.png', false ),
 				'url'         => 'https://downloads.wordpress.org/plugin/google-apps-login.zip',
 				'basename'    => 'google-apps-login/google_apps_login.php',
 
@@ -145,7 +146,7 @@ class Partners {
 			'google_drive_embedder' => [
 				'name'        => 'Google Drive Embedder',
 				'description' => 'Browse for files in your Google Drive and embed them directly in your content. This plugin requires Google Apps Login.',
-				'icon'        => plugins_url( 'assets/img/partners/google-drive.png', PDFEMB_PLUGIN_FILE ),
+				'icon'        => Assets::url( 'img/partners/google-drive.png', false ),
 				'url'         => 'https://downloads.wordpress.org/plugin/google-drive-embedder.zip',
 				'basename'    => 'google-drive-embedder/google_drive_embedder.php',
 			],

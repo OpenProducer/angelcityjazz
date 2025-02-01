@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "automattic/jetpack-assets",
-            "version": "v4.0.2",
-            "version_normalized": "4.0.2.0",
+            "version": "v4.0.3",
+            "version_normalized": "4.0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Automattic/jetpack-assets.git",
-                "reference": "b718bf1d687adbf60d3eab8b5c80038c48ef112c"
+                "reference": "1b426ed509e01a65d15c6424134b755ead87ec01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Automattic/jetpack-assets/zipball/b718bf1d687adbf60d3eab8b5c80038c48ef112c",
-                "reference": "b718bf1d687adbf60d3eab8b5c80038c48ef112c",
+                "url": "https://api.github.com/repos/Automattic/jetpack-assets/zipball/1b426ed509e01a65d15c6424134b755ead87ec01",
+                "reference": "1b426ed509e01a65d15c6424134b755ead87ec01",
                 "shasum": ""
             },
             "require": {
@@ -28,7 +28,7 @@
             "suggest": {
                 "automattic/jetpack-autoloader": "Allow for better interoperability with other plugins that use this package."
             },
-            "time": "2024-12-16T13:08:13+00:00",
+            "time": "2025-01-20T16:47:02+00:00",
             "type": "jetpack-library",
             "extra": {
                 "autotagger": true,
@@ -56,9 +56,76 @@
             ],
             "description": "Asset management utilities for Jetpack ecosystem packages",
             "support": {
-                "source": "https://github.com/Automattic/jetpack-assets/tree/v4.0.2"
+                "source": "https://github.com/Automattic/jetpack-assets/tree/v4.0.3"
             },
             "install-path": "../../jetpack_vendor/automattic/jetpack-assets"
+        },
+        {
+            "name": "automattic/jetpack-autoloader",
+            "version": "v5.0.1",
+            "version_normalized": "5.0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Automattic/jetpack-autoloader.git",
+                "reference": "ba3f5146426367c718312a0da87ebd596ed9cf33"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Automattic/jetpack-autoloader/zipball/ba3f5146426367c718312a0da87ebd596ed9cf33",
+                "reference": "ba3f5146426367c718312a0da87ebd596ed9cf33",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^2.2",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "automattic/jetpack-changelogger": "^5.1.0",
+                "composer/composer": "^2.2",
+                "yoast/phpunit-polyfills": "^1.1.1"
+            },
+            "time": "2025-01-20T16:46:39+00:00",
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Automattic\\Jetpack\\Autoloader\\CustomAutoloaderPlugin",
+                "autotagger": true,
+                "mirror-repo": "Automattic/jetpack-autoloader",
+                "branch-alias": {
+                    "dev-trunk": "5.0.x-dev"
+                },
+                "changelogger": {
+                    "link-template": "https://github.com/Automattic/jetpack-autoloader/compare/v${old}...v${new}"
+                },
+                "version-constants": {
+                    "::VERSION": "src/AutoloadGenerator.php"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Automattic\\Jetpack\\Autoloader\\": "src"
+                },
+                "classmap": [
+                    "src/AutoloadGenerator.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Creates a custom autoloader for a plugin or theme.",
+            "keywords": [
+                "autoload",
+                "autoloader",
+                "composer",
+                "jetpack",
+                "plugin",
+                "wordpress"
+            ],
+            "support": {
+                "source": "https://github.com/Automattic/jetpack-autoloader/tree/v5.0.1"
+            },
+            "install-path": "../automattic/jetpack-autoloader"
         },
         {
             "name": "automattic/jetpack-composer-plugin",
