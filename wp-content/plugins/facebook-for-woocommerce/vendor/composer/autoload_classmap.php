@@ -138,6 +138,8 @@ return array(
     'WooCommerce\\Facebook\\API\\FBE\\Configuration\\Request' => $baseDir . '/includes/API/FBE/Configuration/Request.php',
     'WooCommerce\\Facebook\\API\\FBE\\Configuration\\Update\\Request' => $baseDir . '/includes/API/FBE/Configuration/Update/Request.php',
     'WooCommerce\\Facebook\\API\\FBE\\Configuration\\Update\\Response' => $baseDir . '/includes/API/FBE/Configuration/Update/Response.php',
+    'WooCommerce\\Facebook\\API\\FBE\\Installation\\Delete\\Request' => $baseDir . '/includes/API/FBE/Installation/Delete/Request.php',
+    'WooCommerce\\Facebook\\API\\FBE\\Installation\\Delete\\Response' => $baseDir . '/includes/API/FBE/Installation/Delete/Response.php',
     'WooCommerce\\Facebook\\API\\FBE\\Installation\\Read\\Request' => $baseDir . '/includes/API/FBE/Installation/Read/Request.php',
     'WooCommerce\\Facebook\\API\\FBE\\Installation\\Read\\Response' => $baseDir . '/includes/API/FBE/Installation/Read/Response.php',
     'WooCommerce\\Facebook\\API\\FBE\\Installation\\Request' => $baseDir . '/includes/API/FBE/Installation/Request.php',

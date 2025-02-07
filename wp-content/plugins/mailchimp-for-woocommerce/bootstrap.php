@@ -75,6 +75,7 @@ spl_autoload_register(function($class) {
         'MailChimp_WooCommerce_Process_Full_Sync_Manager' => 'includes/processes/class-mailchimp-woocommerce-full-sync-manager.php',
         'MailChimp_WooCommerce_Subscriber_Sync' => 'includes/processes/class-mailchimp-woocommerce-subscriber-sync.php',
         'MailChimp_WooCommerce_WebHooks_Sync' => 'includes/processes/class-mailchimp-woocommerce-webhooks-sync.php',
+        'Mailchimp_Woocommerce_Complete_Resource_Sync' => 'includes/processes/class-mailchimp-woocommerce-complete-resource-sync.php',
 
         'MailChimp_WooCommerce_Public' => 'public/class-mailchimp-woocommerce-public.php',
         'MailChimp_WooCommerce_Admin' => 'admin/class-mailchimp-woocommerce-admin.php',
@@ -104,7 +105,7 @@ function mailchimp_environment_variables() {
     return (object) array(
         'repo' => 'master',
         'environment' => 'production', // staging or production
-        'version' => '5.1',
+        'version' => '5.2',
         'php_version' => phpversion(),
         'wp_version' => (empty($wp_version) ? 'Unknown' : $wp_version),
         'wc_version' => function_exists('WC') ? WC()->version : null,
@@ -124,6 +125,7 @@ function mailchimp_as_push( Mailchimp_Woocommerce_Job $job, $delay = 0 ) {
     $job_id = isset($job->id) ? $job->id : ($current_page ? $job->current_page : get_class($job));
     $message = ($job_id != get_class($job)) ? ' :: '. (isset($job->current_page) ? 'page ' : 'obj_id ') . $job_id : '';
     $attempts = $job->get_attempts() > 0 ? ' attempt:' . $job->get_attempts() : '';
+
     if ($job->get_attempts() <= 5) {
 
         $args = array(
@@ -340,14 +342,15 @@ function mailchimp_list_has_double_optin($force = false) {
 
     $double_optin = mailchimp_get_transient($key);
 
-    if (!$force && ($double_optin === 'yes' || $double_optin === 'no')) {
-        return $double_optin === 'yes';
+    if (!$force && (isset($double_optin['value']) && ($double_optin['value'] === 'yes' || $double_optin['value'] === 'no'))) {
+        return $double_optin['value'] === 'yes';
     }
 
     try {
         $data = mailchimp_get_api()->getList(mailchimp_get_list_id());
         $double_optin = array_key_exists('double_optin', $data) ? ($data['double_optin'] ? 'yes' : 'no') : 'no';
         mailchimp_set_transient($key, $double_optin, 600);
+        mailchimp_debug('mailchimp.doi', 'pulled the list again');
         return $double_optin === 'yes';
     } catch (Exception $e) {
         mailchimp_error('api.list', __('Error retrieving list for double_optin check', 'mailchimp-for-woocommerce'));
@@ -663,28 +666,6 @@ function mailchimp_get_timezone($humanReadable = false) {
 }
 
 /**
- * @return bool
- */
-function mailchimp_check_woocommerce_plugin_status()
-{
-    // if you are using a custom folder name other than woocommerce just define the constant to TRUE
-    if (defined("RUNNING_CUSTOM_WOOCOMMERCE") && RUNNING_CUSTOM_WOOCOMMERCE === true) {
-        return true;
-    }
-    // it the plugin is active, we're good.
-    if (in_array('woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option('active_plugins')))) {
-        return true;
-    }
-    // let's detect the function and see if woocommerce is enabled for network
-    if (function_exists('is_plugin_active') && is_plugin_active('woocommerce/woocommerce.php')) {
-        return true;
-    }
-    if (!is_multisite()) return false;
-    $plugins = \Mailchimp_Woocommerce_DB_Helpers::get_option( 'active_sitewide_plugins');
-    return isset($plugins['woocommerce/woocommerce.php']);
-}
-
-/**
  * Get all the registered image sizes along with their dimensions
  *
  * @global array $_wp_additional_image_sizes
@@ -735,7 +716,6 @@ function activate_mailchimp_woocommerce() {
     // if we don't have any of these dependencies,
     // we need to display a horrible error message before the plugin is installed.
     mailchimp_check_curl_is_installed();
-    mailchimp_check_woocommerce_is_installed();
     // good to go - activate the plugin.
     MailChimp_WooCommerce_Activator::activate();
 }
@@ -745,16 +725,6 @@ function mailchimp_check_curl_is_installed() {
         // Deactivate the plugin
         deactivate_plugins(__FILE__);
         $error_message = __('The MailChimp For WooCommerce plugin requires <a href="https://www.php.net/manual/en/book.curl.php/">curl</a> to be enabled!', 'woocommerce');
-        wp_die($error_message);
-    }
-    return true;
-}
-
-function mailchimp_check_woocommerce_is_installed() {
-    if (!mailchimp_check_woocommerce_plugin_status() && !( defined('WP_CLI') && WP_CLI )) {
-    // Deactivate the plugin
-        deactivate_plugins(__FILE__);
-        $error_message = __('The MailChimp For WooCommerce plugin requires the <a href="http://wordpress.org/extend/plugins/woocommerce/">WooCommerce</a> plugin to be active!', 'woocommerce');
         wp_die($error_message);
     }
     return true;
@@ -1296,15 +1266,15 @@ function mailchimp_flush_sync_pointers() {
     \Mailchimp_Woocommerce_DB_Helpers::delete_option( 'mailchimp-woocommerce-resource-last-updated' );
     \Mailchimp_Woocommerce_DB_Helpers::delete_option( 'mailchimp-woocommerce-sync.started_at' );
     \Mailchimp_Woocommerce_DB_Helpers::delete_option( 'mailchimp-woocommerce-sync.completed_at' );
-    foreach (array('orders', 'products', 'coupons') as $resource_type) {
+    foreach (array('customers', 'orders', 'products', 'coupons') as $resource_type) {
         mailchimp_flush_specific_resource_pointers($resource_type);
     }
 }
 
 function mailchimp_flush_specific_resource_pointers($resource_type) {
     \Mailchimp_Woocommerce_DB_Helpers::delete_option("mailchimp-woocommerce-sync.{$resource_type}.started_at");
+    \Mailchimp_Woocommerce_DB_Helpers::delete_option("mailchimp-woocommerce-sync.{$resource_type}-queueing.completed_at");
     \Mailchimp_Woocommerce_DB_Helpers::delete_option("mailchimp-woocommerce-sync.{$resource_type}.completed_at");
-    \Mailchimp_Woocommerce_DB_Helpers::delete_option("mailchimp-woocommerce-sync.{$resource_type}.started_at");
     \Mailchimp_Woocommerce_DB_Helpers::delete_option("mailchimp-woocommerce-sync.{$resource_type}.current_page");
 }
 
@@ -1365,9 +1335,7 @@ function run_mailchimp_woocommerce() {
 }
 
 function mailchimp_on_all_plugins_loaded() {
-    if (mailchimp_check_woocommerce_plugin_status()) {
-        run_mailchimp_woocommerce();
-    }
+    run_mailchimp_woocommerce();
 }
 
 function mailchimp_get_allowed_capability() {

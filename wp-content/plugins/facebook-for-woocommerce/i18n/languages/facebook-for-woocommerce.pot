@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-01-21T17:26:28+00:00\n"
+"POT-Creation-Date: 2025-02-06T10:38:51+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: facebook-for-woocommerce\n"
@@ -18,7 +18,7 @@ msgstr ""
 #: facebook-for-woocommerce.php
 #: class-wc-facebookcommerce.php:759
 #: facebook-commerce.php:196
-#: includes/Admin.php:1497
+#: includes/Admin.php:1546
 #: includes/Admin/Settings.php:89
 #: includes/Admin/Settings.php:160
 msgid "Facebook for WooCommerce"
@@ -51,7 +51,7 @@ msgstr ""
 #: facebook-commerce.php:382
 #: includes/Admin/Enhanced_Catalog_Attribute_Fields.php:68
 #: includes/fbbackground.php:41
-#: includes/fbproduct.php:135
+#: includes/fbproduct.php:138
 msgid "The %s property is private and should not be accessed outside its class."
 msgstr ""
 
@@ -107,45 +107,45 @@ msgid "Facebook Commerce and Dynamic Ads (Pixel) Extension"
 msgstr ""
 
 #. translators: %1$s is referring to facebook product group id.
-#: facebook-commerce.php:1282
+#: facebook-commerce.php:1304
 msgid "Nothing to update for product group for %1$s"
 msgstr ""
 
-#: facebook-commerce.php:2073
+#: facebook-commerce.php:2095
 msgid "Your connection has expired."
 msgstr ""
 
-#: facebook-commerce.php:2073
+#: facebook-commerce.php:2095
 msgid "Please click Manage connection > Advanced Options > Update Token to refresh your connection to Facebook."
 msgstr ""
 
 #. translators: Placeholders %s - error message
-#: facebook-commerce.php:2080
+#: facebook-commerce.php:2102
 msgid "There was an error trying to sync the products to Facebook. %s"
 msgstr ""
 
-#: facebook-commerce.php:2099
+#: facebook-commerce.php:2121
 msgid "Product sync is disabled."
 msgstr ""
 
-#: facebook-commerce.php:2104
+#: facebook-commerce.php:2126
 msgid "The plugin is not configured or the Catalog ID is missing."
 msgstr ""
 
-#: facebook-commerce.php:2124
+#: facebook-commerce.php:2146
 msgid "A product sync is in progress. Please wait until the sync finishes before starting a new one."
 msgstr ""
 
-#: facebook-commerce.php:2140
+#: facebook-commerce.php:2162
 msgid "We've detected that your Facebook Product Catalog is no longer valid. This may happen if it was deleted, but could also be a temporary error. If the error persists, please click Manage connection > Advanced Options > Remove and setup the plugin again."
 msgstr ""
 
-#: facebook-commerce.php:2722
+#: facebook-commerce.php:2744
 msgid "Facebook for WooCommerce error:"
 msgstr ""
 
 #. translators: Placeholders %1$s - original error message from Facebook API
-#: facebook-commerce.php:2957
+#: facebook-commerce.php:2979
 msgid "There was an issue connecting to the Facebook API: %s"
 msgstr ""
 
@@ -218,8 +218,8 @@ msgstr ""
 
 #: includes/Admin.php:479
 #: includes/Admin.php:507
-#: includes/Admin.php:1208
-#: includes/Admin.php:1336
+#: includes/Admin.php:1210
+#: includes/Admin.php:1371
 msgid "Do not sync"
 msgstr ""
 
@@ -258,85 +258,95 @@ msgstr[1] ""
 msgid "%1$sHeads up!%2$s Facebook's %3$sCommerce Policies%4$s do not support selling virtual products, so we have hidden your synced Virtual products in your Facebook catalog. You may still advertise Virtual products on Facebook."
 msgstr ""
 
-#: includes/Admin.php:1204
-#: includes/Admin.php:1332
+#: includes/Admin.php:1206
+#: includes/Admin.php:1367
 msgid "Facebook Sync"
 msgstr ""
 
-#: includes/Admin.php:1206
-#: includes/Admin.php:1334
+#: includes/Admin.php:1208
+#: includes/Admin.php:1369
 msgid "Sync and show in catalog"
 msgstr ""
 
-#: includes/Admin.php:1207
-#: includes/Admin.php:1335
+#: includes/Admin.php:1209
+#: includes/Admin.php:1370
 msgid "Sync and hide in catalog"
 msgstr ""
 
-#: includes/Admin.php:1212
-#: includes/Admin.php:1340
+#: includes/Admin.php:1214
+#: includes/Admin.php:1375
 msgid "Choose whether to sync this product to Facebook and, if synced, whether it should be visible in the catalog."
 msgstr ""
 
-#: includes/Admin.php:1219
-#: includes/Admin.php:1350
+#: includes/Admin.php:1221
+#: includes/Admin.php:1385
 msgid "Facebook Description"
 msgstr ""
 
-#: includes/Admin.php:1221
-#: includes/Admin.php:1352
+#: includes/Admin.php:1223
+#: includes/Admin.php:1387
 msgid "Custom (plain-text only) description for product on Facebook. If blank, product description will be used. If product description is blank, shortname will be used."
 msgstr ""
 
-#: includes/Admin.php:1232
-#: includes/Admin.php:1365
+#: includes/Admin.php:1234
+#: includes/Admin.php:1400
 msgid "Facebook Product Image"
 msgstr ""
 
-#: includes/Admin.php:1234
-#: includes/Admin.php:1367
+#: includes/Admin.php:1236
+#: includes/Admin.php:1402
 msgid "Choose the product image that should be synced to the Facebook catalog and displayed for this product."
 msgstr ""
 
-#: includes/Admin.php:1236
+#: includes/Admin.php:1238
 msgid "Use WooCommerce image"
 msgstr ""
 
-#: includes/Admin.php:1237
-#: includes/Admin.php:1371
+#: includes/Admin.php:1239
+#: includes/Admin.php:1406
 msgid "Use custom image"
 msgstr ""
 
-#: includes/Admin.php:1248
-#: includes/Admin.php:1383
+#: includes/Admin.php:1250
+#: includes/Admin.php:1418
 msgid "Custom Image URL"
 msgstr ""
 
-#: includes/Admin.php:1252
-#: includes/Admin.php:1388
+#: includes/Admin.php:1254
+#: includes/Admin.php:1423
 msgid "Please enter an absolute URL (e.g. https://domain.com/image.jpg)."
 msgstr ""
 
 #. translators: Placeholders %1$s - WC currency symbol
-#: includes/Admin.php:1261
-#: includes/Admin.php:1398
+#: includes/Admin.php:1263
+#: includes/Admin.php:1433
 msgid "Facebook Price (%1$s)"
 msgstr ""
 
-#: includes/Admin.php:1265
-#: includes/Admin.php:1402
+#: includes/Admin.php:1267
+#: includes/Admin.php:1437
 msgid "Custom price for product on Facebook. Please enter in monetary decimal (.) format without thousand separators and currency symbols. If blank, product price will be used."
 msgstr ""
 
-#: includes/Admin.php:1369
+#: includes/Admin.php:1278
+#: includes/Admin.php:1306
+msgid "Brand"
+msgstr ""
+
+#: includes/Admin.php:1287
+#: includes/Admin.php:1448
+msgid "Manufacturer Parts Number (MPN)"
+msgstr ""
+
+#: includes/Admin.php:1404
 msgid "Use variation image"
 msgstr ""
 
-#: includes/Admin.php:1370
+#: includes/Admin.php:1405
 msgid "Use parent image"
 msgstr ""
 
-#: includes/Admin.php:1499
+#: includes/Admin.php:1548
 msgid "Close modal panel"
 msgstr ""
 
@@ -552,42 +562,38 @@ msgid "Get reporting on sales and revenue"
 msgstr ""
 
 #: includes/Admin/Settings_Screens/Connection.php:292
-msgid "Manage Connection"
-msgstr ""
-
-#: includes/Admin/Settings_Screens/Connection.php:296
 msgid "Disconnect"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:302
+#: includes/Admin/Settings_Screens/Connection.php:303
 msgid "Get Started"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:327
+#: includes/Admin/Settings_Screens/Connection.php:328
 msgid "Debug"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:333
+#: includes/Admin/Settings_Screens/Connection.php:334
 msgid "Enable debug mode"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:335
+#: includes/Admin/Settings_Screens/Connection.php:336
 msgid "Log plugin events for debugging."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:339
+#: includes/Admin/Settings_Screens/Connection.php:340
 msgid "Only enable this if you are experiencing problems with the plugin. <a href=\"%s\" target=\"_blank\">Learn more</a>."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:345
+#: includes/Admin/Settings_Screens/Connection.php:346
 msgid "Experimental! Enable new style feed generation"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:347
+#: includes/Admin/Settings_Screens/Connection.php:348
 msgid "Use new, memory improved, feed generation process."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Connection.php:351
+#: includes/Admin/Settings_Screens/Connection.php:352
 msgid "This is an experimental feature in testing phase. Only enable this if you are experiencing problems with feed generation. <a href=\"%s\" target=\"_blank\">Learn more</a>."
 msgstr ""
 
@@ -912,16 +918,16 @@ msgstr ""
 msgid "You do not have permission to uninstall Facebook Business Extension."
 msgstr ""
 
-#: includes/Handlers/Connection.php:388
+#: includes/Handlers/Connection.php:387
 msgid "Disconnection successful."
 msgstr ""
 
 #. translators: Placeholders: %s - Facebook page ID
-#: includes/Handlers/Connection.php:459
+#: includes/Handlers/Connection.php:468
 msgid "Page %s not authorized."
 msgstr ""
 
-#: includes/Handlers/Connection.php:1339
+#: includes/Handlers/Connection.php:1334
 msgid "You do not have permission to finish App Store login."
 msgstr ""
 

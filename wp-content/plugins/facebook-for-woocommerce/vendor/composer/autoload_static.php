@@ -174,6 +174,8 @@ class ComposerStaticInitd2cd57a1875face2fc022e6080c1e1ce
         'WooCommerce\\Facebook\\API\\FBE\\Configuration\\Request' => __DIR__ . '/../..' . '/includes/API/FBE/Configuration/Request.php',
         'WooCommerce\\Facebook\\API\\FBE\\Configuration\\Update\\Request' => __DIR__ . '/../..' . '/includes/API/FBE/Configuration/Update/Request.php',
         'WooCommerce\\Facebook\\API\\FBE\\Configuration\\Update\\Response' => __DIR__ . '/../..' . '/includes/API/FBE/Configuration/Update/Response.php',
+        'WooCommerce\\Facebook\\API\\FBE\\Installation\\Delete\\Request' => __DIR__ . '/../..' . '/includes/API/FBE/Installation/Delete/Request.php',
+        'WooCommerce\\Facebook\\API\\FBE\\Installation\\Delete\\Response' => __DIR__ . '/../..' . '/includes/API/FBE/Installation/Delete/Response.php',
         'WooCommerce\\Facebook\\API\\FBE\\Installation\\Read\\Request' => __DIR__ . '/../..' . '/includes/API/FBE/Installation/Read/Request.php',
         'WooCommerce\\Facebook\\API\\FBE\\Installation\\Read\\Response' => __DIR__ . '/../..' . '/includes/API/FBE/Installation/Read/Response.php',
         'WooCommerce\\Facebook\\API\\FBE\\Installation\\Request' => __DIR__ . '/../..' . '/includes/API/FBE/Installation/Request.php',
