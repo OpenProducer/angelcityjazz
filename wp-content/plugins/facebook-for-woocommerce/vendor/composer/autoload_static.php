@@ -186,6 +186,8 @@ class ComposerStaticInitd2cd57a1875face2fc022e6080c1e1ce
         'WooCommerce\\Facebook\\API\\Pixel\\Events\\Request' => __DIR__ . '/../..' . '/includes/API/Pixel/Events/Request.php',
         'WooCommerce\\Facebook\\API\\ProductCatalog\\ItemsBatch\\Create\\Request' => __DIR__ . '/../..' . '/includes/API/ProductCatalog/ItemsBatch/Create/Request.php',
         'WooCommerce\\Facebook\\API\\ProductCatalog\\ItemsBatch\\Create\\Response' => __DIR__ . '/../..' . '/includes/API/ProductCatalog/ItemsBatch/Create/Response.php',
+        'WooCommerce\\Facebook\\API\\ProductCatalog\\ProductFeedUploads\\Create\\Request' => __DIR__ . '/../..' . '/includes/API/ProductCatalog/ProductFeedUploads/Create/Request.php',
+        'WooCommerce\\Facebook\\API\\ProductCatalog\\ProductFeedUploads\\Create\\Response' => __DIR__ . '/../..' . '/includes/API/ProductCatalog/ProductFeedUploads/Create/Response.php',
         'WooCommerce\\Facebook\\API\\ProductCatalog\\ProductFeedUploads\\Read\\Request' => __DIR__ . '/../..' . '/includes/API/ProductCatalog/ProductFeedUploads/Read/Request.php',
         'WooCommerce\\Facebook\\API\\ProductCatalog\\ProductFeedUploads\\Read\\Response' => __DIR__ . '/../..' . '/includes/API/ProductCatalog/ProductFeedUploads/Read/Response.php',
         'WooCommerce\\Facebook\\API\\ProductCatalog\\ProductFeeds\\Create\\Request' => __DIR__ . '/../..' . '/includes/API/ProductCatalog/ProductFeeds/Create/Request.php',

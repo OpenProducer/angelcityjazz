@@ -150,6 +150,8 @@ return array(
     'WooCommerce\\Facebook\\API\\Pixel\\Events\\Request' => $baseDir . '/includes/API/Pixel/Events/Request.php',
     'WooCommerce\\Facebook\\API\\ProductCatalog\\ItemsBatch\\Create\\Request' => $baseDir . '/includes/API/ProductCatalog/ItemsBatch/Create/Request.php',
     'WooCommerce\\Facebook\\API\\ProductCatalog\\ItemsBatch\\Create\\Response' => $baseDir . '/includes/API/ProductCatalog/ItemsBatch/Create/Response.php',
+    'WooCommerce\\Facebook\\API\\ProductCatalog\\ProductFeedUploads\\Create\\Request' => $baseDir . '/includes/API/ProductCatalog/ProductFeedUploads/Create/Request.php',
+    'WooCommerce\\Facebook\\API\\ProductCatalog\\ProductFeedUploads\\Create\\Response' => $baseDir . '/includes/API/ProductCatalog/ProductFeedUploads/Create/Response.php',
     'WooCommerce\\Facebook\\API\\ProductCatalog\\ProductFeedUploads\\Read\\Request' => $baseDir . '/includes/API/ProductCatalog/ProductFeedUploads/Read/Request.php',
     'WooCommerce\\Facebook\\API\\ProductCatalog\\ProductFeedUploads\\Read\\Response' => $baseDir . '/includes/API/ProductCatalog/ProductFeedUploads/Read/Response.php',
     'WooCommerce\\Facebook\\API\\ProductCatalog\\ProductFeeds\\Create\\Request' => $baseDir . '/includes/API/ProductCatalog/ProductFeeds/Create/Request.php',
