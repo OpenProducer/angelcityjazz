@@ -28,6 +28,7 @@ const POST_QUERY_ATTRIBUTES = [
 	'authors',
 	'categories',
 	'includeSubcategories',
+	'categoryJoinType',
 	'excerptLength',
 	'tags',
 	'customTaxonomies',
@@ -69,6 +70,7 @@ export const queryCriteriaFromAttributes = ( attributes: Block[ 'attributes' ] )
 		authors,
 		categories,
 		includeSubcategories,
+		categoryJoinType,
 		excerptLength,
 		postType,
 		showExcerpt,
@@ -96,6 +98,7 @@ export const queryCriteriaFromAttributes = ( attributes: Block[ 'attributes' ] )
 				postsToShow,
 				categories: validateAttributeCollection( categories ),
 				includeSubcategories,
+				categoryJoinType,
 				authors: validateAttributeCollection( authors ),
 				tags: validateAttributeCollection( tags ),
 				tagExclusions: validateAttributeCollection( tagExclusions ),
@@ -161,6 +164,7 @@ const generatePreviewPost = ( id: PostId ) => {
 		excerpt: {
 			rendered: '<p>' + __( 'The post excerpt.', 'newspack-blocks' ) + '</p>',
 		},
+		full_content: __('Full post content.', 'newspack-blocks'),
 		post_link: '/',
 		featured_media: '1',
 		id,
@@ -175,7 +179,7 @@ const generatePreviewPost = ( id: PostId ) => {
 		newspack_author_info: [
 			{
 				display_name: __( 'Author Name', 'newspack-blocks' ),
-				avatar: `<div style="background: #36f;width: 40px;height: 40px;display: block;overflow: hidden;border-radius: 50%; max-width: 100%; max-height: 100%;"></div>`,
+				avatar: `<div style="background: #e8e8e8;width: 40px;height: 40px;display: block;overflow: hidden;border-radius: 50%; max-width: 100%; max-height: 100%;"></div>`,
 				id: 1,
 				author_link: '/',
 			},
@@ -183,11 +187,11 @@ const generatePreviewPost = ( id: PostId ) => {
 		newspack_category_info: __( 'Category', 'newspack-blocks' ),
 		newspack_featured_image_caption: __( 'Featured image caption', 'newspack-blocks' ),
 		newspack_featured_image_src: {
-			large: `${ PREVIEW_IMAGE_BASE }/newspack-1024x536.jpg`,
-			landscape: `${ PREVIEW_IMAGE_BASE }/newspack-800x600.jpg`,
-			portrait: `${ PREVIEW_IMAGE_BASE }/newspack-600x800.jpg`,
-			square: `${ PREVIEW_IMAGE_BASE }/newspack-800x800.jpg`,
-			uncropped: `${ PREVIEW_IMAGE_BASE }/newspack-1024x536.jpg`,
+			large: `${ PREVIEW_IMAGE_BASE }/placeholder-1024x536.jpg`,
+			landscape: `${ PREVIEW_IMAGE_BASE }/placeholder-800x600.jpg`,
+			portrait: `${ PREVIEW_IMAGE_BASE }/placeholder-600x800.jpg`,
+			square: `${ PREVIEW_IMAGE_BASE }/placeholder-800x800.jpg`,
+			uncropped: `${ PREVIEW_IMAGE_BASE }/placeholder-1024x536.jpg`,
 		},
 		newspack_has_custom_excerpt: false,
 		newspack_sponsors_show_categories: false,
@@ -267,7 +271,27 @@ export const postsBlockDispatch = (
 ) => {
 	return {
 		// Only editor blocks can trigger reflows.
-		// @ts-ignore It's a string.
+		// @ts-expect-error It's a string.
 		triggerReflow: isEditorBlock ? dispatch( STORE_NAMESPACE ).reflow : () => undefined,
 	};
+};
+
+// Ensure innerBlocks are populated for some blocks (e.g. `widget-area` and `post-content`).
+// See https://github.com/WordPress/gutenberg/issues/32607#issuecomment-890728216.
+// See https://github.com/Automattic/wp-calypso/issues/91839.
+export const recursivelyGetBlocks = (
+	getBlocks: ( clientId?: string ) => Block[],
+	blocks: Block[] = getBlocks()
+) => {
+	return blocks.map( ( block ) => {
+		let innerBlocks =
+			block.innerBlocks.length === 0
+				? getBlocks( block.clientId )
+				: block.innerBlocks;
+		innerBlocks = recursivelyGetBlocks( getBlocks, innerBlocks );
+		return {
+			...block,
+			innerBlocks,
+		};
+	});
 };

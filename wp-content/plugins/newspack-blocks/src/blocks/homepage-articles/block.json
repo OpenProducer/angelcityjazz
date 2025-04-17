@@ -1,6 +1,7 @@
 {
 	"name": "homepage-articles",
 	"category": "newspack",
+	"apiVersion": 3,
 	"attributes": {
 		"className": {
 			"type": "string",
@@ -10,11 +11,19 @@
 			"type": "boolean",
 			"default": true
 		},
+		"showFullContent": {
+			"type": "boolean",
+			"default": false
+		},
 		"excerptLength": {
 			"type": "number",
 			"default": 55
 		},
 		"showReadMore": {
+			"type": "boolean",
+			"default": false
+		},
+		"infiniteScroll": {
 			"type": "boolean",
 			"default": false
 		},
@@ -107,6 +116,14 @@
 			"items": {
 				"type": "integer"
 			}
+		},
+		"categoryJoinType": {
+			"type": "string",
+			"default": "or",
+			"enum": [
+				"or",
+				"all"
+			]
 		},
 		"includeSubcategories": {
 			"type": "boolean",

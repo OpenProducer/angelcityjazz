@@ -24,7 +24,7 @@ final class Utils {
 		if ( ! $order ) {
 			return;
 		}
-		if ( ! \Newspack\WooCommerce_Connection::should_sync_order( $order ) ) {
+		if ( ! \Newspack\Reader_Activation\Sync\WooCommerce::should_sync_order( $order ) ) {
 			return;
 		}
 
@@ -63,6 +63,8 @@ final class Utils {
 				'product_id' => $product_id,
 				'client_id'  => $order->get_meta( NEWSPACK_CLIENT_ID_COOKIE_NAME ),
 			],
+			'user_first_name' => $order->get_billing_first_name(),
+			'user_last_name'  => $order->get_billing_last_name(),
 		];
 	}
 
@@ -85,6 +87,8 @@ final class Utils {
 			'currency'        => $subscription->get_currency(),
 			'recurrence'      => empty( $recurrence ) ? 'once' : $recurrence,
 			'platform'        => \Newspack\Donations::get_platform_slug(),
+			'user_first_name' => $subscription->get_billing_first_name(),
+			'user_last_name'  => $subscription->get_billing_last_name(),
 		];
 	}
 }

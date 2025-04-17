@@ -55,14 +55,17 @@ final class Newspack_Popups_Criteria {
 			plugins_url( '../dist/criteria.js', __FILE__ ),
 			[],
 			filemtime( dirname( NEWSPACK_POPUPS_PLUGIN_FILE ) . '/dist/criteria.js' ),
-			true
+			[
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			]
 		);
-		wp_script_add_data( self::SCRIPT_HANDLE, 'defer', true );
 		wp_localize_script(
 			self::SCRIPT_HANDLE,
 			'newspackPopupsCriteria',
 			[
-				'config' => self::get_criteria_config(),
+				'is_non_preview_user' => is_user_logged_in() && ! Newspack_Popups::is_user_admin(),
+				'config'              => self::get_criteria_config(),
 			]
 		);
 	}

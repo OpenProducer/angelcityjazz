@@ -20,6 +20,8 @@ use WP_User;
  *
  * This role can also be assigned to users who have other roles, so they can be assigned as co-authors of a post without having the capability to edit posts.
  * This is done via a custom UI in the user profile.
+ *
+ * CAP's Guest Authors feature will be disabled by default if there are no Guest Authors in the site. If you want to force enabling it, add the NEWSPACK_ENABLE_CAP_GUEST_AUTHORS constant to your wp-config.php file.
  */
 class Guest_Contributor_Role {
 	/**
@@ -39,18 +41,20 @@ class Guest_Contributor_Role {
 	const SETTINGS_VERSION_OPTION_NAME = 'newspack_coauthors_plus_settings_version';
 
 	/**
+	 * The option where we store if the site has CAP's guest authors.
+	 */
+	const SITE_HAS_GUEST_AUTHORS_OPTION_NAME = 'newspack_check_site_has_cap_guest_authors';
+
+	/**
 	 * Initialize hooks and filters.
 	 */
-	public static function init() {
+	public static function initialize() {
 		add_filter( 'coauthors_edit_author_cap', [ __CLASS__, 'coauthors_edit_author_cap' ] );
-		add_action( 'admin_init', [ __CLASS__, 'setup_custom_role_and_capability' ] );
 		add_action( 'template_redirect', [ __CLASS__, 'prevent_myaccount_update' ] );
 		add_action( 'newspack_before_delete_account', [ __CLASS__, 'before_delete_account' ] );
 
-		if ( defined( 'NEWSPACK_DISABLE_CAP_GUEST_AUTHORS' ) && NEWSPACK_DISABLE_CAP_GUEST_AUTHORS ) {
-			add_filter( 'coauthors_guest_authors_enabled', '__return_false' );
-			add_action( 'admin_menu', [ __CLASS__, 'guest_author_menu_replacement' ] );
-		}
+		add_action( 'init', [ __CLASS__, 'early_init' ], 5 );
+		add_action( 'init', [ __CLASS__, 'setup_custom_role_and_capability' ] );
 
 		// Do not allow guest authors to login.
 		\add_filter( 'wp_authenticate_user', [ __CLASS__, 'wp_authenticate_user' ], 10, 2 );
@@ -70,6 +74,8 @@ class Guest_Contributor_Role {
 		\add_filter( 'allow_password_reset', [ __CLASS__, 'disable_feature' ], 10, 2 );
 		\add_filter( 'woocommerce_current_user_can_edit_customer_meta_fields', [ __CLASS__, 'disable_feature' ], 10, 2 );
 
+		\add_filter( 'rest_user_query', [ __CLASS__, 'filter_rest_user_query' ], 10, 2 );
+
 		// Only if Members plugin is not active, because it has its own UI for roles.
 		if ( ! class_exists( 'Members_Plugin' ) ) {
 			// Add UI to the user profile to assign the custom role.
@@ -79,6 +85,64 @@ class Guest_Contributor_Role {
 
 		// Hide author email on the frontend, if it's a placeholder email.
 		\add_filter( 'theme_mod_show_author_email', [ __CLASS__, 'should_display_author_email' ] );
+
+		// Make sure we check again if the site has guest authors every hour.
+		$re_check_guest_authors = 'newspack_re_check_guest_authors';
+		if ( ! \wp_next_scheduled( $re_check_guest_authors ) ) {
+			\wp_schedule_event( time(), 'hourly', $re_check_guest_authors );
+		}
+		add_action( $re_check_guest_authors, [ __CLASS__, 'clear_site_has_cap_guest_authors_check' ] );
+	}
+
+	/**
+	 * Runs early in the init hook to make sure it runs before Co-Authors Plus initialization.
+	 *
+	 * @return void
+	 */
+	public static function early_init() {
+		if ( defined( 'NEWSPACK_ENABLE_CAP_GUEST_AUTHORS' ) && NEWSPACK_ENABLE_CAP_GUEST_AUTHORS ) {
+			return;
+		}
+		if ( ! self::site_has_cap_guest_authors() ) {
+			add_filter( 'coauthors_guest_authors_enabled', '__return_false' );
+			add_action( 'admin_menu', [ __CLASS__, 'guest_author_menu_replacement' ] );
+		}
+	}
+
+	/**
+	 * Clear the option that stores if the site has CAP's guest authors.
+	 * This will enforce a new check in the next request.
+	 * This will make sure we update the option if all guest authors are deleted.
+	 */
+	public static function clear_site_has_cap_guest_authors_check() {
+		if ( self::site_has_cap_guest_authors() ) {
+			delete_option( self::SITE_HAS_GUEST_AUTHORS_OPTION_NAME );
+		}
+	}
+
+	/**
+	 * Checks if the site has any guest authors. Will check it once in the database and store the result in an option.
+	 *
+	 * @return bool
+	 */
+	private static function site_has_cap_guest_authors() {
+		$response = get_option( self::SITE_HAS_GUEST_AUTHORS_OPTION_NAME );
+
+		// Only check in the database once.
+		if ( false === $response ) {
+			$query = new \WP_Query(
+				[
+					'post_type'      => 'guest-author',
+					'posts_per_page' => 1,
+					'post_status'    => 'any',
+					'fields'         => 'ids',
+				]
+			);
+			$response = $query->have_posts() ? 'yes' : 'no';
+			add_option( self::SITE_HAS_GUEST_AUTHORS_OPTION_NAME, $response, '', true );
+		}
+
+		return 'yes' === $response;
 	}
 
 	/**
@@ -206,7 +270,7 @@ class Guest_Contributor_Role {
 		if ( is_string( $user_or_name ) ) {
 			return $user_or_name . '@' . $email_domain;
 		}
-		return $user->user_login . '@' . $email_domain;
+		return $user_or_name->user_login . '@' . $email_domain;
 	}
 
 	/**
@@ -278,6 +342,9 @@ class Guest_Contributor_Role {
 	 */
 	public static function admin_footer() {
 		global $pagenow;
+		if ( ! in_array( $pagenow, [ 'user-edit.php','user-new.php' ] ) ) {
+			return;
+		}
 		\wp_enqueue_script(
 			'newspack-co-authors-plus',
 			Newspack::plugin_url() . '/dist/other-scripts/co-authors-plus.js',
@@ -484,5 +551,20 @@ class Guest_Contributor_Role {
 		}
 		return $value;
 	}
+
+	/**
+	 * Modify the REST API user query to include users with the custom capability.
+	 *
+	 * @param array           $args    The query arguments.
+	 * @param WP_REST_Request $request The request object.
+	 * @return array Modified query arguments.
+	 */
+	public static function filter_rest_user_query( $args, $request ) {
+		if ( isset( $args['who'] ) && $args['who'] === 'authors' && current_user_can( 'list_users' ) ) {
+			unset( $args['who'] );
+			$args['capability__in'] = [ 'edit_posts', self::ASSIGNABLE_TO_POSTS_CAPABILITY_NAME ];
+		}
+		return $args;
+	}
 }
-Guest_Contributor_Role::init();
+Guest_Contributor_Role::initialize();

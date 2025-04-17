@@ -10,8 +10,7 @@
 $handler = MailChimp_WooCommerce_Admin::connect();
 
 /** Grab all options for this particular tab we're viewing. */
-
-$options = \Mailchimp_Woocommerce_DB_Helpers::get_option( $this->plugin_name, array() );
+$options = mailchimp_get_admin_options();
 
 /** Verify that the nonce is correct for the GET and POST variables. */
 
@@ -97,7 +96,17 @@ if ((MC_WC_CONFIRMATION === $active_breadcrumb && ! $is_confirmation)) {
 	}
 }
 $promo_active = false;
+if (mailchimp_waiting_for_account_confirmation() && $active_breadcrumb !== MC_WC_REVIEW_SYNC_SETTINGS) {
+    wp_redirect('admin.php?page=create-mailchimp-account');
+}
 ?>
+
+<?php if ( defined( 'ICL_SITEPRESS_VERSION' )  && MC_WC_OVERVIEW_TAB === $active_tab): ?>
+    <div class="notice notice-warning is-dismissible">
+        <p><?php esc_html_e( 'Texts from embedded forms can not be translated with WPML.', 'mailchimp-for-woocommerce' ); ?></p>
+    </div>
+<?php endif; ?>
+
 
 <div class="mc-wc-settings-wrapper woocommerce <?php echo $active_breadcrumb; ?>">
 	<h2 class="mc-wc-settings-title">

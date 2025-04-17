@@ -11,6 +11,7 @@ declare global {
 			post_subtitle: boolean;
 			can_use_name_your_price: boolean;
 			tier_amounts_template: string;
+			currency: string;
 		};
 		grecaptcha: any;
 		newspackReaderActivation: {
@@ -65,6 +66,7 @@ declare global {
 		excerpt: {
 			rendered: string;
 		};
+		full_content: string;
 		meta: {
 			newspack_post_subtitle: string;
 		};
@@ -100,10 +102,12 @@ declare global {
 		authors: AuthorId[];
 		categories: CategoryId[];
 		includeSubcategories: boolean;
+		categoryJoinType: string;
 		excerptLength: number;
 		postType: PostType[];
 		showImage: boolean;
 		showExcerpt: boolean;
+		showFullContent: boolean;
 		tags: TagId[];
 		customTaxonomies: Taxonomy[];
 		specificPosts: string[];
@@ -112,7 +116,6 @@ declare global {
 		categoryExclusions: CategoryId[];
 		customTaxonomyExclusions: Taxonomy[];
 		className: string;
-		showExcerpt: boolean;
 		excerptLength: number;
 		showReadMore: boolean;
 		readMoreLabel: string;
@@ -125,6 +128,7 @@ declare global {
 		imageShape: string;
 		minHeight: integer;
 		moreButton: boolean;
+		infiniteScroll: boolean;
 		moreButtonText: string;
 		showAuthor: boolean;
 		showAvatar: boolean;

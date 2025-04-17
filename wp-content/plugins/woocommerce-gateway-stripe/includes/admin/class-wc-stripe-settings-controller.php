@@ -41,8 +41,6 @@ class WC_Stripe_Settings_Controller {
 		// Priority 5 so we can manipulate the registered gateways before they are shown.
 		add_action( 'woocommerce_admin_field_payment_gateways', [ $this, 'hide_gateways_on_settings_page' ], 5 );
 
-		add_action( 'admin_init', [ $this, 'maybe_update_account_data' ] );
-
 		add_action( 'update_option_woocommerce_gateway_order', [ $this, 'set_stripe_gateways_in_list' ] );
 
 		// Add AJAX handler for OAuth URLs
@@ -91,7 +89,7 @@ class WC_Stripe_Settings_Controller {
 				$no_refunds_button  = __( 'Refunding unavailable', 'woocommerce-gateway-stripe' );
 				$no_refunds_tooltip = __( 'Refunding via Stripe is unavailable because funds have not been captured for this order. Process order to take payment, or cancel to remove the pre-authorization.', 'woocommerce-gateway-stripe' );
 				echo '<style>.button.refund-items { display: none; }</style>';
-				echo '<span class="button button-disabled">' . esc_html( $no_refunds_button ) . wc_help_tip( $no_refunds_tooltip ) . '</span>';
+				echo '<span class="button button-disabled">' . esc_html( $no_refunds_button ) . wp_kses_post( wc_help_tip( $no_refunds_tooltip ) ) . '</span>';
 			}
 		} catch ( Exception $e ) {
 			WC_Stripe_Logger::log( 'Error getting intent from order: ' . $e->getMessage() );
@@ -106,11 +104,13 @@ class WC_Stripe_Settings_Controller {
 	 */
 	public function admin_options( WC_Stripe_Payment_Gateway $gateway ) {
 		global $hide_save_button;
-		$hide_save_button = true;
 
-		echo '<h2>' . esc_html( $gateway->get_method_title() );
-		wc_back_link( __( 'Return to payments', 'woocommerce-gateway-stripe' ), admin_url( 'admin.php?page=wc-settings&tab=checkout' ) );
-		echo '</h2>';
+		$hide_save_button = true;
+		$return_url       = admin_url( 'admin.php?page=wc-settings&tab=checkout' );
+		$header          = $gateway->get_method_title();
+		$return_text     = __( 'Return to payments', 'woocommerce-gateway-stripe' );
+
+		WC_Stripe_Helper::render_admin_header( $header, $return_text, $return_url );
 
 		$settings = WC_Stripe_Helper::get_stripe_settings();
 
@@ -190,7 +190,7 @@ class WC_Stripe_Settings_Controller {
 		}
 
 		// Webpack generates an assets file containing a dependencies array for our built JS file.
-		$script_asset_path = WC_STRIPE_PLUGIN_PATH . '/build/upe_settings.asset.php';
+		$script_asset_path = WC_STRIPE_PLUGIN_PATH . '/build/upe-settings.asset.php';
 		$script_asset      = file_exists( $script_asset_path )
 			? require $script_asset_path
 			: [
@@ -200,14 +200,14 @@ class WC_Stripe_Settings_Controller {
 
 		wp_register_script(
 			'woocommerce_stripe_admin',
-			plugins_url( 'build/upe_settings.js', WC_STRIPE_MAIN_FILE ),
+			plugins_url( 'build/upe-settings.js', WC_STRIPE_MAIN_FILE ),
 			$script_asset['dependencies'],
 			$script_asset['version'],
 			true
 		);
 		wp_register_style(
 			'woocommerce_stripe_admin',
-			plugins_url( 'build/upe_settings.css', WC_STRIPE_MAIN_FILE ),
+			plugins_url( 'build/upe-settings.css', WC_STRIPE_MAIN_FILE ),
 			[ 'wc-components' ],
 			$script_asset['version']
 		);
@@ -238,6 +238,8 @@ class WC_Stripe_Settings_Controller {
 			'is_ach_enabled'            => WC_Stripe_Feature_Flags::is_ach_lpm_enabled(),
 			'is_acss_enabled'           => WC_Stripe_Feature_Flags::is_acss_lpm_enabled(),
 			'is_bacs_enabled'           => WC_Stripe_Feature_Flags::is_bacs_lpm_enabled(),
+			'is_blik_enabled'           => WC_Stripe_Feature_Flags::is_blik_lpm_enabled(),
+			'is_becs_debit_enabled'     => WC_Stripe_Feature_Flags::is_becs_debit_lpm_enabled(),
 			'stripe_oauth_url'          => $oauth_url,
 			'stripe_test_oauth_url'     => $test_oauth_url,
 			'show_customization_notice' => get_option( 'wc_stripe_show_customization_notice', 'yes' ) === 'yes' ? true : false,
@@ -246,6 +248,7 @@ class WC_Stripe_Settings_Controller {
 			'account_country'           => $this->account->get_account_country(),
 			'are_apms_deprecated'       => WC_Stripe_Feature_Flags::are_apms_deprecated(),
 			'is_amazon_pay_available'   => WC_Stripe_Feature_Flags::is_amazon_pay_available(),
+			'is_spe_available'          => WC_Stripe_Feature_Flags::is_spe_available(),
 			'oauth_nonce'               => wp_create_nonce( 'wc_stripe_get_oauth_urls' ),
 		];
 		wp_localize_script(
@@ -294,29 +297,5 @@ class WC_Stripe_Settings_Controller {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Updates the Stripe account data on the settings page.
-	 *
-	 * Some plugin settings (eg statement descriptions) require the latest update-to-date data from the Stripe Account to display
-	 * correctly. This function clears the account cache when the settings page is loaded to ensure the latest data is displayed.
-	 */
-	public function maybe_update_account_data() {
-
-		// Exit early if we're not on the payments settings page.
-		if ( ! isset( $_GET['page'], $_GET['tab'] ) || 'wc-settings' !== $_GET['page'] || 'checkout' !== $_GET['tab'] ) {
-			return;
-		}
-
-		if ( ! isset( $_GET['section'] ) || 'stripe' !== $_GET['section'] ) {
-			return;
-		}
-
-		if ( ! WC_Stripe::get_instance()->connect->is_connected() ) {
-			return [];
-		}
-
-		$this->account->clear_cache();
 	}
 }

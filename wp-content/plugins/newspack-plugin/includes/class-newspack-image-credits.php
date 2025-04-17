@@ -403,7 +403,7 @@ class Newspack_Image_Credits {
 				'key'         => 'newspack_image_credits_placeholder',
 				'label'       => __( 'Placeholder Image', 'newspack-image-credits' ),
 				'type'        => 'image',
-				'value'       => null,
+				'value'       => '',
 			],
 			[
 				'description' => __( 'Automatically populate image credits from EXIF or IPTC metadata when uploading new images.', 'newspack-image-credits' ),
@@ -421,7 +421,8 @@ class Newspack_Image_Credits {
 					return $setting['key'] === $key;
 				}
 			);
-			return reset( array_values( $setting ) );
+			$settings_values = array_values( $setting );
+			return reset( $settings_values );
 		}
 
 		return $default_settings;
@@ -560,7 +561,7 @@ class Newspack_Image_Credits {
 	 */
 	public static function register_meta() {
 		foreach ( [
-			static::MEDIA_CREDIT_META, 
+			static::MEDIA_CREDIT_META,
 			static::MEDIA_CREDIT_URL_META,
 			static::MEDIA_CREDIT_ORG_META,
 			static::MEDIA_CREDIT_CAN_DISTRIBUTE_META,

@@ -9,6 +9,7 @@ namespace Newspack\Data_Events;
 
 use Newspack\Data_Events;
 use Newspack\Data_Events\Webhooks;
+use WP_Error;
 
 /**
  * Main Class.
@@ -102,7 +103,7 @@ final class Api {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new \WP_Error(
 				'newspack_rest_forbidden',
-				esc_html__( 'You cannot use this resource.', 'newspack' ),
+				esc_html__( 'You cannot use this resource.', 'newspack-plugin' ),
 				[
 					'status' => 403,
 				]
@@ -128,9 +129,6 @@ final class Api {
 					'type'              => 'string',
 					'sanitize_callback' => 'sanitize_text_field',
 				],
-			],
-			'global'       => [
-				'type' => 'boolean',
 			],
 			'disabled'     => [
 				'type' => 'boolean',
@@ -168,7 +166,7 @@ final class Api {
 				[
 					'success' => false,
 					'code'    => false,
-					'message' => esc_html__( 'Invalid URL.', 'newspack' ),
+					'message' => esc_html__( 'Invalid URL.', 'newspack-plugin' ),
 				]
 			);
 		}
@@ -197,7 +195,8 @@ final class Api {
 		}
 		return \rest_ensure_response(
 			[
-				'success' => $code && 200 >= $code && 300 > $code,
+				// Success if response code is in 2xx range.
+				'success' => $code && $code > 199 && $code < 300,
 				'code'    => $code,
 				'message' => $message,
 			]
@@ -249,16 +248,16 @@ final class Api {
 		if ( empty( $args['url'] ) || \esc_url_raw( $args['url'], [ 'https' ] ) !== $args['url'] ) {
 			return new \WP_Error(
 				'newspack_webhooks_invalid_url',
-				esc_html__( 'Invalid URL.', 'newspack' ),
+				esc_html__( 'Invalid URL.', 'newspack-plugin' ),
 				[
 					'status' => 400,
 				]
 			);
 		}
-		if ( ! $args['global'] && empty( $args['actions'] ) ) {
+		if ( empty( $args['actions'] ) ) {
 			return new \WP_Error(
 				'newspack_webhooks_invalid_actions',
-				esc_html__( 'You must select actions to trigger this endpoint. Set it to global if this endpoint is meant for all actions.', 'newspack' ),
+				esc_html__( 'You must select actions to trigger this endpoint.', 'newspack-plugin' ),
 				[
 					'status' => 400,
 				]
@@ -267,17 +266,30 @@ final class Api {
 		if ( empty( $args['id'] ) ) {
 			$endpoint = Webhooks::create_endpoint(
 				$args['url'],
-				$args['actions'] ?? [],
-				$args['global']
+				$args['actions'] ?? []
 			);
 		} else {
 			$endpoint = Webhooks::update_endpoint(
 				$args['id'],
 				$args['url'],
 				$args['actions'] ?? [],
-				$args['global'],
 				$args['disabled']
 			);
+		}
+		if ( is_wp_error( $endpoint ) ) {
+			$error_code = $endpoint->get_error_code();
+			if ( $error_code === 'term_exists' ) {
+				return new WP_Error(
+					'newspack_webhooks_endpoint_exists',
+					/* translators: %s: URL */
+					sprintf( __( 'URL "%s" is already in use.', 'newspack-plugin' ), $args['url'] ),
+					[
+						'status' => 400,
+					]
+				);
+
+			}
+			return $endpoint;
 		}
 		if ( is_string( $request->get_param( 'label' ) ) ) {
 			Webhooks::update_endpoint_label( $endpoint['id'], $request->get_param( 'label' ) );

@@ -25,6 +25,7 @@ class GoogleSiteKit {
 		add_action( 'admin_init', [ __CLASS__, 'setup_sitekit_ga4' ] );
 		add_action( 'wp_footer', [ __CLASS__, 'insert_ga4_analytics' ] );
 		add_filter( 'option_googlesitekit_analytics_settings', [ __CLASS__, 'filter_ga_settings' ] );
+		add_filter( 'option_googlesitekit_analytics-4_settings', [ __CLASS__, 'filter_ga_settings' ] );
 		add_filter( 'googlesitekit_gtag_opt', [ __CLASS__, 'add_ga_custom_parameters' ] );
 	}
 
@@ -34,11 +35,11 @@ class GoogleSiteKit {
 	 * @param array $googlesitekit_analytics_settings GA settings.
 	 */
 	public static function filter_ga_settings( $googlesitekit_analytics_settings ) {
-		if ( Reader_Activation::is_enabled() ) {
-			// If RA is enabled, readers will become logged in users. They should still be tracked in GA.
-			if ( in_array( 'loggedinUsers', $googlesitekit_analytics_settings['trackingDisabled'] ) ) {
-				$googlesitekit_analytics_settings['trackingDisabled'] = [ 'contentCreators' ];
-			}
+		if ( ! is_array( $googlesitekit_analytics_settings ) || ! isset( $googlesitekit_analytics_settings['trackingDisabled'] ) || ! is_array( $googlesitekit_analytics_settings['trackingDisabled'] ) ) {
+			return $googlesitekit_analytics_settings;
+		}
+		if ( in_array( 'loggedinUsers', $googlesitekit_analytics_settings['trackingDisabled'] ) ) {
+			$googlesitekit_analytics_settings['trackingDisabled'] = [ 'contentCreators' ];
 		}
 		return $googlesitekit_analytics_settings;
 	}
@@ -71,6 +72,15 @@ class GoogleSiteKit {
 				</script>
 			</amp-analytics>
 		<?php
+	}
+
+	/**
+	 * Get whether Site Kit is active.
+	 *
+	 * @return bool Whether Site Kit is active.
+	 */
+	public static function is_active() {
+		return class_exists( 'Google\Site_Kit\Core\Modules\Module' );
 	}
 
 	/**
@@ -114,7 +124,7 @@ class GoogleSiteKit {
 	 * Fetch data for the GA account data and set up GA4.
 	 */
 	public static function setup_sitekit_ga4() {
-		if ( ! class_exists( 'Google\Site_Kit\Core\Modules\Module' ) ) {
+		if ( ! self::is_active() ) {
 			return;
 		}
 		require_once NEWSPACK_ABSPATH . 'includes/plugins/google-site-kit/class-googlesitekitanalytics.php';

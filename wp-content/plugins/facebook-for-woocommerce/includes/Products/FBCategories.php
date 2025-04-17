@@ -1,5 +1,4 @@
 <?php
-// phpcs:ignoreFile
 /**
  * Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
  *
@@ -22,7 +21,25 @@ defined( 'ABSPATH' ) || exit;
  */
 class FBCategories {
 
-	private $keys_to_exclude = ['brand' => true];
+	/**
+	 * List of keys to exclude from general attribute processing.
+	 * These are special attributes handled separately by Facebook catalog.
+	 *
+	 * @var array $keys_to_exclude Associative array of attribute keys to exclude
+	 *                            Keys include: brand, color/colour, material, gender,
+	 *                            condition, size, age_group, and pattern
+	 */
+	private $keys_to_exclude = [
+		'brand'     => true,
+		'color'     => true,
+		'material'  => true,
+		'gender'    => true,
+		'condition' => true,
+		'size'      => true,
+		'colour'    => true,
+		'age_group' => true,
+		'pattern'   => true,
+	];
 
 	/**
 	 * Fetches the attribute from a category using attribute key.

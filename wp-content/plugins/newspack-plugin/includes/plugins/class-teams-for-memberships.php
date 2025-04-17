@@ -9,6 +9,9 @@ namespace Newspack;
 
 defined( 'ABSPATH' ) || exit;
 
+use Newspack\Donations;
+use Newspack\Reader_Activation\Sync;
+
 /**
  * Main class.
  */
@@ -19,7 +22,8 @@ class Teams_For_Memberships {
 	 */
 	public static function init() {
 		add_filter( 'newspack_ras_metadata_keys', [ __CLASS__, 'add_teams_metadata_keys' ] );
-		add_filter( 'newspack_esp_sync_normalize_contact', [ __CLASS__, 'normalize_contact' ] );
+		add_filter( 'newspack_esp_sync_contact', [ __CLASS__, 'handle_esp_sync_contact' ] );
+		add_filter( 'newspack_my_account_disabled_pages', [ __CLASS__, 'enable_members_area_for_team_members' ] );
 	}
 
 	/**
@@ -28,7 +32,7 @@ class Teams_For_Memberships {
 	 * @return bool True if enabled, false otherwise.
 	 */
 	private static function is_enabled() {
-		return class_exists( 'WC_Memberships_For_Teams_Loader' );
+		return Donations::is_platform_wc() && class_exists( 'WC_Memberships_For_Teams_Loader' );
 	}
 
 	/**
@@ -45,13 +49,19 @@ class Teams_For_Memberships {
 	}
 
 	/**
-	 * Normalize contact data.
+	 * Add Teams metadata to contact data.
 	 *
 	 * @param array $contact Contact data.
-	 * @return array Normalized contact data.
+	 *
+	 * @return array Updated contact data.
 	 */
-	public static function normalize_contact( $contact ) {
+	public static function handle_esp_sync_contact( $contact ) {
 		if ( ! self::is_enabled() ) {
+			return $contact;
+		}
+
+		$filtered_enabled_fields = Sync\Metadata::filter_enabled_fields( [ 'woo_team' ] );
+		if ( count( $filtered_enabled_fields ) === 0 ) {
 			return $contact;
 		}
 
@@ -88,10 +98,30 @@ class Teams_For_Memberships {
 		}
 		$team_slugs = implode( ',', $team_slugs );
 		if ( $team_slugs ) {
-			$contact['metadata'][ Newspack_Newsletters::get_metadata_key( 'woo_team' ) ] = $team_slugs;
+			$contact['metadata']['woo_team'] = $team_slugs;
 		}
 
 		return $contact;
+	}
+
+	/**
+	 * Enable Members Area for team members only. Team owners/managers get access to the "Teams" menu instead.
+	 *
+	 * @param array $disabled_wc_menu_items Disabled WooCommerce menu items.
+	 *
+	 * @return array Updated disabled WooCommerce menu items.
+	 */
+	public static function enable_members_area_for_team_members( $disabled_wc_menu_items ) {
+		if ( ! function_exists( 'wc_memberships_for_teams_get_teams' ) ) {
+			return $disabled_wc_menu_items;
+		}
+		if (
+			in_array( 'members-area', $disabled_wc_menu_items, true ) &&
+			! empty( \wc_memberships_for_teams_get_teams( \get_current_user_id(), [ 'role' => 'member' ] ) )
+		) {
+			$disabled_wc_menu_items = array_values( array_diff( $disabled_wc_menu_items, [ 'members-area' ] ) );
+		}
+		return $disabled_wc_menu_items;
 	}
 }
 
