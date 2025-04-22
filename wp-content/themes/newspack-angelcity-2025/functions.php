@@ -1,6 +1,6 @@
 <?php
 // Enqueue parent theme styles
-function newspack_angelcity_2024_enqueue_styles() {
+function newspack_angelcity_2025_enqueue_styles() {
     $parent_style = 'newspack-style'; // This is 'newspack-style' for the Newspack theme.
 
     wp_enqueue_style($parent_style, get_template_directory_uri() . '/style.css');
@@ -10,7 +10,7 @@ function newspack_angelcity_2024_enqueue_styles() {
         wp_get_theme()->get('Version')
     );
 }
-add_action('wp_enqueue_scripts', 'newspack_angelcity_2024_enqueue_styles');
+add_action('wp_enqueue_scripts', 'newspack_angelcity_2025_enqueue_styles');
 
 //trying to remove the end time for events per https://theeventscalendar.com/knowledgebase/k/remove-the-event-end-time-in-views/
 
