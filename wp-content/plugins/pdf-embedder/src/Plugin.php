@@ -74,7 +74,7 @@ final class Plugin {
 	 *
 	 * @since 4.7.0
 	 */
-	public function hooks() {
+	public function hooks(): void {
 
 		// Initialize Action Scheduler tasks a bit earlier than the rest of the plugin.
 		add_action( 'init', [ $this->tasks, 'init' ], 5 );
@@ -107,7 +107,7 @@ final class Plugin {
 	 *
 	 * @since 4.7.0
 	 */
-	public function hook_init() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
+	public function hook_init(): void { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
 
 		if ( wp_doing_cron() || Check::is_heartbeat() ) {
 			return;
@@ -137,7 +137,7 @@ final class Plugin {
 	 *
 	 * @since 4.7.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts(): void {
 
 		// PDF.js library.
 		wp_register_script(
@@ -186,7 +186,7 @@ final class Plugin {
 	 *
 	 * @since 4.8.0
 	 */
-	public function enqueue_block_assets() {
+	public function enqueue_block_assets(): void {
 
 		if ( ! is_admin() ) {
 			return;
@@ -223,7 +223,7 @@ final class Plugin {
 	 *
 	 * @since 4.7.0
 	 */
-	public function hook_admin_init() {
+	public function hook_admin_init(): void {
 
 		$this->admin->init();
 		$this->admin->hooks();
@@ -296,7 +296,16 @@ final class Plugin {
 	 *
 	 * @since 4.7.0
 	 */
-	public static function activated() {
+	public static function activated(): void {
+
+		$options = pdf_embedder()->options();
+
+		if ( ! $options->exist() ) {
+			$options->save(
+				$options->get(),
+				'settings'
+			);
+		}
 
 		// Activation time, added only once.
 		add_option( 'wppdf_emb_activation', time(), '', 'no' );

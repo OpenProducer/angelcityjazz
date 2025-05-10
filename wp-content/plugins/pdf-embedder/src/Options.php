@@ -128,6 +128,24 @@ class Options {
 	}
 
 	/**
+	 * Check if the option exists in the database.
+	 *
+	 * @since 4.9.2
+	 *
+	 * @param string $key The key to check.
+	 */
+	public function exist( string $key = '' ): bool {
+
+		$options = $this->get_from_db();
+
+		if ( empty( $key ) ) {
+			return ! empty( $options );
+		}
+
+		return array_key_exists( $key, $options );
+	}
+
+	/**
 	 * Go through each option and sanitize and validate its value before saving into DB.
 	 *
 	 * @since 4.7.0
@@ -247,8 +265,6 @@ class Options {
 		} else {
 			$validated['pdfemb_toolbarfixed'] = self::LITE_DEFAULTS['pdfemb_toolbarfixed'];
 		}
-
-		$validated['pdfemb_version'] = PDFEMB_VERSION;
 
 		if (
 			isset( $input['usagetracking'] ) &&

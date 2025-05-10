@@ -116,7 +116,7 @@ class Admin {
 	public function register_menu() {
 
 		if ( Multisite::is_network_activated() ) {
-			add_submenu_page(
+			$hook = add_submenu_page(
 				'settings.php',
 				__( 'PDF Embedder settings', 'pdf-embedder' ),
 				__( 'PDF Embedder', 'pdf-embedder' ),
@@ -125,7 +125,7 @@ class Admin {
 				[ $this, 'render_page' ]
 			);
 		} else {
-			add_options_page(
+			$hook = add_options_page(
 				__( 'PDF Embedder settings', 'pdf-embedder' ),
 				__( 'PDF Embedder', 'pdf-embedder' ),
 				'manage_options',
@@ -133,6 +133,53 @@ class Admin {
 				[ $this, 'render_page' ]
 			);
 		}
+
+		add_action( 'admin_print_styles-' . $hook, [ $this, 'enqueue_admin_styles' ] );
+	}
+
+	/**
+	 * Enqueue admin styles.
+	 *
+	 * @since 4.8.0
+	 */
+	public function enqueue_admin_styles() {
+
+		wp_enqueue_script(
+			'pdfemb_admin',
+			Assets::url( 'js/admin/pdfemb-admin.js' ),
+			[ 'jquery' ],
+			Assets::ver(),
+			false
+		);
+
+		wp_add_inline_script(
+			'pdfemb_admin',
+			'const pdfemb_args = ' . wp_json_encode(
+				[
+					'activate_nonce'   => wp_create_nonce( 'pdfemb-activate-partner' ),
+					'active'           => esc_html__( 'Status: Active', 'pdf-embedder' ),
+					'activate'         => esc_html__( 'Activate', 'pdf-embedder' ),
+					'activating'       => esc_html__( 'Activating...', 'pdf-embedder' ),
+					'ajax'             => admin_url( 'admin-ajax.php' ),
+					'deactivate'       => esc_html__( 'Deactivate', 'pdf-embedder' ),
+					'deactivate_nonce' => wp_create_nonce( 'pdfemb-deactivate-partner' ),
+					'deactivating'     => esc_html__( 'Deactivating...', 'pdf-embedder' ),
+					'inactive'         => esc_html__( 'Status: Inactive', 'pdf-embedder' ),
+					'install'          => esc_html__( 'Install', 'pdf-embedder' ),
+					'install_nonce'    => wp_create_nonce( 'pdfemb-install-partner' ),
+					'installing'       => esc_html__( 'Installing...', 'pdf-embedder' ),
+					'proceed'          => esc_html__( 'Proceed', 'pdf-embedder' ),
+				]
+			),
+			'before'
+		);
+
+		wp_enqueue_style(
+			'pdfemb_admin',
+			Assets::url( 'css/admin/pdfemb-admin.css' ),
+			[],
+			Assets::ver()
+		);
 	}
 
 	/**
@@ -190,21 +237,6 @@ class Admin {
 	 * @since 4.7.0
 	 */
 	public function render_page() { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
-
-		wp_enqueue_script(
-			'pdfemb_admin',
-			Assets::url( 'js/admin/pdfemb-admin.js', true ),
-			[ 'jquery' ],
-			Assets::ver(),
-			false
-		);
-
-		wp_enqueue_style(
-			'pdfemb_admin_css',
-			Assets::url( 'css/admin/pdfemb-admin.css', true ),
-			[],
-			Assets::ver()
-		);
 
 		$submit_page_url = $this->get_url( $this->get_current_section() );
 

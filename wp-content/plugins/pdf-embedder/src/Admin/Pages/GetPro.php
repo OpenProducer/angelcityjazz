@@ -26,7 +26,7 @@ class GetPro extends Page {
 		<p>
 			<?php
 			echo wp_kses(
-				__( "We know that you'll truly love PDF Embedder. <strong>It has over 250+ five-star ratings (⭐⭐⭐⭐⭐) and is active on over 300,000 websites!", 'pdf-embedder' ),
+				__( "We know that you'll truly love PDF Embedder. <strong>It has over 300+ five-star ratings (⭐⭐⭐⭐⭐) and is active on over 300,000 websites!", 'pdf-embedder' ),
 				[
 					'strong' => [],
 				]

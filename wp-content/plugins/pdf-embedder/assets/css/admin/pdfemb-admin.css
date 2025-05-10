@@ -424,18 +424,40 @@
   width: 16px;
   height: 16px;
 }
-#pdfemb-content .pdfemb-partners-wrap {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 30px;
-  padding-top: 30px;
+#pdfemb-content #pdfemb-about-section .pdfemb-about-us {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
 }
-#pdfemb-content .pdfemb-partners-wrap .pdfemb-partners {
+#pdfemb-content #pdfemb-about-section .pdfemb-about-us h3 {
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: #23282c;
+  line-height: 1.6;
+}
+#pdfemb-content #pdfemb-about-section .pdfemb-about-us p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+#pdfemb-content #pdfemb-about-section .pdfemb-about-us p:last-child {
+  margin-bottom: 0;
+}
+#pdfemb-content #pdfemb-about-section .pdfemb-partners-wrap {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  padding-top: 30px;
+  margin-left: -30px;
+}
+#pdfemb-content #pdfemb-about-section .pdfemb-partners-wrap .pdfemb-partners {
   background-color: #f5f5f5;
   margin-bottom: 30px;
-  border-radius: 6px;
+  border: 1px solid #ddd;
+  width: 33.333333%;
+  box-sizing: border-box;
+  margin-left: 30px;
 }
-#pdfemb-content .pdfemb-partners-wrap .pdfemb-partners-main {
+#pdfemb-content #pdfemb-about-section .pdfemb-partners-wrap .pdfemb-partners .pdfemb-partners-main {
   display: flex;
   flex-direction: row;
   padding: 30px 30px 20px;
@@ -444,45 +466,51 @@
   height: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
+  background-color: #fff;
 }
-#pdfemb-content .pdfemb-partners-wrap .pdfemb-partners-main h3 {
+#pdfemb-content #pdfemb-about-section .pdfemb-partners-wrap .pdfemb-partners .pdfemb-partners-main h3 {
   padding-top: 0;
   margin-top: 0;
 }
-#pdfemb-content .pdfemb-partners-wrap .pdfemb-partners-main img {
+#pdfemb-content #pdfemb-about-section .pdfemb-partners-wrap .pdfemb-partners .pdfemb-partners-main img {
   padding-right: 15px;
 }
-#pdfemb-content .pdfemb-partners-wrap .pdfemb-partners-footer {
+#pdfemb-content #pdfemb-about-section .pdfemb-partners-wrap .pdfemb-partners .pdfemb-partners-footer {
   display: flex;
   text-align: left;
   align-items: center;
   vertical-align: middle;
   padding: 20px;
   border-top: 1px solid rgb(230, 230, 230);
+  background-color: #f7f7f7;
 }
-#pdfemb-content .pdfemb-partners-wrap .pdfemb-partners-footer .pdfemb-partner-status {
+#pdfemb-content #pdfemb-about-section .pdfemb-partners-wrap .pdfemb-partners .pdfemb-partners-footer .pdfemb-partner-status {
   font-weight: bold;
 }
-#pdfemb-content .pdfemb-partners-wrap .pdfemb-partners-footer .pdfemb-partner-status span {
+#pdfemb-content #pdfemb-about-section .pdfemb-partners-wrap .pdfemb-partners .pdfemb-partners-footer .pdfemb-partner-status span {
   font-weight: normal;
 }
-#pdfemb-content .pdfemb-partners-wrap .pdfemb-partners-footer .pdfemb-partners-install-wrap {
+#pdfemb-content #pdfemb-about-section .pdfemb-partners-wrap .pdfemb-partners .pdfemb-partners-footer .pdfemb-partners-install-wrap {
   margin-left: auto;
 }
-#pdfemb-content .pdfemb-partners-wrap .pdfemb-partners-footer .pdfemb-partners-install-wrap .spinner {
+#pdfemb-content #pdfemb-about-section .pdfemb-partners-wrap .pdfemb-partners .pdfemb-partners-footer .pdfemb-partners-install-wrap .spinner {
   display: none;
   visibility: initial;
   float: initial;
-  margin-top: 10px;
+  margin-top: 5px;
 }
-#pdfemb-content .pdfemb-partners-wrap .pdfemb-partners-footer .pdfemb-partners-install-wrap .spinner.active {
+#pdfemb-content #pdfemb-about-section .pdfemb-partners-wrap .pdfemb-partners .pdfemb-partners-footer .pdfemb-partners-install-wrap .spinner.active {
   display: inline-block;
 }
-#pdfemb-content .pdfemb-partners-wrap .pdfemb-partners-footer .pdfemb-partners-install-wrap .pdfemb-partners-button {
-  font-size: 16px !important;
-  height: 40px !important;
-  line-height: 38px !important;
-  border-radius: 6px !important;
+#pdfemb-content #pdfemb-about-section .pdfemb-partners-wrap .pdfemb-partners .pdfemb-partners-footer .pdfemb-partners-install-wrap .pdfemb-partners-button {
+  font-size: 13px !important;
+  width: 140px;
+  text-align: center;
+}
+@media (max-width: 1249px) {
+  #pdfemb-content #pdfemb-about-section .pdfemb-partners-wrap .pdfemb-partners {
+    width: 50%;
+  }
 }
 
 #pdfemb-footer {

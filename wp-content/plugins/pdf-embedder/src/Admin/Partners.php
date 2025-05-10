@@ -32,26 +32,6 @@ class Partners {
 	 */
 	public function show() {
 
-		wp_localize_script(
-			'pdfemb_admin',
-			'pdfemb_args',
-			[
-				'activate_nonce'   => wp_create_nonce( 'pdfemb-activate-partner' ),
-				'active'           => esc_html__( 'Status: Active', 'pdf-embedder' ),
-				'activate'         => esc_html__( 'Activate', 'pdf-embedder' ),
-				'activating'       => esc_html__( 'Activating...', 'pdf-embedder' ),
-				'ajax'             => admin_url( 'admin-ajax.php' ),
-				'deactivate'       => esc_html__( 'Deactivate', 'pdf-embedder' ),
-				'deactivate_nonce' => wp_create_nonce( 'pdfemb-deactivate-partner' ),
-				'deactivating'     => esc_html__( 'Deactivating...', 'pdf-embedder' ),
-				'inactive'         => esc_html__( 'Status: Inactive', 'pdf-embedder' ),
-				'install'          => esc_html__( 'Install', 'pdf-embedder' ),
-				'install_nonce'    => wp_create_nonce( 'pdfemb-install-partner' ),
-				'installing'       => esc_html__( 'Installing...', 'pdf-embedder' ),
-				'proceed'          => esc_html__( 'Proceed', 'pdf-embedder' ),
-			]
-		);
-
 		foreach ( $this->get_plugins() as $plugin ) {
 			$this->show_plugin_card( $plugin );
 		}

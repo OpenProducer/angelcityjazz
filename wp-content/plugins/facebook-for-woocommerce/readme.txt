@@ -1,9 +1,9 @@
 === Facebook for WooCommerce ===
-Contributors: facebook, automattic, woothemes
-Tags: facebook, woocommerce, marketing, product catalog feed, pixel
+Contributors: facebook
+Tags: meta, facebook, conversions api, catalog sync, ads
 Requires at least: 5.6
 Tested up to: 6.7
-Stable tag: 3.4.6
+Stable tag: 3.4.8
 Requires PHP: 7.4
 MySQL: 5.6 or greater
 License: GPLv2 or later
@@ -40,15 +40,12 @@ When opening a bug on GitHub, please give us as many details as possible.
 
 == Changelog ==
 
-= 3.4.6 - 2025-04-04 =
-* Fix - Product availability syncing by @vinkmeta in #3010
-* Fix - Product attribute sort error which prevented product edits in certain scenarios by @iodic in #3012
+= 3.4.8 - 2025-05-06 =
+* Add - Feature to sync global attributes to Meta and test API format by @devbodaghe in #3050
+* Fix - Facebook attribute dropdown display and syncing issues by @devbodaghe in #3051
+* Tweak - Set helper text for dropdown sync by @devbodaghe in #3104
+* Tweak - Remove unused condition field code for variable products by @devbodaghe in #3114
+* Fix - Cursor style not resetting after attribute removal by @devbodaghe in #3113
+* Fix - 'Call to a member function is_taxonomy() on string' error when processing variable products by @devbodaghe in #3155
 
-= 3.4.5 - 2025-04-01 =
-* Tweak - Add new product field external_update_time to measure product update latency by @mshymon in #2973
-* Fix - for 'PHP Warning: Undefined variable $fb_product_parent' by @mshymon in #2976
-* Fix - Updated logic to choose/create the feed for product sync by @mshymon in #2989
-* Add - Facebook Product Data Tab Enhancement by @devbodaghe in #2938
-* Fix - PHP Warning for empty attributes by @vinkmeta in #3001
-
-[See changelog for all versions](https://raw.githubusercontent.com/facebook/facebook-for-woocommerce/refs/heads/main/changelog.txt).
+[See changelog for all versions](https://raw.githubusercontent.com/facebook/facebook-for-woocommerce/refs/heads/releases/changelog.txt).

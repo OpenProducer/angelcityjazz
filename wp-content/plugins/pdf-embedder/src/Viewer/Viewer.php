@@ -58,6 +58,8 @@ class Viewer implements ViewerInterface {
 
 		if ( is_numeric( $this->atts['height'] ) ) {
 			$extra_style .= 'height:' . (int) $this->atts['height'] . 'px;';
+		} elseif ( $this->atts['height'] === 'auto' ) {
+			$this->atts['height'] = 'max';
 		} elseif ( $this->atts['height'] !== 'max' && $this->atts['height'] !== 'auto' ) {
 			$this->atts['height'] = 'max';
 		}
