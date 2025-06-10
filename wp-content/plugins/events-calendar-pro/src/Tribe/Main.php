@@ -1,7 +1,6 @@
 <?php
 
 use TEC\Events_Pro\Base\Query_Filters as Base_Query_Filters;
-use TEC\Events_Pro\Compatibility\Event_Automator\Zapier\Zapier_Provider;
 use TEC\Events_Pro\Legacy\Query_Filters as Legacy_Query_Filters;
 use Tribe\Events\Pro\Views\V2\Views\Map_View;
 use Tribe\Events\Pro\Views\V2\Views\Photo_View;
@@ -10,6 +9,8 @@ use Tribe\Events\Pro\Views\V2\Views\Week_View;
 use Tribe\Events\Views\V2\Views\Day_View;
 use Tribe\Events\Views\V2\Views\List_View;
 use Tribe\Events\Views\V2\Views\Month_View;
+use TEC\Common\StellarWP\Assets\Config as Assets_Config;
+use TEC\Events_Pro\Controller as Events_Pro_Controller;
 
 // phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid, StellarWP.Classes.ValidClassName.NotSnakeCase, WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- legacy naming conventions
 
@@ -88,7 +89,10 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 */
 		public $template_namespace = 'events-pro';
 
-		const VERSION = '6.5.0';
+		/**
+		 * The Events Calendar Pro Version
+		 */
+		const VERSION = '7.6.0.1';
 
 		/**
 		 * The Events Calendar Required Version
@@ -96,7 +100,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 *
 		 * @deprecated 4.6
 		 */
-		const REQUIRED_TEC_VERSION = '6.5.0';
+		const REQUIRED_TEC_VERSION = '6.12.0';
 
 		/**
 		 * Constructor.
@@ -120,7 +124,7 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 				require_once $this->pluginPath . 'src/functions/template-tags/deprecated.php';
 			}
 
-			add_action( 'admin_init', [ $this, 'run_updates' ], 10, 0 );
+			add_action( 'init', [ $this, 'run_updates' ], 10, 0 );
 
 			add_action( 'init', [ $this, 'init' ], 10 );
 			add_action( 'tribe_load_text_domains', [ $this, 'loadTextDomain' ] );
@@ -131,7 +135,6 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 			add_action( 'parse_query', [ $this, 'set_post_id_for_recurring_event_query' ], 101 );
 
 			add_action( 'tribe_settings_do_tabs', [ $this, 'add_settings_tabs' ] );
-			add_filter( 'tec_events_display_settings_tab_fields', [ $this, 'filter_display_settings_tab_fields' ], 10 );
 
 			add_filter( 'tribe_events_template_paths', [ $this, 'template_paths' ] );
 
@@ -179,9 +182,10 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 			add_action( 'post_updated_messages', [ $this, 'updatePostMessages' ], 20 );
 
 			add_filter( 'tribe_events_default_value_strategy', [ $this, 'set_default_value_strategy' ] );
-			add_action( 'plugins_loaded', [ $this, 'init_apm_filters' ] );
+			add_action( 'init', [ $this, 'init_apm_filters' ] );
 
 			// Event CSV import additions.
+			add_filter( 'tribe_events_import_event_duplicate_matches', [ $this, 'normalize_post_ids_for_csv_import' ], 10, 1 );
 			add_filter( 'tribe_events_importer_venue_column_names', [ Tribe__Events__Pro__CSV_Importer__Fields::instance(), 'filter_venue_column_names' ], 10, 1 );
 			add_filter( 'tribe_events_importer_venue_array', [ Tribe__Events__Pro__CSV_Importer__Fields::instance(), 'filter_venue_array' ], 10, 4 );
 
@@ -475,6 +479,10 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 			$this->singular_event_label_lowercase = tribe_get_event_label_singular_lowercase();
 			$this->plural_event_label_lowercase   = tribe_get_event_label_plural_lowercase();
 
+			$this->all_slug  = sanitize_title( __( 'all', 'tribe-events-calendar-pro' ) );
+			$this->weekSlug  = sanitize_title( __( 'week', 'tribe-events-calendar-pro' ) );
+			$this->photoSlug = sanitize_title( __( 'photo', 'tribe-events-calendar-pro' ) );
+
 			// if enabled views have never been set then set those to all PRO views.
 			if ( false === tribe_get_option( 'tribeEnableViews', false ) ) {
 				tribe_update_option(
@@ -492,6 +500,13 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 				// After setting the enabled view we Flush the rewrite rules.
 				flush_rewrite_rules(); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.flush_rewrite_rules_flush_rewrite_rules
 			}
+
+			/**
+			 * Fires after the Events Calendar PRO has been initialized.
+			 *
+			 * @since 7.0.3
+			 */
+			do_action( 'tec_events_pro_init' );
 		}
 
 		/**
@@ -705,8 +720,6 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 			);
 
 			require_once $this->pluginPath . 'src/admin-views/tribe-options-defaults.php';
-			// $defaultsTab defined in above included file.
-			new Tribe__Settings_Tab( 'defaults', __( 'Default Content', 'tribe-events-calendar-pro' ), $defaultsTab );
 			// The single-entry array at the end allows for the save settings button to be displayed.
 			new Tribe__Settings_Tab(
 				'additional-fields',
@@ -735,10 +748,12 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 * Filter the display settings fields.
 		 *
 		 * @since 6.0.4
+		 * @deprecated 7.0.1 - Moved to TEC\Events_Pro\Admin\Settings
 		 *
 		 * @param array $fields The current fields.
 		 */
 		public function filter_display_settings_tab_fields( $fields ) {
+			_deprecated_function( __METHOD__, '7.0.1', 'TEC\Events_Pro\Admin\Settings::filter_tec_events_settings_display_calendar_display_section' );
 			$sample_date = strtotime( 'January 15 ' . date( 'Y' ) );
 
 			$fields = Tribe__Main::array_insert_after_key(
@@ -752,12 +767,6 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 						'default'         => false,
 						'validation_type' => 'boolean',
 					],
-				]
-			);
-			$fields = Tribe__Main::array_insert_after_key(
-				'hideRelatedEvents',
-				$fields,
-				[
 					'week_view_hide_weekends' => [
 						'type'            => 'checkbox_bool',
 						'label'           => __( 'Hide weekends on Week View', 'tribe-events-calendar-pro' ),
@@ -838,8 +847,6 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 * @param array $fields The current fields.
 		 */
 		public function filter_dates_settings_tab_fields( $fields ) {
-
-
 			return $fields;
 		}
 
@@ -1802,9 +1809,34 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 * built calling the `tribe` function.
 		 */
 		public function on_plugins_loaded() {
-			$this->all_slug  = sanitize_title( __( 'all', 'tribe-events-calendar-pro' ) );
-			$this->weekSlug  = sanitize_title( __( 'week', 'tribe-events-calendar-pro' ) );
-			$this->photoSlug = sanitize_title( __( 'photo', 'tribe-events-calendar-pro' ) );
+			$this->all_slug  = 'all';
+			$this->weekSlug  = 'week';
+			$this->photoSlug = 'photo';
+
+			Assets_Config::add_group_path( 'tec-events-pro-vendor', $this->pluginPath . 'src/resources/', 'includes/' );
+
+			/*
+			* Register the `/build` directory assets as a different group to ensure back-compatibility.
+			* This needs to happen early in the plugin bootstrap routine.
+			*/
+			Assets_Config::add_group_path(
+				self::class,
+				$this->pluginPath,
+				'build/',
+				true
+			);
+
+			/*
+			* Register the `/build` directory as root for packages.
+			* The difference from the group registration above is that packages are not expected to use prefix directories
+			* like `/js` or `/css`.
+			*/
+			Assets_Config::add_group_path(
+				self::class . '-packages',
+				$this->pluginPath,
+				'build/',
+				false
+			);
 
 			tribe_singleton( 'events-pro.main', $this );
 
@@ -1834,35 +1866,15 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 
 			tribe_register_provider( Tribe\Events\Pro\Admin\Manager\Provider::class );
 
-			// Custom tables v1 implementation.
-			if ( class_exists( '\\TEC\\Events_Pro\\Custom_Tables\\V1\\Provider' ) ) {
-				tribe_register_provider( '\\TEC\\Events_Pro\\Custom_Tables\\V1\\Provider' );
-			}
+			// Redirect any new registrations to the new controller.
+			tribe()->register_on_action( 'tribe_common_loaded', Events_Pro_Controller::class );
 
-			// Set up Site Health.
-			tribe_register_provider( TEC\Events_Pro\Site_Health\Provider::class );
-
-			// Set up Telemetry.
-			tribe_register_provider( TEC\Events_Pro\Telemetry\Provider::class );
-
-			tribe_register_provider( TEC\Events_Pro\Linked_Posts\Controller::class );
-
-			// Set up Integrations.
-			tribe_register_provider( TEC\Events_Pro\Integrations\Controller::class );
-
-			// Site Editor Templates.
-			tribe_register_provider( TEC\Events_Pro\Block_Templates\Controller::class );
-
-			// Blocks Registration.
-			tribe_register_provider( TEC\Events_Pro\Blocks\Controller::class );
-
-			if ( class_exists( Zapier_Provider::class ) ) {
-				tribe_register_provider( Zapier_Provider::class );
-			}
-
-			tribe( 'events-pro.admin.settings' );
-			tribe( 'events-pro.ical' );
-			tribe( 'events-pro.assets' );
+			/**
+			 * Fires when Events Calendar Pro is fully loaded.
+			 *
+			 * @since 7.5.0
+			 */
+			do_action( 'tec_events_pro_fully_loaded' );
 		}
 
 		/**
@@ -1905,6 +1917,24 @@ if ( ! class_exists( 'Tribe__Events__Pro__Main' ) ) {
 		 */
 		public function set_post_id_for_recurring_event_query( $query ): void {
 			tribe( Legacy_Query_Filters::class )->set_post_id_for_recurring_event_query( $query );
+		}
+
+		/**
+		 * Normalize the Occurrence post IDs when running a CSV import.
+		 *
+		 * @since 7.3.0
+		 *
+		 * @param array $matches An array of post IDs, which can be provisional or the default.
+		 *
+		 * @return array|int[]   An array of default/normalized post IDs.
+		 */
+		public function normalize_post_ids_for_csv_import( array $matches ): array {
+			return array_map(
+				function ( $matched ) {
+					return \TEC\Events\Custom_Tables\V1\Models\Occurrence::normalize_id( $matched );
+				},
+				$matches
+			);
 		}
 	}
 }

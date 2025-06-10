@@ -2,13 +2,15 @@
 /**
  * Plugin Name: The Events Calendar Pro
  * Description: The Events Calendar Pro, a premium add-on to the open source The Events Calendar plugin (required), enables recurring events, custom attributes, venue pages, new widgets and a host of other premium features.
- * Version: 6.5.0
+ * Version: 7.6.0.1
+ * Requires at least: 6.6
+ * Requires PHP: 7.4
  * Author: The Events Calendar
  * Author URI: https://evnt.is/20
  * Text Domain: tribe-events-calendar-pro
  * License: GPLv2 or later
- * Elementor tested up to: 3.21.4
- * Elementor Pro tested up to: 3.21.2
+ * Elementor tested up to: 3.23.1
+ * Elementor Pro tested up to: 3.23.0
  */
 
 /*
@@ -29,7 +31,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-
 define( 'EVENTS_CALENDAR_PRO_DIR', __DIR__ );
 define( 'EVENTS_CALENDAR_PRO_FILE', __FILE__ );
 
@@ -43,11 +44,11 @@ if ( tribe_is_not_min_php_version() ) {
 	tribe_not_php_version_textdomain( 'tribe-events-calendar-pro', EVENTS_CALENDAR_PRO_FILE );
 
 	/**
-	 * Include the plugin name into the correct place
+	 * Include the plugin name into the correct place.
 	 *
-	 * @since  4.6
+	 * @since 4.6
 	 *
-	 * @param  array $names current list of names.
+	 * @param array $names current list of names.
 	 *
 	 * @return array
 	 */
@@ -93,7 +94,6 @@ function tribe_register_pro() {
 	new Tribe__Events__Pro__Plugin_Register();
 }
 
-add_action( 'tribe_common_loaded', 'tribe_register_pro', 5 );
 // add action if Event Tickets or the Events Calendar is not active.
 add_action( 'plugins_loaded', 'tribe_register_pro', 50 );
 
@@ -132,7 +132,6 @@ function tribe_events_calendar_pro_init() {
 
 		// if we have the plugin register the dependency check will handle the messages.
 		if ( class_exists( 'Tribe__Abstract_Plugin_Register', false ) ) {
-
 			new Tribe__Events__Pro__PUE( __FILE__ );
 
 			return;
@@ -200,7 +199,7 @@ function tribe_init_events_pro_autoloading() {
 }
 
 /**
- * Register Deactivation
+ * Register Deactivation.
  */
 register_deactivation_hook( __FILE__, 'tribe_events_pro_deactivation' );
 function tribe_events_pro_deactivation( $network_deactivating ) {

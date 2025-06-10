@@ -51,6 +51,7 @@ class Controller extends Controller_Base {
 
 		// Load plugin integration providers once the TEC integration has loaded.
 		$this->container->register_on_action( 'tec_events_elementor_loaded', Plugins\Elementor\Controller::class );
+		$this->container->register( Themes\Kadence\Provider::class );
 	}
 
 	/**

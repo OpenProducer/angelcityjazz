@@ -1,9 +1,11 @@
 <?php
 
+use Tribe\Events\Pro\Integrations\Event_Automator\Service_Provider as Event_Automator;
 use Tribe\Events\Pro\Integrations\Elementor\Service_Provider as Elementor_Integration;
 use Tribe\Events\Pro\Integrations\Fusion\Service_Provider as Fusion_Integration;
 use Tribe__Events__Pro__Integrations__Beaver_Builder__Page_Builder as BB_Page_Builder;
 use Tribe\Events\Pro\Integrations\Brizy_Builder\Service_Provider as Brizy_Builder;
+use TEC\Events_Pro\Integrations\Plugins\Yoast_SEO\Controller as Yoast_SEO_Integration;
 
 /**
  * Class Tribe__Events__Pro__Integrations__Manager
@@ -46,7 +48,7 @@ class Tribe__Events__Pro__Integrations__Manager {
 	}
 
 	/**
-	 * Loads WP SEO / WP SEO Premium integration classes and event listeners.
+	 * Loads Yoast SEO / WP SEO / WP SEO Premium integration classes and event listeners.
 	 *
 	 * @since 4.4.14
 	 *
@@ -59,6 +61,23 @@ class Tribe__Events__Pro__Integrations__Manager {
 
 		tribe_singleton( 'pro.integrations.wp-seo', 'Tribe__Events__Pro__Integrations__WP_SEO__WP_SEO', array( 'hook' ) );
 		tribe( 'pro.integrations.wp-seo' );
+
+		return true;
+	}
+
+	/**
+	 * Loads Yoast SEO integration classes and event listeners.
+	 *
+	 * @since 7.4.3
+	 *
+	 * @return bool
+	 */
+	private function load_yoast_seo_integration() {
+		if ( ! defined( 'WPSEO_VERSION' ) ) {
+			return false;
+		}
+
+		tribe_register_provider( Yoast_SEO_Integration::class );
 
 		return true;
 	}
@@ -111,9 +130,11 @@ class Tribe__Events__Pro__Integrations__Manager {
 	public function load_integrations() {
 		$this->load_wpml_integration();
 		$this->load_wpseo_integration();
+		$this->load_yoast_seo_integration();
 		$this->load_site_origin_integration();
 		$this->load_beaver_builder_integration();
 		$this->load_elementor_integration();
+		$this->load_event_automator();
 		$this->load_fusion_integration();
 		$this->load_brizy_builder_integration();
 	}
@@ -138,6 +159,21 @@ class Tribe__Events__Pro__Integrations__Manager {
 				}
 			);
 		}
+	}
+
+	/**
+	 * Loads the Event Automator integration.
+	 *
+	 * @since 7.0.0 Migrated to ECP from Event Automator
+	 */
+	public function load_event_automator() {
+		if ( ! defined( 'TRIBE_EVENTS_FILE' ) ) {
+			do_action( 'tribe_log', 'error', __CLASS__, [ 'error' => 'The Events Calendar plugin does not exist.' ] );
+
+			return;
+		}
+
+		tribe_register_provider( Event_Automator::class );
 	}
 
 	/**

@@ -1,0 +1,73 @@
+{
+    "packages": [
+        {
+            "name": "campaignmonitor/createsend-php",
+            "version": "v7.1.0",
+            "version_normalized": "7.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/campaignmonitor/createsend-php.git",
+                "reference": "00376143d8c56d78644c7ac451784ed74ccedea9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/campaignmonitor/createsend-php/zipball/00376143d8c56d78644c7ac451784ed74ccedea9",
+                "reference": "00376143d8c56d78644c7ac451784ed74ccedea9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "simpletest/simpletest": "1.2.0"
+            },
+            "time": "2024-05-28T08:51:27+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "csrest_administrators.php",
+                    "csrest_campaigns.php",
+                    "csrest_clients.php",
+                    "csrest_general.php",
+                    "csrest_events.php",
+                    "csrest_lists.php",
+                    "csrest_people.php",
+                    "csrest_segments.php",
+                    "csrest_subscribers.php",
+                    "csrest_templates.php",
+                    "csrest_transactional_classicemail.php",
+                    "csrest_transactional_smartemail.php",
+                    "csrest_transactional_timeline.php",
+                    "csrest_journeys.php",
+                    "csrest_journey_emails.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Toby Brain",
+                    "email": "tobio85@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A php library which implements the complete functionality of the Campaign Monitor API.",
+            "homepage": "http://campaignmonitor.github.io/createsend-php/",
+            "keywords": [
+                "api",
+                "campaign",
+                "monitor"
+            ],
+            "support": {
+                "issues": "https://github.com/campaignmonitor/createsend-php/issues",
+                "source": "https://github.com/campaignmonitor/createsend-php/tree/v7.1.0"
+            },
+            "install-path": "../campaignmonitor/createsend-php"
+        }
+    ],
+    "dev": false,
+    "dev-package-names": []
+}

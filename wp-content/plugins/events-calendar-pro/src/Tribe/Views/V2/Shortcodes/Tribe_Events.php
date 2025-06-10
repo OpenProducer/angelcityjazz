@@ -16,6 +16,7 @@ use Tribe\Events\Views\V2\Manager as Views_Manager;
 use Tribe\Events\Views\V2\Theme_Compatibility;
 use Tribe\Events\Views\V2\View;
 use Tribe\Events\Views\V2\View_Interface;
+use Tribe\Events\Views\V2\Views\Month_View;
 use Tribe\Utils\Element_Classes;
 use Tribe__Context as Context;
 use Tribe__Events__Main as TEC;
@@ -73,7 +74,9 @@ class Tribe_Events extends Shortcode_Abstract {
 		'main-calendar'        => false,
 		'month_events_per_day' => null,
 		'organizer'            => null,
+		'past'                 => false,
 		'should_manage_url'    => false, // @todo @bordoni @lucatume @be Update this when shortcode URL management is fixed.
+		'skip-empty'           => false,
 		'tag'                  => null,
 		'tax-operand'          => 'OR',
 		'tribe-bar'            => true,
@@ -97,7 +100,9 @@ class Tribe_Events extends Shortcode_Abstract {
 		'is-widget'            => 'tribe_is_truthy',
 		'main-calendar'        => 'tribe_is_truthy',
 		'month_events_per_day' => 'tribe_null_or_number',
+		'past'                 => 'tribe_is_truthy',
 		'should_manage_url'    => 'tribe_is_truthy',
+		'skip-empty'           => 'tribe_is_truthy',
 		'tax-operand'          => 'strtoupper',
 		'tribe-bar'            => 'tribe_is_truthy',
 		'week_events_per_day'  => 'tribe_null_or_number',
@@ -260,6 +265,11 @@ class Tribe_Events extends Shortcode_Abstract {
 		if ( ! tribe_is_truthy( $this->get_argument( 'jsonld' ) ) ) {
 			add_filter( 'tribe_template_html:events/v2/components/json-ld-data', '__return_false' );
 		}
+
+		// Past Events - don't navigate to empty months.
+		if ( tribe_is_truthy( $this->get_argument( 'past', false ) ) ) {
+			add_filter( 'tribe_events_views_v2_month_nav_skip_empty', [ $this, 'filter_skip_empty' ] );
+		}
 	}
 
 	/**
@@ -321,6 +331,9 @@ class Tribe_Events extends Shortcode_Abstract {
 
 		remove_filter( 'tribe_events_views_v2_week_events_per_day', [ $this, 'views_v2_week_events_per_day' ], 10 );
 		remove_filter( 'tribe_events_views_v2_ff_link_next_event', [ $this, 'filter_ff_link_next_event' ], 10 );
+
+		// Past Events - don't navigate to empty months.
+		remove_filter( 'tribe_events_views_v2_month_nav_skip_empty', [ $this, 'filter_skip_empty' ] );
 	}
 
 	/**
@@ -543,6 +556,8 @@ class Tribe_Events extends Shortcode_Abstract {
 	 *
 	 * @since 5.5.0
 	 *
+	 * @deprecated 7.4.4
+	 *
 	 * @param array   $locations An array of read and write location in the shape of the `Context::$locations` one,
 	 *                           `[ <location> => [ 'read' => <read_locations>, 'write' => <write_locations> ] ]`.
 	 * @param Context $context   Instance of the context.
@@ -550,26 +565,6 @@ class Tribe_Events extends Shortcode_Abstract {
 	 * @return array Locations after removing the request based ones.
 	 */
 	public function remove_request_based_context_locations( array $locations, Context $context ) {
-		foreach ( $locations as $key => $location ) {
-			// no read locations we bail.
-			if ( empty( $location['read'] ) ) {
-				continue;
-			}
-
-			// Check if this location has a read for.
-			if ( ! empty( $location['read'][ Context::REQUEST_VAR ] ) ) {
-				unset( $locations[ $key ]['read'][ Context::REQUEST_VAR ] );
-			}
-			if ( ! empty( $location['read'][ Context::QUERY_VAR ] ) ) {
-				unset( $locations[ $key ]['read'][ Context::QUERY_VAR ] );
-			}
-			if ( ! empty( $location['read'][ Context::WP_MATCHED_QUERY ] ) ) {
-				unset( $locations[ $key ]['read'][ Context::WP_MATCHED_QUERY ] );
-			}
-			if ( ! empty( $location['read'][ Context::WP_PARSED ] ) ) {
-				unset( $locations[ $key ]['read'][ Context::WP_PARSED ] );
-			}
-		}
 
 		return $locations;
 	}
@@ -666,20 +661,15 @@ class Tribe_Events extends Shortcode_Abstract {
 			return '';
 		}
 
-		$context = new Context();
-
-		/**
-		 * Please if you don't understand what these are doing, don't touch this.
-		 */
-		add_filter( 'tribe_context_locations', [ $this, 'remove_request_based_context_locations' ], 1000, 2 );
-		$context->dangerously_repopulate_locations();
-		$context->refresh();
+		$context = tribe_context();
 
 		// Before anything happens we set a DB ID and value for this shortcode entry.
 		$this->set_database_params();
 
 		// Modifies the Context for the shortcode params.
 		$context = $this->alter_context( $context );
+
+		$context->disable_read_from( [ Context::REQUEST_VAR, Context::QUERY_VAR, Context::WP_MATCHED_QUERY, Context::WP_PARSED ] );
 
 		// Fetches if we have a specific view are building.
 		$view_slug = $this->get_argument( 'view', $context->get( 'view' ) );
@@ -741,13 +731,6 @@ class Tribe_Events extends Shortcode_Abstract {
 
 		// Toggle the shortcode required modifications.
 		$this->toggle_view_hooks( false );
-
-		/**
-		 * Please if you don't understand what these are doing, don't touch this.
-		 */
-		remove_filter( 'tribe_context_locations', [ $this, 'remove_request_based_context_locations' ], 1000 );
-		$context->dangerously_repopulate_locations();
-		$context->refresh();
 
 		return $html;
 	}
@@ -851,12 +834,29 @@ class Tribe_Events extends Shortcode_Abstract {
 		}
 
 		if ( null === $context->get( 'eventDisplay' ) ) {
-			if ( empty( $arguments['view'] ) ) {
+			if ( ! empty( $arguments['past'] ) && tribe_is_truthy( $arguments['past'] ) ) {
+				$month_slug = Month_View::get_view_slug();
+				$manager    = tribe( Views_Manager::class );
+				$views      = $manager->get_publicly_visible_views();
+				$view_slug  = ! empty( $views[ $month_slug ] ) ? $month_slug : $manager->get_default_view_slug();
+
+				$context_args['view']               = $view_slug;
+				$context_args['event_display_mode'] = $view_slug;
+
+			} elseif ( empty( $arguments['view'] ) ) {
 				$default_view_class   = tribe( Views_Manager::class )->get_default_view();
 				$context_args['view'] = $context_args['event_display_mode'] = tribe( Views_Manager::class )->get_view_slug_by_class( $default_view_class );
 			} else {
 				$context_args['view'] = $context_args['event_display_mode'] = $arguments['view'];
 			}
+		}
+
+		if ( ! empty( $arguments['past'] ) && tribe_is_truthy( $arguments['past'] ) ) {
+			$context_args['past']              = tribe_is_truthy( $arguments['past'] );
+			$context_args['ends_before']       = tribe_end_of_day( current_time( 'mysql' ) );
+			$context_args['latest_event_date'] = tribe_end_of_day( current_time( 'mysql' ) );
+			// Make sure this isn't set to avoid logic conflicts.
+			unset( $context_args['starts_after'] );
 		}
 
 		return $context_args;
@@ -1036,6 +1036,13 @@ class Tribe_Events extends Shortcode_Abstract {
 
 		if ( isset( $arguments['featured'] ) ) {
 			$repository_args['featured'] = tribe_is_truthy( $arguments['featured'] );
+		}
+
+		if ( isset( $arguments['past'] ) && tribe_is_truthy( $arguments['past'] ) ) {
+			$repository_args['past']        = tribe_is_truthy( $arguments['past'] );
+			$repository_args['ends_before'] = tribe_end_of_day( current_time( 'mysql' ) );
+			// Make sure this isn't set to avoid logic conflicts.
+			unset( $repository_args['starts_after'] );
 		}
 
 		return $repository_args;
@@ -1398,5 +1405,23 @@ class Tribe_Events extends Shortcode_Abstract {
 		}
 
 		return $next_event;
+	}
+
+	/**
+	 * Allows the user to specify that they want to skip empty views.
+	 *
+	 * @since 6.5.1
+	 *
+	 * @param bool $skip Whether to skip empty views.
+	 *
+	 * @return bool Whether to skip empty views.
+	 */
+	public function filter_skip_empty( $skip ): bool {
+		$arguments = $this->get_arguments();
+		if ( ! isset( $arguments['skip-empty'] ) ) {
+			return $skip;
+		}
+
+		return tribe_is_truthy( $arguments['skip-empty'] );
 	}
 }

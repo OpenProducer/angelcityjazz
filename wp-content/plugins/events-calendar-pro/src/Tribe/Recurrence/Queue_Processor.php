@@ -37,7 +37,13 @@ class Tribe__Events__Pro__Recurrence__Queue_Processor {
 	public function manage_scheduled_task() {
 		add_action( 'tribe_events_pro_blog_deactivate', array( $this, 'clear_scheduled_task' ) );
 		add_action( self::SCHEDULED_TASK, array( $this, 'process_queue' ), 20, 0 );
-		$this->register_scheduled_task();
+
+		// Prevents problems with text domain loading too early.
+		if ( did_action( 'init' ) || doing_action( 'init' ) ) {
+			$this->register_scheduled_task();
+		} else {
+			add_action( 'init', [ $this, 'register_scheduled_task' ] );
+		}
 	}
 
 

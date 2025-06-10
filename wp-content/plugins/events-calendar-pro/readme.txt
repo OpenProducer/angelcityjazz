@@ -3,9 +3,9 @@
 Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp, GeoffBel, jentheo, leahkoerper, lucatume, neillmcshea, vicskf, zbtirrell, juanfra
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, the events calendar, widget, pro
 Donate link: https://evnt.is/29
-Requires at least: 6.3
-Stable tag: 6.5.0
-Tested up to: 6.5.3
+Stable tag: 7.6.0.1
+Requires at least: 6.6
+Tested up to: 6.8.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -214,6 +214,174 @@ Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
 
+= [7.6.0.1] 2025-06-05 =
+
+* Fix - Utilize the newer version of our build process to ensure inline svgs are being handled properly. [TCMN-188]
+
+= [7.6.0] 2025-05-20 =
+
+* Version - Events Pro 7.6.0 is only compatible with The Events Calendar 6.13.0 or higher.
+* Feature - Migrated our style and script building process to stellarwp/tyson.
+* Feature - Added proper separation of asset paths for build directory and packages.
+* Feature - Updated block asset loading structure for better performance.
+* Tweak - Changed all instances of `tribe_asset()` to `tec_asset()` for compatibility with the new asset system.
+* Tweak - Updated asset registration paths to match the new build system structure.
+* Tweak - Improved asset conditionals and organization across the plugin.
+* Tweak - Updated Calendar embed block to use the new build path structure.
+* Tweak - Standardized CSS naming conventions with separate skeleton and full style files.
+* Performance - Optimized asset loading with improved grouping and conditional logic.
+* Language - 0 new strings added, 154 updated, 2 fuzzied, and 0 obsoleted.
+
+= [7.5.0.1] 2025-05-15 =
+
+* Fix - Ensure saving events with checkbox-type additional fields does not produce a fatal error. [ECP-1902]
+* Language - 0 new strings added, 0 updated, 0 fuzzied, and 0 obsoleted.
+
+= [7.5.0] 2025-05-13 =
+
+* Feature - New method to get the next Event in a Series [TEC-5407]
+* Fix - Ensure that additional field data is properly saved with the event when using the Block editor. [FBAR-294]
+* Fix - Prevent instances of the `_load_textdomain_just_in_time` warning by moving all language after the `init` hook
+* Tweak - Added actions: `tec_events_virtual_fully_loaded`, `tec_event_automator_fully_loaded`, `tec_events_pro_fully_loaded`
+* Tweak - Added filters: `tec_events_qr_next_series_event_url`
+* Tweak - Changed views: `v2/map`, `v2/photo`, `v2/summary`, `v2/week`, `v2/week/grid-body/multiday-events-day/multiday-event/bar`, `v2/week/grid-body/multiday-events-day/multiday-event/hidden`, `v2/week/grid-body/multiday-events-day/multiday-event/hidden/link`
+* Tweak - Include more Recurrence and Exclusion Telemetry data to improve functionality planning. [ECP-1900]
+* Tweak - Removed actions: `tribe_log`
+* Accessibility - Adjustments to keyboard navigation to focus on multiday and all day events properly. [ECP-1595]
+* Accessibility - Change wrapper div to a section tag to avoid multiple 'banner' landmarks. [TEC-3424]
+* Language - 9 new strings added, 121 updated, 0 fuzzied, and 0 obsoleted.
+
+= [7.4.2] 2025-03-04 =
+
+* Tweak - Update calls to DateTime that are passing null for PHP 8+ compatibility. [TEC-5086]
+* Fix - Fix past events shortcode attribute [TEC-5348]
+* Fix - Stop the noindex conflict by changing the View Title class to only get posts for list-type views. [TEC-5354]
+* Compatibility - Added 404 handling for week view when disabled or accessed outside the range of earliest and latest events, with an exception for the current month when no events exist. [TEC-5356]
+* Language - 0 new strings added, 3 updated, 0 fuzzied, and 0 obsoleted.
+
+= [7.4.1] 2025-02-10 =
+
+* Fix - Preemtively update postmeta before 3rd parties to prevent metadata duplication. [ECP-1879]
+* Fix - Validating post object before accessing post_type on Widget Manager. [ECP-1886]
+* Tweak - Add caching to Zoom method to get alternative hosts to prevent accessing the API on every load of event editor. [VE-591]
+* Tweak - Move file index.umd.js from node_modules to `src/resources/includes/`. [TCMN-175]
+* Tweak - Added filters: `tec_events_pro_virtual_alternative_hosts_cache_duration`
+* Language - 0 new strings added, 51 updated, 0 fuzzied, and 0 obsoleted.
+
+= [7.4.0] 2025-01-30 =
+
+* Fix - Update asset, dependencies, customizations to align with WordPress 6.7 and React 18. [TEC-5322]
+* Language - 0 new strings added, 2 updated, 0 fuzzied, and 0 obsoleted.
+
+= [7.3.2] 2025-01-22 =
+
+* Feature - Adding Display setting option to allow forcing the Photo View to show images in a Grid, at a 16:9 aspect ratio. [TEC-5320]
+* Fix - A notice will now show when deleting your YouTube Live Channel ID within the integration settings. [ECP-1838]
+* Fix - Correct some a11y markup on the venues list. [ECP-1880]
+* Fix - Redirects no longer error when editing and updating recurring events. [ECP-1878]
+* Fix - Updated recurring events setting label for clarity.
+* Language - 2 new strings added, 27 updated, 1 fuzzied, and 0 obsoleted.
+
+= [7.3.1] 2024-12-17 =
+
+* Feature - Added the `tec_events_pro_use_geocode_results` filter, allowing users to retain entered venue details (default) or save geocoded address results when manually creating a venue using a custom Google Maps API key.
+* Tweak - Added filters: `tec_events_pro_use_geocode_results`
+* Tweak - Changed views: `v2/organizer/meta/featured-image`
+* Tweak - Corrected template override path for featured image for organizers [ECP-1681]
+* Fix - Added function `pass_overwritten_template_files_through_hierarchy_filters` to pass the overwritten template files through the hierarchy filters. [ECP-1873]
+* Fix - Load the correct settings page when clicking the "Fix venues data" button. [ECP-1869]
+* Fix - Provinces/States for non-US countries are now saved to the correct field when importing events from Google Calendar with a custom Google Maps API key. [ECP-1877]
+* Fix - Removed leading slash from `set_template_folder` for `custom-tables-v1` directory. [ECP-1477]
+* Fix - When manually creating a venue with a custom Google Maps API key, the entered details are now preserved. [ECP-1874]
+* Fix - When using "Move to trash events older than", trashed imported events are now ignored. [TEC-5319]
+* Language - 0 new strings added, 26 updated, 0 fuzzied, and 0 obsoleted.
+
+= [7.3.0] 2024-10-30 =
+
+* Version - Events Pro 7.3.0 is only compatible with The Events Calendar 6.8.0 or higher.
+* Feature - Added integration with new premium Seating product for Event Tickets.
+* Language - 0 new strings added, 0 updated, 0 fuzzied, and 0 obsoleted
+
+= [7.2.1] 2024-10-21 =
+
+* Fix - Correct some dates and strings in admin screens were not translated [TEC-4873]
+* Fix - Correct styling of "Fix geolocation data" in Maps settings page. [TEC-5282]
+* Fix - Fix an issue with Kadence where the calendar was wider than the content container. [ECP-1827]
+* Fix - Fix hook name to ensure that settings linked to a custom Google Maps API key show up. [ECP-1866]
+* Fix - Make sure that all events are updated when running a CSV import. [ECP-1684]
+* Fix - Make sure the house number is saved with the address when fetching geolocation data with a custom Google Maps API key. [ECP-1481]
+* Fix - Resolves issue where in some situations custom fields were not retained on the occurrence on recurring events. [TEC-5239]
+* Tweak - Introduce a filter to allow changing the order of the street name and house number when fetching geolocation data with a custom Google Maps API key.
+* Tweak - Added filter `tec_events_pro_enable_series_content_injection` to allow for bypassing series injection in the content [ECP-1839].
+* Language - 1 new strings added, 72 updated, 0 fuzzied, and 0 obsoleted
+
+= [7.2.0] 2024-10-09 =
+
+* Feature - Add Calendar Embed block to display any of the event views through the block editor. [ECP-1815].
+* Fix - Event cost and Tickets during event duplication [ECP-1826].
+* Fix - Remove a wrongly deprecation of the function `tribe_all_occurrences_link` [ECP-1840].
+* Tweak - Added filters: `tec_events_pro_calendar_embed_block_query_url`, `tec_events_pro_calendar_embed_rest_get_args`
+* Tweak - Added actions: `tec_events_pro_calendar_embed_iframe_head`, `frontend_iframe_footer_scripts`
+* Tweak - Changed views: `iframe/footer`, `iframe/header`
+* Language - 0 new strings added, 2 updated, 0 fuzzied, and 0 obsoleted
+
+= [7.1.0] 2024-09-26 =
+
+* Version - Events Calendar Pro 7.1.0 is only compatible with The Events Calendar 6.7.0 and higher.
+* Feature - New and improved settings layout and styles. [TEC-5124]
+* Language - 17 new strings added, 193 updated, 4 fuzzied, and 21 obsoleted
+
+= [7.0.3] 2024-09-11 =
+
+* Tweak - Fixed PHP warning regarding the attempt to read property `ID` on null.
+* Tweak - Changed views: `v2/week/grid-body/events-day/event/date`
+* Language - 1 new strings added, 51 updated, 0 fuzzied, and 0 obsoleted
+
+= [7.0.2.1] 2024-08-26 =
+
+* Security - Prevents PHP Object Serialization exploit for Widgets on Legacy Support. Thanks WordFence for the report.
+
+= [7.0.2] 2024-08-20 =
+
+* Feature - Adding the Remove Event End Time feature from the Tweaks addon to the Photo, Summary and Map views. [TEC-5080]
+* Fix - Resolves a pagination issue when using the `tec_events_pro_custom_tables_v1_series_event_view_slug` filter to override the default Series view. [ECP-1589]
+* Fix - Exporting all Attendees as a CSV file in the new Tickets Attendees Page. [ET-2094]
+* Fix - Moved event related endpoint registering for Power Automate and Zapier endpoints to Events Calendar Pro. [EVA-160]
+* Tweak - Added actions: `tec_events_pro_init`
+* Tweak - Changed views: `v2/map/event-cards/event-card/event/date-time`, `v2/photo/event/date-time`, `v2/summary/date-group/event/date/single`
+* Language - 3 new strings added, 52 updated, 0 fuzzied, and 0 obsoleted
+
+= [7.0.1] 2024-08-06 =
+
+* Fix - Ensure we don't try to enqueue nonexistent override stylesheets. [ECP-1811]
+* Fix - Replace our Elementor Legacy Single Event widget when using a single-event template [7.0.1]
+* Fix - Resolve issue with Zapier action endpoints (create, find, & update events) return the error: "Sorry, you are not allowed to do that." [TEC-5123]
+* Language - 10 new strings added, 207 updated, 0 fuzzied, and 0 obsoleted
+
+= [7.0.0] 2024-07-22 =
+
+* Version - Events Calendar Pro 7.1.0 is only compatible with The Events Calendar 6.7.0 and higher.
+* Feature - Added virtual events.
+* Feature - Added ability to add zoom virtual events.
+* Feature - Added live streaming ability with Facebook Live and YouTube.
+* Feature - Added Google Meet, Webex, Microsoft Teams integration.
+* Feature - Added ability to schedule video links and livestreams.
+* Feature - Added automation integrations with Zapier, and Microsoft Power Automate.
+* Feature - A shortcode attribute of past="yes" for the [tribe_events] shortcode to display past events. [ECP-1805]
+* Fix - Resolved warning `Function wpdb::prepare was called incorrectly` on `Events->get_occurrence_count_for_series()` [TEC-5107].
+* Fix - Respect RSVP's sharing settings in Emails when Tickets Template is used. [ET-2099]
+* Fix - Remove enqueueing of removed mobile stylesheets. [ECP-1811]
+* Tweak - Added filters: `tec_virtual_automator_map_event_details`, `tec_custom_tables_v1_events_virtual_assets_should_enqueue_series_single`, `tec_events_virtual_ticket_email_url`, `tribe_events_virtual_assets_should_enqueue_frontend`, `tribe_events_virtual_assets_should_enqueue_single_event`, `tribe_events_virtual_assets_should_enqueue_widget_styles`, `tribe_events_virtual_assets_should_enqueue_widget_groups`, `tec_events_virtual_enqueue_single_virtual_editor_assets`, `tec_events_virtual_autodetect_source`, `tec_events_virtual_autodetect_admin_ajax_capability`, `tec_events_virtual_autodetect_video_url`, `tec_events_virtual_video_source_autodetect_field_{$field}`, `tec_events_virtual_video_source_autodetect_fields`, `tec_events_virtual_autodetect_video_sources`, `tribe_events_virtual_ticket_email_url`, `tribe_events_virtual_rsvp_email_link_default_value`, `tribe_events_virtual_email_link`, `tribe_events_virtual_ticket_email_link_default_value`, `tec_events_virtual_user_has_ticket`, `tec_events_virtual_render_show_to_content_for_series_passes`, `tribe_events_virtual_compatibility_migrate_from_events_control_extension`, `tribe_events_editor_default_virtual_template`, `tribe_events_virtual_encryption_key`, `tribe_events_virtual_event_meta_keys`, `tec_events_virtual_event_status_moved_online_label`, `tec_events_virtual_{$api_id}_export_fields`, `tec_events_virtual_outlook_{$api_id}_export_url`, `tec_events_virtual_export_should_override_venue_location`, `tec_events_virtual_export_should_show`, `tec_events_virtual_export_fields`, `tec_events_virtual_outlook_single_event_export_url`, `tec_events_virtual_should_inject_new_block`, `tec_virtual_importer_event_column_names`, `tribe_events_virtual_meetings_{$app_id}_actions`, `tec_events_virtual_meetings_api_settings_fields`, `tec_events_virtual_meetings_`, `tec_events_virtual_link_button_new_window`, `tec_events_virtual_{$api_id}_link_new_window`, `tribe_events_virtual_meetings_{$api_id}_user_cache`, `tec_events_virtual_api_select_account_url`, `tec_events_virtual_{$api_id}_select_account_url`, `tribe_events_virtual_meetings_api_accounts`, `tribe_events_virtual_meetings_{$api_id}_accounts`, `tec_events_virtual_meetings_api_post_response`, `tec_events_virtual_meetings_{$app_id}_api_post_response`, `tec_events_virtual_meetings_api_error_message`, `tribe_events_virtual_single_event_online_status`, `tribe_events_virtual_facebook_page_expiration_url`, `tribe_events_virtual_meetings_facebook_actions`, `tribe_events_virtual_meetings_facebook_live_settings_fields`, `tribe_events_virtual_facebook_page_url_with_placeholder`, `tribe_events_virtual_facebook_live_videos_url_with_placeholder`, `tribe_events_virtual_facebook_live_video_permalink_with_placeholder`, `tec_virtual_facebook_video_regex`, `tribe_events_virtual_meetings_facebook_api_post_response`, `tribe_events_virtual_facebook_admin_ajax_capability`, `tec_events_virtual_meetings_google_{$this::$meeting_type}_data`, `tec_events_virtual_google_get_users_arguments`, `tec_events_virtual_google_calendar_calendar_id`, `tec_events_virtual_google_calendar_api_url_with_placeholder`, `tec_events_virtual_google_{$type}_link_allow_generation`, `tec_events_virtual_meetings_google_hosts`, `tec_events_virtual_google_meeting_link_creation_urls`, `tec_events_virtual_google_regex_event_hash_url`, `tec_events_virtual_meetings_google_meet_include_pin`, `tec_events_virtual_google_link_new_window`, `tribe_events_virtual_meetings_{$slug}_enabled`, `tec_events_virtual_microsoft_regex_team_meeting_id`, `tec_events_virtual_meetings_microsoft_{$this::$meeting_type}_data`, `tribe_events_virtual_meetings_zoom_password_requirements`, `tec_events_virtual_microsoft_get_users_arguments`, `tec_events_virtual_microsoft_{$type}_link_allow_generation`, `tec_events_virtual_meetings_microsoft_hosts`, `tec_events_virtual_microsoft_meeting_link_creation_urls`, `tec_events_virtual_microsoft_regex_event_hash_url`, `tec_events_virtual_meetings_webex_{$this::$meeting_type}_data`, `tec_events_virtual_webex_get_users_arguments`, `tec_events_virtual_webex_{$type}_link_allow_generation`, `tec_events_virtual_meetings_webex_hosts`, `tec_events_virtual_webex_meeting_link_creation_urls`, `tec_events_virtual_show_virtual_content`, `tec_events_virtual_meetings_webex_meeting_show_password`, `tec_events_virtual_webex_regex_meeting_join_url`, `tec_events_virtual_webex_link_new_window`, `tribe_events_virtual_youtube_regex_status`, `tribe_events_virtual_youtube_regex_embed_allowed`, `tribe_events_virtual_youtube_regex_video_id`, `tribe_events_virtual_youtube_regex_video_url`, `tribe_events_virtual_meetings_youtube_settings_event_fields`, `tribe_events_virtual_meetings_youtube_settings_fields`, `tribe_events_virtual_youtube_admin_ajax_capability`, `tribe_events_virtual_meetings_zoom_{$this::$meeting_type}_data`, `tec_events_virtual_zoom_webinar_support_values`, `tec_events_virtual_zoom_user_get_arguments`, `tec_events_virtual_zoom_user_pagination_attributes`, `tec_events_virtual_zoom_regex_meeting_id_url`, `tribe_events_virtual_zoom_{$type}_link_allow_generation`, `tec_events_virtual_zoom_select_account_url`, `tribe_events_virtual_meetings_zoom_hosts`, `tec_events_virtual_zoom_meeting_link_creation_urls`, `tribe_events_virtual_meetings_zoom_alternative_hosts`, `tribe_events_virtual_meetings_zoom_meeting_include_password`, `tribe_events_virtual_link_button_new_window`, `tribe_events_virtual_zoom_link_new_window`, `tribe_events_virtual_zoom_admin_ajax_capability`, `tribe_events_virtual_is_virtual_event`, `tribe_events_virtual_default_virtual_show_embed_at`, `tribe_events_virtual_default_virtual_show_embed_to`, `tribe_events_virtual_show_lead_up`, `tribe_events_virtual_is_linkable`, `tribe_events_virtual_make_oembed_responsive`, `tribe_events_virtual_responsive_oembed_html`, `tribe_events_virtual_get_unembeddable_message`, `tribe_events_virtual_autodetect_oembed_success_message`, `tec_virtual_get_using_as_link_button_message`, `tec_events_virtual_video_source_virtual_url`, `tec_events_virtual_video_source_virtual_url_disabled`, `tribe_events_virtual_meetings_enabled`, `tribe_events_virtual_show_virtual_content`, `tribe_events_virtual_should_show_control_markers`, `tec_events_virtual_video_source_migration_args`, `tribe-events-virtual-widgets-v2-should-enqueue-assets`, `tribe-events-virtual-widgets-v2-{$view_slug}-should-enqueue-assets`, `tribe_events_virtual_display_embed_video_hidden`, `tribe_events_virtual_video_sources`, `tribe_virtual_label`, `tribe_virtual_label_lowercase`, `tribe_virtual_event_label_singular`, `tribe_virtual_event_label_singular_lowercase`, `tribe_virtual_event_label_plural`, `tribe_virtual_event_label_plural_lowercase`, `tribe_hybrid_label`, `tribe_hybrid_event_label_singular`
+* Tweak - Added actions: `tec_custom_tables_v1_error`, `tribe_log`, `tec_events_virtual_before_update_api_accounts`, `tribe_events_virtual_metabox_save`, `tribe_events_virtual_update_post_meta`, `tribe_events_virtual_add_event_properties`, `tec_events_virtual_autodetect_video_preview`, `tribe_events_virtual_block_content`
+* Tweak - Changed views: `blocks/virtual-event`, `compatibility/event-tickets/email/ticket-email-link`, `components/hybrid-event`, `components/icons/lock`, `components/link-button`, `components/virtual-event`, `facebook/single/facebook-embed-offline`, `facebook/single/facebook-embed`, `facebook/single/facebook-video-embed`, `google/email/details/dial-in-content`, `google/email/details/dial-in-header`, `google/email/details/join-content`, `google/email/details/join-header`, `google/email/ticket-email-google-details`, `google/single/google-details`, `index`, `integrations/event-tickets-wallet-plus/pdf/pass/body/virtual-event/link`, `integrations/event-tickets-wallet-plus/pdf/pass/body/virtual-event/link/header`, `integrations/event-tickets-wallet-plus/pdf/pass/body/virtual-event/link/link`, `integrations/event-tickets-wallet-plus/pdf/pass/tec-events-virtual-styles`, `integrations/event-tickets/emails/template-parts/body/virtual-event/link`, `integrations/event-tickets/emails/template-parts/header/head/ve-styles`, `microsoft/email/details/join-content`, `microsoft/email/details/join-header`, `microsoft/email/ticket-email-microsoft-details`, `microsoft/single/microsoft-details`, `single/hybrid-marker-mobile`, `single/hybrid-marker`, `single/video-embed`, `single/virtual-marker-mobile`, `single/virtual-marker`, `virtual-link`, `webex/email/details/join-content`, `webex/email/details/join-header`, `webex/email/details/password-content`, `webex/email/details/password-header`, `webex/email/ticket-email-webex-details`, `webex/single/webex-details`, `youtube/single/youtube-embed-offline`, `youtube/single/youtube-embed`, `zoom/email/details/dial-in-content`, `zoom/email/details/dial-in-header`, `zoom/email/details/join-content`, `zoom/email/details/join-header`, `zoom/email/ticket-email-zoom-details`, `zoom/single/zoom-details`, `zoom/zoom-details`
+* Language - 398 new strings added, 133 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.5.1] 2024-07-18 =
+
+* Feature - Additional attribute of past="yes" for the [tribe_events] shortcode to dynamically display an archive of past events. [ECP-1805]
+* Fix - Correct issues with PHP 8+ and the version of php-rrule we're using by locking a local (edited) copy. [ECP-1643].
+* Language - 2 new strings added, 122 updated, 1 fuzzied, and 0 obsoleted
+
 = [6.5.0] 2024-05-14 =
 
 * Version - Events Calendar PRO 6.5.0 is only compatible with The Events Calendar 6.5.0 and higher.
@@ -221,6 +389,8 @@ Remember to always make a backup of your database and files before updating!
 * Fix - Use Google geolocation API to get proper address data for Venues when importing Events via Google Calendars. [TEC-5007]
 * Fix - Replace uses of the retired moment.js with Day.js [TEC-5011]
 * Tweak - Removed filters: `tribe_distance_units`
+
+
 
 = [6.4.0.1] 2024-05-06 =
 
@@ -548,7 +718,7 @@ Remember to always make a backup of your database and files before updating!
 * Fix - Ensure all the Virtual Event assets required by the Elementor Event widget load correctly. [ECP-1255]
 * Fix - Remove strict type hinting from Custom Tables v1 code that could cause fatals in some environments. [ECP-1343]
 * Fix - Avoid post ID related issues in Custom Tables v1 queries. [TEC-4770]
-* Fix - Solve issues with unregistred Series post type during migration. [ECP-1321]
+* Fix - Solve issues with unregistered Series post type during migration. [ECP-1321]
 * Fix - Redirect was failing on edge case where RDATE would be split to new event. Centralized redirection. [ECP-1366]
 * Fix - Language fix. A typo in evaluating whether an occurrence update notice message was for a recurring event or not, would cause to evaluate incorrectly. [ECP-1366]
 * Fix - Editing an RDATE occurrence > Issue when saving for "This and following events". The events would be split but the RDATEs were not moved properly and the date would not adjust correctly. [ECP-1361]
