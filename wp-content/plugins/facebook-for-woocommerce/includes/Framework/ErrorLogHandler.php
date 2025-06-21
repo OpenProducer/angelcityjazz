@@ -49,13 +49,27 @@ class ErrorLogHandler extends LogHandlerBase {
 		$context = self::set_core_log_context( $raw_context );
 		try {
 			$response = facebook_for_woocommerce()->get_api()->log_to_meta( $context );
-			if ( $response->success ) {
-				WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( 'Error log: ' . wp_json_encode( $context ), \WC_Log_Levels::ERROR );
-			} else {
-				WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( 'Bad response from log_to_meta request', \WC_Log_Levels::ERROR );
+			if ( ! $response->success ) {
+				Logger::log(
+					'Bad response from log_to_meta request',
+					[],
+					array(
+						'should_send_log_to_meta'        => false,
+						'should_save_log_in_woocommerce' => true,
+						'woocommerce_log_level'          => \WC_Log_Levels::ERROR,
+					)
+				);
 			}
 		} catch ( \Exception $e ) {
-			WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( 'Error persisting error logs: ' . $e->getMessage(), \WC_Log_Levels::ERROR );
+			Logger::log(
+				'Error persisting error logs: ' . $e->getMessage(),
+				[],
+				array(
+					'should_send_log_to_meta'        => false,
+					'should_save_log_in_woocommerce' => true,
+					'woocommerce_log_level'          => \WC_Log_Levels::ERROR,
+				)
+			);
 		}
 	}
 
@@ -65,7 +79,7 @@ class ErrorLogHandler extends LogHandlerBase {
 	 * @since 3.5.0
 	 *
 	 * @param Throwable $error error object
-	 * @param array     $context wiki: https://www.internalfb.com/wiki/Commerce_Platform/Teams/3P_Ecosystems_(3PE)/3rd_Party_platforms/Woo_Commerce/How_To_Use_WooCommerce_Side_Logging/
+	 * @param array     $context optional error message attributes
 	 */
 	public static function log_exception_to_meta( Throwable $error, array $context = [] ) {
 		$extra_data                = WC_Facebookcommerce_Utils::get_context_data( $context, 'extra_data', [] );
@@ -89,7 +103,15 @@ class ErrorLogHandler extends LogHandlerBase {
 			as_enqueue_async_action( 'facebook_for_woocommerce_log_api', array( $request_data ) );
 		} else {
 			// Handle the absence of the Action Scheduler
-			WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( 'Action Scheduler is not available.' );
+			Logger::log(
+				'Action Scheduler is not available.',
+				[],
+				array(
+					'should_send_log_to_meta' => false,
+					'should_save_log_in_woocommerce' => true,
+					'woocommerce_log_level'   => \WC_Log_Levels::DEBUG,
+				)
+			);
 		}
 	}
 }

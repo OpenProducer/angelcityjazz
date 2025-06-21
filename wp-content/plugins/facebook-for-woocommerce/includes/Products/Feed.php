@@ -18,6 +18,7 @@ use WC_Facebookcommerce_Utils;
 use WooCommerce\Facebook\Framework\Helper;
 use WooCommerce\Facebook\Utilities\Heartbeat;
 use WooCommerce\Facebook\Framework\Plugin\Exception as PluginException;
+use WooCommerce\Facebook\Framework\Logger;
 
 /**
  * The main product feed handler.
@@ -81,7 +82,15 @@ class Feed {
 	 * @throws PluginException If the feed secret is invalid, file is not readable, or other errors occur.
 	 */
 	public function handle_feed_data_request() {
-		\WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( 'Facebook is requesting the product feed.' );
+		Logger::log(
+			'Facebook is requesting the product feed.',
+			[],
+			array(
+				'should_send_log_to_meta'        => false,
+				'should_save_log_in_woocommerce' => true,
+				'woocommerce_log_level'          => \WC_Log_Levels::DEBUG,
+			)
+		);
 		facebook_for_woocommerce()->get_tracker()->track_feed_file_requested();
 
 		$feed_handler = new \WC_Facebook_Product_Feed();
@@ -119,7 +128,15 @@ class Feed {
 
 			// fpassthru might be disabled in some hosts (like Flywheel)
 			if ( $this->is_fpassthru_disabled() || ! @fpassthru( $file ) ) {
-				\WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( 'fpassthru is disabled: getting file contents' );
+				Logger::log(
+					'fpassthru is disabled: getting file contents',
+					[],
+					array(
+						'should_send_log_to_meta'        => false,
+						'should_save_log_in_woocommerce' => true,
+						'woocommerce_log_level'          => \WC_Log_Levels::DEBUG,
+					)
+				);
 				$contents = @stream_get_contents( $file );
 				if ( ! $contents ) {
 					throw new PluginException( 'Could not get feed file contents.', 500 );
@@ -127,7 +144,15 @@ class Feed {
 				echo $contents; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		} catch ( \Exception $exception ) {
-			\WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( 'Could not serve product feed. ' . $exception->getMessage() . ' (' . $exception->getCode() . ')' );
+			Logger::log(
+				'Could not serve product feed. ' . $exception->getMessage() . ' (' . $exception->getCode() . ')',
+				[],
+				array(
+					'should_send_log_to_meta'        => false,
+					'should_save_log_in_woocommerce' => true,
+					'woocommerce_log_level'          => \WC_Log_Levels::ERROR,
+				)
+			);
 			status_header( $exception->getCode() );
 		}
 		exit;
@@ -161,10 +186,15 @@ class Feed {
 	 * @since 1.11.0
 	 */
 	public function schedule_feed_generation() {
+		$flag_name = '_wc_facebook_for_woocommerce_schedule_feed_generation';
+		if ( 'yes' === get_transient( $flag_name ) ) {
+			return;
+		}
+		set_transient( $flag_name, 'yes', HOUR_IN_SECONDS );
 		$integration   = facebook_for_woocommerce()->get_integration();
 		$configured_ok = $integration && $integration->is_configured();
 		// Only schedule feed job if store has not opted out of product sync.
-		$store_allows_sync = $configured_ok && $integration->is_product_sync_enabled();
+		$store_allows_sync = ( $configured_ok && $integration->is_product_sync_enabled() ) || $integration->is_woo_all_products_enabled();
 		// Only schedule if has not opted out of feed generation (e.g. large stores).
 		$store_allows_feed = $configured_ok && $integration->is_legacy_feed_file_generation_enabled();
 		if ( ! $store_allows_sync || ! $store_allows_feed ) {
@@ -178,11 +208,16 @@ class Feed {
 			} elseif ( ! $store_allows_sync ) {
 				$message = 'Store does not allow sync.';
 			}
-			WC_Facebookcommerce_Utils::log_to_meta(
+			Logger::log(
 				sprintf( 'Product feed scheduling failed: %s', $message ),
 				array(
 					'flow_name' => 'product_feed',
 					'flow_step' => 'schedule_feed_generation',
+				),
+				array(
+					'should_send_log_to_meta'        => true,
+					'should_save_log_in_woocommerce' => true,
+					'woocommerce_log_level'          => \WC_Log_Levels::WARNING,
 				)
 			);
 			return;
@@ -211,7 +246,15 @@ class Feed {
 	public function send_request_to_upload_feed() {
 		$feed_id = self::retrieve_or_create_integration_feed_id();
 		if ( empty( $feed_id ) ) {
-			WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( 'Feed: integration feed ID is null or empty, feed will not be uploaded.' );
+			Logger::log(
+				'Feed: integration feed ID is null or empty, feed will not be uploaded.',
+				[],
+				array(
+					'should_send_log_to_meta'        => false,
+					'should_save_log_in_woocommerce' => true,
+					'woocommerce_log_level'          => \WC_Log_Levels::WARNING,
+				)
+			);
 			return;
 		}
 
@@ -238,7 +281,15 @@ class Feed {
 		$feed_id = self::request_and_filter_integration_feed_id();
 		if ( $feed_id ) {
 			facebook_for_woocommerce()->get_integration()->update_feed_id( $feed_id );
-			WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( 'Feed: feed_id = ' . $feed_id . ', queried and selected from Meta API.' );
+			Logger::log(
+				'Feed: feed_id = ' . $feed_id . ', queried and selected from Meta API.',
+				[],
+				array(
+					'should_send_log_to_meta'        => false,
+					'should_save_log_in_woocommerce' => true,
+					'woocommerce_log_level'          => \WC_Log_Levels::DEBUG,
+				)
+			);
 			return $feed_id;
 		}
 
@@ -246,7 +297,15 @@ class Feed {
 		$feed_id = self::create_feed_id();
 		if ( $feed_id ) {
 			facebook_for_woocommerce()->get_integration()->update_feed_id( $feed_id );
-			WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( 'Feed: feed_id = ' . $feed_id . ', created a new feed via Meta API.' );
+			Logger::log(
+				'Feed: feed_id = ' . $feed_id . ', created a new feed via Meta API.',
+				[],
+				array(
+					'should_send_log_to_meta'        => false,
+					'should_save_log_in_woocommerce' => true,
+					'woocommerce_log_level'          => \WC_Log_Levels::DEBUG,
+				)
+			);
 			return $feed_id;
 		}
 
@@ -271,7 +330,15 @@ class Feed {
 			$feed_nodes = facebook_for_woocommerce()->get_api()->read_feeds( $catalog_id )->data;
 		} catch ( Exception $e ) {
 			$message = sprintf( 'There was an error trying to get feed nodes for catalog: %s', $e->getMessage() );
-			WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( $message );
+			Logger::log(
+				$message,
+				[],
+				array(
+					'should_send_log_to_meta'        => false,
+					'should_save_log_in_woocommerce' => true,
+					'woocommerce_log_level'          => \WC_Log_Levels::ERROR,
+				)
+			);
 			return '';
 		}
 
@@ -291,7 +358,15 @@ class Feed {
 				$feed_metadata = facebook_for_woocommerce()->get_api()->read_feed( $feed['id'] );
 			} catch ( Exception $e ) {
 				$message = sprintf( 'There was an error trying to get feed metadata: %s', $e->getMessage() );
-				WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( $message );
+				Logger::log(
+					$message,
+					[],
+					array(
+						'should_send_log_to_meta'        => false,
+						'should_save_log_in_woocommerce' => true,
+						'woocommerce_log_level'          => \WC_Log_Levels::ERROR,
+					)
+				);
 				continue;
 			}
 

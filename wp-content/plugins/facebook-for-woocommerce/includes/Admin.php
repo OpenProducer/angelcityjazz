@@ -608,7 +608,7 @@ class Admin {
 						'post_type'  => 'product',
 						'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 							array(
-								'key'   => Products::SYNC_ENABLED_META_KEY,
+								'key'   => Products::get_product_sync_meta_key(),
 								'value' => 'no',
 							),
 						),
@@ -623,7 +623,7 @@ class Admin {
 						'post_type'  => 'product_variation',
 						'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 							array(
-								'key'   => Products::SYNC_ENABLED_META_KEY,
+								'key'   => Products::get_product_sync_meta_key(),
 								'value' => 'no',
 							),
 						),
@@ -677,11 +677,11 @@ class Admin {
 		$meta_query = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 			'relation' => 'OR',
 			array(
-				'key'   => Products::SYNC_ENABLED_META_KEY,
+				'key'   => Products::get_product_sync_meta_key(),
 				'value' => 'yes',
 			),
 			array(
-				'key'     => Products::SYNC_ENABLED_META_KEY,
+				'key'     => Products::get_product_sync_meta_key(),
 				'compare' => 'NOT EXISTS',
 			),
 		);
@@ -1100,7 +1100,7 @@ class Admin {
 		global $post;
 
 		// all products have sync enabled unless explicitly disabled
-		$sync_enabled = 'no' !== get_post_meta( $post->ID, Products::SYNC_ENABLED_META_KEY, true );
+		$sync_enabled = 'no' !== get_post_meta( $post->ID, Products::get_product_sync_meta_key(), true );
 		$visibility   = get_post_meta( $post->ID, Products::VISIBILITY_META_KEY, true );
 		$is_visible   = $visibility ? wc_string_to_bool( $visibility ) : true;
 		$product      = wc_get_product( $post );
@@ -1200,8 +1200,6 @@ class Admin {
 					)
 				);
 
-				$this->render_facebook_product_video_field( $video_urls );
-
 				woocommerce_wp_text_input(
 					array(
 						'id'          => \WC_Facebook_Product::FB_PRODUCT_PRICE,
@@ -1250,6 +1248,9 @@ class Admin {
 			</script>
 
 			<?php
+				// Render the Facebook Product Video field at Product level
+				$this->render_facebook_product_video_field( $video_urls );
+
 				woocommerce_wp_text_input(
 					array(
 						'id'          => \WC_Facebook_Product::FB_MPN,
@@ -2323,7 +2324,7 @@ class Admin {
 			}
 
 			// If we found a match and haven't processed this field yet
-			if ( $matched_facebook_field && ! in_array( $field_name, $processed_fields ) ) {
+			if ( $matched_facebook_field && ! in_array( $field_name, $processed_fields, true ) ) {
 				$values = [];
 
 				if ( $attribute->is_taxonomy() ) {

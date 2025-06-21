@@ -1,5 +1,5 @@
-# Translation of Plugins - WooCommerce Shipping &amp; Tax - Stable (latest release) in Swedish
-# This file is distributed under the same license as the Plugins - WooCommerce Shipping &amp; Tax - Stable (latest release) package.
+# Translation of Plugins - WooCommerce Tax (formerly WooCommerce Shipping &amp; Tax) - Stable (latest release) in Swedish
+# This file is distributed under the same license as the Plugins - WooCommerce Tax (formerly WooCommerce Shipping &amp; Tax) - Stable (latest release) package.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2025-05-08 09:50:31+0000\n"
@@ -9,7 +9,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/4.0.1\n"
 "Language: sv_SE\n"
-"Project-Id-Version: Plugins - WooCommerce Shipping &amp; Tax - Stable (latest release)\n"
+"Project-Id-Version: Plugins - WooCommerce Tax (formerly WooCommerce Shipping &amp; Tax) - Stable (latest release)\n"
 
 #: woocommerce-services.php:1880
 msgid "WooCommerce Tax (previously WooCommerce Shipping & Tax)"

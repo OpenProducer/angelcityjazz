@@ -40,7 +40,8 @@ class BatchLogHandler extends LogHandlerBase {
 	 * @since 3.5.0
 	 */
 	public function process_logs_batch() {
-		if ( get_transient( 'global_logging_message_queue' ) !== false && ! empty( get_transient( 'global_logging_message_queue' ) ) ) {
+
+		if ( facebook_for_woocommerce()->get_integration()->is_meta_diagnosis_enabled() && get_transient( 'global_logging_message_queue' ) !== false && ! empty( get_transient( 'global_logging_message_queue' ) ) ) {
 			$logs         = get_transient( 'global_logging_message_queue' );
 			$chunked_logs = array_chunk( $logs, 20 );
 
@@ -48,10 +49,17 @@ class BatchLogHandler extends LogHandlerBase {
 				function ( $logs_chunk ) {
 					$logs_chunk_with_core_context = array_map(
 						function ( $log ) {
+							if ( empty( $log ) ) {
+								return [];
+							}
 							return self::set_core_log_context( $log );
 						},
 						$logs_chunk
 					);
+
+					if ( empty( $logs_chunk_with_core_context ) ) {
+						return [];
+					}
 
 					$context = [
 						'event'      => 'persist_meta_logs',
@@ -61,14 +69,29 @@ class BatchLogHandler extends LogHandlerBase {
 					try {
 						$response = facebook_for_woocommerce()->get_api()->log_to_meta( $context );
 						if ( $response->success ) {
-							WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( 'Meta logs: ' . wp_json_encode( $context ) );
 							return [];
 						} else {
-							WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( 'Bad response from log_to_meta request' );
+							Logger::log(
+								'Bad response from Meta logging APIs',
+								[],
+								array(
+									'should_send_log_to_meta' => false,
+									'should_save_log_in_woocommerce' => true,
+									'woocommerce_log_level'   => \WC_Log_Levels::ERROR,
+								)
+							);
 							return $logs_chunk;
 						}
 					} catch ( \Exception $e ) {
-						WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( 'Error persisting meta logs: ' . $e->getMessage() );
+						Logger::log(
+							'Error persisting Meta logs: ' . $e->getMessage(),
+							[],
+							array(
+								'should_send_log_to_meta' => false,
+								'should_save_log_in_woocommerce' => true,
+								'woocommerce_log_level'   => \WC_Log_Levels::ERROR,
+							)
+						);
 						return $logs_chunk;
 					}
 				},

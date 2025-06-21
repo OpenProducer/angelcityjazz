@@ -15,6 +15,9 @@ use WooCommerce\Facebook\Events\Normalizer;
 use WooCommerce\Facebook\Framework\Api\Exception as ApiException;
 use WooCommerce\Facebook\Framework\ErrorLogHandler;
 use WooCommerce\Facebook\Products\Sync;
+use WooCommerce\Facebook\Framework\Logger;
+
+require_once __DIR__ . '/Logger/Logger.php';
 
 if ( ! class_exists( 'WC_Facebookcommerce_Utils' ) ) :
 	/**
@@ -31,8 +34,8 @@ if ( ! class_exists( 'WC_Facebookcommerce_Utils' ) ) :
 		const FB_VARIANT_PATTERN = 'pattern';
 		const FB_VARIANT_GENDER  = 'gender';
 		// TODO: this constant is no longer used and can probably be removed {WV 2020-01-21}
-		const FB_VARIANT_IMAGE = 'fb_image';
-
+		const FB_VARIANT_IMAGE   = 'fb_image';
+		const EXTERNAL_ID_COOKIE = 'meta_capi_exid';
 		/** @var string */
 		public static $ems = null;
 
@@ -234,6 +237,38 @@ if ( ! class_exists( 'WC_Facebookcommerce_Utils' ) ) :
 		}
 
 		/**
+		 * Returns the category ids for products/pixel.
+		 *
+		 * @param int $wpid
+		 * @return Array
+		 */
+		public static function get_product_category_ids( $wpid ) {
+			$product = wc_get_product( $wpid );
+
+			if ( ! $product ) {
+				return 'Invalid product ID';
+			}
+
+			return $product->get_category_ids();
+		}
+
+		/**
+		 * Returns the category ids for products/pixel.
+		 *
+		 * @param int $wpid
+		 * @return Array
+		 */
+		public static function get_excluded_product_tags_ids( $wpid ) {
+			$product = wc_get_product( $wpid );
+
+			if ( ! $product ) {
+				return [];
+			}
+
+			return $product->get_tag_ids();
+		}
+
+		/**
 		 * Returns the content ID to match on for Pixel fires.
 		 *
 		 * @param WC_Product $woo_product
@@ -336,28 +371,34 @@ if ( ! class_exists( 'WC_Facebookcommerce_Utils' ) ) :
 		 */
 		public static function get_user_info( $aam_settings ) {
 			$current_user = wp_get_current_user();
-			if ( 0 === $current_user->ID || null === $aam_settings || ! $aam_settings->get_enable_automatic_matching() ) {
+
+			if ( null === $aam_settings || ! $aam_settings->get_enable_automatic_matching() ) {
 				// User not logged in or pixel not configured with automatic advance matching
 				return [];
 			} else {
-				// Keys documented in https://developers.facebook.com/docs/facebook-pixel/advanced/advanced-matching
-				$user_data            = array(
-					'em'          => $current_user->user_email,
-					'fn'          => $current_user->user_firstname,
-					'ln'          => $current_user->user_lastname,
-					'external_id' => strval( $current_user->ID ),
-				);
-				$user_id              = $current_user->ID;
-				$user_data['ct']      = get_user_meta( $user_id, 'billing_city', true );
-				$user_data['zp']      = get_user_meta( $user_id, 'billing_postcode', true );
-				$user_data['country'] = get_user_meta( $user_id, 'billing_country', true );
-				$user_data['st']      = get_user_meta( $user_id, 'billing_state', true );
-				$user_data['ph']      = get_user_meta( $user_id, 'billing_phone', true );
+				$user_data = array();
+				if ( 0 === $current_user->ID ) {
+					$user_data['external_id'] = self::get_external_ids();
+				} else {
+					// Keys documented in https://developers.facebook.com/docs/facebook-pixel/advanced/advanced-matching
+					$user_data            = array(
+						'em'          => $current_user->user_email,
+						'fn'          => $current_user->user_firstname,
+						'ln'          => $current_user->user_lastname,
+						'external_id' => self::get_external_ids(),
+					);
+					$user_id              = $current_user->ID;
+					$user_data['ct']      = get_user_meta( $user_id, 'billing_city', true );
+					$user_data['zp']      = get_user_meta( $user_id, 'billing_postcode', true );
+					$user_data['country'] = get_user_meta( $user_id, 'billing_country', true );
+					$user_data['st']      = get_user_meta( $user_id, 'billing_state', true );
+					$user_data['ph']      = get_user_meta( $user_id, 'billing_phone', true );
+				}
 
 				// Each field that is not present in AAM settings or is empty is deleted from user data
 				foreach ( $user_data as $field => $value ) {
 					if ( null === $value || '' === $value
-						|| ! in_array( $field, $aam_settings->get_enabled_automatic_matching_fields() )
+						|| ! in_array( $field, $aam_settings->get_enabled_automatic_matching_fields(), true )
 					) {
 						unset( $user_data[ $field ] );
 					}
@@ -377,68 +418,18 @@ if ( ! class_exists( 'WC_Facebookcommerce_Utils' ) ) :
 		}
 
 		/**
-		 * Utility function for development logging.
-		 *
-		 * @param string $message
-		 * @param array  $obj
-		 * @param bool   $error
-		 * @param string $ems
+		 * Function for generating the external_id array. Returns an array.
 		 */
-		public static function fblog(
-			$message,
-			$obj = [],
-			$error = false,
-			$ems = ''
-		) {
-			if ( $error ) {
-				$obj['plugin_version'] = self::PLUGIN_VERSION;
-				$obj['php_version']    = phpversion();
-			}
-			$message = json_encode(
-				array(
-					'message' => $message,
-					'object'  => $obj,
-				)
-			);
+		private static function get_external_ids() {
+			$external_ids = array();
 
-			// phpcs:ignore Universal.Operators.DisallowShortTernary.Found
-			$ems = $ems ?: self::$ems;
-			if ( $ems ) {
-				try {
-					facebook_for_woocommerce()->get_api()->log( $ems, $message, $error );
-				} catch ( ApiException $e ) {
-					$message = sprintf( 'There was an error trying to log: %s', $e->getMessage() );
-					facebook_for_woocommerce()->log( $message );
-				}
-			} else {
-				error_log(
-					'external merchant setting is null, something wrong here: ' .
-					$message
-				);
+			if ( isset( $_COOKIE[ WC_Facebookcommerce::EXTERNAL_ID_COOKIE ] ) ) {
+				$external_ids[] = $_COOKIE[ WC_Facebookcommerce::EXTERNAL_ID_COOKIE ]; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 			}
-		}
-
-		/**
-		 * Utility function for development Tip Events logging.
-		 *
-		 * @param string $tip_id
-		 * @param string $channel_id
-		 * @param string $event
-		 * @param string $ems
-		 */
-		public static function tip_events_log( $tip_id, $channel_id, $event, $ems = '' ) {
-			// phpcs:ignore Universal.Operators.DisallowShortTernary.Found
-			$ems = $ems ?: self::$ems;
-			if ( $ems ) {
-				try {
-					facebook_for_woocommerce()->get_api()->log_tip_event( $tip_id, $channel_id, $event );
-				} catch ( ApiException $e ) {
-					$message = sprintf( 'There was an error while logging tip events: %s', $e->getMessage() );
-					facebook_for_woocommerce()->log( $message );
-				}
-			} else {
-				error_log( 'external merchant setting is null' );
+			if ( 0 !== get_current_user_id() ) {
+				$external_ids[] = strval( get_current_user_id() );
 			}
+			return $external_ids;
 		}
 
 		/**
@@ -467,8 +458,15 @@ if ( ! class_exists( 'WC_Facebookcommerce_Utils' ) ) :
 		 */
 		public static function check_woo_ajax_permissions( $action_text, $should_die ) {
 			if ( ! current_user_can( 'manage_woocommerce' ) ) {
-				self::log_with_debug_mode_enabled(
-					'Non manage_woocommerce user attempting to' . $action_text . '!'
+
+				Logger::log(
+					'Non manage_woocommerce user attempting to' . $action_text . '!',
+					[],
+					array(
+						'should_send_log_to_meta'        => false,
+						'should_save_log_in_woocommerce' => true,
+						'woocommerce_log_level'          => \WC_Log_Levels::CRITICAL,
+					)
 				);
 
 				if ( $should_die ) {
@@ -621,7 +619,7 @@ if ( ! class_exists( 'WC_Facebookcommerce_Utils' ) ) :
 				$parent_product_ids[ $parent_id ] = true;
 
 				// Include variations with published parents only.
-				if ( in_array( $parent_id, $product_ids ) ) {
+				if ( in_array( $parent_id, $product_ids, true ) ) {
 					$product_ids[] = $post_id;
 				}
 			}
@@ -780,32 +778,22 @@ if ( ! class_exists( 'WC_Facebookcommerce_Utils' ) ) :
 			set_transient( 'facebook_plugin_test_stack_trace', $trace );
 		}
 
-		/**
-		 * Helper function to check time cap.
-		 *
-		 * @param string $from
-		 * @param int    $date_cap
-		 * @return bool
-		 */
-		public static function check_time_cap( $from, $date_cap ) {
-			if ( null === $from ) {
-				return true;
+		public static function generate_guid() {
+			if ( function_exists( 'com_create_guid' ) === true ) {
+				return trim( com_create_guid(), '{}' );
 			}
-			$now         = new DateTime( current_time( 'mysql' ) );
-			$diff_in_day = $now->diff( new DateTime( $from ) )->format( '%a' );
-			return is_numeric( $diff_in_day ) && (int) $diff_in_day > $date_cap;
-		}
 
-		/**
-		 * Gets the cached best tip.
-		 *
-		 * @return mixed
-		 */
-		public static function get_cached_best_tip() {
-			$cached_best_tip = self::decode_json(
-				get_option( 'fb_info_banner_last_best_tip', '' )
+			return sprintf(
+				'%04X%04X-%04X-%04X-%04X-%04X%04X%04X',
+				wp_rand( 0, 65535 ),
+				wp_rand( 0, 65535 ),
+				wp_rand( 0, 65535 ),
+				wp_rand( 16384, 20479 ),
+				wp_rand( 32768, 49151 ),
+				wp_rand( 0, 65535 ),
+				wp_rand( 0, 65535 ),
+				wp_rand( 0, 65535 )
 			);
-			return $cached_best_tip;
 		}
 
 		/**
@@ -943,32 +931,10 @@ if ( ! class_exists( 'WC_Facebookcommerce_Utils' ) ) :
 		 * @since 3.5.0
 		 *
 		 * @param Throwable $error error object
-		 * @param array     $context wiki: https://www.internalfb.com/wiki/Commerce_Platform/Teams/3P_Ecosystems_(3PE)/3rd_Party_platforms/Woo_Commerce/How_To_Use_WooCommerce_Side_Logging/
+		 * @param array     $context optional error message attributes
 		 */
 		public static function log_exception_immediately_to_meta( Throwable $error, array $context = [] ) {
 			ErrorLogHandler::log_exception_to_meta( $error, $context );
-		}
-
-		/**
-		 * Utility function for sending logs to Meta.
-		 *
-		 * @since 3.5.0
-		 *
-		 * @param string $message
-		 * @param array  $context wiki: https://www.internalfb.com/wiki/Commerce_Platform/Teams/3P_Ecosystems_(3PE)/3rd_Party_platforms/Woo_Commerce/How_To_Use_WooCommerce_Side_Logging/
-		 */
-		public static function log_to_meta( string $message, array $context = [] ) {
-			$extra_data            = self::get_context_data( $context, 'extra_data', [] );
-			$extra_data['message'] = $message;
-			$context['extra_data'] = $extra_data;
-
-			// Push logging request to global message queue function.
-			$logs = get_transient( 'global_logging_message_queue' );
-			if ( ! $logs ) {
-				$logs = [];
-			}
-			$logs[] = $context;
-			set_transient( 'global_logging_message_queue', $logs, HOUR_IN_SECONDS );
 		}
 
 		/**
@@ -1003,29 +969,6 @@ if ( ! class_exists( 'WC_Facebookcommerce_Utils' ) ) :
 		 */
 		public static function get_context_data( array $context, string $key, $default_value = null ) {
 			return $context[ $key ] ?? $default_value;
-		}
-
-		/**
-		 * Saves errors or messages to WooCommerce (WP admin page:WooCommerce->Status).
-		 *
-		 * Only logs if debug mode is enabled and WP_DEBUG and WP_DEBUG_LOG are true in wp-config.php.
-		 *
-		 * @param string $message
-		 * @param string $level
-		 */
-		public static function log_with_debug_mode_enabled( $message, $level = null ) {
-			// if this file is being included outside the plugin, or the plugin setting is disabled
-			if ( ! function_exists( 'facebook_for_woocommerce' ) || ! facebook_for_woocommerce()->get_integration()->is_debug_mode_enabled() ) {
-				return;
-			}
-
-			if ( is_array( $message ) || is_object( $message ) ) {
-				$message = json_encode( $message );
-			} else {
-				$message = sanitize_textarea_field( $message );
-			}
-
-			facebook_for_woocommerce()->log( $message, null, $level );
 		}
 	}
 endif;

@@ -12,6 +12,7 @@ use WooCommerce\Facebook\API\Response;
 use WooCommerce\Facebook\Framework\Api\Exception as ApiException;
 use WooCommerce\Facebook\Products\Feed;
 use WooCommerce\Facebook\Utilities\Heartbeat;
+use WooCommerce\Facebook\Framework\Logger;
 
 /**
  * A class responsible detecting feed configuration.
@@ -36,6 +37,11 @@ class FeedConfigurationDetection {
 	 * @return void
 	 */
 	public function track_data_source_feed_tracker_info() {
+		$flag_name = '_wc_facebook_for_woocommerce_track_data_source_feed_tracker_info';
+		if ( 'yes' === get_transient( $flag_name ) ) {
+			return;
+		}
+		set_transient( $flag_name, 'yes', DAY_IN_SECONDS );
 		try {
 			$info = $this->get_data_source_feed_tracker_info();
 			facebook_for_woocommerce()->get_tracker()->track_facebook_feed_config( $info );
@@ -86,7 +92,15 @@ class FeedConfigurationDetection {
 				$metadata = $this->get_feed_metadata( $feed['id'] );
 			} catch ( Exception $e ) {
 				$message = sprintf( 'There was an error trying to get feed metadata: %s', $e->getMessage() );
-				WC_Facebookcommerce_Utils::log_with_debug_mode_enabled( $message );
+				Logger::log(
+					$message,
+					[],
+					array(
+						'should_send_log_to_meta'        => false,
+						'should_save_log_in_woocommerce' => true,
+						'woocommerce_log_level'          => \WC_Log_Levels::ERROR,
+					)
+				);
 				continue;
 			}
 
