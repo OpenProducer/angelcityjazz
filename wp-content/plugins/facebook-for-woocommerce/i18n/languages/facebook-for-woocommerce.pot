@@ -2,28 +2,29 @@
 # This file is distributed under the same license as the Facebook for WooCommerce plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Facebook for WooCommerce 3.5.3\n"
+"Project-Id-Version: Facebook for WooCommerce 3.5.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/facebook-for-woocommerce\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-06-19T15:15:22+00:00\n"
+"POT-Creation-Date: 2025-06-26T11:28:31+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: facebook-for-woocommerce\n"
 
 #. Plugin Name of the plugin
 #: facebook-for-woocommerce.php
-#: class-wc-facebookcommerce.php:856
+#: class-wc-facebookcommerce.php:808
 #: facebook-commerce.php:238
-#: includes/Admin.php:1433
-#: includes/Admin.php:1675
-#: includes/Admin/Enhanced_Settings.php:130
-#: includes/Admin/Enhanced_Settings.php:186
-#: includes/Admin/Settings.php:115
-#: includes/Admin/Settings.php:190
+#: includes/Admin.php:1434
+#: includes/Admin.php:1676
+#: includes/Admin/Enhanced_Settings.php:132
+#: includes/Admin/Enhanced_Settings.php:188
+#: includes/Admin/Global_Attributes_Banner.php:212
+#: includes/Admin/Settings.php:117
+#: includes/Admin/Settings.php:192
 msgid "Facebook for WooCommerce"
 msgstr ""
 
@@ -39,9 +40,9 @@ msgstr ""
 
 #. Author of the plugin
 #: facebook-for-woocommerce.php
-#: includes/Admin.php:1028
-#: includes/Admin/Enhanced_Settings.php:131
-#: includes/Admin/Settings.php:116
+#: includes/Admin.php:1029
+#: includes/Admin/Enhanced_Settings.php:133
+#: includes/Admin/Settings.php:118
 msgid "Facebook"
 msgstr ""
 
@@ -51,58 +52,58 @@ msgid "https://www.facebook.com/"
 msgstr ""
 
 #. translators: %s property name.
-#: class-wc-facebookcommerce.php:175
-#: facebook-commerce.php:396
+#: class-wc-facebookcommerce.php:172
+#: facebook-commerce.php:394
 #: includes/Admin/Enhanced_Catalog_Attribute_Fields.php:68
 #: includes/fbbackground.php:47
-#: includes/fbproduct.php:273
+#: includes/fbproduct.php:291
 msgid "The %s property is private and should not be accessed outside its class."
 msgstr ""
 
-#: class-wc-facebookcommerce.php:455
+#: class-wc-facebookcommerce.php:424
 msgid "Facebook Product Sets"
 msgstr ""
 
-#: class-wc-facebookcommerce.php:456
+#: class-wc-facebookcommerce.php:425
 msgid "Facebook Product Set"
 msgstr ""
 
 #. translators: Edit item label
-#: class-wc-facebookcommerce.php:464
+#: class-wc-facebookcommerce.php:433
 msgid "Edit %s"
 msgstr ""
 
 #. translators: Add new label
-#: class-wc-facebookcommerce.php:466
+#: class-wc-facebookcommerce.php:435
 msgid "Add new %s"
 msgstr ""
 
 #. translators: No items found text
-#: class-wc-facebookcommerce.php:468
+#: class-wc-facebookcommerce.php:437
 msgid "No %s found."
 msgstr ""
 
 #. translators: Search label
-#: class-wc-facebookcommerce.php:470
+#: class-wc-facebookcommerce.php:439
 msgid "Search %s"
 msgstr ""
 
 #. translators: Text label
-#: class-wc-facebookcommerce.php:472
+#: class-wc-facebookcommerce.php:441
 msgid "Separate %s with commas"
 msgstr ""
 
 #. translators: Text label
-#: class-wc-facebookcommerce.php:474
+#: class-wc-facebookcommerce.php:443
 msgid "Choose from the most used %s"
 msgstr ""
 
 #. translators: Backlink item label
-#: class-wc-facebookcommerce.php:476
+#: class-wc-facebookcommerce.php:445
 msgid "&larr; Go to %s"
 msgstr ""
 
-#: class-wc-facebookcommerce.php:611
+#: class-wc-facebookcommerce.php:573
 msgid "Cannot create the API instance because the access token is missing."
 msgstr ""
 
@@ -122,384 +123,440 @@ msgid "Messages Post API call for Order id %1$s skipped due to no active event c
 msgstr ""
 
 #. translators: %s $order_id
-#: facebook-commerce-whatsapp-utility-event.php:109
+#: facebook-commerce-whatsapp-utility-event.php:111
 msgid "Messages Post API call for Order id %1$s skipped due to missing whatsapp consent or Order info"
 msgstr ""
 
 #. translators: %s $order_id
-#: facebook-commerce-whatsapp-utility-event.php:123
+#: facebook-commerce-whatsapp-utility-event.php:125
 msgid "Messages Post API call for Order id %1$s Failed due to missing access token or wacs info"
+msgstr ""
+
+#. translators: %s consent for billing and shipping
+#: facebook-commerce-whatsapp-utility-event.php:161
+msgid "WhatsApp Consent info for user  $block_billing_consent_value: %1$s, $block_shipping_consent_value: %2$s, $classic_billing_consent_value: %3$s, $classic_shipping_consent_value: %4$s"
 msgstr ""
 
 #: facebook-commerce.php:242
 msgid "Facebook Commerce and Dynamic Ads (Pixel) Extension"
 msgstr ""
 
-#: facebook-commerce.php:2653
+#. translators: %d: number of additional unmapped attributes
+#: facebook-commerce.php:1757
+msgid " and %d more"
+msgstr ""
+
+#. translators: %1$s - attribute list, %2$d - count, %3$s - link start, %4$s - link end
+#: facebook-commerce.php:1771
+msgid "%3$s%2$d attribute \"%1$s\" is not mapped to Meta.%4$s Use the %3$sattribute mapper%4$s to map this attribute and improve your product visibility in Meta ads."
+msgid_plural "%3$s%2$d attributes (%1$s) are not mapped to Meta.%4$s Use the %3$sattribute mapper%4$s to map these attributes and improve your product visibility in Meta ads."
+msgstr[0] ""
+msgstr[1] ""
+
+#: facebook-commerce.php:2792
 msgid "Facebook for WooCommerce error:"
 msgstr ""
 
+#: facebook-commerce.php:2839
+#: includes/Admin/Settings_Screens/Product_Attributes.php:987
+msgid "Dismiss this notice."
+msgstr ""
+
 #. translators: Placeholders %1$s - original error message from Facebook API
-#: facebook-commerce.php:2906
+#: facebook-commerce.php:3075
 msgid "There was an issue connecting to the Facebook API: %s"
 msgstr ""
 
 #. translators: %s property name.
-#: includes/Admin.php:136
+#: includes/Admin.php:137
 #: includes/ProductSync/ProductValidator.php:99
 msgid "The %s property is protected and should not be accessed outside its class."
 msgstr ""
 
-#: includes/Admin.php:156
+#: includes/Admin.php:157
 msgid "The name is how it appears on Facebook Catalog."
 msgstr ""
 
-#: includes/Admin.php:198
+#: includes/Admin.php:199
 msgid "Search main categories..."
 msgstr ""
 
-#: includes/Admin.php:199
+#: includes/Admin.php:200
 msgid "Choose a main category first"
 msgstr ""
 
-#: includes/Admin.php:200
+#: includes/Admin.php:201
 msgid "Choose a category"
 msgstr ""
 
-#: includes/Admin.php:235
+#: includes/Admin.php:236
 msgid "You have selected one or more categories currently excluded from the Facebook sync. Products belonging to the excluded categories will not be added to your Facebook Product Set."
 msgstr ""
 
-#: includes/Admin.php:272
+#: includes/Admin.php:273
 msgid "Please enter a Google product category and at least one sub-category to sell this product on Instagram."
 msgstr ""
 
-#: includes/Admin.php:327
+#: includes/Admin.php:328
 msgid "To sell this product on Instagram, please ensure it meets the following requirements:"
 msgstr ""
 
-#: includes/Admin.php:329
+#: includes/Admin.php:330
 msgid "Has a price defined"
 msgstr ""
 
 #. translators: Placeholders: %1$s - <strong> opening HTML tag, %2$s - </strong> closing HTML tag
-#: includes/Admin.php:335
+#: includes/Admin.php:336
 msgid "Has %1$sManage Stock%2$s enabled on the %1$sInventory%2$s tab"
 msgstr ""
 
 #. translators: Placeholders: %1$s - <strong> opening HTML tag, %2$s - </strong> closing HTML tag
-#: includes/Admin.php:347
+#: includes/Admin.php:348
 msgid "Has the %1$sFacebook Sync%2$s setting set to \"Sync and show\" or \"Sync and hide\""
 msgstr ""
 
-#: includes/Admin.php:372
+#: includes/Admin.php:373
 msgid "Close"
 msgstr ""
 
-#: includes/Admin.php:399
+#: includes/Admin.php:400
 msgid "Synced to Meta catalog"
 msgstr ""
 
-#: includes/Admin.php:433
-#: includes/Admin.php:461
+#: includes/Admin.php:434
+#: includes/Admin.php:462
 msgid "Synced"
 msgstr ""
 
-#: includes/Admin.php:435
-#: includes/Admin.php:462
+#: includes/Admin.php:436
+#: includes/Admin.php:463
 msgid "Not synced"
 msgstr ""
 
-#: includes/Admin.php:460
+#: includes/Admin.php:461
 msgid "Filter by synced to Meta"
 msgstr ""
 
-#: includes/Admin.php:485
+#: includes/Admin.php:486
 msgid "Sync to Meta catalog"
 msgstr ""
 
-#: includes/Admin.php:488
+#: includes/Admin.php:489
 msgid "— No Change —"
 msgstr ""
 
-#: includes/Admin.php:489
+#: includes/Admin.php:490
 msgid "Sync"
 msgstr ""
 
-#: includes/Admin.php:490
-#: includes/Admin.php:1142
+#: includes/Admin.php:491
+#: includes/Admin.php:1143
 msgid "Do not sync"
 msgstr ""
 
-#: includes/Admin.php:763
+#: includes/Admin.php:764
 msgid "Include in Facebook sync"
 msgstr ""
 
-#: includes/Admin.php:764
+#: includes/Admin.php:765
 msgid "Exclude from Facebook sync"
 msgstr ""
 
 #. translators: Placeholders: %1$s - <strong> tag, %2$s - </strong> tag, %3$s - <a> tag, %4$s - <a> tag
-#: includes/Admin.php:888
+#: includes/Admin.php:889
 msgid "%1$sHeads up!%2$s If this product was previously visible in Facebook, you may need to delete it from the %3$sFacebook catalog%4$s to completely hide it from customer view."
 msgid_plural "%1$sHeads up!%2$s If these products were previously visible in Facebook, you may need to delete them from the %3$sFacebook catalog%4$s to completely hide them from customer view."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/Admin.php:895
+#: includes/Admin.php:896
 msgid "Don't show this notice again"
 msgstr ""
 
 #. translators: Placeholders: %1$s - number of affected products, %2$s opening HTML <a> tag, %3$s - closing HTML </a> tag, %4$s - opening HTML <a> tag, %5$s - closing HTML </a> tag
-#: includes/Admin.php:930
+#: includes/Admin.php:931
 msgid "%2$s%1$s product%3$s or some of its variations could not be updated to show in the Facebook catalog — %4$sFacebook Commerce Policies%5$s prohibit selling some product types (like virtual products). You may still advertise Virtual products on Facebook."
 msgid_plural "%2$s%1$s products%3$s or some of their variations could not be updated to show in the Facebook catalog — %4$sFacebook Commerce Policies%5$s prohibit selling some product types (like virtual products). You may still advertise Virtual products on Facebook."
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: Placeholders: %1$s - opening HTML <strong> tag, %2$s - closing HTML </strong> tag, %3$s - opening HTML <a> tag, %4$s - closing HTML </a> tag
-#: includes/Admin.php:999
+#: includes/Admin.php:1000
 msgid "%1$sHeads up!%2$s Facebook's %3$sCommerce Policies%4$s do not support selling virtual products, so we have hidden your synced Virtual products in your Facebook catalog. You may still advertise Virtual products on Facebook."
 msgstr ""
 
-#: includes/Admin.php:1047
+#: includes/Admin.php:1048
 msgid "Facebook Product Video"
 msgstr ""
 
-#: includes/Admin.php:1048
+#: includes/Admin.php:1049
 msgid "Choose"
 msgstr ""
 
-#: includes/Admin.php:1049
+#: includes/Admin.php:1050
 msgid "Choose the product video that should be synced to the Facebook catalog and displayed for this product."
 msgstr ""
 
-#: includes/Admin.php:1072
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:455
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:474
+#: includes/Admin.php:1073
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:472
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:491
 msgid "Remove"
 msgstr ""
 
-#: includes/Admin.php:1138
+#: includes/Admin.php:1139
 msgid "Facebook Sync"
 msgstr ""
 
-#: includes/Admin.php:1140
+#: includes/Admin.php:1141
 msgid "Sync and show in catalog"
 msgstr ""
 
-#: includes/Admin.php:1141
+#: includes/Admin.php:1142
 msgid "Sync and hide in catalog"
 msgstr ""
 
-#: includes/Admin.php:1146
+#: includes/Admin.php:1147
 msgid "Choose whether to sync this product to Facebook and, if synced, whether it should be visible in the catalog."
 msgstr ""
 
-#: includes/Admin.php:1157
-#: includes/Admin.php:1443
+#: includes/Admin.php:1158
+#: includes/Admin.php:1444
 msgid "Facebook Description"
 msgstr ""
 
-#: includes/Admin.php:1179
-#: includes/Admin.php:1456
+#: includes/Admin.php:1180
+#: includes/Admin.php:1457
 msgid "Facebook Product Image"
 msgstr ""
 
-#: includes/Admin.php:1181
-#: includes/Admin.php:1458
+#: includes/Admin.php:1182
+#: includes/Admin.php:1459
 msgid "Choose the product image that should be synced to the Facebook catalog and displayed for this product."
 msgstr ""
 
-#: includes/Admin.php:1183
+#: includes/Admin.php:1184
 msgid "Use WooCommerce image"
 msgstr ""
 
-#: includes/Admin.php:1184
-#: includes/Admin.php:1462
+#: includes/Admin.php:1185
+#: includes/Admin.php:1463
 msgid "Use custom image"
 msgstr ""
 
-#: includes/Admin.php:1195
-#: includes/Admin.php:1474
+#: includes/Admin.php:1196
+#: includes/Admin.php:1475
 msgid "Custom Image URL"
 msgstr ""
 
-#: includes/Admin.php:1199
-#: includes/Admin.php:1479
+#: includes/Admin.php:1200
+#: includes/Admin.php:1480
 msgid "Please enter an absolute URL (e.g. https://domain.com/image.jpg)."
 msgstr ""
 
 #. translators: Placeholders %1$s - WC currency symbol
-#: includes/Admin.php:1208
-#: includes/Admin.php:1489
+#: includes/Admin.php:1209
+#: includes/Admin.php:1490
 msgid "Facebook Price (%1$s)"
 msgstr ""
 
-#: includes/Admin.php:1212
-#: includes/Admin.php:1493
+#: includes/Admin.php:1213
+#: includes/Admin.php:1494
 msgid "Custom price for product on Facebook. Please enter in monetary decimal (.) format without thousand separators and currency symbols. If blank, product price will be used."
 msgstr ""
 
-#: includes/Admin.php:1233
+#: includes/Admin.php:1234
 msgid "Go to attributes"
 msgstr ""
 
-#: includes/Admin.php:1258
+#: includes/Admin.php:1259
 msgid "Manufacturer Part Number (MPN)"
 msgstr ""
 
-#: includes/Admin.php:1262
+#: includes/Admin.php:1263
 msgid "Manufacturer Part Number (MPN) of the item"
 msgstr ""
 
-#: includes/Admin.php:1270
+#: includes/Admin.php:1271
+#: includes/fbproduct.php:2837
 msgid "Brand"
 msgstr ""
 
-#: includes/Admin.php:1274
+#: includes/Admin.php:1275
 msgid "Brand name of the item"
 msgstr ""
 
-#: includes/Admin.php:1282
+#: includes/Admin.php:1283
+#: includes/fbproduct.php:2843
 msgid "Condition"
 msgstr ""
 
-#: includes/Admin.php:1284
-#: includes/Admin.php:1329
-#: includes/Admin.php:1350
+#: includes/Admin.php:1285
+#: includes/Admin.php:1330
+#: includes/Admin.php:1351
 msgid "Select"
 msgstr ""
 
-#: includes/Admin.php:1285
+#: includes/Admin.php:1286
+#: includes/fbproduct.php:2824
+#: includes/fbproduct.php:2865
 msgid "New"
 msgstr ""
 
-#: includes/Admin.php:1286
+#: includes/Admin.php:1287
+#: includes/fbproduct.php:2825
+#: includes/fbproduct.php:2866
 msgid "Refurbished"
 msgstr ""
 
-#: includes/Admin.php:1287
+#: includes/Admin.php:1288
+#: includes/fbproduct.php:2826
+#: includes/fbproduct.php:2867
 msgid "Used"
 msgstr ""
 
-#: includes/Admin.php:1291
+#: includes/Admin.php:1292
 msgid "This refers to the condition of your product. Supported values are new, refurbished and used."
 msgstr ""
 
-#: includes/Admin.php:1298
+#: includes/Admin.php:1299
+#: includes/fbproduct.php:2840
 msgid "Size"
 msgstr ""
 
-#: includes/Admin.php:1300
+#: includes/Admin.php:1301
 msgid "Size of the product item"
 msgstr ""
 
-#: includes/Admin.php:1313
+#: includes/Admin.php:1314
+#: includes/fbproduct.php:2839
 msgid "Color"
 msgstr ""
 
-#: includes/Admin.php:1315
+#: includes/Admin.php:1316
 msgid "Color of the product item"
 msgstr ""
 
-#: includes/Admin.php:1327
+#: includes/Admin.php:1328
+#: includes/fbproduct.php:2836
 msgid "Age Group"
 msgstr ""
 
-#: includes/Admin.php:1330
+#: includes/Admin.php:1331
+#: includes/fbproduct.php:2810
+#: includes/fbproduct.php:2851
 msgid "Adult"
 msgstr ""
 
-#: includes/Admin.php:1331
+#: includes/Admin.php:1332
+#: includes/fbproduct.php:2811
+#: includes/fbproduct.php:2852
 msgid "All Ages"
 msgstr ""
 
-#: includes/Admin.php:1332
+#: includes/Admin.php:1333
+#: includes/fbproduct.php:2813
+#: includes/fbproduct.php:2854
 msgid "Teen"
 msgstr ""
 
-#: includes/Admin.php:1333
+#: includes/Admin.php:1334
+#: includes/fbproduct.php:2812
+#: includes/fbproduct.php:2853
 msgid "Kids"
 msgstr ""
 
-#: includes/Admin.php:1334
+#: includes/Admin.php:1335
+#: includes/fbproduct.php:2816
+#: includes/fbproduct.php:2857
 msgid "Toddler"
 msgstr ""
 
-#: includes/Admin.php:1335
+#: includes/Admin.php:1336
+#: includes/fbproduct.php:2814
+#: includes/fbproduct.php:2855
 msgid "Infant"
 msgstr ""
 
-#: includes/Admin.php:1336
+#: includes/Admin.php:1337
+#: includes/fbproduct.php:2815
+#: includes/fbproduct.php:2856
 msgid "Newborn"
 msgstr ""
 
-#: includes/Admin.php:1340
+#: includes/Admin.php:1341
 msgid "Select the age group for this product."
 msgstr ""
 
-#: includes/Admin.php:1348
+#: includes/Admin.php:1349
+#: includes/fbproduct.php:2838
 msgid "Gender"
 msgstr ""
 
-#: includes/Admin.php:1351
+#: includes/Admin.php:1352
+#: includes/fbproduct.php:2819
+#: includes/fbproduct.php:2860
 msgid "Female"
 msgstr ""
 
-#: includes/Admin.php:1352
+#: includes/Admin.php:1353
+#: includes/fbproduct.php:2820
+#: includes/fbproduct.php:2861
 msgid "Male"
 msgstr ""
 
-#: includes/Admin.php:1353
+#: includes/Admin.php:1354
+#: includes/fbproduct.php:2821
+#: includes/fbproduct.php:2862
 msgid "Unisex"
 msgstr ""
 
-#: includes/Admin.php:1357
+#: includes/Admin.php:1358
 msgid "Select the gender for this product."
 msgstr ""
 
-#: includes/Admin.php:1364
+#: includes/Admin.php:1365
+#: includes/fbproduct.php:2841
 msgid "Material"
 msgstr ""
 
-#: includes/Admin.php:1366
+#: includes/Admin.php:1367
 msgid "Material of the product item"
 msgstr ""
 
-#: includes/Admin.php:1378
+#: includes/Admin.php:1379
+#: includes/fbproduct.php:2842
 msgid "Pattern"
 msgstr ""
 
-#: includes/Admin.php:1380
+#: includes/Admin.php:1381
 msgid "Pattern of the product item"
 msgstr ""
 
-#: includes/Admin.php:1434
+#: includes/Admin.php:1435
 msgid "Click to toggle"
 msgstr ""
 
-#: includes/Admin.php:1445
+#: includes/Admin.php:1446
 msgid "Custom (plain-text only) description for product on Facebook. If blank, product description will be used. If product description is blank, shortname will be used."
 msgstr ""
 
-#: includes/Admin.php:1460
+#: includes/Admin.php:1461
 msgid "Use variation image"
 msgstr ""
 
-#: includes/Admin.php:1461
+#: includes/Admin.php:1462
 msgid "Use parent image"
 msgstr ""
 
-#: includes/Admin.php:1504
+#: includes/Admin.php:1505
 msgid "Manufacturer Parts Number (MPN)"
 msgstr ""
 
-#: includes/Admin.php:1506
+#: includes/Admin.php:1507
 msgid "Manufacturer Parts Number"
 msgstr ""
 
-#: includes/Admin.php:1677
+#: includes/Admin.php:1678
 msgid "Close modal panel"
 msgstr ""
 
@@ -516,20 +573,29 @@ msgstr ""
 msgid "Show more attributes"
 msgstr ""
 
-#: includes/Admin/Enhanced_Settings.php:295
-#: includes/Admin/Settings.php:309
+#: includes/Admin/Enhanced_Settings.php:297
+#: includes/Admin/Settings.php:311
 msgid "You do not have permission to save these settings."
 msgstr ""
 
-#: includes/Admin/Enhanced_Settings.php:301
-#: includes/Admin/Settings.php:314
+#: includes/Admin/Enhanced_Settings.php:303
+#: includes/Admin/Settings.php:316
 msgid "Your settings have been saved."
 msgstr ""
 
 #. translators: Placeholders: %s - user-friendly error message
-#: includes/Admin/Enhanced_Settings.php:306
-#: includes/Admin/Settings.php:319
+#: includes/Admin/Enhanced_Settings.php:308
+#: includes/Admin/Settings.php:321
 msgid "Your settings could not be saved. %s"
+msgstr ""
+
+#. translators: %1$s - attribute name, %2$s - link start, %3$s - link end
+#: includes/Admin/Global_Attributes_Banner.php:218
+msgid "Your new \"%1$s\" attribute doesn't directly map to a Meta catalog field. %2$sMap it to Facebook%3$s to improve product visibility in Meta ads and help customers find your products more easily."
+msgstr ""
+
+#: includes/Admin/Global_Attributes_Banner.php:226
+msgid "Dismiss this notice"
 msgstr ""
 
 #: includes/Admin/Notes/SettingsMoved.php:75
@@ -558,10 +624,11 @@ msgid "Products and categories that inherit this global setting (i.e. they do no
 msgstr ""
 
 #: includes/Admin/Product_Categories.php:116
+#: includes/Admin/Settings_Screens/Product_Attributes.php:280
 #: includes/Admin/Settings_Screens/Product_Sync.php:153
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:473
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:524
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:667
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:490
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:541
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:684
 #: includes/AJAX.php:547
 #: includes/AJAX.php:610
 msgid "Cancel"
@@ -601,13 +668,13 @@ msgstr ""
 msgid "Map Facebook Product Set to WC Product Categories"
 msgstr ""
 
-#: includes/Admin/Settings.php:197
+#: includes/Admin/Settings.php:199
 #: includes/Admin/Settings_Screens/Connection.php:41
 #: includes/Admin/Settings_Screens/Connection.php:42
 msgid "Connection"
 msgstr ""
 
-#: includes/Admin/Settings.php:205
+#: includes/Admin/Settings.php:207
 #: includes/Admin/Settings_Screens/Product_Sync.php:50
 #: includes/Admin/Settings_Screens/Product_Sync.php:51
 #: includes/Admin/Settings_Screens/Product_Sync.php:176
@@ -615,7 +682,7 @@ msgstr ""
 msgid "Product sync"
 msgstr ""
 
-#: includes/Admin/Settings.php:209
+#: includes/Admin/Settings.php:211
 #: includes/Admin/Settings_Screens/Advertise.php:41
 #: includes/Admin/Settings_Screens/Advertise.php:42
 msgid "Advertise"
@@ -693,8 +760,8 @@ msgid "Get reporting on sales and revenue"
 msgstr ""
 
 #: includes/Admin/Settings_Screens/Connection.php:282
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:507
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:527
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:524
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:544
 msgid "Disconnect"
 msgstr ""
 
@@ -704,6 +771,126 @@ msgstr ""
 
 #: includes/Admin/Settings_Screens/Connection.php:307
 msgid "Debug"
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:66
+#: includes/Admin/Settings_Screens/Product_Attributes.php:67
+#: includes/Admin/Settings_Screens/Product_Attributes.php:184
+msgid "Attribute Mapping"
+msgstr ""
+
+#. translators: %d: number of orphaned mappings cleaned up
+#: includes/Admin/Settings_Screens/Product_Attributes.php:158
+msgid "Cleaned up %d obsolete attribute mapping for an attribute that no longer exists."
+msgid_plural "Cleaned up %d obsolete attribute mappings for attributes that no longer exist."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:185
+msgid "Map your custom attributes in WooCommerce to Meta equivalents. This helps to sync and display your products with the right information in your Meta ads."
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:185
+msgid "Manage WooCommerce attributes"
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:189
+#: includes/Admin/Settings_Screens/Product_Attributes.php:957
+msgid "Product attribute mappings saved successfully."
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:211
+#: includes/Admin/Settings_Screens/Product_Attributes.php:289
+#: includes/Admin/Settings_Screens/Product_Attributes.php:647
+msgid "WooCommerce Attribute"
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:212
+#: includes/Admin/Settings_Screens/Product_Attributes.php:290
+msgid "Meta Attribute"
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:220
+#: includes/Admin/Settings_Screens/Product_Attributes.php:221
+#: includes/Admin/Settings_Screens/Product_Attributes.php:228
+#: includes/Admin/Settings_Screens/Product_Attributes.php:229
+#: includes/Admin/Settings_Screens/Product_Attributes.php:247
+#: includes/Admin/Settings_Screens/Product_Attributes.php:248
+#: includes/Admin/Settings_Screens/Product_Attributes.php:255
+#: includes/Admin/Settings_Screens/Product_Attributes.php:256
+#: includes/Admin/Settings_Screens/Product_Attributes.php:375
+#: includes/Admin/Settings_Screens/Product_Attributes.php:376
+#: includes/Admin/Settings_Screens/Product_Attributes.php:386
+#: includes/Admin/Settings_Screens/Product_Attributes.php:387
+#: includes/Admin/Settings_Screens/Product_Attributes.php:696
+#: includes/Admin/Settings_Screens/Product_Attributes.php:697
+#: includes/Admin/Settings_Screens/Product_Attributes.php:707
+#: includes/Admin/Settings_Screens/Product_Attributes.php:708
+msgid "Select attribute"
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:236
+#: includes/Admin/Settings_Screens/Product_Attributes.php:237
+#: includes/Admin/Settings_Screens/Product_Attributes.php:263
+#: includes/Admin/Settings_Screens/Product_Attributes.php:264
+#: includes/Admin/Settings_Screens/Product_Attributes.php:397
+#: includes/Admin/Settings_Screens/Product_Attributes.php:398
+#: includes/Admin/Settings_Screens/Product_Attributes.php:685
+#: includes/Admin/Settings_Screens/Product_Attributes.php:686
+#: includes/Admin/Settings_Screens/Product_Attributes.php:718
+#: includes/Admin/Settings_Screens/Product_Attributes.php:719
+msgid "Remove mapping"
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:272
+#: includes/Admin/Settings_Screens/Product_Attributes.php:317
+msgid "Add new mapping"
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:279
+msgid "Save Changes"
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:297
+msgid "No attribute mappings configured."
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:319
+msgid "Edit Mappings"
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:641
+msgid "WooCommerce to Facebook Field Mapping"
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:648
+msgid "Facebook Attribute"
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:649
+msgid "Actions"
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:655
+msgid "No Facebook Product Attributes found."
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:663
+#: includes/Admin/Settings_Screens/Product_Attributes.php:664
+msgid "Select a WooCommerce attribute..."
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:674
+#: includes/Admin/Settings_Screens/Product_Attributes.php:675
+msgid "Select a Facebook attribute..."
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:729
+msgid "Add Mapping"
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Product_Attributes.php:956
+msgid "All attribute mappings have been removed."
 msgstr ""
 
 #: includes/Admin/Settings_Screens/Product_Sets.php:37
@@ -863,189 +1050,201 @@ msgstr ""
 msgid "Connect your WhatApp Business account"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:274
-msgid "Allows WooCommerce to connect to your WhatsApp account. "
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:276
+msgid "Allows WooCommerce to connect to your WhatsApp account. By connecting your account, you agree to the "
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:282
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:281
+msgid "Cloud API Terms"
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:283
+msgid "and "
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:288
+msgid " Meta Terms for WhatsApp Business."
+msgstr ""
+
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:299
 msgid "Connect"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:292
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:436
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:309
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:453
 msgid "Add WhatsApp option at checkout"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:293
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:310
 msgid "Adds a checkbox to your store’s checkout page that lets customers request updates about their order on WhatsApp. This allows you to communicate with customers after they make a purchase. You can remove this anytime."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:301
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:462
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:318
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:479
 msgid "Add"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:311
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:328
 msgid "Add a payment method"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:313
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:330
 msgid "Review and update your payment method in Billings & payments."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:318
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:335
 msgid "About pricing"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:329
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:346
 msgid "Review"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:343
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:360
 msgid "Done"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:359
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:376
 msgid "Utility Messages"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:360
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:377
 msgid "Manage which utility messages you want to send to customers. You can check performance of these messages in Whatsapp Manager."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:363
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:380
 msgid "View insights"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:371
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:388
 msgid "Order confirmation"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:373
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:394
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:415
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:438
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:390
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:411
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:432
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:455
 msgid "On"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:376
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:397
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:418
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:393
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:414
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:435
 msgid "Off"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:379
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:572
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:396
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:589
 msgid "Send a confirmation to customers after they've placed an order."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:385
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:406
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:427
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:402
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:423
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:444
 msgid "Manage"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:392
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:409
 msgid "Order shipped"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:400
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:417
 msgid "Send a confirmation to customers when their order is shipped."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:413
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:430
 msgid "Order refunded"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:421
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:438
 msgid "Send a confirmation to customers when an order is refunded."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:442
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:459
 msgid "Adds a checkbox to your store's checkout page that lets customers request updates about their order on WhatsApp. This allows you to communicate with customers after they make a purchase. You can preview what this looks like "
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:447
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:464
 msgid "checkout preview."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:468
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:485
 msgid "Stop sending messages to customers ?"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:470
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:487
 msgid "Removing this means customers won't be able to receive WhatsApp messages from your business. You'll remove the checkbox from your checkout page and stop collecting phone numbers from customers."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:483
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:500
 msgid "Edit your profile"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:486
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:503
 msgid "Edit your connected WhatsApp Business account on your WhatsApp Manager."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:513
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:530
 msgid "Edit"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:519
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:536
 msgid "Disconnect WhatsApp from WooCommerce?"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:521
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:538
 msgid "Your WhatsApp Business account will be disconnected from WooCommerce, resulting in the loss of messaging features. To reconnect in the future, you'll need to set up the connection again. However, you can still view your old insights in WhatsApp Manager. "
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:551
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:568
 msgid "Manage order confirmation message"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:556
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:573
 msgid "Manage order shipped message"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:561
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:578
 msgid "Manage order refunded message"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:577
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:594
 msgid "Send a confirmation to customers when their order has shipped."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:582
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:599
 msgid "Send a confirmation whenever an order has been refunded."
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:592
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:609
 msgid "Select a language"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:605
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:622
 msgid "Send order confirmation message"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:610
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:627
 msgid "Send order shipped message"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:615
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:632
 msgid "Send order refunded message"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:633
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:650
 msgid "Turn off order confirmation message"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:638
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:655
 msgid "Turn off order shipped message"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:643
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:660
 msgid "Turn off order refunded message"
 msgstr ""
 
-#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:660
+#: includes/Admin/Settings_Screens/Whatsapp_Utility.php:677
 #: includes/fbwpml.php:173
 msgid "Save"
 msgstr ""
@@ -1161,6 +1360,14 @@ msgstr ""
 
 #: includes/API/Plugin/Settings/Update/Request.php:112
 msgid "Missing access token"
+msgstr ""
+
+#: includes/fbproduct.php:2846
+msgid "MPN (Manufacturer Part Number)"
+msgstr ""
+
+#: includes/fbproduct.php:2847
+msgid "GTIN (Global Trade Item Number)"
 msgstr ""
 
 #: includes/fbproductfeed.php:219
@@ -1334,24 +1541,24 @@ msgstr ""
 msgid "Could not connect. Please ask your hosting company to ensure your server has loopback connections enabled."
 msgstr ""
 
-#: includes/Handlers/Connection.php:449
+#: includes/Handlers/Connection.php:477
 msgid "Connection successful!"
 msgstr ""
 
-#: includes/Handlers/Connection.php:498
+#: includes/Handlers/Connection.php:526
 msgid "You do not have permission to uninstall Facebook Business Extension."
 msgstr ""
 
-#: includes/Handlers/Connection.php:504
+#: includes/Handlers/Connection.php:532
 msgid "Disconnection successful."
 msgstr ""
 
 #. translators: Placeholders: %s - Facebook page ID
-#: includes/Handlers/Connection.php:586
+#: includes/Handlers/Connection.php:614
 msgid "Page %s not authorized."
 msgstr ""
 
-#: includes/Handlers/Connection.php:1464
+#: includes/Handlers/Connection.php:1492
 msgid "You do not have permission to finish App Store login."
 msgstr ""
 

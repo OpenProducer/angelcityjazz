@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: The Events Calendar Pro 7.6.0\n"
+"Project-Id-Version: The Events Calendar Pro 7.6.2\n"
 "Report-Msgid-Bugs-To: https://evnt.is/191x\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-05-19T17:36:39+00:00\n"
+"POT-Creation-Date: 2025-07-15T18:00:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: tribe-events-calendar-pro\n"
@@ -901,21 +901,23 @@ msgstr ""
 #: src/Events_Pro/Custom_Tables/V1/Editors/Classic/partials/series-event-relationship.php:84
 #: src/Tribe/APM_Filters/APM_Filters.php:96
 #: src/Tribe/Recurrence/Meta.php:300
-#: src/views/v2/day/event/recurring.php:31
-#: src/views/v2/list/event/recurring.php:31
-#: src/views/v2/map/event-cards/event-card/event/date-time/recurring.php:25
-#: src/views/v2/map/event-cards/event-card/tooltip/date-time/recurring.php:25
-#: src/views/v2/month/calendar-event/multiday/recurring.php:32
-#: src/views/v2/month/calendar-event/recurring.php:31
-#: src/views/v2/month/calendar-event/tooltip/recurring.php:31
-#: src/views/v2/month/mobile-event/recurring.php:31
-#: src/views/v2/photo/event/date-time/recurring.php:31
-#: src/views/v2/summary/date-group/event/date/recurring.php:31
-#: src/views/v2/week/grid-body/events-day/event/date/recurring.php:27
-#: src/views/v2/week/grid-body/events-day/event/tooltip/date/recurring.php:31
-#: src/views/v2/week/grid-body/multiday-events-day/multiday-event/bar/recurring.php:27
-#: src/views/v2/week/grid-body/multiday-events-day/multiday-event/hidden/link/recurring.php:27
-#: src/views/v2/week/mobile-events/day/event/date/recurring.php:31
+#: src/views/v2/day/event/recurring.php:28
+#: src/views/v2/list/event/recurring.php:28
+#: src/views/v2/map/event-cards/event-card/event/date-time/recurring.php:28
+#: src/views/v2/map/event-cards/event-card/tooltip/date-time/recurring.php:28
+#: src/views/v2/month/calendar-event/multiday/recurring.php:28
+#: src/views/v2/month/calendar-event/recurring.php:28
+#: src/views/v2/month/calendar-event/tooltip/recurring.php:28
+#: src/views/v2/month/mobile-event/recurring.php:28
+#: src/views/v2/photo/event/date-time/recurring.php:28
+#: src/views/v2/summary/date-group/event/date/recurring.php:30
+#: src/views/v2/week/grid-body/events-day/event/date/recurring.php:28
+#: src/views/v2/week/grid-body/events-day/event/tooltip/date/recurring.php:28
+#: src/views/v2/week/grid-body/multiday-events-day/multiday-event/bar/recurring.php:28
+#: src/views/v2/week/grid-body/multiday-events-day/multiday-event/hidden/link/recurring.php:28
+#: src/views/v2/week/mobile-events/day/event/date/recurring.php:28
+#: src/views/v2/widgets/widget-events-list/event/date/recurring.php:28
+#: src/views/v2/widgets/widget-featured-venue/events-list/event/date/recurring.php:28
 msgid "Recurring"
 msgstr ""
 
@@ -1383,6 +1385,8 @@ msgstr ""
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Event_Single_Legacy.php:529
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Event_Single_Legacy.php:1493
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Event_Single_Legacy.php:1818
+#: src/views/v2/organizer/meta/details/phone.php:32
+#: src/views/v2/venue/meta/details/phone.php:29
 #: src/views/v2/widgets/widget-featured-venue/venue/phone.php:25
 #: src/views/v2/widgets/widget-featured-venue/venue/phone.php:26
 msgid "Phone"
@@ -1405,6 +1409,8 @@ msgstr ""
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Event_Single_Legacy.php:530
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Event_Single_Legacy.php:1647
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Event_Single_Legacy.php:1895
+#: src/views/v2/organizer/meta/details/website.php:23
+#: src/views/v2/venue/meta/details/website.php:29
 #: src/views/v2/widgets/widget-featured-venue/venue/website.php:26
 #: src/views/v2/widgets/widget-featured-venue/venue/website.php:27
 msgid "Website"
@@ -1793,7 +1799,7 @@ msgstr ""
 msgid "Create: <%= term %> (Draft)"
 msgstr ""
 
-#: src/Events_Pro/Custom_Tables/V1/Editors/Classic/partials/event-series-relationship.php:66
+#: src/Events_Pro/Custom_Tables/V1/Editors/Classic/partials/event-series-relationship.php:75
 msgid "Edit series"
 msgstr ""
 
@@ -3481,6 +3487,7 @@ msgstr ""
 #: src/Events_Pro/Linked_Posts/Organizer/Email_Visibility_Modifier.php:29
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Event_Single_Legacy.php:501
 #: src/Tribe/Integrations/Elementor/Widgets/Widget_Event_Single_Legacy.php:1570
+#: src/views/v2/organizer/meta/details/email.php:34
 msgid "Email"
 msgstr ""
 
@@ -3680,64 +3687,64 @@ msgstr ""
 msgid "(See all)"
 msgstr ""
 
-#: src/functions/template-tags/general.php:834
-#: src/functions/template-tags/general.php:861
-#: src/functions/template-tags/general.php:888
-#: src/functions/template-tags/general.php:915
-#: src/functions/template-tags/general.php:942
-#: src/functions/template-tags/general.php:969
-#: src/functions/template-tags/general.php:996
-#: src/functions/template-tags/general.php:1023
-#: src/functions/template-tags/general.php:1050
+#: src/functions/template-tags/general.php:835
+#: src/functions/template-tags/general.php:862
+#: src/functions/template-tags/general.php:889
+#: src/functions/template-tags/general.php:916
+#: src/functions/template-tags/general.php:943
+#: src/functions/template-tags/general.php:970
+#: src/functions/template-tags/general.php:997
+#: src/functions/template-tags/general.php:1024
+#: src/functions/template-tags/general.php:1051
 msgid "No default set"
 msgstr ""
 
 #. translators: 1: Opening strong tag, 2: the current default organizer, 3: closing strong tag.
-#: src/functions/template-tags/general.php:840
+#: src/functions/template-tags/general.php:841
 #, php-format
 msgid "The current default organizer is: %1$s%2$s%3$s"
 msgstr ""
 
 #. translators: 1: Opening strong tag, 2: the current default venue, 3: closing strong tag.
-#: src/functions/template-tags/general.php:867
+#: src/functions/template-tags/general.php:868
 #, php-format
 msgid "The current default venue is: %1$s%2$s%3$s"
 msgstr ""
 
 #. translators: 1: Opening strong tag, 2: the current default address, 3: closing strong tag.
-#: src/functions/template-tags/general.php:894
+#: src/functions/template-tags/general.php:895
 #, php-format
 msgid "The current default address is: %1$s%2$s%3$s"
 msgstr ""
 
 #. translators: 1: Opening strong tag, 2: the current default city, 3: closing strong tag.
-#: src/functions/template-tags/general.php:921
+#: src/functions/template-tags/general.php:922
 #, php-format
 msgid "The current default city is: %1$s%2$s%3$s"
 msgstr ""
 
 #. translators: 1: Opening strong tag, 2: the current default state, 3: closing strong tag.
 #. translators: 1: Opening strong tag, 2: the current default state/province, 3: closing strong tag.
-#: src/functions/template-tags/general.php:948
-#: src/functions/template-tags/general.php:975
+#: src/functions/template-tags/general.php:949
+#: src/functions/template-tags/general.php:976
 #, php-format
 msgid "The current default state/province is: %1$s%2$s%3$s"
 msgstr ""
 
 #. translators: 1: Opening strong tag, 2: the current default postal code/zip code, 3: closing strong tag.
-#: src/functions/template-tags/general.php:1002
+#: src/functions/template-tags/general.php:1003
 #, php-format
 msgid "The current default postal code/zip code is: %1$s%2$s%3$s"
 msgstr ""
 
 #. translators: 1: Opening strong tag, 2: the current default country, 3: closing strong tag.
-#: src/functions/template-tags/general.php:1029
+#: src/functions/template-tags/general.php:1030
 #, php-format
 msgid "The current default country is: %1$s%2$s%3$s"
 msgstr ""
 
 #. translators: 1: Opening strong tag, 2: the current default phone, 3: closing strong tag.
-#: src/functions/template-tags/general.php:1056
+#: src/functions/template-tags/general.php:1057
 #, php-format
 msgid "The current default phone is: %1$s%2$s%3$s"
 msgstr ""
@@ -7984,11 +7991,12 @@ msgstr ""
 msgid "Join"
 msgstr ""
 
-#: src/views/custom-tables-v1/components/icons/series.php:25
-#: src/views/custom-tables-v1/components/series-relationship-icon-link-pill.php:41
-#: src/views/custom-tables-v1/components/series-relationship-icon-link.php:41
-#: src/views/custom-tables-v1/components/series-relationship-marker-link.php:45
-msgid "Event Series"
+#. translators: %s: event series title.
+#: src/views/custom-tables-v1/components/series-relationship-icon-link-pill.php:38
+#: src/views/custom-tables-v1/components/series-relationship-icon-link.php:38
+#: src/views/custom-tables-v1/components/series-relationship-marker-link.php:41
+#, php-format
+msgid "Event series: %s"
 msgstr ""
 
 #. translators: %1$s: Events (plural)
@@ -8041,7 +8049,8 @@ msgctxt "The header for Microsoft Teams link in a ticket email."
 msgid "Join Teams Video"
 msgstr ""
 
-#: src/views/pro/related-events.php:27
+#. translators: %s: event label plural.
+#: src/views/pro/related-events.php:29
 #, php-format
 msgid "Related %s"
 msgstr ""
@@ -8100,10 +8109,10 @@ msgstr ""
 msgid "%1$s."
 msgstr ""
 
-#. translators: %1$s: event date tag, in M j. format, %2$s: event date time, %3$s: event title, %4$s: event (singular)
+#. translators: %1$s: event date tag, in M j. format, %2$s: event date time, %3$s: event title
 #: src/views/v2/map/event-cards/event-card.php:105
 #, php-format
-msgid "%1$s %2$s %3$s. Click to select %4$s."
+msgid "%1$s %2$s %3$s."
 msgstr ""
 
 #. translators: %s: Event (singular)
@@ -8115,7 +8124,7 @@ msgstr ""
 
 #: src/views/v2/map/event-cards/event-card/actions/directions-spacer.php:24
 #: src/views/v2/map/event-cards/event-card/actions/directions.php:30
-#: src/views/v2/venue/meta/details/address.php:32
+#: src/views/v2/venue/meta/details/address.php:43
 msgid "Get Directions"
 msgstr ""
 
@@ -8124,21 +8133,17 @@ msgstr ""
 msgid "All Day"
 msgstr ""
 
-#: src/views/v2/map/event-cards/event-card/event/date-time/featured.php:27
-#: src/views/v2/map/event-cards/event-card/event/date-time/featured.php:32
-#: src/views/v2/map/event-cards/event-card/tooltip/date-time/featured.php:27
-#: src/views/v2/photo/event/date-time/featured.php:27
-#: src/views/v2/photo/event/date-time/featured.php:32
-#: src/views/v2/summary/date-group/event/title/featured.php:29
-#: src/views/v2/summary/date-group/event/title/featured.php:34
-#: src/views/v2/week/grid-body/events-day/event/date/featured.php:27
-#: src/views/v2/week/grid-body/events-day/event/title/featured.php:27
-#: src/views/v2/week/grid-body/events-day/event/tooltip/date/featured.php:27
-#: src/views/v2/week/grid-body/multiday-events-day/multiday-event/bar/featured.php:27
-#: src/views/v2/week/grid-body/multiday-events-day/multiday-event/hidden/link/featured.php:27
-#: src/views/v2/week/mobile-events/day/event/date/featured.php:27
-#: src/views/v2/widgets/widget-featured-venue/events-list/event/date/featured.php:25
-#: src/views/v2/widgets/widget-featured-venue/events-list/event/date/featured.php:30
+#: src/views/v2/map/event-cards/event-card/event/date-time/featured.php:29
+#: src/views/v2/map/event-cards/event-card/tooltip/date-time/featured.php:29
+#: src/views/v2/photo/event/date-time/featured.php:28
+#: src/views/v2/summary/date-group/event/title/featured.php:30
+#: src/views/v2/week/grid-body/events-day/event/date/featured.php:29
+#: src/views/v2/week/grid-body/events-day/event/title/featured.php:29
+#: src/views/v2/week/grid-body/events-day/event/tooltip/date/featured.php:29
+#: src/views/v2/week/grid-body/multiday-events-day/multiday-event/bar/featured.php:29
+#: src/views/v2/week/grid-body/multiday-events-day/multiday-event/hidden/link/featured.php:29
+#: src/views/v2/week/mobile-events/day/event/date/featured.php:28
+#: src/views/v2/widgets/widget-featured-venue/events-list/event/date/featured.php:28
 msgid "Featured"
 msgstr ""
 
@@ -8296,6 +8301,11 @@ msgctxt "\"onwards\" as in \"from TIME onwards\""
 msgid "%1$s onwards"
 msgstr ""
 
+#: src/views/v2/venue/meta/details/address.php:27
+#: src/views/v2/widgets/widget-featured-venue/venue/address.php:44
+msgid "Address"
+msgstr ""
+
 #: src/views/v2/venue/meta/map.php:53
 #, php-format
 msgid "Google maps iframe displaying the address to %s"
@@ -8403,12 +8413,6 @@ msgctxt "The abbreviated seconds duration label"
 msgid "secs"
 msgstr ""
 
-#: src/views/v2/widgets/widget-events-list/event/date/recurring.php:31
-#: src/views/v2/widgets/widget-events-list/event/date/recurring.php:32
-msgctxt "Recurring label for event in events list widget."
-msgid "Recurring"
-msgstr ""
-
 #. Translators: %1$s: Organizer label (singular)
 #: src/views/v2/widgets/widget-events-list/event/organizers.php:37
 #, php-format
@@ -8424,16 +8428,6 @@ msgstr ""
 #: src/views/v2/widgets/widget-featured-venue/events-list/event/date.php:28
 msgctxt "All day label for event"
 msgid "All day"
-msgstr ""
-
-#: src/views/v2/widgets/widget-featured-venue/events-list/event/date/recurring.php:24
-msgctxt "Recurring label for event in featured venue widget."
-msgid "Recurring"
-msgstr ""
-
-#: src/views/v2/widgets/widget-featured-venue/venue/address.php:32
-#: src/views/v2/widgets/widget-featured-venue/venue/address.php:33
-msgid "Address"
 msgstr ""
 
 #. translators: %1$s: Webex meeting ID.

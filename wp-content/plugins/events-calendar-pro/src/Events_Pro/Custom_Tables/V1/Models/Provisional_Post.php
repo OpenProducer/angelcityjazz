@@ -129,8 +129,8 @@ class Provisional_Post {
 	 */
 	private function parse_query_post_id( string $query ) {
 		global $wpdb;
-		// Update signature for wp_delete_post uses: SELECT * FROM $wpdb->posts WHERE ID = %d without the LIMIT.
-		$post_row_pattern = "@^SELECT \\* FROM {$wpdb->posts} WHERE ID = (?<id>\d+)(?: LIMIT 1$|$)@";
+		// Matches both WP_Post::get_instance() queries (with LIMIT 1) and wp_delete_post queries (without LIMIT).
+		$post_row_pattern = "@^SELECT \\* FROM {$wpdb->posts} WHERE ID = (?<id>\d+)(?: LIMIT 1)?(?:\s|/\*.*?\*/)*$@";
 		if ( ! preg_match( $post_row_pattern, $query, $matches ) || empty( $matches['id'] ) ) {
 			return false;
 		}

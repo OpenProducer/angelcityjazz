@@ -3,7 +3,7 @@
 Contributors: theeventscalendar, borkweb, bordoni, brianjessee, aguseo, camwynsp, GeoffBel, jentheo, leahkoerper, lucatume, neillmcshea, vicskf, zbtirrell, juanfra
 Tags: events, calendar, event, venue, organizer, dates, date, google maps, conference, workshop, concert, meeting, seminar, summit, class, the events calendar, widget, pro
 Donate link: https://evnt.is/29
-Stable tag: 7.6.0.1
+Stable tag: 7.6.2
 Requires at least: 6.6
 Tested up to: 6.8.1
 Requires PHP: 7.4
@@ -213,6 +213,28 @@ Previous versions of Events Calendar Pro are not cross-compatible with 6.X add-o
 Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
+
+= [7.6.2] 2025-07-16 =
+
+* Fix - Ensure all featured images on calendar views have dimensions set to reduce layout shifts. [TEC-4715]
+* Fix - Remove titles and add role=presentation and an empty alt attribute on featured images for screen readers. [TEC-5196]
+* Tweak - Changed views: `v2/map/event-cards/event-card/event/featured-image`, `v2/photo/event/featured-image`, `v2/week/grid-body/events-day/event/tooltip/featured-image`
+* Language - 0 new strings added, 0 updated, 0 fuzzied, and 0 obsoleted.
+
+= [7.6.1] 2025-07-03 =
+
+* Feature - Add integration with WP All Export to support exporting and migrating recurring events and event series. [ECP-1913]
+* Feature - Updated the calendar view templates to integrate Category Colors functionality. [TEC-5364]
+* Fix - Corrected provisional post SQL query parsing regex and added automated tests. [ECP-1914]
+* Tweak - Changed views: `blocks/additional-fields/checkbox`, `blocks/additional-fields/dropdown`, `blocks/additional-fields/radio`, `blocks/additional-fields/text`, `blocks/additional-fields/textarea`, `blocks/additional-fields/url`, `blocks/related-events`, `blocks/related-events/event-thumbnail`, `blocks/single-venue`, `blocks/virtual-event`, `components/icons/lock`, `components/virtual-event`, `custom-tables-v1/components/icons/series`, `custom-tables-v1/components/series-relationship-icon-link-pill`, `custom-tables-v1/components/series-relationship-icon-link`, `custom-tables-v1/components/series-relationship-marker-link`, `custom-tables-v1/single/series-relationship-marker`, `facebook/single/facebook-embed`, `integrations/elementor/widgets/event-additional-fields`, `integrations/elementor/widgets/event-additional-fields/field/label`, `integrations/elementor/widgets/event-additional-fields/field/value`, `integrations/elementor/widgets/event-additional-fields/fields`, `integrations/elementor/widgets/event-additional-fields/header`, `integrations/elementor/widgets/event-organizer/names`, `integrations/elementor/widgets/event-related`, `integrations/elementor/widgets/event-related/header`, `integrations/elementor/widgets/event-related/item/datetime`, `integrations/elementor/widgets/event-related/item/thumb`, `integrations/elementor/widgets/event-related/item/title`, `integrations/elementor/widgets/event-related/list-item`, `integrations/elementor/widgets/event-related/list`, `integrations/elementor/widgets/event-venue/name`, `pro/related-events`, `single/hybrid-marker-mobile`, `single/hybrid-marker`, `single/virtual-marker-mobile`, `single/virtual-marker`, `v2/day/event/recurring`, `v2/list/event/recurring`, `v2/map`, `v2/map/event-cards/event-card`, `v2/map/event-cards/event-card/actions`, `v2/map/event-cards/event-card/event`, `v2/map/event-cards/event-card/event/category`, `v2/map/event-cards/event-card/event/date-time/featured`, `v2/map/event-cards/event-card/event/date-time/recurring`, `v2/map/event-cards/event-card/tooltip`, `v2/map/event-cards/event-card/tooltip/date-time/featured`, `v2/map/event-cards/event-card/tooltip/date-time/recurring`, `v2/map/map/no-venue-modal`, `v2/map/top-bar`, `v2/month/calendar-event/multiday/recurring`, `v2/month/calendar-event/recurring`, `v2/month/calendar-event/tooltip/recurring`, `v2/month/mobile-event/recurring`, `v2/organizer/meta`, `v2/organizer/meta/categories`, `v2/organizer/meta/details/email`, `v2/organizer/meta/details/phone`, `v2/organizer/meta/details/website`, `v2/organizer/meta/featured-image`, `v2/photo`, `v2/photo/event`, `v2/photo/event/category`, `v2/photo/event/date-time/featured`, `v2/photo/event/date-time/recurring`, `v2/photo/top-bar`, `v2/summary`, `v2/summary/date-group`, `v2/summary/date-group/event`, `v2/summary/date-group/event/date/recurring`, `v2/summary/date-group/event/title/featured`, `v2/summary/top-bar`, `v2/venue/meta`, `v2/venue/meta/categories`, `v2/venue/meta/details/address`, `v2/venue/meta/details/phone`, `v2/venue/meta/details/website`, `v2/venue/meta/featured-image`, `v2/week`, `v2/week/day-selector`, `v2/week/day-selector/days/day`, `v2/week/grid-body/events-day/event`, `v2/week/grid-body/events-day/event/date/featured`, `v2/week/grid-body/events-day/event/date/recurring`, `v2/week/grid-body/events-day/event/title/featured`, `v2/week/grid-body/events-day/event/tooltip/date/featured`, `v2/week/grid-body/events-day/event/tooltip/date/recurring`, `v2/week/grid-body/events-row-header`, `v2/week/grid-body/multiday-events-day/multiday-event`, `v2/week/grid-body/multiday-events-day/multiday-event/bar/featured`, `v2/week/grid-body/multiday-events-day/multiday-event/bar/recurring`, `v2/week/grid-body/multiday-events-day/multiday-event/hidden/link/featured`, `v2/week/grid-body/multiday-events-day/multiday-event/hidden/link/recurring`, `v2/week/grid-header`, `v2/week/grid-header/header-column`, `v2/week/mobile-events/day`, `v2/week/mobile-events/day/event`, `v2/week/mobile-events/day/event/date/featured`, `v2/week/mobile-events/day/event/date/recurring`, `v2/week/top-bar`, `v2/widgets/shortcodes/components/after`, `v2/widgets/shortcodes/components/before`, `v2/widgets/shortcodes/components/icons/caret-left`, `v2/widgets/shortcodes/components/icons/caret-right`, `v2/widgets/shortcodes/components/title`, `v2/widgets/shortcodes/events-month`, `v2/widgets/shortcodes/events-week`, `v2/widgets/widget-countdown`, `v2/widgets/widget-countdown/complete`, `v2/widgets/widget-events-list/event/date/recurring`, `v2/widgets/widget-featured-venue`, `v2/widgets/widget-featured-venue/events-list/event`, `v2/widgets/widget-featured-venue/events-list/event/date/featured`, `v2/widgets/widget-featured-venue/events-list/event/date/recurring`, `v2/widgets/widget-featured-venue/venue/address`, `youtube/single/youtube-embed`
+* Accessibility - Correct confusing labelling of images and links for screen readers. [TEC-5197, TEC-5182, TEC-5183, TEC-5195]
+* Accessibility - Reorganized the Virtual and Hybrid icons to be more understandable when read by a screen reader. [ECP-1833, TEC-5203]
+* Accessibility - Updated featured icons in all calendar views to include accessible labels. [TEC-5190, TEC-5201]
+* Language - 2 new strings added, 18 updated, 0 fuzzied, and 4 obsoleted.
+
+= [7.6.0.2] 2025-06-23 =
+
+* Fix - Prevents treating occurrences as events for pre custom tables migration code, resulting in creating multiple occurrences of phantom events. [ECP-1912]
 
 = [7.6.0.1] 2025-06-05 =
 

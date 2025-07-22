@@ -33,13 +33,19 @@ $image_url = $event->thumbnail->exists ? $event->thumbnail->full->url : $placeho
 			<?php endif; ?>
 			<?php if ( ! empty( $event->thumbnail->alt ) ) : ?>
 				alt="<?php echo esc_attr( $event->thumbnail->alt ); ?>"
-			<?php else : // We need to ensure we have an empty alt tag for accessibility reasons if the user doesn't set one for the featured image ?>
+			<?php else : ?>
 				alt=""
 			<?php endif; ?>
 			<?php if ( ! empty( $event->thumbnail->title ) ) : ?>
 				title="<?php echo esc_attr( $event->thumbnail->title ); ?>"
 			<?php endif; ?>
 			class="tribe-events-pro-photo__event-featured-image"
+			<?php if ( ! empty( $event->thumbnail->full->width ) ) : ?>
+				width="<?php echo esc_attr( $event->thumbnail->full->width ); ?>"
+			<?php endif; ?>
+			<?php if ( ! empty( $event->thumbnail->full->height ) ) : ?>
+				height="<?php echo esc_attr( $event->thumbnail->full->height ); ?>"
+			<?php endif; ?>
 		/>
 	</a>
 </div>

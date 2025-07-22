@@ -37,7 +37,7 @@ if ( $hide_weekends ) {
 }
 ?>
 <div
-	<?php tribe_classes( $container_classes ); ?>
+	<?php tec_classes( $container_classes ); ?>
 	data-js="tribe-events-view"
 	data-view-rest-url="<?php echo esc_url( $rest_url ); ?>"
 	data-view-rest-method="<?php echo esc_attr( $rest_method ); ?>"
@@ -59,7 +59,7 @@ if ( $hide_weekends ) {
 
 		<?php $this->template( 'components/before' ); ?>
 
-		<header <?php tribe_classes( $header_classes ); ?>>
+		<header <?php tec_classes( $header_classes ); ?>>
 			<?php $this->template( 'components/messages' ); ?>
 
 			<?php $this->template( 'components/breadcrumbs' ); ?>
@@ -76,7 +76,7 @@ if ( $hide_weekends ) {
 		<?php $this->template( 'week/mobile-events', [ 'days' => $mobile_days ] ); ?>
 
 		<div
-			<?php tribe_classes( $grid_classes ); ?>
+			<?php tec_classes( $grid_classes ); ?>
 			role="grid"
 			aria-labelledby="tribe-events-pro-week-header"
 			aria-readonly="true"

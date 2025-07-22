@@ -13637,14 +13637,14 @@ const getBlockTransformItems = (0,external_wp_data_namespaceObject.createRegistr
  *
  * @return {boolean} Items that appear in inserter.
  */
-const hasInserterItems = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, rootClientId = null) => {
+const hasInserterItems = (state, rootClientId = null) => {
   const hasBlockType = (0,external_wp_blocks_namespaceObject.getBlockTypes)().some(blockType => canIncludeBlockTypeInInserter(state, blockType, rootClientId));
   if (hasBlockType) {
     return true;
   }
-  const hasReusableBlock = canInsertBlockTypeUnmemoized(state, 'core/block', rootClientId) && unlock(select(STORE_NAME)).getReusableBlocks().length > 0;
+  const hasReusableBlock = canInsertBlockTypeUnmemoized(state, 'core/block', rootClientId);
   return hasReusableBlock;
-});
+};
 
 /**
  * Returns the list of allowed inserter blocks for inner blocks children.
@@ -13659,12 +13659,12 @@ const getAllowedBlocks = (0,external_wp_data_namespaceObject.createRegistrySelec
     return;
   }
   const blockTypes = (0,external_wp_blocks_namespaceObject.getBlockTypes)().filter(blockType => canIncludeBlockTypeInInserter(state, blockType, rootClientId));
-  const hasReusableBlock = canInsertBlockTypeUnmemoized(state, 'core/block', rootClientId) && unlock(select(STORE_NAME)).getReusableBlocks().length > 0;
+  const hasReusableBlock = canInsertBlockTypeUnmemoized(state, 'core/block', rootClientId);
   if (hasReusableBlock) {
     blockTypes.push('core/block');
   }
   return blockTypes;
-}, (state, rootClientId) => [(0,external_wp_blocks_namespaceObject.getBlockTypes)(), unlock(select(STORE_NAME)).getReusableBlocks(), ...getInsertBlockTypeDependants(select)(state, rootClientId)]));
+}, (state, rootClientId) => [(0,external_wp_blocks_namespaceObject.getBlockTypes)(), ...getInsertBlockTypeDependants(select)(state, rootClientId)]));
 const __experimentalGetAllowedBlocks = (0,external_wp_data_namespaceObject.createSelector)((state, rootClientId = null) => {
   external_wp_deprecated_default()('wp.data.select( "core/block-editor" ).__experimentalGetAllowedBlocks', {
     alternative: 'wp.data.select( "core/block-editor" ).getAllowedBlocks',
@@ -22934,7 +22934,7 @@ const globe = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(exte
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24",
   children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_primitives_namespaceObject.Path, {
-    d: "M12 3.3c-4.8 0-8.8 3.9-8.8 8.8 0 4.8 3.9 8.8 8.8 8.8 4.8 0 8.8-3.9 8.8-8.8s-4-8.8-8.8-8.8zm6.5 5.5h-2.6C15.4 7.3 14.8 6 14 5c2 .6 3.6 2 4.5 3.8zm.7 3.2c0 .6-.1 1.2-.2 1.8h-2.9c.1-.6.1-1.2.1-1.8s-.1-1.2-.1-1.8H19c.2.6.2 1.2.2 1.8zM12 18.7c-1-.7-1.8-1.9-2.3-3.5h4.6c-.5 1.6-1.3 2.9-2.3 3.5zm-2.6-4.9c-.1-.6-.1-1.1-.1-1.8 0-.6.1-1.2.1-1.8h5.2c.1.6.1 1.1.1 1.8s-.1 1.2-.1 1.8H9.4zM4.8 12c0-.6.1-1.2.2-1.8h2.9c-.1.6-.1 1.2-.1 1.8 0 .6.1 1.2.1 1.8H5c-.2-.6-.2-1.2-.2-1.8zM12 5.3c1 .7 1.8 1.9 2.3 3.5H9.7c.5-1.6 1.3-2.9 2.3-3.5zM10 5c-.8 1-1.4 2.3-1.8 3.8H5.5C6.4 7 8 5.6 10 5zM5.5 15.3h2.6c.4 1.5 1 2.8 1.8 3.7-1.8-.6-3.5-2-4.4-3.7zM14 19c.8-1 1.4-2.2 1.8-3.7h2.6C17.6 17 16 18.4 14 19z"
+    d: "M12 4c-4.4 0-8 3.6-8 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8Zm6.5 8c0 .6 0 1.2-.2 1.8h-2.7c0-.6.2-1.1.2-1.8s0-1.2-.2-1.8h2.7c.2.6.2 1.1.2 1.8Zm-.9-3.2h-2.4c-.3-.9-.7-1.8-1.1-2.4-.1-.2-.2-.4-.3-.5 1.6.5 3 1.6 3.8 3ZM12.8 17c-.3.5-.6 1-.8 1.3-.2-.3-.5-.8-.8-1.3-.3-.5-.6-1.1-.8-1.7h3.3c-.2.6-.5 1.2-.8 1.7Zm-2.9-3.2c-.1-.6-.2-1.1-.2-1.8s0-1.2.2-1.8H14c.1.6.2 1.1.2 1.8s0 1.2-.2 1.8H9.9ZM11.2 7c.3-.5.6-1 .8-1.3.2.3.5.8.8 1.3.3.5.6 1.1.8 1.7h-3.3c.2-.6.5-1.2.8-1.7Zm-1-1.2c-.1.2-.2.3-.3.5-.4.7-.8 1.5-1.1 2.4H6.4c.8-1.4 2.2-2.5 3.8-3Zm-1.8 8H5.7c-.2-.6-.2-1.1-.2-1.8s0-1.2.2-1.8h2.7c0 .6-.2 1.1-.2 1.8s0 1.2.2 1.8Zm-2 1.4h2.4c.3.9.7 1.8 1.1 2.4.1.2.2.4.3.5-1.6-.5-3-1.6-3.8-3Zm7.4 3c.1-.2.2-.3.3-.5.4-.7.8-1.5 1.1-2.4h2.4c-.8 1.4-2.2 2.5-3.8 3Z"
   })
 });
 /* harmony default export */ const library_globe = (globe);
@@ -24755,7 +24755,6 @@ function InspectorImagePreviewItem({
   toggleProps = {},
   filename,
   label,
-  className,
   onToggleCallback = background_image_control_noop
 }) {
   const {
@@ -24800,9 +24799,7 @@ function InspectorImagePreviewItem({
   };
   return as === 'button' ? /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
     __next40pxDefaultSize: true,
-    className: className,
     ...restToggleProps,
-    "aria-expanded": isOpen,
     children: renderPreviewContent()
   }) : renderPreviewContent();
 }
@@ -24970,7 +24967,6 @@ function BackgroundImageControls({
         })
       },
       name: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(InspectorImagePreviewItem, {
-        className: "block-editor-global-styles-background-panel__image-preview",
         imgUrl: url,
         filename: title,
         label: imgLabel
@@ -39697,7 +39693,7 @@ function Warning({
             icon: more_vertical,
             label: (0,external_wp_i18n_namespaceObject.__)('More options'),
             popoverProps: {
-              position: 'bottom left',
+              placement: 'bottom-end',
               className: 'block-editor-warning__dropdown'
             },
             noIcons: true,
@@ -50091,11 +50087,11 @@ function useNotifyCopy() {
       const title = getBlockType(getBlockName(clientId))?.title;
       if (eventType === 'copy') {
         notice = (0,external_wp_i18n_namespaceObject.sprintf)(
-        // Translators: Name of the block being copied, e.g. "Paragraph".
+        // Translators: %s: Name of the block being copied, e.g. "Paragraph".
         (0,external_wp_i18n_namespaceObject.__)('Copied "%s" to clipboard.'), title);
       } else {
         notice = (0,external_wp_i18n_namespaceObject.sprintf)(
-        // Translators: Name of the block being cut, e.g. "Paragraph".
+        // Translators: %s: Name of the block being cut, e.g. "Paragraph".
         (0,external_wp_i18n_namespaceObject.__)('Moved "%s" to clipboard.'), title);
       }
     } else if (eventType === 'copy') {
@@ -54862,7 +54858,7 @@ function getBlockAndPreviewFromMedia(media, mediaType) {
 
 const ALLOWED_MEDIA_TYPES = ['image'];
 const MEDIA_OPTIONS_POPOVER_PROPS = {
-  position: 'bottom left',
+  placement: 'bottom-end',
   className: 'block-editor-inserter__media-list__item-preview-options__popover'
 };
 function MediaPreviewOptions({
@@ -62470,13 +62466,13 @@ function usePasteStyles() {
     if (targetBlocks.length === 1) {
       const title = (0,external_wp_blocks_namespaceObject.getBlockType)(targetBlocks[0].name)?.title;
       createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
-      // Translators: Name of the block being pasted, e.g. "Paragraph".
+      // Translators: %s: Name of the block being pasted, e.g. "Paragraph".
       (0,external_wp_i18n_namespaceObject.__)('Pasted styles to %s.'), title), {
         type: 'snackbar'
       });
     } else {
       createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
-      // Translators: The number of the blocks.
+      // Translators: %d: The number of the blocks.
       (0,external_wp_i18n_namespaceObject.__)('Pasted styles to %d blocks.'), targetBlocks.length), {
         type: 'snackbar'
       });
@@ -62954,6 +62950,7 @@ function BlockLockModal({
     (0,external_wp_i18n_namespaceObject.__)('Lock %s'), blockInformation.title),
     overlayClassName: "block-editor-block-lock-modal",
     onRequestClose: onClose,
+    size: "small",
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("form", {
       onSubmit: event => {
         event.preventDefault();
@@ -72174,7 +72171,7 @@ function ImageSizeControl({
         children: IMAGE_SIZE_PRESETS.map(scale => {
           return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
             value: scale,
-            label: (0,external_wp_i18n_namespaceObject.sprintf)(/* translators: Percentage value. */
+            label: (0,external_wp_i18n_namespaceObject.sprintf)(/* translators: %d: Percentage value. */
             (0,external_wp_i18n_namespaceObject.__)('%d%%'), scale)
           }, scale);
         })
@@ -75104,70 +75101,60 @@ const arrowLeft = /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(
  */
 
 
-class URLInputButton extends external_wp_element_namespaceObject.Component {
-  constructor() {
-    super(...arguments);
-    this.toggle = this.toggle.bind(this);
-    this.submitLink = this.submitLink.bind(this);
-    this.state = {
-      expanded: false
-    };
-  }
-  toggle() {
-    this.setState({
-      expanded: !this.state.expanded
-    });
-  }
-  submitLink(event) {
+/**
+ * A button that toggles a URL input field for inserting or editing links.
+ *
+ * @param {Object}   props          Component properties.
+ * @param {string}   props.url      The current URL value.
+ * @param {Function} props.onChange Callback function to handle URL changes.
+ * @return {JSX.Element} The URL input button component.
+ */
+
+function URLInputButton({
+  url,
+  onChange
+}) {
+  const [expanded, toggleExpanded] = (0,external_wp_element_namespaceObject.useReducer)(isExpanded => !isExpanded, false);
+  const submitLink = event => {
     event.preventDefault();
-    this.toggle();
-  }
-  render() {
-    const {
-      url,
-      onChange
-    } = this.props;
-    const {
-      expanded
-    } = this.state;
-    const buttonLabel = url ? (0,external_wp_i18n_namespaceObject.__)('Edit link') : (0,external_wp_i18n_namespaceObject.__)('Insert link');
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-      className: "block-editor-url-input__button",
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
-        size: "compact",
-        icon: library_link,
-        label: buttonLabel,
-        onClick: this.toggle,
-        className: "components-toolbar__control",
-        isPressed: !!url
-      }), expanded && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("form", {
-        className: "block-editor-url-input__button-modal",
-        onSubmit: this.submitLink,
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
-          className: "block-editor-url-input__button-modal-line",
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
-            __next40pxDefaultSize: true,
-            className: "block-editor-url-input__back",
-            icon: arrow_left,
-            label: (0,external_wp_i18n_namespaceObject.__)('Close'),
-            onClick: this.toggle
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(url_input, {
-            value: url || '',
-            onChange: onChange,
-            suffix: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalInputControlSuffixWrapper, {
-              variant: "control",
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
-                size: "small",
-                icon: keyboard_return,
-                label: (0,external_wp_i18n_namespaceObject.__)('Submit'),
-                type: "submit"
-              })
+    toggleExpanded();
+  };
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
+    className: "block-editor-url-input__button",
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+      size: "compact",
+      icon: library_link,
+      label: url ? (0,external_wp_i18n_namespaceObject.__)('Edit link') : (0,external_wp_i18n_namespaceObject.__)('Insert link'),
+      onClick: toggleExpanded,
+      className: "components-toolbar__control",
+      isPressed: !!url
+    }), expanded && /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)("form", {
+      className: "block-editor-url-input__button-modal",
+      onSubmit: submitLink,
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsxs)("div", {
+        className: "block-editor-url-input__button-modal-line",
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+          __next40pxDefaultSize: true,
+          className: "block-editor-url-input__back",
+          icon: arrow_left,
+          label: (0,external_wp_i18n_namespaceObject.__)('Close'),
+          onClick: toggleExpanded
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(url_input, {
+          value: url || '',
+          onChange: onChange,
+          suffix: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.__experimentalInputControlSuffixWrapper, {
+            variant: "control",
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_namespaceObject.jsx)(external_wp_components_namespaceObject.Button, {
+              size: "small",
+              icon: keyboard_return,
+              label: (0,external_wp_i18n_namespaceObject.__)('Submit'),
+              type: "submit"
             })
-          })]
-        })
-      })]
-    });
-  }
+          })
+        })]
+      })
+    })]
+  });
 }
 
 /**

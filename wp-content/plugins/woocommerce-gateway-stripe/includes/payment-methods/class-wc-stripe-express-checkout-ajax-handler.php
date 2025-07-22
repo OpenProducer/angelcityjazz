@@ -31,13 +31,14 @@ class WC_Stripe_Express_Checkout_Ajax_Handler {
 	public function init() {
 		add_action( 'wc_ajax_wc_stripe_get_cart_details', [ $this, 'ajax_get_cart_details' ] );
 		add_action( 'wc_ajax_wc_stripe_get_shipping_options', [ $this, 'ajax_get_shipping_options' ] );
+		add_action( 'wc_ajax_wc_stripe_normalize_address', [ $this, 'ajax_normalize_address' ] );
 		add_action( 'wc_ajax_wc_stripe_update_shipping_method', [ $this, 'ajax_update_shipping_method' ] );
-		add_action( 'wc_ajax_wc_stripe_create_order', [ $this, 'ajax_create_order' ] );
 		add_action( 'wc_ajax_wc_stripe_add_to_cart', [ $this, 'ajax_add_to_cart' ] );
 		add_action( 'wc_ajax_wc_stripe_get_selected_product_data', [ $this, 'ajax_get_selected_product_data' ] );
 		add_action( 'wc_ajax_wc_stripe_clear_cart', [ $this, 'ajax_clear_cart' ] );
 		add_action( 'wc_ajax_wc_stripe_log_errors', [ $this, 'ajax_log_errors' ] );
 		add_action( 'wc_ajax_wc_stripe_pay_for_order', [ $this, 'ajax_pay_for_order' ] );
+		add_filter( 'woocommerce_get_country_locale', [ $this, 'modify_country_locale_for_express_checkout' ], 20 );
 	}
 
 	/**
@@ -138,6 +139,21 @@ class WC_Stripe_Express_Checkout_Ajax_Handler {
 		}
 
 		exit;
+	}
+
+	/**
+	 * Normalizes address fields in WooCommerce supported format.
+	 */
+	public function ajax_normalize_address() {
+		check_ajax_referer( 'wc-stripe-express-checkout-normalize-address', 'security' );
+
+		$data = filter_input( INPUT_POST, 'data', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+
+		// Normalizes billing and shipping state values.
+		$normalized_data = $this->express_checkout_helper->normalize_state( $data );
+		$normalized_data = $this->express_checkout_helper->fix_address_fields_mapping( $normalized_data );
+
+		wp_send_json( $normalized_data );
 	}
 
 	/**
@@ -298,44 +314,6 @@ class WC_Stripe_Express_Checkout_Ajax_Handler {
 	}
 
 	/**
-	 * Create order. Security is handled by WC.
-	 *
-	 * @deprecated 9.2.0 Payment is processed using the Blocks API by default.
-	 */
-	public function ajax_create_order() {
-		_deprecated_function( __METHOD__, '9.2.0' );
-		try {
-			if ( WC()->cart->is_empty() ) {
-				wp_send_json_error( __( 'Empty cart', 'woocommerce-gateway-stripe' ) );
-			}
-
-			if ( ! defined( 'WOOCOMMERCE_CHECKOUT' ) ) {
-				define( 'WOOCOMMERCE_CHECKOUT', true );
-			}
-
-			$this->express_checkout_helper->fix_address_fields_mapping();
-
-			// Normalizes billing and shipping state values.
-			$this->express_checkout_helper->normalize_state();
-
-			// In case the state is required, but is missing, add a more descriptive error notice.
-			$this->express_checkout_helper->validate_state();
-
-			WC()->checkout()->process_checkout();
-		} catch ( Exception $e ) {
-			WC_Stripe_Logger::log( 'Failed to create order for express checkout payment: ' . $e );
-
-			$response = [
-				'result'   => 'error',
-				'messages' => $e->getMessage(),
-			];
-			wp_send_json( $response, 400 );
-		}
-
-		die( 0 );
-	}
-
-	/**
 	 * Log errors coming from express checkout elements
 	 */
 	public function ajax_log_errors() {
@@ -410,5 +388,30 @@ class WC_Stripe_Express_Checkout_Ajax_Handler {
 		}
 
 		wp_send_json( $result );
+	}
+
+	/**
+	 * Modify country locale for express checkout.
+	 * Countries that don't have state fields, make the state field optional.
+	 *
+	 * @param array $locale The country locale.
+	 * @return array Modified country locale.
+	 */
+	public function modify_country_locale_for_express_checkout( $locale ) {
+		// Only modify locale settings if this is an express checkout context.
+		if ( ! $this->express_checkout_helper->is_express_checkout_context() ) {
+			return $locale;
+		}
+
+		include_once WC_STRIPE_PLUGIN_PATH . '/includes/constants/class-wc-stripe-payment-request-button-states.php';
+
+		// For countries that don't have state fields, make the state field optional.
+		foreach ( WC_Stripe_Payment_Request_Button_States::STATES as $country_code => $states ) {
+			if ( empty( $states ) ) {
+				$locale[ $country_code ]['state']['required'] = false;
+			}
+		}
+
+		return $locale;
 	}
 }

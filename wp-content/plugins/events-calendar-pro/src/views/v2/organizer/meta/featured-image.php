@@ -34,7 +34,7 @@ $classes = [
 
 ?>
 
-<div <?php tribe_classes( $classes ); ?>>
+<div <?php tec_classes( $classes ); ?>>
 	<a
 		href="<?php echo esc_url( $organizer->permalink ); ?>"
 		title="<?php echo esc_attr( $organizer->title ); ?>"

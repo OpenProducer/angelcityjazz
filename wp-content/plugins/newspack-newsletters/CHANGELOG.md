@@ -1,3 +1,36 @@
+# [3.17.0](https://github.com/Automattic/newspack-newsletters/compare/v3.16.0...v3.17.0) (2025-07-14)
+
+
+### Bug Fixes
+
+* prevent HTML overwrite when post taken over ([#1849](https://github.com/Automattic/newspack-newsletters/issues/1849)) ([6e95634](https://github.com/Automattic/newspack-newsletters/commit/6e9563408627ce64f9685618ce6ccab56bcc98a9))
+
+
+### Features
+
+* add a button to unschedule newsletters ([#1844](https://github.com/Automattic/newspack-newsletters/issues/1844)) ([cecbf8f](https://github.com/Automattic/newspack-newsletters/commit/cecbf8f88bbcb761935c44f5e1de005c202567c6))
+
+# [3.16.0](https://github.com/Automattic/newspack-newsletters/compare/v3.15.3...v3.16.0) (2025-06-30)
+
+
+### Features
+
+* delete contact by email address, not user ID ([#1837](https://github.com/Automattic/newspack-newsletters/issues/1837)) ([5cbf055](https://github.com/Automattic/newspack-newsletters/commit/5cbf055135811b8836844ea01838bd89f06b0545))
+
+## [3.15.3](https://github.com/Automattic/newspack-newsletters/compare/v3.15.2...v3.15.3) (2025-06-26)
+
+
+### Bug Fixes
+
+* register meta after class init ([#1851](https://github.com/Automattic/newspack-newsletters/issues/1851)) ([6613286](https://github.com/Automattic/newspack-newsletters/commit/661328646fcc8f2903708668b2f3bced6f40e92a))
+
+## [3.15.2](https://github.com/Automattic/newspack-newsletters/compare/v3.15.1...v3.15.2) (2025-06-25)
+
+
+### Bug Fixes
+
+* trigger release for empty active campaign messages ([8ced47e](https://github.com/Automattic/newspack-newsletters/commit/8ced47e33ded9aefcb047ab63819e1381fd49ee2))
+
 ## [3.15.1](https://github.com/Automattic/newspack-newsletters/compare/v3.15.0...v3.15.1) (2025-06-16)
 
 

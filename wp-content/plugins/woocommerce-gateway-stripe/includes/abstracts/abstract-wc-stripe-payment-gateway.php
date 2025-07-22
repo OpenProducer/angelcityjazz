@@ -367,9 +367,7 @@ abstract class WC_Stripe_Payment_Gateway extends WC_Payment_Gateway_CC {
 			'cards'                                => '<img src="' . WC_STRIPE_PLUGIN_URL . '/assets/images/cards.svg" class="stripe-cards-icon stripe-icon" alt="' . __( 'Credit / Debit Card', 'woocommerce-gateway-stripe' ) . '" />',
 			WC_Stripe_Payment_Methods::CASHAPP_PAY => '<img src="' . WC_STRIPE_PLUGIN_URL . '/assets/images/cashapp.svg" class="stripe-cashapp-icon stripe-icon" alt="Cash App Pay" />',
 		];
-		$settings   = WC_Stripe_Helper::get_stripe_settings();
-		$oc_setting = $settings['optimized_checkout_element'] ?? null;
-		if ( 'yes' === $oc_setting ) {
+		if ( 'yes' === $this->get_option( 'optimized_checkout_element' ) ) {
 			$icon_list['cards'] = '';
 		}
 		return apply_filters( 'wc_stripe_payment_icons', $icon_list );
@@ -611,6 +609,9 @@ abstract class WC_Stripe_Payment_Gateway extends WC_Payment_Gateway_CC {
 
 					/* translators: transaction id */
 					$message = sprintf( __( 'Stripe charge complete (Charge ID: %s)', 'woocommerce-gateway-stripe' ), $response->id );
+					if ( isset( $response->is_webhook_response ) ) {
+						$message .= ' (via webhook)';
+					}
 					$order->add_order_note( $message );
 				}
 			}
@@ -677,6 +678,29 @@ abstract class WC_Stripe_Payment_Gateway extends WC_Payment_Gateway_CC {
 		}
 
 		$emails['WC_Email_Failed_Order']->trigger( $order_id );
+	}
+
+	/**
+	 * Sends the failed refund email to both admin and shopper.
+	 *
+	 * @since 9.6.0
+	 * @param WC_Order $order The order object for which the refund failed.
+	 * @return void
+	 */
+	public function send_failed_refund_emails( $order ) {
+		$emails = WC()->mailer()->get_emails();
+
+		if ( empty( $emails ) || empty( $order ) ) {
+			return;
+		}
+
+		if ( isset( $emails['WC_Stripe_Email_Admin_Failed_Refund'] ) ) {
+			$emails['WC_Stripe_Email_Admin_Failed_Refund']->trigger( $order->get_id(), $order );
+		}
+
+		if ( isset( $emails['WC_Stripe_Email_Customer_Failed_Refund'] ) ) {
+			$emails['WC_Stripe_Email_Customer_Failed_Refund']->trigger( $order->get_id(), $order );
+		}
 	}
 
 	/**
@@ -1145,8 +1169,8 @@ abstract class WC_Stripe_Payment_Gateway extends WC_Payment_Gateway_CC {
 			];
 		}
 
-		// Refund without an amount is a no-op, but required to succeed
-		if ( '0.00' === sprintf( '%0.2f', $amount ?? 0 ) ) {
+		// Only treat zero-amount as a no-op for captured charges (real refunds), not for voiding pre-auths.
+		if ( 'yes' === $captured && '0.00' === sprintf( '%0.2f', $amount ?? 0 ) ) {
 			return true;
 		}
 
@@ -1433,15 +1457,17 @@ abstract class WC_Stripe_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 *
 	 * @param WC_Order $order The order that is being paid for.
 	 * @return array          The level 3 data to send to Stripe.
+	 * @throws WC_Stripe_Exception If an order item has no quantity set.
 	 */
 	public function get_level3_data_from_order( $order ) {
 		// Get the order items. Don't need their keys, only their values.
 		// Order item IDs are used as keys in the original order items array.
 		$order_items = array_values( $order->get_items( [ 'line_item', 'fee' ] ) );
 		$currency    = $order->get_currency();
+		$order_id    = $order->get_id();
 
 		$stripe_line_items = array_map(
-			function ( $item ) use ( $currency ) {
+			function ( $item ) use ( $currency, $order_id ) {
 				if ( is_a( $item, 'WC_Order_Item_Product' ) ) {
 					$product_id = $item->get_variation_id()
 						? $item->get_variation_id()
@@ -1453,9 +1479,14 @@ abstract class WC_Stripe_Payment_Gateway extends WC_Payment_Gateway_CC {
 				}
 				$product_description = substr( $item->get_name(), 0, 26 );
 				$quantity            = $item->get_quantity();
-				$unit_cost           = WC_Stripe_Helper::get_stripe_amount( ( $subtotal / $quantity ), $currency );
-				$tax_amount          = WC_Stripe_Helper::get_stripe_amount( $item->get_total_tax(), $currency );
-				$discount_amount     = WC_Stripe_Helper::get_stripe_amount( $subtotal - $item->get_total(), $currency );
+				if ( ! $quantity ) {
+					$error_msg = "Stripe Level 3 data: Order item with ID {$item->get_id()} from order ID {$order_id} has no quantity set.";
+					WC_Stripe_Logger::error( $error_msg );
+					throw new WC_Stripe_Exception( $error_msg );
+				}
+				$unit_cost       = WC_Stripe_Helper::get_stripe_amount( ( $subtotal / $quantity ), $currency );
+				$tax_amount      = WC_Stripe_Helper::get_stripe_amount( $item->get_total_tax(), $currency );
+				$discount_amount = WC_Stripe_Helper::get_stripe_amount( $subtotal - $item->get_total(), $currency );
 
 				return (object) [
 					'product_code'        => (string) $product_id, // Up to 12 characters that uniquely identify the product.
@@ -2259,23 +2290,69 @@ abstract class WC_Stripe_Payment_Gateway extends WC_Payment_Gateway_CC {
 	}
 
 	/**
+	 * Retrieves or stores the status of the order before a specific event (hold or refund).
+	 *
+	 * @param WC_Order $order The order.
+	 * @param string   $target_status The target status the order will be set to.
+	 * @return string The status of the order before the event.
+	 * @throws InvalidArgumentException If the target status is unsupported.
+	 */
+	protected function get_stripe_order_status_before_event( $order, $target_status ) {
+		if ( OrderStatus::ON_HOLD === $target_status ) {
+			$meta_key = '_stripe_status_before_hold';
+		} elseif ( OrderStatus::REFUNDED === $target_status ) {
+			$meta_key = '_stripe_status_before_refund';
+		} else {
+			// Handle unsupported target_status values.
+			throw new InvalidArgumentException( sprintf( 'Unsupported target_status: %s', $target_status ) );
+		}
+
+		$status = $order->get_meta( $meta_key );
+		if ( ! empty( $status ) ) {
+			return $status;
+		}
+
+		$default_status = $order->needs_processing() ? OrderStatus::PROCESSING : OrderStatus::COMPLETED;
+		return apply_filters( 'woocommerce_payment_complete_order_status', $default_status, $order->get_id(), $order );
+	}
+
+	/**
+	 * Stores the status of the order before a specific event (hold or refund) in metadata.
+	 *
+	 * @param WC_Order $order The order.
+	 * @param string   $target_status The target status the order will be set to.
+	 * @param string   $current_status The order status to store. Accepts 'default_payment_complete' which will fetch the default status for payment complete orders.
+	 * @return void
+	 */
+	protected function set_stripe_order_status_before_event( $order, $target_status, $current_status ) {
+		if ( 'default_payment_complete' === $current_status ) {
+			$payment_complete_status = $order->needs_processing() ? OrderStatus::PROCESSING : OrderStatus::COMPLETED;
+			$current_status          = apply_filters( 'woocommerce_payment_complete_order_status', $payment_complete_status, $order->get_id(), $order );
+		}
+		if ( OrderStatus::ON_HOLD === $target_status ) {
+			$meta_key = '_stripe_status_before_hold';
+		}
+		if ( OrderStatus::REFUNDED === $target_status ) {
+			$meta_key = '_stripe_status_before_refund';
+		}
+		if ( empty( $meta_key ) ) {
+			$log_message = sprintf( 'Error: Unable to set the order status for order %d when transitioning from %s to %s.', $order->get_id(), $current_status, $target_status );
+			WC_Stripe_Logger::log( $log_message );
+			return;
+		}
+		$order->update_meta_data( $meta_key, $current_status );
+	}
+
+	/**
 	 * Helper method to retrieve the status of the order before it was put on hold.
 	 *
 	 * @since 8.3.0
 	 *
 	 * @param WC_Order $order The order.
-	 *
 	 * @return string The status of the order before it was put on hold.
 	 */
 	protected function get_stripe_order_status_before_hold( $order ) {
-		$before_hold_status = $order->get_meta( '_stripe_status_before_hold' );
-
-		if ( ! empty( $before_hold_status ) ) {
-			return $before_hold_status;
-		}
-
-		$default_before_hold_status = $order->needs_processing() ? OrderStatus::PROCESSING : OrderStatus::COMPLETED;
-		return apply_filters( 'woocommerce_payment_complete_order_status', $default_before_hold_status, $order->get_id(), $order );
+		return $this->get_stripe_order_status_before_event( $order, OrderStatus::ON_HOLD );
 	}
 
 	/**
@@ -2284,17 +2361,36 @@ abstract class WC_Stripe_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @since 8.3.0
 	 *
 	 * @param WC_Order  $order  The order.
-	 * @param string    $status The order status to store. Accepts 'default_payment_complete' which will fetch the default status for payment complete orders.
-	 *
+	 * @param string    $status The order status to store.
 	 * @return void
 	 */
 	protected function set_stripe_order_status_before_hold( $order, $status ) {
-		if ( 'default_payment_complete' === $status ) {
-			$payment_complete_status = $order->needs_processing() ? OrderStatus::PROCESSING : OrderStatus::COMPLETED;
-			$status                  = apply_filters( 'woocommerce_payment_complete_order_status', $payment_complete_status, $order->get_id(), $order );
-		}
+		$this->set_stripe_order_status_before_event( $order, OrderStatus::ON_HOLD, $status );
+	}
 
-		$order->update_meta_data( '_stripe_status_before_hold', $status );
+	/**
+	 * Helper method to retrieve the status of the order before it was refunded.
+	 *
+	 * @since 9.6.0
+	 *
+	 * @param WC_Order $order The order.
+	 * @return string The status of the order before it was refunded.
+	 */
+	protected function get_stripe_order_status_before_refund( $order ) {
+		return $this->get_stripe_order_status_before_event( $order, OrderStatus::REFUNDED );
+	}
+
+	/**
+	 * Stores the status of the order before being refunded.
+	 *
+	 * @since 9.6.0
+	 *
+	 * @param WC_Order  $order  The order.
+	 * @param string    $status The order status to store.
+	 * @return void
+	 */
+	protected function set_stripe_order_status_before_refund( $order, $status ) {
+		$this->set_stripe_order_status_before_event( $order, OrderStatus::REFUNDED, $status );
 	}
 
 	/**
