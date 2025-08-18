@@ -38,8 +38,10 @@ class Event {
 	 * }
 	 */
 	public static function get_version_info() {
+		$source = 'woocommerce';
+		$source .= self::get_agent_flags();
 		return array(
-			'source'        => 'woocommerce',
+			'source'        => $source,
 			'version'       => WC()->version,
 			'pluginVersion' => facebook_for_woocommerce()->get_version(),
 		);
@@ -253,12 +255,12 @@ class Event {
 	 */
 	protected function get_click_id() {
 		$fbc = '';
-		if ( isset( $_GET['fbclid'] ) ) {
-			$fbclid   = sanitize_text_field( wp_unslash( $_GET['fbclid'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
-			$cur_time = (int) ( microtime( true ) * 1000 );
-			$fbc      = 'fb.1.' . $cur_time . '.' . rawurldecode( $fbclid );
-		} elseif ( ! empty( $_COOKIE['_fbc'] ) ) {
+		if ( ! empty( $_COOKIE['_fbc'] ) ) {
 			$fbc = wc_clean( wp_unslash( $_COOKIE['_fbc'] ) );
+		} elseif ( isset( $_REQUEST['fbclid'] ) ) {
+			$creation_time = time();
+			$fbclid = wc_clean( wp_unslash( $_REQUEST['fbclid'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			$fbc = "fb.1.{$creation_time}.{$fbclid}";
 		} elseif ( isset( $_SESSION['_fbc'] ) ) {
 			$fbc = $_SESSION['_fbc']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		}
@@ -344,5 +346,22 @@ class Event {
 	 */
 	public function get_custom_data() {
 		return ! empty( $this->data['custom_data'] ) ? $this->data['custom_data'] : array();
+	}
+
+
+	/**
+	 * Gets the postfix flags for the agent string.
+	 *
+	 * @since 3.5.5
+	 *
+	 * @return string
+	 */
+	private static function get_agent_flags() {
+		$postfix = '';
+		if ( function_exists( 'get_option' ) && false !== get_option( 'wc_facebook_svr_flags' ) ) {
+			$flags = get_option( 'wc_facebook_svr_flags' );
+			$postfix = "_{$flags}";
+		}
+		return $postfix;
 	}
 }

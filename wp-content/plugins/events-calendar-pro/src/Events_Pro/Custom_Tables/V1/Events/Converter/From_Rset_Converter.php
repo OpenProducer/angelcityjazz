@@ -606,7 +606,7 @@ class From_Rset_Converter {
 
 	/**
 	 * Returns a value to sort rules, or exclusions by type, putting the ones that would produce the highest
-	 * count (i.e. Daily, Weeekly, ...) first.
+	 * count (i.e. Daily, Weekly, ...) first.
 	 *
 	 * @since 6.0.0
 	 *

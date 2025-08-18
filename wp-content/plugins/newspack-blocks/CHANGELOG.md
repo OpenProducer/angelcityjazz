@@ -1,3 +1,26 @@
+## [4.14.8](https://github.com/Automattic/newspack-blocks/compare/v4.14.7...v4.14.8) (2025-08-12)
+
+
+### Bug Fixes
+
+* **modal-checkout:** account for signup fee in price summary ([#2183](https://github.com/Automattic/newspack-blocks/issues/2183)) ([9ba0a6a](https://github.com/Automattic/newspack-blocks/commit/9ba0a6a84fd727e42bec3db2813b2530cab0dbfa))
+
+## [4.14.7](https://github.com/Automattic/newspack-blocks/compare/v4.14.6...v4.14.7) (2025-08-12)
+
+
+### Bug Fixes
+
+* **author-block:** classname application ([#2172](https://github.com/Automattic/newspack-blocks/issues/2172)) ([b689c66](https://github.com/Automattic/newspack-blocks/commit/b689c667d219199e5ae3a4d5a849eb7fb4334b07))
+* skip acct creation on verification request ([#2182](https://github.com/Automattic/newspack-blocks/issues/2182)) ([8aaef1d](https://github.com/Automattic/newspack-blocks/commit/8aaef1db423c8b1d9cbcc3f3f1a53220b0d82743))
+
+## [4.14.6](https://github.com/Automattic/newspack-blocks/compare/v4.14.5...v4.14.6) (2025-07-28)
+
+
+### Bug Fixes
+
+* Fix/author list roles and exclusion ([#2166](https://github.com/Automattic/newspack-blocks/issues/2166)) ([f2dfe4d](https://github.com/Automattic/newspack-blocks/commit/f2dfe4d1297740d483e25ef680f4cf5735ba2a28))
+* remove current page deduplication from logic when deduplication is disabled ([#2169](https://github.com/Automattic/newspack-blocks/issues/2169)) ([4000d85](https://github.com/Automattic/newspack-blocks/commit/4000d858b6931137d883e06b2b6c1200a420dfa7))
+
 ## [4.14.5](https://github.com/Automattic/newspack-blocks/compare/v4.14.4...v4.14.5) (2025-07-14)
 
 

@@ -525,27 +525,19 @@ class Admin {
 			}
 
 			if ( self::INCLUDE_FACEBOOK_SYNC === $filter_value ) {
-				/**
-				 * #TODO: T219937738 (sayanpandey): Change the functionality when product level sync appears
-				 * The below query will not only check for sync enabled but also sync do not exist -> as query happens on WP products,
-				 * Reason: We need to check if a product has variation and if they are synced or not
-				 * Future plans: When product level sync comes through this should be handled more gracefully as we will only check at product level
-				 *  */
-				// when checking for products with sync enabled we need to check both "yes" and meta not set, this requires adding an "OR" clause
-				$query_vars = $this->add_query_vars_to_find_products_with_sync_enabled( $query_vars );
-				// since we record enabled status and visibility on child variations, we need to query variable products found for their children to exclude them from query results
-				$exclude_products = [];
-				$found_ids        = get_posts( array_merge( $query_vars, array( 'fields' => 'ids' ) ) );
-				$found_products   = empty( $found_ids ) ? [] : wc_get_products(
+				$query_vars     = $this->add_query_vars_to_find_products_with_sync_enabled( $query_vars );
+				$found_ids      = get_posts( array_merge( $query_vars, array( 'fields' => 'ids' ) ) );
+				$found_products = empty( $found_ids ) ? [] : wc_get_products(
 					array(
 						'limit'   => -1,
-						'type'    => 'variable',
 						'include' => $found_ids,
 					)
 				);
 				/** @var \WC_Product[] $found_products */
 				foreach ( $found_products as $product ) {
-					if ( ! Products::is_sync_enabled_for_product( $product ) ) {
+					try {
+						facebook_for_woocommerce()->get_product_sync_validator( $product )->validate();
+					} catch ( \Exception $e ) {
 						$exclude_products[] = $product->get_id();
 					}
 				}
@@ -557,106 +549,14 @@ class Admin {
 						$query_vars['post__not_in'] = $exclude_products;
 					}
 				}
-
 				/**
-				 * Now removing all `Not Synced` products from the found products
-				 * Reason: This is required even if we have mentioned $query_vars['post__not_in'],
-				 * the preference of $query_vars['post__in'] is higher and will be overriden
-				 * at the end of this function.
-				 *  */
-				$found_ids = array_diff( $found_ids, $exclude_products );
-
-				/**
-				 * For the same reason, we also need to include variable products with hidden children
-				 *  */
-				$include_products  = [];
-				$hidden_variations = get_posts(
-					array(
-						'limit'      => -1,
-						'post_type'  => 'product_variation',
-						'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-							'key'   => Products::VISIBILITY_META_KEY,
-							'value' => 'no',
-						),
-					)
-				);
-
-				/** @var \WP_Post[] $hidden_variations */
-				foreach ( $hidden_variations as $variation_post ) {
-					$variable_product = wc_get_product( $variation_post->post_parent );
-					// we need this check because we only want products with ALL variations hidden
-					if ( $variable_product instanceof \WC_Product && Products::is_sync_enabled_for_product( $variable_product ) ) {
-						$include_products[] = $variable_product->get_id();
-					}
-				}
+				 * Showing only published products as private ones are not synced
+				 */
+				$query_vars['post_status'] = 'publish';
 			} else {
-				// self::EXCLUDE_FACEBOOK_SYNC
-				// products to be included in the QUERY, not in the sync
-				$include_products        = [];
-				$found_ids               = [];
-				$integration             = facebook_for_woocommerce()->get_integration();
-				$excluded_categories_ids = $integration ? $integration->get_excluded_product_category_ids() : [];
-				$excluded_tags_ids       = $integration ? $integration->get_excluded_product_tag_ids() : [];
-				// get the product IDs from all products in excluded taxonomies
-				if ( $excluded_categories_ids || $excluded_tags_ids ) {
-					$tax_query_vars   = $this->maybe_add_tax_query_for_excluded_taxonomies( $query_vars, true );
-					$include_products = array_merge( $include_products, get_posts( array_merge( $tax_query_vars, array( 'fields' => 'ids' ) ) ) );
-				}
-				$excluded_products = get_posts(
-					array(
-						'fields'     => 'ids',
-						'limit'      => -1,
-						'post_type'  => 'product',
-						'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-							array(
-								'key'   => Products::get_product_sync_meta_key(),
-								'value' => 'no',
-							),
-						),
-					)
-				);
-				$include_products  = array_unique( array_merge( $include_products, $excluded_products ) );
-				// since we record enabled status and visibility on child variations,
-				// we need to include variable products with excluded children
-				$excluded_variations = get_posts(
-					array(
-						'limit'      => -1,
-						'post_type'  => 'product_variation',
-						'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-							array(
-								'key'   => Products::get_product_sync_meta_key(),
-								'value' => 'no',
-							),
-						),
-					)
-				);
-				/** @var \WP_Post[] $excluded_variations */
-				foreach ( $excluded_variations as $variation_post ) {
-					$variable_product = wc_get_product( $variation_post->post_parent );
-					// we need this check because we only want products with ALL variations excluded
-					if ( ! Products::is_sync_enabled_for_product( $variable_product ) ) {
-						$include_products[] = $variable_product->get_id();
-					}
-				}
-			}//end if
-
-			if ( ! empty( $include_products ) ) {
-				// we are going to query by ID, so we want to include all the IDs from before
-				$include_products = array_unique( array_merge( $found_ids, $include_products ) );
-				if ( ! empty( $query_vars['post__in'] ) ) {
-					$query_vars['post__in'] = array_merge( $query_vars['post__in'], $include_products );
-				} else {
-					$query_vars['post__in'] = $include_products;
-				}
-
-				// remove sync enabled and visibility meta queries
-				if ( ! empty( $original_meta_query ) ) {
-					$query_vars['meta_query'] = $original_meta_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				} else {
-					unset( $query_vars['meta_query'] );
-				}
+				$query_vars = $this->add_query_vars_to_find_products_with_sync_disabled( $query_vars );
 			}
-		}//end if
+		}
 
 		if ( isset( $query_vars['meta_query'] ) && empty( $query_vars['meta_query'] ) ) {
 			unset( $query_vars['meta_query'] );
@@ -700,6 +600,35 @@ class Admin {
 
 		// check whether the product belongs to an excluded product category or tag
 		$query_vars = $this->maybe_add_tax_query_for_excluded_taxonomies( $query_vars );
+		return $query_vars;
+	}
+
+	/**
+	 * Adds query vars to limit the results to products that have sync disabled.
+	 *
+	 * @since 3.5.5
+	 *
+	 * @param array $query_vars
+	 * @return array
+	 */
+	private function add_query_vars_to_find_products_with_sync_disabled( array $query_vars ) {
+		$meta_query = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			array(
+				'key'   => Products::get_product_sync_meta_key(),
+				'value' => 'no',
+			),
+		);
+
+		if ( empty( $query_vars['meta_query'] ) ) {
+			$query_vars['meta_query'] = $meta_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+		} elseif ( is_array( $query_vars['meta_query'] ) ) {
+			$original_meta_query      = $query_vars['meta_query'];
+			$query_vars['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				'relation' => 'AND',
+				$original_meta_query,
+				$meta_query,
+			);
+		}
 		return $query_vars;
 	}
 
@@ -1201,6 +1130,9 @@ class Admin {
 					)
 				);
 
+				// Render the Facebook Product Video field at Product level
+				$this->render_facebook_product_video_field( $video_urls );
+
 				woocommerce_wp_text_input(
 					array(
 						'id'          => \WC_Facebook_Product::FB_PRODUCT_PRICE,
@@ -1249,9 +1181,6 @@ class Admin {
 			</script>
 
 			<?php
-				// Render the Facebook Product Video field at Product level
-				$this->render_facebook_product_video_field( $video_urls );
-
 				woocommerce_wp_text_input(
 					array(
 						'id'          => \WC_Facebook_Product::FB_MPN,
@@ -1273,6 +1202,7 @@ class Admin {
 						'class'       => 'enable-if-sync-enabled',
 						'desc_tip'    => true,
 						'description' => __( 'Brand name of the item', 'facebook-for-woocommerce' ),
+						'placeholder' => \WC_Facebookcommerce_Utils::get_default_fb_brand(),
 					)
 				);
 
@@ -2175,8 +2105,8 @@ class Admin {
 						var $select = $(this);
 						$select.show().prop('disabled', false).removeClass('synced-attribute');
 						
-						// If the select has no options or just one, ensure it's properly reset
-						if ($select.find('option').length <= 1) {
+						// If the select has no options ensure it's properly reset
+						if ($select.find('option').length < 1) {
 							$select.val('').prop('selected', true);
 						}
 						

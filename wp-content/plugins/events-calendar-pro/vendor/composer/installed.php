@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/events-pro',
-        'pretty_version' => 'dev-release/T25.gambit',
-        'version' => 'dev-release/T25.gambit',
-        'reference' => 'e71c8db815256536d3af72ce9b3e0bc919684b6b',
+        'pretty_version' => 'dev-release/T25.greenarrow',
+        'version' => 'dev-release/T25.greenarrow',
+        'reference' => '667b7cb0e679edcd7b8379614f681a40124168dc',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'the-events-calendar/events-pro' => array(
-            'pretty_version' => 'dev-release/T25.gambit',
-            'version' => 'dev-release/T25.gambit',
-            'reference' => 'e71c8db815256536d3af72ce9b3e0bc919684b6b',
+            'pretty_version' => 'dev-release/T25.greenarrow',
+            'version' => 'dev-release/T25.greenarrow',
+            'reference' => '667b7cb0e679edcd7b8379614f681a40124168dc',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

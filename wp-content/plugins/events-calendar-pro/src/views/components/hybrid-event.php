@@ -10,8 +10,9 @@
  * @link http://evnt.is/1aiy
  *
  * @since 7.0.0 Migrated to Events Pro from Events Virtual.
+ * @since 7.6.3 Improved accessibility for hybrid event icon [TEC-5235].
  *
- * @version 1.4.0
+ * @version 7.6.3
  *
  * @var \WP_Post $event The event post object with properties added by the `tribe_get_event` function.
  *
@@ -30,25 +31,19 @@ if ( Event_Meta::$value_hybrid_event_type !== $event->virtual_event_type ) {
 	return;
 }
 
-// translators: %s (singular)
-$hybrid_label = tribe_get_hybrid_label();
-// translators: %s: Event (singular)
+
 $hybrid_event_label = tribe_get_hybrid_event_label_singular();
 
 ?>
 <div class="tribe-common-b2 tribe-common-b2--bold tribe-events-virtual-hybrid-event">
-	<em
-		class="tribe-events-virtual-hybrid-event__icon"
-		title="<?php echo esc_attr( $hybrid_label ); ?>"
-	>
-		<?php $this->template(
-			'v2/components/icons/hybrid',
-			[
-				'classes' => [ 'tribe-events-virtual-hybrid-event__icon-svg' ],
-				'icon_label' => $hybrid_label
-			]
-		); ?>
-	</em>
+	<?php
+	$this->template(
+		'v2/components/icons/hybrid',
+		[
+			'classes' => [ 'tribe-events-virtual-hybrid-event__icon-svg' ],
+		]
+	);
+	?>
 	<span class="tribe-events-virtual-virtual-event__text">
 		<?php echo esc_html( $hybrid_event_label ); ?>
 	</span>

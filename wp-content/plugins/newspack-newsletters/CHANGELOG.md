@@ -1,3 +1,36 @@
+## [3.19.1](https://github.com/Automattic/newspack-newsletters/compare/v3.19.0...v3.19.1) (2025-08-12)
+
+
+### Bug Fixes
+
+* **ads:** ads in scheduled newsletters ([#1885](https://github.com/Automattic/newspack-newsletters/issues/1885)) ([a895989](https://github.com/Automattic/newspack-newsletters/commit/a895989acd94f3edeacfbfb342fd3a6158706e90))
+
+# [3.19.0](https://github.com/Automattic/newspack-newsletters/compare/v3.18.0...v3.19.0) (2025-08-11)
+
+
+### Bug Fixes
+
+* Support Unit Tests for php 8.3 ([#1866](https://github.com/Automattic/newspack-newsletters/issues/1866)) ([03c5ceb](https://github.com/Automattic/newspack-newsletters/commit/03c5ceb311a4ab7718bbf3ca35e13c24b1e7bc7b))
+
+
+### Features
+
+* **posts-inserter-block:** handle custom bylines ([#1871](https://github.com/Automattic/newspack-newsletters/issues/1871)) ([60f2824](https://github.com/Automattic/newspack-newsletters/commit/60f28248fe8c7ef8cdb8a95f2a67cea9e841be61))
+* typo ([#1870](https://github.com/Automattic/newspack-newsletters/issues/1870)) ([5933e4c](https://github.com/Automattic/newspack-newsletters/commit/5933e4ce7d3f73d010dcf16c65b64fea1d9056f0))
+
+# [3.18.0](https://github.com/Automattic/newspack-newsletters/compare/v3.17.0...v3.18.0) (2025-07-28)
+
+
+### Bug Fixes
+
+* **layout:** only migrate layout defaults from legacy meta if esp is not set to manual ([#1859](https://github.com/Automattic/newspack-newsletters/issues/1859)) ([21d8b1b](https://github.com/Automattic/newspack-newsletters/commit/21d8b1bfd5eb6c3b59cad4936ec904d79a57380d))
+* recaptcha settings link ([#1863](https://github.com/Automattic/newspack-newsletters/issues/1863)) ([d43d1e8](https://github.com/Automattic/newspack-newsletters/commit/d43d1e894ce9448079f71fa6101ac27cc80c6ae3))
+
+
+### Features
+
+* **admin-menu:** remove non-applicable admin menu items ([#1807](https://github.com/Automattic/newspack-newsletters/issues/1807)) ([2d9e379](https://github.com/Automattic/newspack-newsletters/commit/2d9e379cbc8525e2e26306861284f0cec4e89771))
+
 # [3.17.0](https://github.com/Automattic/newspack-newsletters/compare/v3.16.0...v3.17.0) (2025-07-14)
 
 

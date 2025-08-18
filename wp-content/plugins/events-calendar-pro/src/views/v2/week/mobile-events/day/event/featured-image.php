@@ -9,7 +9,10 @@
  *
  * @link https://evnt.is/1aiy
  *
- * @version 5.0.0
+ * @since 5.0.0
+ * @since 7.6.3 Removed link around featured image for accessibility update.
+ *
+ * @version 7.6.3
  *
  * @var WP_Post $event The event post object, decorated with additional properties by the `tribe_get_event` function.
  *
@@ -20,28 +23,22 @@ if ( ! $event->thumbnail->exists ) {
 	return;
 }
 
+// Always show post title as image alt, if not available fallback to image alt.
+$image_alt_attr = ! empty( $event->title )
+	? $event->title
+	: ( ! empty( $event->thumbnail->alt )
+		? $event->thumbnail->alt
+		: ''
+	);
+
 ?>
 <div class="tribe-events-pro-week-mobile-events__event-featured-image-wrapper tribe-common-g-col">
-	<a
-		href="<?php echo esc_url( $event->permalink ); ?>"
-		title="<?php echo esc_attr( get_the_title( $event->ID ) ); ?>"
-		rel="bookmark"
-		class="tribe-events-pro-week-mobile-events__event-featured-image-link"
-	>
-		<img
-			src="<?php echo esc_url( $event->thumbnail->full->url ); ?>"
-			<?php if ( ! empty( $event->thumbnail->srcset ) ) : ?>
-				srcset="<?php echo esc_attr( $event->thumbnail->srcset ); ?>"
-			<?php endif; ?>
-			<?php if ( ! empty( $event->thumbnail->alt ) ) : ?>
-				alt="<?php echo esc_attr( $event->thumbnail->alt ); ?>"
-			<?php else : // We need to ensure we have an empty alt tag for accessibility reasons if the user doesn't set one for the featured image ?>
-				alt=""
-			<?php endif; ?>
-			<?php if ( ! empty( $event->thumbnail->title ) ) : ?>
-				title="<?php echo esc_attr( $event->thumbnail->title ); ?>"
-			<?php endif; ?>
-			class="tribe-events-pro-week-mobile-events__event-featured-image"
-		/>
-	</a>
+	<img
+		src="<?php echo esc_url( $event->thumbnail->full->url ); ?>"
+		<?php if ( ! empty( $event->thumbnail->srcset ) ) : ?>
+			srcset="<?php echo esc_attr( $event->thumbnail->srcset ); ?>"
+		<?php endif; ?>
+		alt="<?php echo esc_attr( $image_alt_attr ); ?>"
+		class="tribe-events-pro-week-mobile-events__event-featured-image"
+	/>
 </div>

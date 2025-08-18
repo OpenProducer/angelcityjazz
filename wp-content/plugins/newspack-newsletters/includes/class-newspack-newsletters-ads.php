@@ -53,6 +53,7 @@ final class Newspack_Newsletters_Ads {
 		add_action( 'save_post_' . self::CPT, [ __CLASS__, 'ad_default_fields' ], 10, 3 );
 		add_action( 'rest_api_init', [ __CLASS__, 'rest_api_init' ] );
 		add_action( 'admin_menu', [ __CLASS__, 'add_ads_page' ] );
+		add_action( 'current_screen', [ __CLASS__, 'prevent_direct_taxonomy_access' ] );
 		add_filter( 'get_post_metadata', [ __CLASS__, 'migrate_diable_ads' ], 10, 4 );
 		add_action( 'newspack_newsletters_tracking_pixel_seen', [ __CLASS__, 'track_ad_impression' ], 10, 2 );
 		add_action( 'newspack_newsletters_bulk_tracking_pixel_seen', [ __CLASS__, 'bulk_track_ad_impression' ], 10, 2 );
@@ -174,27 +175,79 @@ final class Newspack_Newsletters_Ads {
 	}
 
 	/**
+	 * Display Newsletter Ads as a separate menu item, if the user can't edit Newsletters but can edit Newsletter Ads.
+	 * Otherwise, the Newsletter Ads will be a submenu item under Newsletters.
+	 */
+	public static function display_ads_menu_item_separately() {
+		$newsletters_post_type_object = get_post_type_object( Newspack_Newsletters::NEWSPACK_NEWSLETTERS_CPT );
+		$newsletter_ad_post_type_object = get_post_type_object( self::CPT );
+		if ( $newsletter_ad_post_type_object ) {
+			$can_edit_newsletter_ads = current_user_can( $newsletter_ad_post_type_object->cap->edit_posts );
+		} else {
+			$can_edit_newsletter_ads = false;
+		}
+		return ! current_user_can( $newsletters_post_type_object->cap->edit_posts ) && $can_edit_newsletter_ads;
+	}
+
+	/**
 	 * Add ads page link.
 	 */
 	public static function add_ads_page() {
-		add_submenu_page(
-			'edit.php?post_type=' . Newspack_Newsletters::NEWSPACK_NEWSLETTERS_CPT,
-			__( 'Newsletters Ads', 'newspack-newsletters' ),
-			__( 'Ads', 'newspack-newsletters' ),
-			'edit_others_posts',
-			'/edit.php?post_type=' . self::CPT,
-			null,
-			2
-		);
+		$newsletter_ad_post_type_object = get_post_type_object( self::CPT );
+		$can_edit_newsletter_ads = current_user_can( $newsletter_ad_post_type_object->cap->edit_posts );
+
+		$page_title = apply_filters( 'newspack_newsletters_ads_page_title', __( 'Newsletters Ads', 'newspack-newsletters' ) );
+		$menu_title = apply_filters( 'newspack_newsletters_ads_menu_title', __( 'Ads', 'newspack-newsletters' ) );
+
+		if ( self::display_ads_menu_item_separately() ) {
+			add_menu_page(
+				$page_title,
+				$page_title,
+				$newsletter_ad_post_type_object->cap->edit_posts,
+				'edit.php?post_type=' . self::CPT,
+				null,
+				'data:image/svg+xml;base64,' . base64_encode( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 7c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Zm2-.5h14c.3 0 .5.2.5.5v1L12 13.5 4.5 7.9V7c0-.3.2-.5.5-.5Zm-.5 3.3V17c0 .3.2.5.5.5h14c.3 0 .5-.2.5-.5V9.8L12 15.4 4.5 9.8Z"></path></svg>' )
+			);
+
+		} else {
+			add_submenu_page(
+				'edit.php?post_type=' . Newspack_Newsletters::NEWSPACK_NEWSLETTERS_CPT,
+				$page_title,
+				$menu_title,
+				$newsletter_ad_post_type_object->cap->edit_posts,
+				'edit.php?post_type=' . self::CPT,
+				null,
+				2
+			);
+		}
+	}
+
+	/**
+	 * Prevent direct access to the advertiser taxonomy admin page if user can't edit ads.
+	 *
+	 * @param string $screen The screen ID used to identify the current admin screen context.
+	 */
+	public static function prevent_direct_taxonomy_access( $screen ) {
+		// Check if we're on the taxonomy edit page for our advertiser taxonomy.
+		if ( $screen && 'edit-tags' === $screen->base && self::ADVERTISER_TAX === $screen->taxonomy ) {
+			$newsletter_ads_post_type_object = get_post_type_object( self::CPT );
+			$can_edit_newsletter_ads = current_user_can( $newsletter_ads_post_type_object->cap->edit_posts );
+
+			// If user can't edit ads, redirect them away.
+			if ( ! $can_edit_newsletter_ads ) {
+				wp_die(
+					esc_html__( 'Sorry, you are not allowed to manage newsletter advertisers.', 'newspack-newsletters' ),
+					esc_html__( 'You need permission to manage newsletter ads', 'newspack-newsletters' ),
+					403
+				);
+			}
+		}
 	}
 
 	/**
 	 * Register the custom post type for layouts.
 	 */
 	public static function register_ads_cpt() {
-		if ( ! current_user_can( 'edit_others_posts' ) ) {
-			return;
-		}
 
 		$labels = [
 			'name'                     => _x( 'Newsletter Ads', 'post type general name', 'newspack-newsletters' ),
