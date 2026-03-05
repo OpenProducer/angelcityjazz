@@ -1,0 +1,16 @@
+wp-content/uploads/
+wp-content/plugins.off/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/debug.log
+.DS_Store
+node_modules/
+wp-content/plugins.off/
+wp-content/upgrade-temp-backup/
+wp-content/jetpack-waf/
+wp-content/fonts/
+
+# Deploy only Newspack plugins
+wp-content/plugins/*
+!wp-content/plugins/newspack-*/
+!wp-content/plugins/newspack-*/**
