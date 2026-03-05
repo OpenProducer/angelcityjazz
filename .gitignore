@@ -20,3 +20,6 @@ wp-content/themes/*
 !wp-content/themes/newspack-*/
 !wp-content/themes/newspack-theme
 !wp-content/themes/newspack-*/**
+
+# Never track local dev theme
+wp-content/themes/newspack-angelcity-2025-1.0.0/

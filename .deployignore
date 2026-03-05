@@ -14,3 +14,6 @@ wp-content/fonts/
 wp-content/plugins/*
 !wp-content/plugins/newspack-*/
 !wp-content/plugins/newspack-*/**
+
+# Never deploy local dev theme
+wp-content/themes/newspack-angelcity-2025-1.0.0/
