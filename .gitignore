@@ -23,3 +23,5 @@ wp-content/themes/*
 
 # Never track local dev theme
 wp-content/themes/newspack-angelcity-2025-1.0.0/
+
+.githooks/
