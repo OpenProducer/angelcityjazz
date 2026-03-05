@@ -1,0 +1,35 @@
+@use '../variables-site/structure';
+
+ul,
+ol {
+	padding-left: structure.$size__spacing-unit;
+}
+
+ul {
+	list-style: disc;
+
+	ul {
+		list-style-type: circle;
+	}
+}
+
+ol {
+	list-style: decimal;
+}
+
+li {
+	line-height: var( --newspack-theme-font-line-height-body );
+}
+
+li > ul,
+li > ol {
+	padding-left: ( 2 * structure.$size__spacing-unit );
+}
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin: 0 structure.$size__spacing-unit structure.$size__spacing-unit;
+}
