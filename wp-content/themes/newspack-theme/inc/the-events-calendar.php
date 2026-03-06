@@ -16,7 +16,7 @@ function newspack_tec_customize_register( $wp_customize ) {
 	$wp_customize->add_section(
 		'newspack_tec_options',
 		array(
-			'title' => esc_html__( 'Newspack Options', 'newspack' ),
+			'title' => esc_html__( 'Newspack Options', 'newspack-theme' ),
 			'panel' => 'tribe_customizer',
 		)
 	);
@@ -32,7 +32,7 @@ function newspack_tec_customize_register( $wp_customize ) {
 		'newspack_tec_sidebar_single',
 		array(
 			'type'    => 'checkbox',
-			'label'   => esc_html__( 'Show sidebar on single events', 'newspack' ),
+			'label'   => esc_html__( 'Show sidebar on single events', 'newspack-theme' ),
 			'section' => 'newspack_tec_options',
 		)
 	);
@@ -44,7 +44,7 @@ add_action( 'customize_register', 'newspack_tec_customize_register' );
  */
 function newspack_tec_show_sidebar() {
 	$show_sidebar = false;
-	if ( tribe_is_event() && is_single() && true === get_theme_mod( 'newspack_tec_sidebar_single', false ) ) {
+	if ( function_exists( 'tribe_is_event' ) && tribe_is_event() && is_single() && true === get_theme_mod( 'newspack_tec_sidebar_single', false ) ) {
 		$show_sidebar = true;
 	}
 

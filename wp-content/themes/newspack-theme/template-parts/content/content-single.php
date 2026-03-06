@@ -13,10 +13,10 @@ if ( function_exists( 'newspack_get_all_sponsors' ) ) {
 		get_the_id(),
 		null,
 		'post',
-		[
+		array(
 			'maxwidth'  => 150,
 			'maxheight' => 100,
-		]
+		)
 	);
 	$native_sponsors      = newspack_get_native_sponsors( $all_sponsors );
 	$underwriter_sponsors = newspack_get_underwriter_sponsors( $all_sponsors );
@@ -46,7 +46,7 @@ if ( function_exists( 'newspack_get_all_sponsors' ) ) {
 			sprintf(
 				wp_kses(
 					/* translators: %s: Name of current post. Only visible to screen readers */
-					__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'newspack' ),
+					__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'newspack-theme' ),
 					array(
 						'span' => array(
 							'class' => array(),
@@ -59,7 +59,7 @@ if ( function_exists( 'newspack_get_all_sponsors' ) ) {
 
 		wp_link_pages(
 			array(
-				'before' => '<div class="page-links">' . __( 'Pages:', 'newspack' ),
+				'before' => '<div class="page-links">' . __( 'Pages:', 'newspack-theme' ),
 				'after'  => '</div>',
 			)
 		);

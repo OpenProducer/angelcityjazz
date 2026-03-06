@@ -5,13 +5,10 @@
  * @package Newspack
  */
 
-$discussion = ! is_page() && newspack_can_show_post_thumbnail() ? newspack_get_discussion_data() : null;
-
 // Get sponsors for this post.
 if ( function_exists( 'newspack_get_all_sponsors' ) ) {
 	$all_sponsors                    = newspack_get_all_sponsors( get_the_id() );
 	$native_sponsors                 = newspack_get_native_sponsors( $all_sponsors );
-	$underwriter_sponsors            = newspack_get_underwriter_sponsors( $all_sponsors );
 	$display_sponsors_and_categories = newspack_display_sponsors_and_categories( $native_sponsors );
 	$display_sponsors_and_authors    = newspack_display_sponsors_and_authors( $native_sponsors );
 }
@@ -20,7 +17,11 @@ if ( function_exists( 'newspack_get_all_sponsors' ) ) {
 $page_hide_title = get_post_meta( $post->ID, 'newspack_hide_page_title', true );
 
 // Get post subtitle.
-$subtitle = get_post_meta( $post->ID, 'newspack_post_subtitle', true );
+if ( true === get_theme_mod( 'post_excerpt_instead_of_subtitle', false ) ) {
+	$subtitle = $post->post_excerpt;
+} else {
+	$subtitle = newspack_post_subtitle();
+}
 ?>
 
 <?php if ( is_singular() ) : ?>
@@ -43,26 +44,7 @@ $subtitle = get_post_meta( $post->ID, 'newspack_post_subtitle', true );
 	<?php endif; ?>
 	<?php if ( $subtitle ) : ?>
 		<div class="newspack-post-subtitle">
-			<?php
-			$allowed_tags = array(
-				'b'      => true,
-				'strong' => true,
-				'i'      => true,
-				'em'     => true,
-				'mark'   => true,
-				'u'      => true,
-				'small'  => true,
-				'sub'    => true,
-				'sup'    => true,
-				'a'      => array(
-					'href'   => true,
-					'target' => true,
-					'rel'    => true,
-				),
-			);
-
-			echo wptexturize( wp_kses( $subtitle, $allowed_tags ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			?>
+			<?php echo wp_kses_post( $subtitle ); ?>
 		</div>
 	<?php endif; ?>
 <?php else : ?>
@@ -83,7 +65,7 @@ if ( $sharing_enabled ) :
 				<?php
 				// If showing both authors and sponsors, show the byline and date first.
 				if ( $display_sponsors_and_authors ) :
-				?>
+					?>
 					<div class="entry-meta">
 						<?php
 						newspack_posted_by();
@@ -98,9 +80,9 @@ if ( $sharing_enabled ) :
 							newspack_sponsor_byline( $native_sponsors );
 
 							// If not showing the author, we still need to show the date.
-							if ( ! $display_sponsors_and_authors ) {
-								newspack_posted_on();
-							}
+						if ( ! $display_sponsors_and_authors ) {
+							newspack_posted_on();
+						}
 							do_action( 'newspack_theme_entry_meta' );
 						?>
 					</span>

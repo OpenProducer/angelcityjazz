@@ -56,10 +56,7 @@
 				const visibility = function () {
 					if ( 'custom' === setting.get() ) {
 						// Make sure the site is set to use a solid header background.
-						if (
-							true === wp.customize.value( 'header_solid_background' )() &&
-							'custom' === wp.customize.value( 'header_color' )()
-						) {
+						if ( true === wp.customize.value( 'header_solid_background' )() && 'custom' === wp.customize.value( 'header_color' )() ) {
 							control.container.slideDown( 180 );
 						}
 					} else {
@@ -136,10 +133,7 @@
 			wp.customize.control( 'header_color_hex', function ( control ) {
 				const visibility = function () {
 					if ( true === setting.get() ) {
-						if (
-							'custom' === wp.customize.value( 'header_color' )() &&
-							'custom' === wp.customize.value( 'theme_colors' )()
-						) {
+						if ( 'custom' === wp.customize.value( 'header_color' )() && 'custom' === wp.customize.value( 'theme_colors' )() ) {
 							control.container.slideDown( 180 );
 						}
 					} else {
@@ -195,10 +189,7 @@
 			wp.customize.control( 'header_color_hex', function ( control ) {
 				const visibility = function () {
 					if ( 'custom' === setting.get() ) {
-						if (
-							true === wp.customize.value( 'header_solid_background' )() &&
-							'custom' === wp.customize.value( 'theme_colors' )()
-						) {
+						if ( true === wp.customize.value( 'header_solid_background' )() && 'custom' === wp.customize.value( 'theme_colors' )() ) {
 							control.container.slideDown( 180 );
 						}
 					} else {
@@ -391,14 +382,26 @@
 			} );
 		} );
 
-		// Disable 'time ago cutoff' when post updated date is enabled.
 		wp.customize( 'post_updated_date', function ( setting ) {
+			// Disable 'time ago cutoff' when post updated date is enabled.
 			wp.customize.control( 'post_time_ago_cut_off', function ( control ) {
 				const visibility = function () {
 					if ( true === setting.get() ) {
 						$( 'input', control.selector ).prop( 'disabled', true );
 					} else {
 						$( 'input', control.selector ).prop( 'disabled', false );
+					}
+				};
+				visibility();
+				setting.bind( visibility );
+			} );
+			// Only show 'updated date threshold' when post updated date is enabled.
+			wp.customize.control( 'post_updated_date_threshold', function ( control ) {
+				const visibility = function () {
+					if ( true === setting.get() ) {
+						control.container.slideDown( 180 );
+					} else {
+						control.container.slideUp( 180 );
 					}
 				};
 				visibility();

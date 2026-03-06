@@ -29,11 +29,6 @@ function newspack_jetpack_setup() {
 	add_theme_support( 'jetpack-responsive-videos' );
 
 	/**
-	 * Add theme support for geo-location.
-	 */
-	add_theme_support( 'jetpack-geo-location' );
-
-	/**
 	 * Add theme support for Content Options.
 	 */
 	add_theme_support(
@@ -98,8 +93,10 @@ add_action( 'loop_start', 'newspack_remove_jetpack_share' );
 
 /**
  * Alter gallery widget default width.
+ *
+ * @param int $_width Original width (unused, always returns 390).
  */
-function newspack_gallery_widget_content_width( $width ) {
+function newspack_gallery_widget_content_width( $_width ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 	return 390;
 }
 add_filter( 'gallery_widget_content_width', 'newspack_gallery_widget_content_width' );
@@ -114,9 +111,24 @@ function newspack_custom_top_posts_thumb_size( $get_image_options ) {
 add_filter( 'jetpack_top_posts_widget_image_options', 'newspack_custom_top_posts_thumb_size' );
 
 /**
- * Alter featured-image default visibility for content-options.
+ * Increase the size of images when using the One Column, One Column Wide, or No Header/Footer templates.
+ *
+ * @param int $content_width The content width.
  */
-function newspack_override_post_thumbnail( $width ) {
+function newspack_change_content_width( $content_width ) {
+	if ( ( ! is_front_page() && is_page_template( 'single-wide.php' ) ) || is_page_template( 'single-feature.php' ) || is_page_template( 'no-header-footer.php' ) ) {
+		return 2000;
+	}
+	return $content_width;
+}
+add_filter( 'jetpack_content_width', 'newspack_change_content_width' );
+
+/**
+ * Alter featured-image default visibility for content-options.
+ *
+ * @param int $_width Original width (unused).
+ */
+function newspack_override_post_thumbnail( $_width ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found, VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 	$options         = get_theme_support( 'jetpack-content-options' );
 	$featured_images = ( ! empty( $options[0]['featured-images'] ) ) ? $options[0]['featured-images'] : null;
 

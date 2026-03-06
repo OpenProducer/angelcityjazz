@@ -17,6 +17,13 @@ if ( function_exists( 'newspack_get_all_sponsors' ) ) {
 
 $feature_latest_post = get_theme_mod( 'archive_feature_latest_post', true );
 $show_excerpt        = get_theme_mod( 'archive_show_excerpt', false );
+
+// Hide author on collection category archives.
+if ( class_exists( '\Newspack\Optional_Modules\Collections' ) &&
+	\Newspack\Optional_Modules\Collections::is_module_active() &&
+	is_tax( \Newspack\Collections\Collection_Category_Taxonomy::get_taxonomy() ) ) {
+	add_filter( 'newspack_listings_hide_author', '__return_true' );
+}
 ?>
 
 	<section id="primary" class="content-area">
@@ -112,7 +119,7 @@ $show_excerpt        = get_theme_mod( 'archive_show_excerpt', false );
 
 			// Start the Loop.
 			while ( have_posts() ) :
-				$post_count++;
+				++$post_count;
 				the_post();
 
 				// Check if you're on the first post of the first page and if it should be styled differently, or if excerpts are enabled.

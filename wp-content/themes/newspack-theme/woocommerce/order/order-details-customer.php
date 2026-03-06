@@ -12,7 +12,7 @@
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
- * @version 5.6.0
+ * @version 8.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ $show_shipping = ! wc_ship_to_billing_address_only() && $order->needs_shipping_a
 ?>
 <section class="woocommerce-customer-details">
 
-	<h4><?php esc_html_e( 'Your Information', 'newspack' ); ?></h4>
+	<h4><?php esc_html_e( 'Your Information', 'newspack-theme' ); ?></h4>
 
 	<?php if ( $show_shipping ) : ?>
 
@@ -31,11 +31,11 @@ $show_shipping = ! wc_ship_to_billing_address_only() && $order->needs_shipping_a
 	<?php endif; ?>
 
 	<?php if ( $show_shipping ) : ?>
-		<h5 class="woocommerce-column__title"><?php esc_html_e( 'Billing address', 'newspack' ); ?></h5>
+		<h5 class="woocommerce-column__title"><?php esc_html_e( 'Billing address', 'newspack-theme' ); ?></h5>
 	<?php endif; ?>
 
 	<address>
-		<?php echo wp_kses_post( $order->get_formatted_billing_address( esc_html__( 'N/A', 'newspack' ) ) ); ?>
+		<?php echo wp_kses_post( $order->get_formatted_billing_address( esc_html__( 'N/A', 'newspack-theme' ) ) ); ?>
 
 		<?php if ( $order->get_billing_phone() ) : ?>
 			<p class="woocommerce-customer-details--phone"><?php echo esc_html( $order->get_billing_phone() ); ?></p>
@@ -44,6 +44,17 @@ $show_shipping = ! wc_ship_to_billing_address_only() && $order->needs_shipping_a
 		<?php if ( $order->get_billing_email() ) : ?>
 			<p class="woocommerce-customer-details--email"><?php echo esc_html( $order->get_billing_email() ); ?></p>
 		<?php endif; ?>
+
+		<?php
+			/**
+			 * Action hook fired after an address in the order customer details.
+			 *
+			 * @since 8.7.0
+			 * @param string $address_type Type of address (billing or shipping).
+			 * @param WC_Order $order Order object.
+			 */
+			do_action( 'woocommerce_order_details_after_customer_address', 'billing', $order );
+		?>
 	</address>
 
 	<?php if ( $show_shipping ) : ?>
@@ -51,9 +62,20 @@ $show_shipping = ! wc_ship_to_billing_address_only() && $order->needs_shipping_a
 		</div><!-- /.col-1 -->
 
 		<div class="woocommerce-column woocommerce-column--2 woocommerce-column--shipping-address col-2">
-			<h5 class="woocommerce-column__title"><?php esc_html_e( 'Shipping address', 'newspack' ); ?></h5>
+			<h5 class="woocommerce-column__title"><?php esc_html_e( 'Shipping address', 'newspack-theme' ); ?></h5>
 			<address>
-				<?php echo wp_kses_post( $order->get_formatted_shipping_address( esc_html__( 'N/A', 'newspack' ) ) ); ?>
+				<?php echo wp_kses_post( $order->get_formatted_shipping_address( esc_html__( 'N/A', 'newspack-theme' ) ) ); ?>
+
+				<?php
+					/**
+					 * Action hook fired after an address in the order customer details.
+					 *
+					 * @since 8.7.0
+					 * @param string $address_type Type of address (billing or shipping).
+					 * @param WC_Order $order Order object.
+					 */
+					do_action( 'woocommerce_order_details_after_customer_address', 'shipping', $order );
+				?>
 			</address>
 		</div><!-- /.col-2 -->
 
