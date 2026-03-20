@@ -244,3 +244,8 @@ main() {
 }
 
 main "$@"
+
+echo ""
+echo "[link-studio-code] Reminder:"
+echo "If you updated plugins via the WordPress dashboard, rerun this script to restore symlinks."
+echo ""
