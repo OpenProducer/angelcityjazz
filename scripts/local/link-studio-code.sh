@@ -18,11 +18,6 @@ ALREADY_LINKED_THEMES=()
 REPAIRED_THEMES=()
 BACKED_UP_THEMES=()
 
-LINKED_PLUGINS=()
-ALREADY_LINKED_PLUGINS=()
-REPAIRED_PLUGINS=()
-BACKED_UP_PLUGINS=()
-
 LINKED_MU_PLUGIN=""
 ALREADY_LINKED_MU_PLUGIN=""
 REPAIRED_MU_PLUGIN=""
@@ -64,10 +59,6 @@ record_action() {
     theme:already) ALREADY_LINKED_THEMES+=("${item}") ;;
     theme:repaired) REPAIRED_THEMES+=("${item}") ;;
     theme:backed_up) BACKED_UP_THEMES+=("${item}") ;;
-    plugin:linked) LINKED_PLUGINS+=("${item}") ;;
-    plugin:already) ALREADY_LINKED_PLUGINS+=("${item}") ;;
-    plugin:repaired) REPAIRED_PLUGINS+=("${item}") ;;
-    plugin:backed_up) BACKED_UP_PLUGINS+=("${item}") ;;
     mu-plugin:linked) LINKED_MU_PLUGIN="${item}" ;;
     mu-plugin:already) ALREADY_LINKED_MU_PLUGIN="${item}" ;;
     mu-plugin:repaired) REPAIRED_MU_PLUGIN="${item}" ;;
@@ -171,10 +162,8 @@ print_summary() {
   print_section_array 'Already linked themes:' ALREADY_LINKED_THEMES
   print_section_array 'Repaired themes:' REPAIRED_THEMES
   print_section_array 'Backed up themes:' BACKED_UP_THEMES
-  print_section_array 'Linked plugins:' LINKED_PLUGINS
-  print_section_array 'Already linked plugins:' ALREADY_LINKED_PLUGINS
-  print_section_array 'Repaired plugins:' REPAIRED_PLUGINS
-  print_section_array 'Backed up plugins:' BACKED_UP_PLUGINS
+  printf 'Plugins:\n'
+  printf '  - intentionally unmanaged locally\n'
   printf 'Linked mu-plugin file:\n'
   printf '  - %s\n' "${mu_status}"
   printf 'Backup directory used:\n'
@@ -189,7 +178,6 @@ print_summary() {
 main() {
   local relative_path
   local -a theme_paths=("wp-content/themes/newspack-theme")
-  local -a plugin_paths=()
   local mu_plugin_relative='wp-content/mu-plugins/woocommerce-performance-optimizations.php'
 
   log "Using repo root: ${REPO_ROOT}"
@@ -209,18 +197,11 @@ main() {
     theme_paths+=("${relative_path}")
   done < <(collect_repo_paths "${REPO_ROOT}/wp-content/themes" 'newspack-*')
 
-  while IFS= read -r relative_path; do
-    relative_path="${relative_path#${REPO_ROOT}/}"
-    plugin_paths+=("${relative_path}")
-  done < <(collect_repo_paths "${REPO_ROOT}/wp-content/plugins" 'newspack-*')
-
   for relative_path in "${theme_paths[@]}"; do
     ensure_symlink theme "${relative_path}"
   done
 
-  for relative_path in "${plugin_paths[@]}"; do
-    ensure_symlink plugin "${relative_path}"
-  done
+  warn 'Plugins are intentionally unmanaged locally: wp-content/plugins/newspack-*'
 
   if [[ -e "${REPO_ROOT}/${mu_plugin_relative}" ]]; then
     ensure_symlink mu-plugin "${mu_plugin_relative}"
