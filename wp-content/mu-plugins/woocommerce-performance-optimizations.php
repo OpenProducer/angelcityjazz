@@ -3,7 +3,11 @@
  * WooCommerce performance optimizations
  */
 
-// Avoid loading Woo cart/session on non-Woo pages.
+if ( function_exists( 'wp_get_environment_type' ) && 'local' !== wp_get_environment_type() ) {
+    return;
+}
+
+// Local-only: avoid loading Woo cart/session on non-Woo pages.
 add_filter( 'woocommerce_load_cart', function ( $load ) {
     if ( is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
         return $load;
@@ -11,10 +15,10 @@ add_filter( 'woocommerce_load_cart', function ( $load ) {
 
     // Allow cart/session on Woo-related pages only.
     if (
-        ( function_exists( 'is_woocommerce' ) && is_woocommerce() )
-        || ( function_exists( 'is_cart' ) && is_cart() )
-        || ( function_exists( 'is_checkout' ) && is_checkout() )
-        || ( function_exists( 'is_account_page' ) && is_account_page() )
+        ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) ||
+        ( function_exists( 'is_cart' ) && is_cart() ) ||
+        ( function_exists( 'is_checkout' ) && is_checkout() ) ||
+        ( function_exists( 'is_account_page' ) && is_account_page() )
     ) {
         return $load;
     }
@@ -22,7 +26,9 @@ add_filter( 'woocommerce_load_cart', function ( $load ) {
     return false;
 }, 1 );
 
-// Production-safe: suppress cart fragments script payload on non-Woo pages.
+add_filter( 'woocommerce_rest_api_enabled', '__return_false' );
+
+// Local-only: suppress cart fragments script payload on non-Woo pages.
 add_filter( 'woocommerce_get_script_data', function ( $script_data, $handle ) {
     if ( 'wc-cart-fragments' !== $handle ) {
         return $script_data;
@@ -33,10 +39,10 @@ add_filter( 'woocommerce_get_script_data', function ( $script_data, $handle ) {
     }
 
     if (
-        ( function_exists( 'is_woocommerce' ) && is_woocommerce() )
-        || ( function_exists( 'is_cart' ) && is_cart() )
-        || ( function_exists( 'is_checkout' ) && is_checkout() )
-        || ( function_exists( 'is_account_page' ) && is_account_page() )
+        ( function_exists( 'is_woocommerce' ) && is_woocommerce() ) ||
+        ( function_exists( 'is_cart' ) && is_cart() ) ||
+        ( function_exists( 'is_checkout' ) && is_checkout() ) ||
+        ( function_exists( 'is_account_page' ) && is_account_page() )
     ) {
         return $script_data;
     }
