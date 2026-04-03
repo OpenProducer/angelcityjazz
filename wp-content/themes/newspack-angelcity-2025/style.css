@@ -12,7 +12,6 @@
 # Table of Contents
 --------------------------------------------------------------
 
-# Imports
 # Colors (Base Variables)
 # Typography
 # Navigation
@@ -38,13 +37,6 @@
 # Layout - Shop / WooCommerce Landing Page
 
 */
-
-/*--------------------------------------------------------------
-# Imports
---------------------------------------------------------------*/
-
-/* Import parent theme styles */
-@import url("../newspack-theme/style.css");
 
 /*--------------------------------------------------------------
 # Colors (Base Variables)

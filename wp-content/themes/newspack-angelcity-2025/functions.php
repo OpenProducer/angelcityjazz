@@ -3,18 +3,48 @@
  * Theme functions and definitions for newspack-angelcity-2025
  */
 
-// ✅ Enqueue parent and child styles (no @import needed)
+// Enqueue parent and child styles.
+// Priority 20 runs after the parent theme's newspack_scripts() (priority 10), so we can
+// safely deregister the 'newspack-style' handle — the parent registers it pointing at the
+// child stylesheet (get_stylesheet_uri() returns child when a child theme is active), which
+// would cause a double-load. We replace it with the correct parent URL here.
 function newspack_angelcity_2025_enqueue_styles() {
-    $parent_style = 'newspack-style';
-    wp_enqueue_style($parent_style, get_template_directory_uri() . '/style.css');
+    wp_deregister_style('newspack-style');
+    wp_enqueue_style(
+        'newspack-style',
+        get_template_directory_uri() . '/style.css',
+        array(),
+        wp_get_theme()->parent()->get('Version')
+    );
     wp_enqueue_style(
         'child-style',
         get_stylesheet_directory_uri() . '/style.css',
-        array($parent_style),
+        array('newspack-style'),
         wp_get_theme()->get('Version')
     );
 }
-add_action('wp_enqueue_scripts', 'newspack_angelcity_2025_enqueue_styles');
+add_action('wp_enqueue_scripts', 'newspack_angelcity_2025_enqueue_styles', 20);
+
+// Re-assert child theme color variables after the parent's wp_head inline styles.
+// The parent theme outputs a <style id="custom-theme-colors"> block via wp_head at
+// priority 10 (newspack_colors_css_wrap). Because inline <style> tags appear after
+// <link> stylesheet tags in the HTML, they always win in the cascade regardless of
+// what the child stylesheet declares. Hooking at priority 20 ensures our :root block
+// appears after the parent's and takes precedence.
+add_action('wp_head', function () {
+    ?>
+    <style id="child-theme-color-overrides">
+    :root {
+        --newspack-theme-color-primary: #541a17;
+        --newspack-theme-color-secondary: #d5621c;
+        --newspack-theme-color-primary-against-white: #541a17;
+        --newspack-theme-color-secondary-against-white: #d5621c;
+        --newspack-theme-color-against-primary: #fff;
+        --newspack-theme-color-against-secondary: #fff;
+    }
+    </style>
+    <?php
+}, 20);
 
 //
 // 🗓 Remove end time from The Events Calendar schedule output
