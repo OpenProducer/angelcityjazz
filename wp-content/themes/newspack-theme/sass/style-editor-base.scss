@@ -15,6 +15,7 @@ body {
 /** === Content Width === */
 
 .wp-block {
+	box-sizing: border-box;
 	max-width: 810px; // 780px + 30px to offset padding
 }
 
@@ -639,10 +640,6 @@ html :where(.wp-block)[data-align="right"] {
 		max-width: 50%;
 		width: 50%;
 
-		@include utilities.media( tablet ) {
-			border-bottom: 0;
-		}
-
 		&:not(.is-style-solid-color) {
 			padding: 0;
 		}
@@ -846,8 +843,11 @@ html :where(.wp-block)[data-align="right"] {
 .wp-block-archives,
 .wp-block-categories,
 .wp-block-latest-posts {
+	list-style-type: none;
+	margin-left: 0;
 	padding: 0;
 
+	// TODO: The whole UL selector can be removed after WP 7.0 is released.
 	ul {
 		padding: 0;
 		margin-left: 0;
