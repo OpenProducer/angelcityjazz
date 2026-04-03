@@ -11,19 +11,27 @@ if ( false === get_theme_mod( 'show_author_bio', true ) || true === apply_filter
 }
 
 $author_bio_length = get_theme_mod( 'author_bio_length', 200 );
+// Shared avatar image size for author archive + author bio templates.
+$author_avatar_size = get_theme_mod( 'author_avatar_size', 120 );
 
 if ( function_exists( 'coauthors_posts_links' ) && is_single() && ! empty( get_coauthors() ) ) : // phpcs:ignore PHPCompatibility.LanguageConstructs.NewEmptyNonVariable.Found
 
-	$authors      = get_coauthors();
-	$author_count = count( $authors );
-	$i            = 1;
+	$authors = get_coauthors();
 
 	foreach ( $authors as $author ) {
 
 		if ( '' !== $author->description ) {
 			// avatar_img_tag is a property added by Newspack Network plugin to distributed posts.
-			$author_avatar = $author->avatar_img_tag ?? coauthors_get_avatar( $author, 80 );
+			$author_avatar = $author->avatar_img_tag ?? coauthors_get_avatar( $author, absint( $author_avatar_size ) );
 			$author_url    = get_author_posts_url( $author->ID, $author->user_nicename );
+
+			/**
+			 * Filter to control whether to display co-author email in author bio.
+			 *
+			 * @param bool $should_display_author_email Whether to display co-author email. Default to the value of 'show_author_email' theme mod.
+			 * @param int  $author_id                   The co-author user ID.
+			 */
+			$should_display_author_email = apply_filters( 'newspack_show_coauthor_email', get_theme_mod( 'show_author_email', false ), $author->ID );
 			?>
 
 			<div class="author-bio">
@@ -59,9 +67,9 @@ if ( function_exists( 'coauthors_posts_links' ) && is_single() && ! empty( get_c
 								<?php endif; ?>
 							</h2>
 
-							<?php if ( ( true === get_theme_mod( 'show_author_email', false ) && '' !== $author->user_email ) || true === get_theme_mod( 'show_author_social', false ) ) : ?>
+							<?php if ( ( $should_display_author_email && '' !== $author->user_email ) || true === get_theme_mod( 'show_author_social', false ) ) : ?>
 								<div class="author-meta">
-									<?php if ( true === get_theme_mod( 'show_author_email', false ) && '' !== $author->user_email ) : ?>
+									<?php if ( $should_display_author_email && true === get_theme_mod( 'show_author_email', false ) && '' !== $author->user_email ) : ?>
 										<a class="author-email" href="<?php echo 'mailto:' . esc_attr( $author->user_email ); ?>">
 											<?php echo wp_kses( newspack_get_social_icon_svg( 'mail', 18 ), newspack_sanitize_svgs() ); ?>
 											<?php echo esc_html( $author->user_email ); ?>
@@ -81,7 +89,7 @@ if ( function_exists( 'coauthors_posts_links' ) && is_single() && ! empty( get_c
 								<a class="author-link" href="<?php echo esc_url( $author_url ); ?>" rel="author">
 								<?php
 									/* translators: %s is the current author's name. */
-									printf( esc_html__( 'More by %s', 'newspack' ), esc_html( $author->display_name ) );
+									printf( esc_html__( 'More by %s', 'newspack-theme' ), esc_html( $author->display_name ) );
 								?>
 								</a>
 							<?php endif; ?>
@@ -93,7 +101,7 @@ if ( function_exists( 'coauthors_posts_links' ) && is_single() && ! empty( get_c
 							<a class="author-link" href="<?php echo esc_url( $author_url ); ?>" rel="author">
 								<?php
 									/* translators: %s is the current author's name. */
-									printf( esc_html__( 'More by %s', 'newspack' ), esc_html( $author->display_name ) );
+									printf( esc_html__( 'More by %s', 'newspack-theme' ), esc_html( $author->display_name ) );
 								?>
 							</a>
 						<?php endif; ?>
@@ -107,7 +115,7 @@ if ( function_exists( 'coauthors_posts_links' ) && is_single() && ! empty( get_c
 	}
 
 elseif ( (bool) get_the_author_meta( 'description' ) && is_single() ) :
-	$author_avatar = get_avatar( get_the_author_meta( 'ID' ), 80 );
+	$author_avatar = get_avatar( get_the_author_meta( 'ID' ), absint( $author_avatar_size ) );
 	?>
 
 <div class="author-bio">
@@ -152,7 +160,7 @@ elseif ( (bool) get_the_author_meta( 'description' ) && is_single() ) :
 				<a class="author-link" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author">
 				<?php
 					/* translators: %s is the current author's name. */
-					printf( esc_html__( 'More by %s', 'newspack' ), esc_html( get_the_author() ) );
+					printf( esc_html__( 'More by %s', 'newspack-theme' ), esc_html( get_the_author() ) );
 				?>
 				</a>
 			</p>
@@ -161,7 +169,7 @@ elseif ( (bool) get_the_author_meta( 'description' ) && is_single() ) :
 			<a class="author-link" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author">
 				<?php
 					/* translators: %s is the current author's name. */
-					printf( esc_html__( 'More by %s', 'newspack' ), esc_html( get_the_author() ) );
+					printf( esc_html__( 'More by %s', 'newspack-theme' ), esc_html( get_the_author() ) );
 				?>
 			</a>
 		<?php endif; ?>

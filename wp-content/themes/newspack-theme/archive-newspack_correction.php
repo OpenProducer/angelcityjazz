@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName.NotHyphenatedLowercase -- Filename must match post type slug for WordPress template hierarchy.
 /**
  * The template for displaying archive pages for the newspack_correction post type
  *
@@ -6,6 +6,7 @@
  *
  * @package Newspack
  */
+
 get_header();
 
 ?>
@@ -16,7 +17,7 @@ get_header();
 
 			<span>
 
-				<h1 class="page-title"><?php esc_html_e( 'Corrections and clarifications', 'newspack' ); ?></h1>
+				<h1 class="page-title"><?php esc_html_e( 'Corrections and clarifications', 'newspack-theme' ); ?></h1>
 
 				<?php do_action( 'newspack_theme_below_archive_title' ); ?>
 
@@ -35,7 +36,7 @@ get_header();
 
 			// Start the Loop.
 			while ( have_posts() ) :
-				$post_count++;
+				++$post_count;
 				the_post();
 
 				get_template_part( 'template-parts/content/content', 'corrections' );
@@ -48,8 +49,8 @@ get_header();
 			the_posts_pagination(
 				array(
 					'mid_size'  => 2,
-					'prev_text' => __( 'Previous', 'newspack' ),
-					'next_text' => __( 'Next', 'newspack' ),
+					'prev_text' => __( 'Previous', 'newspack-theme' ),
+					'next_text' => __( 'Next', 'newspack-theme' ),
 				)
 			);
 

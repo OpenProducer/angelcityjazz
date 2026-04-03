@@ -16,13 +16,25 @@ class RadioCustom extends Component {
 				label={ __( 'Featured Image Position' ) }
 				selected={ meta.newspack_featured_image_position }
 				options={ [
-					{ label: __( 'Default (set in Customizer)', 'newspack' ), value: '' },
-					{ label: __( 'Large', 'newspack' ), value: 'large' },
-					{ label: __( 'Small', 'newspack' ), value: 'small' },
-					{ label: __( 'Behind article title', 'newspack' ), value: 'behind' },
-					{ label: __( 'Beside article title', 'newspack' ), value: 'beside' },
-					{ label: __( 'Above article title', 'newspack' ), value: 'above' },
-					{ label: __( 'Hidden', 'newspack' ), value: 'hidden' },
+					{
+						label: __( 'Default (set in Customizer)', 'newspack-theme' ),
+						value: '',
+					},
+					{ label: __( 'Large', 'newspack-theme' ), value: 'large' },
+					{ label: __( 'Small', 'newspack-theme' ), value: 'small' },
+					{
+						label: __( 'Behind article title', 'newspack-theme' ),
+						value: 'behind',
+					},
+					{
+						label: __( 'Beside article title', 'newspack-theme' ),
+						value: 'beside',
+					},
+					{
+						label: __( 'Above article title', 'newspack-theme' ),
+						value: 'above',
+					},
+					{ label: __( 'Hidden', 'newspack-theme' ), value: 'hidden' },
 				] }
 				onChange={ value => {
 					this.setState( { value } );
@@ -37,7 +49,10 @@ const ComposedRadio = compose( [
 	withSelect( _select => {
 		const { getCurrentPostAttribute, getEditedPostAttribute } = _select( 'core/editor' );
 		return {
-			meta: { ...getCurrentPostAttribute( 'meta' ), ...getEditedPostAttribute( 'meta' ) },
+			meta: {
+				...getCurrentPostAttribute( 'meta' ),
+				...getEditedPostAttribute( 'meta' ),
+			},
 		};
 	} ),
 	withDispatch( dispatch => ( {
@@ -70,8 +85,4 @@ const wrapPostFeaturedImage = OriginalComponent => {
 	};
 };
 
-addFilter(
-	'editor.PostFeaturedImage',
-	'enhance-featured-image/featured-image-position-control',
-	wrapPostFeaturedImage
-);
+addFilter( 'editor.PostFeaturedImage', 'enhance-featured-image/featured-image-position-control', wrapPostFeaturedImage );

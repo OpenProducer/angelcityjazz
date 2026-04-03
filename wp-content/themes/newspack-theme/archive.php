@@ -17,6 +17,15 @@ if ( function_exists( 'newspack_get_all_sponsors' ) ) {
 
 $feature_latest_post = get_theme_mod( 'archive_feature_latest_post', true );
 $show_excerpt        = get_theme_mod( 'archive_show_excerpt', false );
+// Shared avatar image size for author archive + author bio templates.
+$author_avatar_size = get_theme_mod( 'author_avatar_size', 120 );
+
+// Hide author on collection category archives.
+if ( class_exists( '\Newspack\Optional_Modules\Collections' ) &&
+	\Newspack\Optional_Modules\Collections::is_module_active() &&
+	is_tax( \Newspack\Collections\Collection_Category_Taxonomy::get_taxonomy() ) ) {
+	add_filter( 'newspack_listings_hide_author', '__return_true' );
+}
 ?>
 
 	<section id="primary" class="content-area">
@@ -28,10 +37,10 @@ $show_excerpt        = get_theme_mod( 'archive_show_excerpt', false );
 				$author_avatar = '';
 
 				if ( function_exists( 'coauthors_posts_links' ) ) {
-					$author_avatar = coauthors_get_avatar( $queried, 120 );
+					$author_avatar = coauthors_get_avatar( $queried, absint( $author_avatar_size ) );
 				} else {
 					$author_id     = get_query_var( 'author' );
-					$author_avatar = get_avatar( $author_id, 120 );
+					$author_avatar = get_avatar( $author_id, absint( $author_avatar_size ) );
 				}
 
 				if ( $author_avatar ) {
@@ -112,7 +121,7 @@ $show_excerpt        = get_theme_mod( 'archive_show_excerpt', false );
 
 			// Start the Loop.
 			while ( have_posts() ) :
-				$post_count++;
+				++$post_count;
 				the_post();
 
 				// Check if you're on the first post of the first page and if it should be styled differently, or if excerpts are enabled.

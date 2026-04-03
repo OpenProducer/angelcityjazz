@@ -32,14 +32,7 @@ const SummaryEditor = ( { summary, saveSummary } ) => {
 		saveSummary( value );
 	}, [ value ] );
 
-	return (
-		<TextareaControl
-			label={ __( 'Body:', 'newspack' ) }
-			value={ value }
-			onChange={ setValue }
-			style={ { width: '100%' } }
-		/>
-	);
+	return <TextareaControl label={ __( 'Body:', 'newspack-theme' ) } value={ value } onChange={ setValue } style={ { width: '100%' } } />;
 };
 
 export default decorateSummary( SummaryEditor );

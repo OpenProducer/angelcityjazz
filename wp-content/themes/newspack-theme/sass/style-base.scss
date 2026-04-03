@@ -61,6 +61,10 @@
 
 @use "plugins/yoast-breadcrumb";
 
+/* Newspack Plugin support */
+
+@use "plugins/newspack-plugin";
+
 /* Newspack Listings support */
 
 @use "plugins/newspack-listings";
@@ -68,3 +72,7 @@
 /* Newspack Publisher Media Kit */
 
 @use "plugins/newspack-publisher-media-kit";
+
+/* Republication Tracker Tool */
+
+@use "plugins/republication-tracker-tool";

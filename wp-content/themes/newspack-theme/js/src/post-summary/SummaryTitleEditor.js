@@ -32,14 +32,7 @@ const SummaryTitleEditor = ( { summaryTitle, saveSummaryTitle } ) => {
 		saveSummaryTitle( value );
 	}, [ value ] );
 
-	return (
-		<TextControl
-			label={ __( 'Title:', 'newspack' ) }
-			value={ value }
-			onChange={ setValue }
-			style={ { width: '100%' } }
-		/>
-	);
+	return <TextControl label={ __( 'Title:', 'newspack-theme' ) } value={ value } onChange={ setValue } style={ { width: '100%' } } />;
 };
 
 export default decorateTitle( SummaryTitleEditor );

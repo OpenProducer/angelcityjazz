@@ -33,10 +33,10 @@ add_action( 'after_setup_theme', 'newspack_woocommerce_setup' );
  */
 function newspack_woocommerce_scripts() {
 	if (
-		function_exists( 'is_woocommerce' ) && is_woocommerce()
-		|| function_exists( 'is_cart' ) && is_cart()
-		|| function_exists( 'is_checkout' ) && is_checkout()
-		|| function_exists( 'is_account_page' ) && is_account_page()
+		( function_exists( 'is_woocommerce' ) && is_woocommerce() )
+		|| ( function_exists( 'is_cart' ) && is_cart() )
+		|| ( function_exists( 'is_checkout' ) && is_checkout() )
+		|| ( function_exists( 'is_account_page' ) && is_account_page() )
 	) {
 		wp_enqueue_style( 'newspack-woocommerce-style', get_template_directory_uri() . '/styles/woocommerce.css', array( 'newspack-style' ), wp_get_theme()->get( 'Version' ) );
 		wp_style_add_data( 'newspack-woocommerce-style', 'rtl', 'replace' );
@@ -65,16 +65,6 @@ remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_paymen
 add_action( 'woocommerce_checkout_after_customer_details', 'woocommerce_checkout_payment' );
 
 /**
- * Add heading above payment info form.
- */
-function newspack_woo_payment_heading() {
-	?>
-	<h3><?php esc_html_e( 'Payment info', 'newspack' ); ?></h3>
-	<?php
-}
-add_action( 'woocommerce_review_order_before_payment', 'newspack_woo_payment_heading' );
-
-/**
  * Add heading above checkout account creation form.
  */
 function newspack_woo_account_registration_heading() {
@@ -82,10 +72,9 @@ function newspack_woo_account_registration_heading() {
 
 	if ( $checkout->get_checkout_fields( 'account' ) ) :
 		?>
-		<h3><?php esc_html_e( 'Create an account', 'newspack' ); ?></h3>
+		<h3><?php esc_html_e( 'Create an account', 'newspack-theme' ); ?></h3>
 		<?php
 	endif;
-
 }
 add_action( 'woocommerce_before_checkout_registration_form', 'newspack_woo_account_registration_heading' );
 
