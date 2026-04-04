@@ -134,6 +134,11 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
 }
 
+/* Remove margin beween multiple block galleries */
+.wp-block-group .wp-block-gallery  {
+  margin-bottom: 12px;
+}
+
 /* Style for HTML widgets (e.g., embedded Spotify players) */
 .widget_text.widget.widget_custom_html {
   background-color: inherit;
@@ -921,11 +926,6 @@ body.single-tribe_venue .tribe-common-g-row > .tribe-common-g-col {
 # Layout - Single WooCommerce Page
 --------------------------------------------------------------*/
 
-/* Remove breadcrumbs from product pages */
-.woocommerce-breadcrumb {
-  visibility: hidden;
-}
-
 /* Hide SKU and categories on single product pages */
 .product_meta {
   display: none;
@@ -952,113 +952,58 @@ body.single-tribe_venue .tribe-common-g-row > .tribe-common-g-col {
   margin-bottom: 1em;
 }
 
-/* Product tabs: horizontal styling */
+/* Product tabs: work with parent theme's flat underline tab design */
 
-/* Tabs wrapper styles */
-.product .woocommerce-tabs ul.tabs {
-  width: 100%;
-  float: none;
-  margin-right: 5.8823529412%;
+/* Ensure tab font size uses theme scale */
+.woocommerce-tabs ul li {
+  margin: 0;
 }
 
-.woocommerce div.product .woocommerce-tabs ul.tabs {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 1.618em;
-  overflow: hidden;
-  position: relative;
+/* Active tab indicator uses site primary color (parent already sets this via --newspack-theme-color-primary) */
+.woocommerce-tabs ul li.active a {
+  font-weight: 700;
 }
 
-/* Line under tabs */
-.woocommerce div.product .woocommerce-tabs ul.tabs::before {
-  position: absolute;
-  content: ' ';
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-}
-
-/* Individual tab styles */
-.woocommerce div.product .woocommerce-tabs ul.tabs li {
-  border: 1px solid #d3ced2;
-  border-radius: 4px 4px 0 0;
-  display: inline-block;
-  position: relative;
-  z-index: 0;
-  padding: 0 1em;
-}
-
-.woocommerce div.product .woocommerce-tabs ul.tabs li.active {
-  z-index: 2;
-  border-bottom-color: #777;
-  background-color: #ebe9eb;
-  border: 1px solid #555;
-}
-
-/* Decorative corners for tabs */
-.woocommerce div.product .woocommerce-tabs ul.tabs li::after,
-.woocommerce div.product .woocommerce-tabs ul.tabs li::before {
-  border: 1px solid #d3ced2;
-  position: absolute;
-  bottom: -1px;
-  width: 0;
-  height: 0;
-  content: ' ';
-}
-
-.woocommerce div.product .woocommerce-tabs ul.tabs li::before {
-  left: -6px;
-  border-bottom-right-radius: 4px;
-  border-width: 0 1px 1px 0;
-  box-shadow: 2px 2px 0 #ebe9eb;
-}
-
-.woocommerce div.product .woocommerce-tabs ul.tabs li.active::before {
-  box-shadow: 2px 2px 0 #fff;
-}
-
-.woocommerce div.product .woocommerce-tabs ul.tabs li::after {
-  right: -6px;
-  border-bottom-left-radius: 4px;
-  border-width: 0 0 1px 1px;
-  box-shadow: -2px 2px 0 #ebe9eb;
-}
-
-.woocommerce div.product .woocommerce-tabs ul.tabs li.active::after {
-  box-shadow: -2px 2px 0 #fff;
-}
-
-/* Tab anchor styling */
-.woocommerce div.product .woocommerce-tabs ul.tabs li a {
-  display: inline-block;
-  padding: 0.5em 0;
-  color: #515151;
-  text-decoration: none;
-}
-
-.woocommerce div.product .woocommerce-tabs ul.tabs li.active a {
-  color: inherit;
-  text-shadow: inherit;
-  font-weight: bold;
-}
-
-/* Accessibility: remove focus outlines */
+/* Accessibility: remove focus outlines on tab anchors */
 .woocommerce .wc-tabs li a:focus,
-.ui-state-focus:focus,
 .ui-tabs-anchor:active,
 .ui-tabs-anchor:focus {
   outline: none !important;
 }
 
-/* Reset margin for tab list items */
-.woocommerce-tabs ul li {
-  margin: 0;
-}
-
 /*--------------------------------------------------------------
 # Layout - WooCommerce Checkout and Cart
 --------------------------------------------------------------*/
+
+/* Error notices: parent theme sets display:flex on .woocommerce-error (a <ul>),
+   which causes all <li> messages to flow inline. Override to stack vertically.
+   .woocommerce-message and .woocommerce-info are unaffected — they use separate
+   parent rules and work correctly with the horizontal flex layout. */
+.woocommerce-error {
+  flex-direction: column;
+  align-items: flex-start;
+  background: #541a17;             /* site primary — replaces generic firebrick #b22222 */
+  border-left: 4px solid #d5621c; /* site secondary as accent stripe */
+  padding: 0.75rem 1.25rem;
+}
+
+.woocommerce-error li {
+  padding: 0.2em 0;
+  width: 100%;
+}
+
+.woocommerce-error li + li {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin-top: 0.15em;
+  padding-top: 0.35em;
+}
+
+/* Ensure error links remain readable against the dark background */
+.woocommerce-error a,
+.woocommerce-error a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
 
 /* Add bottom margin to account dashboard */
 .woocommerce-account .entry-content .woocommerce {

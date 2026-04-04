@@ -266,15 +266,6 @@ add_filter('the_content', function ($content) {
 }, 20);
 
 //
-// 🚀 Performance Enhancements – defer selected scripts
-//
-function acj_defer_scripts($tag, $handle, $src) {
-    $defer = ['woocommerce','mailchimp-woocommerce','woocommerce-analytics','milestone','wpmenucart-ajax-assist'];
-    return in_array($handle, $defer, true) ? '<script src="' . esc_url($src) . '" defer></script>' . "\n" : $tag;
-}
-add_filter('script_loader_tag', 'acj_defer_scripts', 10, 3);
-
-//
 // 🖋 Preconnect to Google Fonts
 //
 add_action('wp_head', function () {
