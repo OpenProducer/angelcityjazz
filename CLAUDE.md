@@ -21,7 +21,7 @@ Plugins are **not symlinked**. They are managed on Pressable dev and promoted to
 
 ## Branch Policy
 
-- `main` — development history; this is where active work happens
+- `master` — development history; this is where active work happens
 - `pressable-deploy` — production deployment branch; Pressable deploys from this branch
 
 Only push tested, stable code to `pressable-deploy`.
@@ -30,7 +30,7 @@ Only push tested, stable code to `pressable-deploy`.
 
 1. Edit code in the repo
 2. Test via the Studio symlink (local WordPress instance)
-3. Commit to `main`
+3. Commit to `master`
 4. Push to `pressable-deploy`
 5. Pressable picks up the deployment automatically
 
