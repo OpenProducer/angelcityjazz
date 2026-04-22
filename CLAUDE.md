@@ -81,6 +81,10 @@ One MU plugin is tracked in `wp-content/mu-plugins/`:
 - `studio code` is an AI agent for building WordPress sites (explore further)
 - Always run Studio commands from the repo root or use the `--path` flag
 - Studio CLI docs: https://developer.wordpress.com/docs/developer-tools/studio/
+- **Plugin updates (local):** run `studio wp plugin update --all` from `/Users/gusaustin/Dev/local/wordpress/studio/angelcityjazz`
+  - Requires Studio app to be running with a fresh server process
+  - If the command fails with "Could not open input file: /tmp/wp-cli.phar", quit and relaunch the Studio app, then retry
+  - Premium plugins (logo-carousel-pro, events-calendar-pro, PDFThumbnails-premium) will fail silently — expected and harmless
 
 ## Do Not Commit
 
