@@ -275,6 +275,20 @@ body .woocommerce-checkout .woocommerce-checkout-review-order {
   display: none;
 }
 
+/* Hide duplicate social icons in site-info bar - shown via footer widget instead */
+.site-info .social-navigation {
+  display: none;
+}
+
+/* Hide horizontal rules in footer - issue #78 */
+.site-footer .footer-widgets:first-child .wrapper,
+.site-info .widget-area .wrapper,
+.site-info .site-info-contain:first-child {
+  border-top: none !important;
+  border-top-width: 0 !important;
+  border-top-style: none !important;
+}
+
 /* --------------------------------------------------------------
 ## Layout Utility Classes
 -------------------------------------------------------------- */

@@ -1,4 +1,6 @@
 <?php
+require_once get_stylesheet_directory() . '/inc/widgets.php';
+
 // Enqueue parent theme styles
 function newspack_angelcity_2025_enqueue_styles() {
     $parent_style = 'newspack-style'; // This is 'newspack-style' for the Newspack theme.
