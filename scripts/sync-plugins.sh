@@ -34,6 +34,8 @@ REMOTE_PLUGINS_PATH="${REMOTE_WP_ROOT}/wp-content/plugins"
 # Format: "local-plugin-slug:GitHub-org/repo"
 GITHUB_PLUGINS=(
 	"newspack-plugin:Automattic/newspack-plugin"
+	# Must be updated together with newspack-plugin (class dependency)
+	"newspack-newsletters:Automattic/newspack-newsletters"
 	"newspack-blocks:Automattic/newspack-blocks"
 	"newspack-ads:Automattic/newspack-ads"
 	"newspack-popups:Automattic/newspack-popups"
