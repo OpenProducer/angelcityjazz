@@ -85,10 +85,11 @@ trap cleanup EXIT
 usage() {
 	cat <<EOF
 Usage:
-  $SCRIPT_NAME --env stage|production [options]
+  $SCRIPT_NAME --env stage|production|dev [options]
 
 Required:
-  --env stage|production    Target Pressable environment
+  --env stage|production|dev  Target Pressable environment
+                              (dev = long-running development work, may not reflect production data)
 
 Options:
   --dry-run                 Show planned updates without making changes
@@ -99,6 +100,7 @@ Options:
 Environment variables:
   ACJ_STAGE_SSH_USER        SSH username for stage (host: $SSH_HOST)
   ACJ_PRODUCTION_SSH_USER   SSH username for production (host: $SSH_HOST)
+  ACJ_DEV_SSH_USER          SSH username for dev (host: $SSH_HOST)
 
   Requires SSH key at $SSH_KEY
 
@@ -176,7 +178,8 @@ fi
 case "$ENV" in
 	stage)      SSH_USER="${ACJ_STAGE_SSH_USER:-}";      ENV_UPPER="STAGE" ;;
 	production) SSH_USER="${ACJ_PRODUCTION_SSH_USER:-}"; ENV_UPPER="PRODUCTION" ;;
-	*)          die "--env must be 'stage' or 'production', got: $ENV" ;;
+	dev)        SSH_USER="${ACJ_DEV_SSH_USER:-}";         ENV_UPPER="DEV" ;;
+	*)          die "--env must be 'stage', 'production', or 'dev', got: $ENV" ;;
 esac
 
 if [[ -z "$SSH_USER" ]]; then

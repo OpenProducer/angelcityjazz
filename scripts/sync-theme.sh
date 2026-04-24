@@ -36,10 +36,11 @@ warnings=()
 usage() {
 	cat <<EOF
 Usage:
-  $SCRIPT_NAME --env stage|production [options]
+  $SCRIPT_NAME --env stage|production|dev [options]
 
 Required:
-  --env stage|production    Target Pressable environment
+  --env stage|production|dev  Target Pressable environment
+                              (dev = long-running development work, may not reflect production data)
 
 Options:
   --dry-run                 Show checklist and diff without pushing or flushing
@@ -49,6 +50,7 @@ Options:
 Environment variables:
   ACJ_STAGE_SSH_USER        SSH username for stage (host: $SSH_HOST)
   ACJ_PRODUCTION_SSH_USER   SSH username for production (host: $SSH_HOST)
+  ACJ_DEV_SSH_USER          SSH username for dev (host: $SSH_HOST)
 
   Requires SSH key at $SSH_KEY
   SSH is only required when --skip-cache is not set.
@@ -119,7 +121,8 @@ fi
 case "$ENV" in
 	stage)      SSH_USER="${ACJ_STAGE_SSH_USER:-}";      ENV_UPPER="STAGE" ;;
 	production) SSH_USER="${ACJ_PRODUCTION_SSH_USER:-}"; ENV_UPPER="PRODUCTION" ;;
-	*)          die "--env must be 'stage' or 'production', got: $ENV" ;;
+	dev)        SSH_USER="${ACJ_DEV_SSH_USER:-}";         ENV_UPPER="DEV" ;;
+	*)          die "--env must be 'stage', 'production', or 'dev', got: $ENV" ;;
 esac
 
 if [[ "$DRY_RUN" -eq 0 && "$SKIP_CACHE" -eq 0 && -z "$SSH_USER" ]]; then
@@ -309,6 +312,9 @@ printf '\nObject cache:     %s\n' "$([[ "$CACHE_FLUSHED" -eq 1 ]] && printf 'flu
 	([[ "$SKIP_CACHE" -eq 1 ]] && printf 'skipped (--skip-cache)' || printf 'flush attempted (check warnings)'))"
 printf 'Transients:       %s\n' "$([[ "$SKIP_CACHE" -eq 1 ]] && printf 'skipped (--skip-cache)' || printf 'deleted')"
 printf 'Critical CSS:     manual step required — regenerate via WP Admin → Jetpack → Boost\n'
+printf 'Edge cache:       manual step required — run this prompt in Claude Code:\n'
+printf '                    "Using the pressable MCP server, clear the edge cache for %s"\n' \
+	"$([[ "$ENV" == "production" ]] && printf 'angelcityjazz' || printf 'stage-angelcityjazz')"
 
 if [[ "${#warnings[@]}" -gt 0 ]]; then
 	printf '\nWarnings (%s):\n' "${#warnings[@]}"
