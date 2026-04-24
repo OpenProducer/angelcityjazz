@@ -34,13 +34,17 @@ REMOTE_PLUGINS_PATH="${REMOTE_WP_ROOT}/wp-content/plugins"
 # Format: "local-plugin-slug:GitHub-org/repo"
 GITHUB_PLUGINS=(
 	"newspack-plugin:Automattic/newspack-plugin"
-	# Must be updated together with newspack-plugin (class dependency)
-	"newspack-newsletters:Automattic/newspack-newsletters"
 	"newspack-blocks:Automattic/newspack-blocks"
 	"newspack-ads:Automattic/newspack-ads"
 	"newspack-popups:Automattic/newspack-popups"
 	"newspack-sponsors:Automattic/newspack-sponsors"
 	"automattic-for-agencies-client:Automattic/automattic-for-agencies-client"
+)
+
+# WordPress.org plugins that must be installed if missing before wp plugin update --all.
+# wp plugin update --all only updates already-installed plugins.
+WPORG_INSTALL_PLUGINS=(
+	"newspack-newsletters"
 )
 
 # Never auto-updated. Flagged in summary for manual action.
@@ -247,6 +251,24 @@ exclude_csv="$(IFS=,; printf '%s' "${exclude_slugs[*]}")"
 
 if [[ "$GITHUB_ONLY" -eq 0 ]]; then
 	log_step "Checking WordPress.org plugin updates"
+
+	# Install any WPORG_INSTALL_PLUGINS that are missing — wp plugin update --all
+	# only updates already-installed plugins and will not install new ones.
+	for slug in "${WPORG_INSTALL_PLUGINS[@]}"; do
+		if ! wp_remote plugin is-installed "$slug" 2>/dev/null; then
+			printf '\n%s is not installed. Installing from WordPress.org...\n' "$slug"
+			if [[ "$DRY_RUN" -eq 1 ]]; then
+				printf 'Dry run. Skipping wp plugin install %s.\n' "$slug"
+			elif confirm "Install ${slug} on ${ENV}?"; then
+				wp_remote plugin install "$slug" --activate
+				printf 'Installed: %s\n' "$slug"
+			else
+				printf 'Install of %s skipped by user.\n' "$slug"
+			fi
+		else
+			printf '%s is already installed.\n' "$slug"
+		fi
+	done
 
 	available_json="$(
 		wp_remote plugin list \
