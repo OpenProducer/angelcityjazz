@@ -116,6 +116,20 @@ if ! confirm "Proceed with full sync on ${ENV}?"; then
 	exit 0
 fi
 
+# ── Production pre-flight ─────────────────────────────────────────────────────
+
+if [[ "$ENV" == "production" && "$DRY_RUN" -eq 0 ]]; then
+	printf '\nPRODUCTION DEPLOYMENT — Pre-flight checklist:\n'
+	printf '\nBefore proceeding, create an on-demand backup by running this\n'
+	printf 'prompt in Claude Code:\n'
+	printf '\n  '\''Using the pressable MCP server, create an on-demand backup\n'
+	printf '   for angelcityjazz and confirm it completes successfully'\''\n'
+	if ! confirm "Have you created a backup?"; then
+		printf 'Aborted. Create a backup before deploying to production.\n'
+		exit 0
+	fi
+fi
+
 # ── Run steps ─────────────────────────────────────────────────────────────────
 
 run_step 1 "sync-newspack-theme.sh" --env "$ENV" ${passthrough_flags[@]+"${passthrough_flags[@]}"}
@@ -134,3 +148,9 @@ printf '\n  a) Clear edge cache — run this prompt in Claude Code:\n'
 printf '       "Using the pressable MCP server, clear the edge cache for %s"\n' "$site_name"
 printf '\n  b) Regenerate Jetpack Boost Critical CSS:\n'
 printf '       WP Admin → Jetpack → Boost → Regenerate Critical CSS\n'
+
+if [[ "$ENV" == "production" && "$DRY_RUN" -eq 0 ]]; then
+	printf '\n  Rollback: verify your pre-flight backup completed successfully\n'
+	printf '  before closing this session. If you need to rollback, restore\n'
+	printf '  via Pressable dashboard or the MCP server.\n'
+fi
