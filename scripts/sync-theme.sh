@@ -23,14 +23,18 @@ CHILD_THEME_PATH="wp-content/themes/newspack-angelcity-2025"
 DEPLOY_BRANCH="pressable-deploy"
 SSH_HOST="ssh.pressable.com"
 SSH_KEY="${HOME}/.ssh/id_ed25519_pressable"
+REMOTE_CHILD_THEME_PATH="/srv/htdocs/${CHILD_THEME_PATH}"
+LOCAL_CHILD_THEME_PATH="${PROJECT_ROOT}/${CHILD_THEME_PATH}"
 
 ENV=""
 ENV_UPPER=""
 DRY_RUN=0
 SKIP_CACHE=0
+SKIP_SFTP=0
 SSH_USER=""
 
 CACHE_FLUSHED=0
+SFTP_RESULT=""
 warnings=()
 
 usage() {
@@ -45,6 +49,7 @@ Required:
 Options:
   --dry-run                 Show checklist and diff without pushing or flushing
   --skip-cache              Push to pressable-deploy but skip wp cache flush and wp transient delete
+  --skip-sftp               Skip SFTP upload of child theme to stage/production
   --help, -h                Show this message
 
 Environment variables:
@@ -53,7 +58,7 @@ Environment variables:
   ACJ_DEV_SSH_USER          SSH username for dev (host: $SSH_HOST)
 
   Requires SSH key at $SSH_KEY
-  SSH is only required when --skip-cache is not set.
+  SSH is required for cache flush (stage/production) and SFTP upload (stage/production).
 
 Safe test entry point:
   $SCRIPT_NAME --dry-run --env stage
@@ -103,6 +108,7 @@ while [[ $# -gt 0 ]]; do
 		--env)        ENV="${2:-}";   shift 2 ;;
 		--dry-run)    DRY_RUN=1;      shift ;;
 		--skip-cache) SKIP_CACHE=1;   shift ;;
+		--skip-sftp)  SKIP_SFTP=1;    shift ;;
 		--help|-h)    usage; exit 0 ;;
 		*)
 			usage >&2
@@ -125,8 +131,14 @@ case "$ENV" in
 	*)          die "--env must be 'stage', 'production', or 'dev', got: $ENV" ;;
 esac
 
-if [[ "$DRY_RUN" -eq 0 && "$SKIP_CACHE" -eq 0 && -z "$SSH_USER" ]]; then
-	die "SSH user for '$ENV' is not set. Export ACJ_${ENV_UPPER}_SSH_USER, or run with --skip-cache."
+_needs_ssh=0
+if [[ "$DRY_RUN" -eq 0 ]]; then
+	[[ "$SKIP_CACHE" -eq 0 ]] && _needs_ssh=1
+	[[ "$SKIP_SFTP" -eq 0 && "$ENV" != "dev" ]] && _needs_ssh=1
+fi
+
+if [[ "$_needs_ssh" -eq 1 && -z "$SSH_USER" ]]; then
+	die "SSH user for '$ENV' is not set. Export ACJ_${ENV_UPPER}_SSH_USER, or run with --skip-cache --skip-sftp."
 fi
 
 # ── Preflight checks ──────────────────────────────────────────────────────────
@@ -135,7 +147,7 @@ log_step "Preflight checks"
 
 command_exists git || die "'git' is required but not found in PATH"
 
-if [[ ! -f "$SSH_KEY" && "$DRY_RUN" -eq 0 && "$SKIP_CACHE" -eq 0 ]]; then
+if [[ ! -f "$SSH_KEY" && "$_needs_ssh" -eq 1 ]]; then
 	die "SSH key not found: $SSH_KEY"
 fi
 
@@ -164,8 +176,8 @@ printf 'Environment:  %s\n' "$ENV"
 printf 'Dry run:      %s\n' "$([[ "$DRY_RUN" -eq 1 ]] && printf 'yes' || printf 'no')"
 printf 'Skip cache:   %s\n' "$([[ "$SKIP_CACHE" -eq 1 ]] && printf 'yes' || printf 'no')"
 
-# SSH preflight — only needed when cache flush will run
-if [[ "$DRY_RUN" -eq 0 && "$SKIP_CACHE" -eq 0 ]]; then
+# SSH preflight — only needed when cache flush or SFTP upload will run
+if [[ "$_needs_ssh" -eq 1 ]]; then
 	printf 'SSH user:     %s\n' "$SSH_USER"
 	printf 'SSH host:     %s\n' "$SSH_HOST"
 	printf '\nTesting SSH connection to %s@%s...\n' "$SSH_USER" "$SSH_HOST"
@@ -270,6 +282,28 @@ git push origin "master:${DEPLOY_BRANCH}" --force-with-lease
 
 printf 'Push complete. Pressable is picking up the deployment...\n'
 
+# ── SFTP upload of child theme ────────────────────────────────────────────────
+
+if [[ "$ENV" == "dev" ]]; then
+	log_step "Skipping SFTP for dev (child theme deployed via GitHub Integration)"
+	SFTP_RESULT="skipped (dev — deployed via GitHub Integration)"
+elif [[ "$SKIP_SFTP" -eq 1 ]]; then
+	log_step "Skipping SFTP upload (--skip-sftp)"
+	SFTP_RESULT="skipped (--skip-sftp)"
+else
+	if confirm "Deploy child theme to ${ENV} via SFTP?"; then
+		log_step "Uploading child theme to ${ENV} via SFTP"
+		sftp -i "$SSH_KEY" -r \
+			"${SSH_USER}@${SSH_HOST}:${REMOTE_CHILD_THEME_PATH}" \
+			<<< "put -r ${LOCAL_CHILD_THEME_PATH}/."
+		printf 'SFTP upload complete.\n'
+		SFTP_RESULT="yes"
+	else
+		printf 'SFTP upload declined.\n'
+		SFTP_RESULT="no (declined by user)"
+	fi
+fi
+
 # ── Cache flush ───────────────────────────────────────────────────────────────
 
 if [[ "$SKIP_CACHE" -eq 1 ]]; then
@@ -311,6 +345,7 @@ fi
 printf '\nObject cache:     %s\n' "$([[ "$CACHE_FLUSHED" -eq 1 ]] && printf 'flushed' || \
 	([[ "$SKIP_CACHE" -eq 1 ]] && printf 'skipped (--skip-cache)' || printf 'flush attempted (check warnings)'))"
 printf 'Transients:       %s\n' "$([[ "$SKIP_CACHE" -eq 1 ]] && printf 'skipped (--skip-cache)' || printf 'deleted')"
+printf 'SFTP upload:      %s\n' "$SFTP_RESULT"
 printf 'Critical CSS:     manual step required — regenerate via WP Admin → Jetpack → Boost\n'
 printf 'Edge cache:       manual step required — run this prompt in Claude Code:\n'
 printf '                    "Using the pressable MCP server, clear the edge cache for %s"\n' \
