@@ -198,6 +198,22 @@ textarea {
   border-top-style: none !important;
 }
 
+/* Social Icons block: left-align on mobile - issue #78 */
+@media (max-width: 781px) {
+  .site-footer .footer-widgets .wp-block-social-links.alignright,
+  .site-footer .footer-widgets .wp-block-social-links.wp-block-social-links-is-layout-flex {
+    justify-content: flex-start !important;
+    float: none !important;
+    margin-left: 0 !important;
+  }
+
+  .site-footer .footer-widgets .widget_block {
+    flex: 0 0 100% !important;
+    min-width: 100% !important;
+    margin-right: 0 !important;
+  }
+}
+
 /*--------------------------------------------------------------
 # Front Page Carousel
 --------------------------------------------------------------*/
