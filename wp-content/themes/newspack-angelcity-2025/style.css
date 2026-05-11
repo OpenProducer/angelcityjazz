@@ -1139,6 +1139,128 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   margin-bottom: 32px !important;
 }
 
+/* ---- Donate page redesign (donate-new / new slug) ---- */
+
+/* DonorBox column - top align, center horizontally */
+.wp-block-column:has(.acj-donorbox-wrapper) {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+}
+.acj-donorbox-wrapper {
+  max-width: 460px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 0 !important;
+}
+.acj-donorbox-wrapper .wp-block-html {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.acj-donorbox-wrapper iframe {
+  margin-top: 0 !important;
+  display: block !important;
+}
+
+/* Force top alignment on DonorBox/PayPal columns row */
+.wp-block-columns.are-vertically-aligned-top {
+  align-items: flex-start !important;
+}
+.wp-block-columns.are-vertically-aligned-top > .wp-block-column {
+  align-self: flex-start !important;
+}
+
+/* Callout box - rounded corners */
+.acj-donate-callout {
+  border-radius: 12px !important;
+}
+
+/* Cost cards - rounded corners, darker bg, tight spacing */
+.wp-block-group.alignfull.has-background .wp-block-column.has-secondary-background-color {
+  border-radius: 12px !important;
+  background-color: rgba(0,0,0,0.18) !important;
+  min-width: 140px !important;
+}
+.wp-block-group.alignfull.has-background .wp-block-column.has-secondary-background-color h4 {
+  margin-bottom: 8px !important;
+}
+.wp-block-group.alignfull.has-background .wp-block-column.has-secondary-background-color p {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* PayPal + check blocks - semi-transparent white, rounded */
+.acj-paypal-option,
+.acj-check-option {
+  background-color: rgba(255,255,255,0.1) !important;
+  border-radius: 12px !important;
+  border: none !important;
+}
+.acj-paypal-option p,
+.acj-check-option p {
+  margin-bottom: 8px !important;
+  margin-top: 0 !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* PayPal + check headings - match cost card h4 style */
+.acj-paypal-option p:first-child,
+.acj-check-option p:first-child {
+  font-weight: 700 !important;
+  font-size: 18px !important;
+  line-height: 21.6px !important;
+  margin-bottom: 8px !important;
+  margin-top: 0 !important;
+}
+
+/* PayPal + check body text - match cost card p style */
+.acj-paypal-option p:not(:first-child),
+.acj-check-option p:not(:first-child) {
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 25.6px !important;
+  margin-top: 0 !important;
+}
+
+/* Remove default WP block margin on PayPal form */
+.acj-paypal-option form,
+.acj-paypal-option .wp-block-html {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Candid group - no background, centered */
+.wp-block-group.candid {
+  background: none !important;
+  border: none !important;
+  text-align: center !important;
+  padding-top: var(--wp--preset--spacing--40) !important;
+}
+
+/* Candid badge - scoped only to .candid group */
+.wp-block-group.candid figure.aligncenter {
+  width: 110px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-bottom: 4px !important;
+}
+.wp-block-group.candid figure.aligncenter img {
+  width: 110px !important;
+  height: auto !important;
+}
+.wp-block-group.candid .wp-block-image {
+  margin-bottom: 4px !important;
+}
+.wp-block-group.candid p {
+  font-size: 12px !important;
+  margin-top: 4px !important;
+  line-height: 1.5 !important;
+}
+
 /*--------------------------------------------------------------
 # Layout - Events Landing Page
 --------------------------------------------------------------*/
