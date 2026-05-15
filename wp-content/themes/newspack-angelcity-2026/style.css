@@ -1,0 +1,1428 @@
+/*
+ Theme Name:     newspack-angelcity-2026
+ Theme URI:      https://github.com/OpenProducer/newspack-angelcity-2026
+ Description:    Angel City Jazz 2026 Festival child theme
+ Author:         OpenProducer
+ Author URI:     https://www.openproducer.org/
+ Template:       newspack-theme
+ Version:        1.0.0
+*/
+
+/*--------------------------------------------------------------
+# Table of Contents
+--------------------------------------------------------------
+
+# Colors (Base Variables)
+# Typography
+# Navigation
+# Links
+# Section Headings
+# Widgets and Sidebars
+# Header and Footer
+# Front Page Carousel
+# Event Grid
+# Playlist Columns
+# Layout - Groups, Covers and Columns
+# Layout - Page and Post Templates
+# Layout - Single Event Page
+# Layout - Single Venue Page
+# Layout - Single WooCommerce Page
+# Layout - WooCommerce Checkout and Cart
+# Layout - Angel City Jazz Festival
+# Layout - Explorations
+# Layout - Watch
+# Layout - Young Artist Competition
+# Layout - Donate
+# Layout - Events Landing Page
+# Layout - Shop / WooCommerce Landing Page
+
+*/
+
+/*--------------------------------------------------------------
+# Colors (Base Variables)
+--------------------------------------------------------------*/
+
+:root {
+  --newspack-theme-color-primary: #541a17;
+  --newspack-theme-color-secondary: #d5621c;
+  --newspack-theme-color-primary-against-white: var(--newspack-theme-color-primary);
+  --newspack-theme-color-secondary-against-white: var(--newspack-theme-color-secondary);
+  --newspack-theme-color-against-primary: #fff;
+  --newspack-theme-color-against-secondary: #fff;
+}
+
+/*--------------------------------------------------------------
+# Typography
+--------------------------------------------------------------*/
+
+/* Base font size */
+html {
+  font-size: 18px;
+}
+
+@media only screen and (min-width: 600px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+/* Force normal font size for specific blocks */
+.has-normal-font-size {
+  font-size: 18px;
+}
+
+/* Font stack overrides */
+body {
+  font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Josefin Sans', 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* Paragraph font size for event pages and 2020 VR fest */
+.tag-2020-vr-festival p,
+.single-tribe_events p {
+  font-size: 0.975em;
+}
+
+/*--------------------------------------------------------------
+# Navigation
+--------------------------------------------------------------*/
+
+/* Tertiary menu */
+.site-header .nav3 a {
+  background-color: var(--newspack-theme-color-secondary);
+  border: 0;
+  color: var(--newspack-theme-color-against-secondary);
+  transition: background-color 0.3s ease;
+}
+
+.site-header .nav3 a:hover {
+  background-color: #000;
+  color: var(--newspack-theme-color-against-secondary);
+}
+
+/* Mobile sidebar donate button */
+.mobile-sidebar .nav3 a {
+  background-color: var(--newspack-theme-color-secondary);
+}
+
+/*--------------------------------------------------------------
+# Links
+--------------------------------------------------------------*/
+
+/* (No styles currently defined here) */
+
+/*--------------------------------------------------------------
+# Section Headings
+--------------------------------------------------------------*/
+
+.accent-header,
+.article-section-title {
+  text-transform: uppercase;
+  border-bottom: none;
+  color: #2b2b2e;
+}
+
+/*--------------------------------------------------------------
+# Widgets and Sidebars
+--------------------------------------------------------------*/
+
+/* Remove top margin from core gallery block */
+.wp-block-gallery.has-nested-images {
+  margin-top: 0;
+}
+
+/* Remove margin beween multiple block galleries */
+.wp-block-group .wp-block-gallery  {
+  margin-bottom: 12px;
+}
+
+/* Style for HTML widgets (e.g., embedded Spotify players) */
+.widget_text.widget.widget_custom_html {
+  background-color: inherit;
+  padding: inherit;
+  border-bottom: none;
+}
+
+/* Spotify embed responsive width */
+.wp-block-embed-spotify iframe {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Mailchimp form styling */
+.mc4wp-form-fields input[type='email'],
+textarea {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-widgets .widget_mc4wp_form_widget .wp-block-buttons .wp-block-button .has-white-color {
+  color: inherit;
+}
+
+/*--------------------------------------------------------------
+# Header and Footer
+--------------------------------------------------------------*/
+
+.site-footer {
+  margin: 0;
+  background-color: #f1f1f1;
+  color: #111;
+}
+
+.site-footer .footer-branding .wrapper {
+  display: none;
+  padding-top: 1rem;
+  border: none;
+}
+
+/* Hide the powered by Newspack credit */
+.site-info .imprint {
+  display: none;
+}
+
+/* Hide duplicate social icons in site-info bar - shown via footer widget instead */
+.site-info .social-navigation {
+  display: none;
+}
+
+/* Hide horizontal rules in footer - issue #78 */
+.site-footer .footer-widgets:first-child .wrapper,
+.site-info .widget-area .wrapper,
+.site-info .site-info-contain:first-child {
+  border-top: none !important;
+  border-top-width: 0 !important;
+  border-top-style: none !important;
+}
+
+/* Social Icons block: left-align on mobile - issue #78 */
+@media (max-width: 781px) {
+  .site-footer .footer-widgets .wp-block-social-links.alignright,
+  .site-footer .footer-widgets .wp-block-social-links.wp-block-social-links-is-layout-flex {
+    justify-content: flex-start !important;
+    float: none !important;
+    margin-left: 0 !important;
+  }
+
+  .site-footer .footer-widgets .widget_block {
+    flex: 0 0 100% !important;
+    min-width: 100% !important;
+    margin-right: 0 !important;
+  }
+}
+
+/*--------------------------------------------------------------
+# Front Page Carousel
+--------------------------------------------------------------*/
+
+.uagb-post__image {
+  margin-bottom: 10px;
+}
+
+.uagb-post__excerpt {
+  font-weight: 700;
+}
+
+.newspack-front-page .wp-block-newspack-blocks-carousel {
+  margin: 0;
+}
+
+.newspack-front-page .wp-block-newspack-blocks-carousel .swiper-pagination-bullets {
+  display: none;
+}
+
+/*--------------------------------------------------------------
+# Event Grid
+--------------------------------------------------------------*/
+
+/* Hide top/bottom nav and subscribe dropdown in shortcode photo grids */
+.tribe-events-view--shortcode .tribe-events-pro-photo-nav,
+.tribe-events-view--shortcode .tribe-events-c-subscribe-dropdown__container {
+  display: none;
+}
+
+/* Flex wrapper for event images with tighter margin */
+.tribe-events-pro .tribe-events-pro-photo__event-featured-image-wrapper {
+  display: flex;
+  margin-bottom: 6px;
+}
+
+/* Remove container padding and excessive height in shortcode embed */
+.entry-content .tribe-events .tribe-events-l-container,
+.entry-content .tribe-common--breakpoint-medium.tribe-events .tribe-events-l-container {
+  padding: 0;
+  min-height: 0;
+}
+
+/* Ensure grid rows are flex-wrap */
+.tribe-common .tribe-common-g-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Remove negative gutter margins that break layout */
+.tribe-common .tribe-common-g-row--gutters,
+.tribe-common--breakpoint-medium.tribe-common .tribe-common-g-row--gutters {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Consistent spacing between grid items (all breakpoints) */
+.tribe-common .tribe-common-g-row--gutters > .tribe-common-g-col,
+.tribe-common--breakpoint-medium.tribe-common .tribe-common-g-row--gutters > .tribe-common-g-col {
+  padding-left: 24px;
+  padding-right: 24px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+/* Inherit heading color for homepage and festival shortcode pages */
+.home .tribe-common .tribe-common-h6,
+.page-template-newspack-angel-city .tribe-common .tribe-common-h6 {
+  color: inherit;
+}
+
+/* Resize calendar icon in mini-calendar list view widget */
+.tribe-mini-calendar-event .list-date {
+  margin: 10px 3% 10px 0;
+  overflow: hidden;
+  padding: 3px;
+  text-align: center;
+  width: 17%;
+}
+
+/* Overlay date tag on featured images in photo grid */
+.tribe-events-pro .tribe-events-pro-photo__event-featured-image-link {
+  position: relative;
+}
+
+.tribe-events-pro .tribe-events-pro-photo__event-featured-image-date-tag {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 6px 12px;
+}
+
+.tribe-events-pro .tribe-events-pro-photo__event-featured-image-date-tag-datetime {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.tribe-events-pro .tribe-events-pro-photo__event-featured-image-date-tag-month {
+  font-size: 11px;
+  color: #727272;
+  text-transform: uppercase;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Force white link color in photo grid */
+.tribe-events-view--shortcode .tribe-events-pro-photo a {
+  color: white !important;
+}
+
+/* Hide event cost in grid shortcode cards */
+.tribe-events-view--shortcode .tribe-events-pro-photo__event-cost {
+  display: none;
+}
+
+/*--------------------------------------------------------------
+# Playlist Columns
+--------------------------------------------------------------*/
+
+/* Consistent block spacing */
+body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
+  gap: 32px;
+}
+
+.playlist-embed-columns .lazy-spotify-wrapper {
+  margin: 32px 0;
+}
+
+/* Mobile layout fix and reordering */
+@media (max-width: 782px) {
+  .wp-block-columns.playlist-embed-columns {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    gap: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+  }
+
+  .wp-block-columns.playlist-embed-columns > .wp-block-column {
+    display: contents;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Smaller vertical margin on mobile */
+  .playlist-embed-columns .lazy-spotify-wrapper {
+    margin: 16px 0 !important;
+    padding: 0 !important;
+  }
+
+  .playlist-embed-columns iframe {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: 380px;
+    padding: 0 !important;
+  }
+
+  /* Mobile stacking order */
+  .playlist-embed-columns .wp-block-column:first-child .lazy-spotify-wrapper:nth-child(1) { order: 1; }
+  .playlist-embed-columns .wp-block-column:last-child  .lazy-spotify-wrapper:nth-child(1) { order: 2; }
+  .playlist-embed-columns .wp-block-column:first-child .lazy-spotify-wrapper:nth-child(2) { order: 3; }
+  .playlist-embed-columns .wp-block-column:last-child  .lazy-spotify-wrapper:nth-child(2) { order: 4; }
+  .playlist-embed-columns .wp-block-column:first-child .lazy-spotify-wrapper:nth-child(3) { order: 5; }
+  .playlist-embed-columns .wp-block-column:last-child  .lazy-spotify-wrapper:nth-child(3) { order: 6; }
+  .playlist-embed-columns .wp-block-column:first-child .lazy-spotify-wrapper:nth-child(4) { order: 7; }
+  .playlist-embed-columns .wp-block-column:last-child  .lazy-spotify-wrapper:nth-child(4) { order: 8; }
+}
+
+/*--------------------------------------------------------------
+# Layout - Groups, Covers and Columns
+--------------------------------------------------------------*/
+
+/* Full-width image alignment and spacing */
+.wp-block-image.size-full.full-width-image {
+  width: 100%;
+  max-width: var(--wp--custom--content-size);
+  margin: 0 auto;
+  padding: 0;
+}
+
+.entry .entry-content .wp-block-group.alignfull:first-child,
+.entry .entry-content .wp-block-group.alignfull:last-child {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Special case: remove margin on all top-level content for 2021 tag */
+.tag-2021-angel-city-jazz-fest .entry .entry-content > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Remove margin from stacked .has-background groups */
+.entry .entry-content .wp-block-group.has-background + .wp-block-group.has-background {
+  margin-top: inherit;
+}
+
+/* Remove all vertical/horizontal margin + gap spacing where needed */
+.entry .entry-content .no-vertical-margin,
+.entry .entry-content .no-horizontal-margin .wp-block-columns {
+  margin: 0;
+  gap: 0;
+}
+
+/* Remove margins for columns inside .no-horizontal-margin containers */
+.entry .entry-content .no-horizontal-margin .wp-block-columns > .wp-block-column {
+  margin: 0;
+}
+
+/* Reset margin and add side spacing for covers with columns */
+.entry .entry-content .wp-block-cover__inner-container .wp-block-columns .wp-block-column {
+  margin: 0 10px;
+}
+
+/* Ensure columns use full width in full-width groups (specific templates) */
+.newspack-front-page .entry .entry-content .alignfull .alignwide,
+.page-template-newspack-angel-city .entry .entry-content .alignfull .alignwide {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Equal-height cover background images */
+.page-id-4670 .wp-block-cover img.wp-block-cover__image-background,
+.home .wp-block-cover img.wp-block-cover__image-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+}
+
+/* Supporters block spacing */
+.entry .entry-content .supporters .wp-block-group__inner-container > * {
+  margin: 0;
+}
+.supporters .wp-block-columns .wp-block-column > * {
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+/* Remove spacing between background groups inside supporters on specific page */
+.page-template-single-wide .entry .entry-content .supporters .wp-block-group.has-background + .wp-block-group.has-background {
+  margin: 0;
+}
+
+/* Remove unnecessary separators */
+.entry .entry-content .wp-block-separator,
+.entry .entry-content hr,
+.wp-block-columns.is-style-borders > .wp-block-column::after {
+  display: none;
+  border: 0;
+}
+
+/* Hide supporter info text */
+.wp-block-columns .newspack-supporter-info > p {
+  visibility: hidden;
+}
+
+/* Inherit pullquote citation colors */
+.wp-block-pullquote cite,
+.wp-block-pullquote footer {
+  color: inherit;
+}
+
+/*--------------------------------------------------------------
+# Layout - Page and Post Templates
+--------------------------------------------------------------*/
+
+/* Centered layout for key templates */
+.post-template-single-feature .main-content,
+.page-template-single-feature .main-content,
+.page-template-no-header-footer .main-content,
+.archive-one-column #main,
+.newspack-front-page.page-template-single-feature .site-main,
+.woocommerce .content-area .site-main {
+  margin: 0 auto;
+  max-width: 1000px;
+  width: 100%;
+}
+
+/* Entry headers and page headers on wider screens */
+@media only screen and (min-width: 782px) {
+  .page-template-single-feature .entry-header,
+  .page-template-no-header-footer .entry-header,
+  .archive.archive-one-column .page-header,
+  .search #main {
+    margin: 0 auto;
+    max-width: 1000px;
+    width: 100%;
+  }
+}
+
+/* Layout for special pages */
+.search #primary,
+.error404 #primary {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 90vw;
+  width: 1000px;
+}
+
+/* 404/search empty state sizing */
+.search .no-results,
+.error404 .search-form {
+  width: 65%;
+}
+
+/* Add bottom margin to search and 404 pages */
+.error-404,
+.search .site-content {
+  margin-bottom: 64px;
+}
+
+/* Clean up search result metadata */
+.search .cat-links,
+.search .entry-meta {
+  display: none;
+}
+
+/* Hide featured image on landing pages */
+.page-template-single-wide .attachment-newspack-featured-image {
+  display: none;
+}
+
+/* Hide page titles if 'hide-page-title' is set */
+.hide-page-title .entry-header h1.entry-title,
+.page-template-single-wide.hide-homepage-title .entry-header h1.entry-title {
+  display: none;
+}
+
+/* Remove spacing when page title is hidden */
+.hide-page-title .site-content,
+.hide-page-title .entry .entry-content:first-child,
+.page-template-single-wide.hide-homepage-title .site-content,
+.page-template-single-wide.hide-homepage-title .entry .entry-content:first-child {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/*--------------------------------------------------------------
+# Layout - Single Event Page
+--------------------------------------------------------------*/
+
+/* Remove margin in event html */
+.tribe-events-before-html p {
+  margin: 0;
+}
+
+/* Padding and margins for event page */
+.single-tribe_events #tribe-events,
+#tribe-events-pg-template,
+.tribe-events-pg-template {
+  padding: 0;
+  margin: 0;
+}
+
+/* Margin on primary section - only top and bottom reset, no side margin */
+.single-tribe_events #primary {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  /* max-width: 100%;        prevent overflow */
+  box-sizing: border-box; /* include padding/border in width */
+}
+
+/* Padding and margins for site content */
+.single-tribe_events .site-content {
+  padding: 0;
+  margin: 0;
+}
+
+/* Link colors on event pages */
+#tribe-events-content a,
+.tribe-events-event-meta a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Overflow on mobile view */
+.single-tribe_events #tribe-events-content {
+  overflow: inherit;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+/* Events - Blocks and widgets */
+
+/* Margins in event header columns */
+.event-header .wp-block-columns .wp-block-column {
+  margin: 0;
+}
+
+.event-header .wp-block-columns .wp-block-column > * {
+  margin: 0;
+}
+
+/* Margins in event header featured image */
+.event-header .wp-block-columns .wp-block-column .wp-block-post-featured-image {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Hide event end date on single event and sidebar widget */
+.single-tribe_events .tribe-events-schedule__datetime .tribe-events-schedule__date--end,
+.single-tribe_events .tribe-mini-calendar-event .tribe-event-date-end {
+  display: none;
+}
+
+/* Hide end time on event detail */
+.tribe-events-schedule__separator.tribe-events-schedule__separator--time,
+.tribe-events-schedule__time.tribe-events-schedule__time--end {
+  display: none;
+}
+
+/* Event detail date and time - background, margin, and padding */
+.single-tribe_events .tribe-events-schedule {
+  margin: 0;
+  padding: inherit;
+  background: inherit;
+  border: inherit;
+}
+
+/* Event detail date and time - fontsize and spacing */
+.single-tribe_events .tribe-events-schedule__datetime,
+.single-tribe_events .tribe-events-schedule__date,
+.single-tribe_events .tribe-events-schedule__time {
+  font-size: inherit;
+  font-weight: 700;
+  color: white;
+  margin-top: 0;
+  margin-bottom: 12px;
+  padding: 0;
+  background: inherit;
+  border: none;
+}
+
+/* Add margin when in the right column for desktop */
+@media (min-width: 782px) {
+  .event-header .tribe-events-schedule__datetime {
+    margin-top: 0;
+  }
+}
+
+/* Event detail venue - fontsize, color and spacing */
+.single-tribe_events .tribe-block__venue {
+  font-size: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+/* Venue name heading */
+.single-tribe_events .tribe-block__venue .tribe-block__venue__meta .tribe-block__venue__name h3 {
+  font-size: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+/* Hide country and zipcode */
+.single-tribe_events .tribe-block__venue .tribe-block__venue__meta .tribe-block__venue__address .tribe-postal-code,
+.single-tribe_events .tribe-block__venue .tribe-block__venue__meta .tribe-block__venue__address .tribe-country-name {
+  display: none;
+}
+
+/* Venue address styling */
+.single-tribe_events .tribe-block__venue .tribe-block__venue__meta .tribe-block__venue__address {
+  color: inherit;
+  line-height: 1.3;
+  letter-spacing: 0.13px;
+  margin: 0;
+}
+
+/* Reduce top margin from venue links */
+.tribe-block__venue .tribe-block__venue__meta .tribe-block__venue__address a {
+  margin-top: 0;
+}
+
+/* Venue website styling */
+.tribe-block__venue .tribe-block__venue__meta .tribe-block__venue__website {
+  color: inherit;
+  line-height: 1.3;
+  letter-spacing: 0.13px;
+  margin: 0;
+}
+
+/* Event price styling */
+.single-tribe_events .tribe-block.tribe-block__event-price .tribe-block__event-price__cost,
+.tribe-block__event-price .tribe-block__event-price__description {
+  color: inherit;
+  margin: 0 0 10px;
+  padding: 0;
+  border: none;
+}
+
+/* Ticket button margins */
+.event-header .wp-block-button {
+  margin: 24px 0;
+}
+
+/* Sponsors section margins */
+.event-header .sp-logo-carousel-pro-section .sp-logo-carousel-pro-section-title {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-transform: none;
+  text-align: left;
+  letter-spacing: normal;
+  color: inherit;
+  margin: 0;
+}
+
+/* Reduce top padding in sponsors section */
+.event-header .wp-block-columns .wp-block-column .sp-logo-carousel-pro-section {
+  padding-top: 16px;
+}
+
+/* Lineup section margins and padding */
+.lineup .wp-block-column {
+  padding: 1.25em 2.375em;
+  margin: 16px 0;
+}
+
+/* Remove Jetpack video margins */
+.single-tribe_events .wp-block-columns .wp-block-column .jetpack-video-wrapper {
+  margin: 0;
+}
+
+/* Bio group padding and margins */
+.wp-block-group.bio {
+  padding: 0;
+  margin: 0;
+}
+
+/* Bio group links */
+#tribe-events-content .bio a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+#tribe-events-content .bio a:hover {
+  text-decoration: none;
+}
+
+/* Classic event detail block */
+.tribe-events-event-meta .tribe-events-meta-group {
+  box-sizing: border-box;
+  display: inline-block;
+  color: inherit;
+  float: left;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  vertical-align: top;
+  width: 100%;
+}
+
+/* Hide previous/next event navigation */
+.single-tribe_events #tribe-events-footer {
+  display: none !important;
+}
+
+/* Related Events
+-------------------------------------------------------------- */
+
+/* Adjust heading spacing */
+.single-tribe_events .tribe-block__related-events__title,
+.tribe-events-single .tribe-block__related-events__title {
+  margin-bottom: 24px; /* match grid gap rhythm */
+}
+
+/* Kill clearfix pseudo-elements inside related events */
+.single-tribe_events ul.tribe-related-events::before,
+.single-tribe_events ul.tribe-related-events::after,
+.tribe-events-single ul.tribe-related-events::before,
+.tribe-events-single ul.tribe-related-events::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Reset and container */
+.single-tribe_events ul.tribe-related-events,
+.tribe-events-single ul.tribe-related-events {
+  /* kill any inherited list spacing dead-center */
+  margin: 0 0 32px !important; /* top 0, right 0, bottom 32px, left 0 */
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Prefer Grid (no width math + robust gaps) */
+@supports (display: grid) {
+  .single-tribe_events ul.tribe-related-events,
+  .tribe-events-single ul.tribe-related-events {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 24px;
+    row-gap: 24px;
+    width: 100%;
+    max-width: none;
+    grid-auto-flow: row dense; /* helps fill any odd gaps */
+  }
+
+  /* neutralize plugin defaults and allow shrink */
+  .single-tribe_events ul.tribe-related-events li,
+  .tribe-events-single ul.tribe-related-events li {
+    margin: 0 !important;
+    float: none !important;
+    width: auto !important;
+    box-sizing: border-box;
+    min-width: 0; /* let long titles shrink within the track */
+  }
+}
+
+/* Flex fallback (older browsers); pixel gaps avoid rounding overflow */
+@supports not (display: grid) {
+  .single-tribe_events ul.tribe-related-events,
+  .tribe-events-single ul.tribe-related-events {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    width: 100%;
+    max-width: none;
+  }
+
+  .single-tribe_events ul.tribe-related-events li,
+  .tribe-events-single ul.tribe-related-events li {
+    margin: 0 !important;
+    float: none !important;
+    width: auto !important;
+    box-sizing: border-box;
+    min-width: 0;
+    /* three columns minus two gaps */
+    flex: 0 0 calc((100% - 48px) / 3);
+  }
+}
+
+/* Inner card spacing / media */
+.single-tribe_events ul.tribe-related-events li .tribe-related-event-info,
+.tribe-events-single ul.tribe-related-events li .tribe-related-event-info {
+  padding: 5px;
+}
+
+.single-tribe_events ul.tribe-related-events .tribe-related-events-title,
+.tribe-events-single ul.tribe-related-events .tribe-related-events-title {
+  line-height: 1.4;
+  margin: 0 0 12px;
+}
+
+.single-tribe_events ul.tribe-related-events .tribe-related-events-thumbnail a,
+.tribe-events-single ul.tribe-related-events .tribe-related-events-thumbnail a {
+  display: block;
+}
+
+.single-tribe_events ul.tribe-related-events img,
+.tribe-events-single ul.tribe-related-events img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+
+/* Responsive columns */
+@media (max-width: 900px) {
+  @supports (display: grid) {
+    .single-tribe_events ul.tribe-related-events,
+    .tribe-events-single ul.tribe-related-events {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @supports not (display: grid) {
+    .single-tribe_events ul.tribe-related-events li,
+    .tribe-events-single ul.tribe-related-events li {
+      flex: 0 0 calc((100% - 24px) / 2);
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  @supports (display: grid) {
+    .single-tribe_events ul.tribe-related-events,
+    .tribe-events-single ul.tribe-related-events {
+      grid-template-columns: 1fr;
+    }
+  }
+  @supports not (display: grid) {
+    .single-tribe_events ul.tribe-related-events li,
+    .tribe-events-single ul.tribe-related-events li {
+      flex: 0 0 100%;
+    }
+  }
+}
+
+/*--------------------------------------------------------------
+# Layout - Single Venue Page
+--------------------------------------------------------------*/
+
+/* Hide the entry header (title, author, meta info) */
+body.single-tribe_venue header.entry-header {
+    display: none;
+}
+
+/* Center and constrain main content to match Events page */
+body.single-tribe_venue #primary {
+    margin: 0 auto;      /* center content */
+    max-width: 90vw;     /* similar to events landing page */
+    width: 1200px;       /* full width cap */
+}
+
+/* Ensure main site content inside #primary is full width */
+body.single-tribe_venue .site-main {
+    width: 100%;
+    display: block;
+}
+
+/* Optional: if venue page uses tribe row/grid structure */
+body.single-tribe_venue .tribe-common-g-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+body.single-tribe_venue .tribe-common-g-row > .tribe-common-g-col {
+    padding-left: 24px;
+    padding-right: 24px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+/*--------------------------------------------------------------
+# Layout - Single WooCommerce Page
+--------------------------------------------------------------*/
+
+/* Hide SKU and categories on single product pages */
+.product_meta {
+  display: none;
+}
+
+/* Remove top margin on product title */
+.single-product .entry .entry-title {
+  margin-top: 0;
+  clear: both;
+}
+
+/* Add margin beneath product gallery */
+.single-product div.product .images,
+.single-product div.product .woocommerce-product-gallery {
+  margin-top: 0;
+  margin-bottom: 3em;
+}
+
+/* Add spacing between product gallery thumbnails */
+.woocommerce-product-gallery .flex-control-thumbs li {
+  list-style: none;
+  cursor: pointer;
+  float: left;
+  margin-bottom: 1em;
+}
+
+/* Product tabs: work with parent theme's flat underline tab design */
+
+/* Ensure tab font size uses theme scale */
+.woocommerce-tabs ul li {
+  margin: 0;
+}
+
+/* Active tab indicator uses site primary color (parent already sets this via --newspack-theme-color-primary) */
+.woocommerce-tabs ul li.active a {
+  font-weight: 700;
+}
+
+/* Accessibility: remove focus outlines on tab anchors */
+.woocommerce .wc-tabs li a:focus,
+.ui-tabs-anchor:active,
+.ui-tabs-anchor:focus {
+  outline: none !important;
+}
+
+/*--------------------------------------------------------------
+# Layout - WooCommerce Checkout and Cart
+--------------------------------------------------------------*/
+
+/* Error notices: parent theme sets display:flex on .woocommerce-error (a <ul>),
+   which causes all <li> messages to flow inline. Override to stack vertically.
+   .woocommerce-message and .woocommerce-info are unaffected — they use separate
+   parent rules and work correctly with the horizontal flex layout. */
+.woocommerce-error {
+  flex-direction: column;
+  align-items: flex-start;
+  background: #541a17;             /* site primary — replaces generic firebrick #b22222 */
+  border-left: 4px solid #d5621c; /* site secondary as accent stripe */
+  padding: 0.75rem 1.25rem;
+}
+
+.woocommerce-error li {
+  padding: 0.2em 0;
+  width: 100%;
+}
+
+.woocommerce-error li + li {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin-top: 0.15em;
+  padding-top: 0.35em;
+}
+
+/* Ensure error links remain readable against the dark background */
+.woocommerce-error a,
+.woocommerce-error a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Add bottom margin to account dashboard */
+.woocommerce-account .entry-content .woocommerce {
+  margin: 32px 0;
+}
+
+/* Add bottom margin to cart and checkout pages */
+body.woocommerce-cart .entry .entry-content > .woocommerce,
+body.woocommerce-checkout .entry .entry-content > .woocommerce {
+  margin-bottom: 32px !important;
+}
+
+/*--------------------------------------------------------------
+# Layout - Watch
+--------------------------------------------------------------*/
+
+/* Formatting category link on watch pages */
+.cat-watch .cat-links a,
+.cat-watch .cat-links a:visited {
+  color: #fff;
+  background-color: transparent;
+  text-decoration: none;
+  margin: 0 0 0.75rem 0;
+  padding: 0;
+}
+
+/* Hide titles on VR festival grid display */
+.wp-block-newspack-blocks-homepage-articles .tag-2020-vr-festival .entry-title,
+.wp-block-newspack-blocks-homepage-articles .tag-2021-angel-city-jazz-fest .entry-title,
+.wp-block-newspack-blocks-homepage-articles .tag-inglewood-sessions .entry-title {
+  margin: 0 0 0.25em 0;
+  display: none;
+}
+
+/* Hide featured image on VR watch archives */
+.tag-2020-vr-festival .featured-image-behind,
+.tag-2021-angel-city-jazz-fest .featured-image-behind,
+.tag-inglewood-sessions .featured-image-behind {
+  display: none;
+}
+
+/* Hide author and date from posts in the 2020 VR Festival category */
+.category-2020-vr-festival .entry-meta,
+.category-watch .entry-meta {
+  display: none;
+}
+
+/*--------------------------------------------------------------
+# Layout - Young Artist Competition
+--------------------------------------------------------------*/
+
+/* Margins in Past Competition Winners Group */
+.post-465 .wp-block-cover .cat-links {
+  margin: 0;
+}
+
+/* Font size for Past Competition Winners Group */
+.post-465 .wp-block-cover h2.entry-title {
+  font-size: 1.2em;
+}
+
+/*--------------------------------------------------------------
+# Layout - Donate
+--------------------------------------------------------------*/
+
+/* Cover wrapper: remove default margins/padding and gray overlay */
+.page-id-8652 .wp-block-cover.aligncenter {
+  margin: 32px 0 !important;
+  padding: 0 !important;
+}
+
+.page-id-8652 .wp-block-cover__background {
+  display: none !important;
+}
+
+/* Inner cover container: no constraints */
+.page-id-8652 .wp-block-cover__inner-container {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+}
+
+/* Donorbox group block: remove spacing and center iframe */
+.page-id-8652 .wp-block-group.donorbox {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  text-align: center;
+}
+
+/* Donorbox iframe: full width, height auto-resized by widget.js */
+.page-id-8652 iframe[name="donorbox"] {
+  display: block;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 auto;
+  min-width: 300px;
+}
+
+/* Keep bottom spacing before footer */
+.page-id-8652 .entry .entry-content > *:last-child {
+  margin-bottom: 32px !important;
+}
+
+/* ---- Donate page redesign (donate-new / new slug) ---- */
+
+/* DonorBox column - top align, center horizontally */
+.wp-block-column:has(.acj-donorbox-wrapper) {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+}
+.acj-donorbox-wrapper {
+  max-width: 460px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 0 !important;
+}
+.acj-donorbox-wrapper .wp-block-html {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.acj-donorbox-wrapper iframe {
+  margin-top: 0 !important;
+  display: block !important;
+}
+
+/* Force top alignment on DonorBox/PayPal columns row */
+.wp-block-columns.are-vertically-aligned-top {
+  align-items: flex-start !important;
+}
+.wp-block-columns.are-vertically-aligned-top > .wp-block-column {
+  align-self: flex-start !important;
+}
+
+/* Callout box - rounded corners */
+.acj-donate-callout {
+  border-radius: 12px !important;
+}
+
+/* Cost cards - rounded corners, darker bg, tight spacing */
+.wp-block-group.alignfull.has-background .wp-block-column.has-secondary-background-color {
+  border-radius: 12px !important;
+  background-color: rgba(0,0,0,0.18) !important;
+  min-width: 140px !important;
+}
+.wp-block-group.alignfull.has-background .wp-block-column.has-secondary-background-color h4 {
+  margin-bottom: 8px !important;
+}
+.wp-block-group.alignfull.has-background .wp-block-column.has-secondary-background-color p {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* PayPal + check blocks - semi-transparent white, rounded */
+.acj-paypal-option,
+.acj-check-option {
+  background-color: rgba(255,255,255,0.1) !important;
+  border-radius: 12px !important;
+  border: none !important;
+}
+.acj-paypal-option p,
+.acj-check-option p {
+  margin-bottom: 8px !important;
+  margin-top: 0 !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* PayPal + check headings - match cost card h4 style */
+.acj-paypal-option p:first-child,
+.acj-check-option p:first-child {
+  font-weight: 700 !important;
+  font-size: 18px !important;
+  line-height: 21.6px !important;
+  margin-bottom: 8px !important;
+  margin-top: 0 !important;
+}
+
+/* PayPal + check body text - match cost card p style */
+.acj-paypal-option p:not(:first-child),
+.acj-check-option p:not(:first-child) {
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 25.6px !important;
+  margin-top: 0 !important;
+}
+
+/* Remove default WP block margin on PayPal form */
+.acj-paypal-option form,
+.acj-paypal-option .wp-block-html {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Candid group - no background, centered */
+.wp-block-group.candid {
+  background: none !important;
+  border: none !important;
+  text-align: center !important;
+  padding-top: var(--wp--preset--spacing--40) !important;
+}
+
+/* Candid badge - scoped only to .candid group */
+.wp-block-group.candid figure.aligncenter {
+  width: 110px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-bottom: 4px !important;
+}
+.wp-block-group.candid figure.aligncenter img {
+  width: 110px !important;
+  height: auto !important;
+}
+.wp-block-group.candid .wp-block-image {
+  margin-bottom: 4px !important;
+}
+.wp-block-group.candid p {
+  font-size: 12px !important;
+  margin-top: 4px !important;
+  line-height: 1.5 !important;
+}
+
+/*--------------------------------------------------------------
+# Layout - Events Landing Page
+--------------------------------------------------------------*/
+
+/* Hide the main Tribe Events header on event archive pages */
+.post-type-archive-tribe_events .tribe-events-header,
+.page-template-single-wide .tribe-events-header {
+  display: none;
+}
+
+/* Hide author on event archive pages */
+.post-type-archive-tribe_events .entry-header {
+  display: none;
+}
+
+/* Position relative for tribe events view */
+.tribe-events-view {
+  position: relative;
+}
+
+/* Hide venue address on event listings */
+.post-type-archive-tribe_events .tribe-events-calendar-list__event-venue-address {
+  display: none;
+}
+
+/* Hide excerpts on event listings */
+.post-type-archive-tribe_events .tribe-events-calendar-list__event-description,
+.post-type-archive-tribe_events .tribe-common--breakpoint-medium.tribe-events .tribe-events-calendar-list__event-description {
+  display: none !important;
+}
+
+/* Hide 'Subscribe to Calendar' button */
+.tribe-events .tribe-events-c-subscribe-dropdown__container {
+  display: none;
+}
+
+/* Events grid subtitle bold */
+.events-grid article .entry-wrapper p,
+.events-grid article .newspack-post-subtitle {
+  font-weight: 700;
+}
+
+/*--------------------------------------------------------------
+# Layout - Shop / WooCommerce Landing Page
+--------------------------------------------------------------*/
+
+/* Font sizing adjustments for shop grid */
+.wc-block-grid__product-title {
+  font-size: var(--newspack-theme-font-size-md) !important;
+}
+
+.woocommerce .related h2 {
+  font-size: var(--newspack-theme-font-size-lg);
+}
+
+.product .related,
+.wc-block-grid__product {
+  font-size: var(--newspack-theme-font-size-sm) !important;
+}
+
+/*--------------------------------------------------------------
+# Layout - Single Artist Page
+--------------------------------------------------------------*/
+
+/* Suppress the site-content top margin so the hero starts flush below the nav,
+   matching event page behaviour (.single-tribe_events .site-content { margin:0 }).
+   The parent theme sets overflow:hidden and overflow:clip on .site-content globally,
+   which clips the calc(50% - 50vw) negative margins used by alignfull blocks.
+   Override to visible so alignfull blocks can break out to full viewport width. */
+.single-acj_artist .site-content {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+
+/* Reset primary area constraints */
+.single-acj_artist #primary {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.single-acj_artist #primary.content-area {
+  max-width: 100%;
+  width: 100%;
+}
+
+/* ---- Block content below hero ------------------------------------------ */
+
+/* No max-width here — inner blocks handle their own width constraints.
+   A max-width here breaks calc(50% - 50vw) on alignfull blocks inside it. */
+.acj-artist-content {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* Remove parent-theme 32px top/bottom margin on direct content children,
+   which creates unwanted gaps between alignfull sections. */
+.single-acj_artist .entry-content > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Hide the Content Loop block's section header label above the event list. */
+.single-acj_artist .acj-artist-content .wp-block-newspack-blocks-homepage-articles .article-section-title {
+  display: none;
+}
+
+/* Force white text/links on Content Loop items inside the orange hero. */
+.single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles *,
+.single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* Artist page event venue display -- adjust styling here for future venue formatting */
+.single-acj_artist .acj-event-venue {
+  display: block;
+}
+
+/* Hide the pipe separator that TEC's newspack_blocks_article_meta_footer hook prepends
+   to the venue. Scoped to artist pages so single event pages are unaffected. */
+.single-acj_artist .newspack_blocks__article-meta-footer__separator {
+  display: none;
+}
+
+/* Display TEC venue on its own line below the date in the Content Loop block. */
+.single-acj_artist .newspack-blocks__tec-venue {
+  display: block;
+}
+
+/* Reorder Content Loop items: date (1) → title (2) → venue (3).
+   The DOM order is: h2.entry-title, .entry-meta > [time.date, time.updated, venue].
+   date and venue are nested inside .entry-meta, not siblings of the title, so
+   display:contents on .entry-meta flattens its children into the .entry-wrapper flex
+   context, allowing individual order values to span across the title. */
+.single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-meta {
+  display: contents;
+}
+
+.single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles time.entry-date {
+  order: 1;
+}
+
+.single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-title {
+  order: 2;
+}
+
+.single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .newspack-blocks__tec-venue {
+  order: 3;
+}
+
+/* Hide the "updated" (modified) date; only the event start date is relevant here. */
+.single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles time.updated {
+  display: none;
+}
+
+
