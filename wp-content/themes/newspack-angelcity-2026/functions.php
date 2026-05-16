@@ -51,6 +51,37 @@ add_action('wp_head', function () {
 //
 add_filter('tribe_events_event_schedule_details_formatting', fn($settings) => array_merge($settings, ['time' => false]));
 
+//
+// Fix specificMode WP_Query for tribe_events in the Content Loop block.
+//
+// newspack-blocks always includes post_type in its WP_Query args (class-newspack-blocks.php:626),
+// even in specificMode where post__in already identifies the exact posts. TEC hooks pre_get_posts
+// (suppress_filters is false) and interferes with queries that specify post_type=>['tribe_events']
+// directly, causing them to return no results. When specific post IDs are provided, post_type
+// filtering is redundant -- switching to 'any' lets WP_Query find the posts by ID alone,
+// bypassing TEC's query modification hooks entirely.
+//
+// Two code paths reach this filter:
+//   Frontend (render_callback): $attributes has specificMode+specificPosts → build_articles_query
+//     sets $args['post__in'] before the filter fires. We check $args['post__in'].
+//   Editor (posts_endpoint REST): queryCriteriaFromAttributes (utils.ts) converts specificMode
+//     + specificPosts into just include=[ids] before sending to the server. posts_endpoint()
+//     calls build_articles_query() WITHOUT specificMode/specificPosts, so $args['post__in'] is
+//     never set. posts_endpoint() then sets $args['post__in'] from $attributes['include'] AFTER
+//     the filter fires. We check $attributes['include'] to catch this case.
+//
+// Filter: newspack_blocks_build_articles_query (class-newspack-blocks.php:773)
+//
+add_filter( 'newspack_blocks_build_articles_query', function ( $args, $attributes, $block_name ) {
+    $has_specific_posts = ! empty( $args['post__in'] );                      // frontend path
+    $has_include        = ! empty( $attributes['include'] ?? [] );           // editor path
+    if ( ( $has_specific_posts || $has_include ) &&
+         in_array( 'tribe_events', (array) $args['post_type'], true ) ) {
+        $args['post_type'] = 'any';
+    }
+    return $args;
+}, 10, 3 );
+
 /**
  * ACJ Artist Page - Event Display Customizations
  *
@@ -412,18 +443,16 @@ add_filter( 'block_editor_settings_all', function( $settings ) {
 } );
 
 //
-// 🧩 Register acj/artist-page block pattern
+// 🧩 Pattern markup — referenced by both register_block_pattern and default_content filter
 //
-add_action('init', function () {
-    register_block_pattern_category('acj', ['label' => 'Angel City Jazz']);
-
-    $pattern_content = <<<'PATTERN'
-<!-- wp:group {"align":"full","backgroundColor":"secondary","textColor":"white","className":"event-header"} -->
-<div class="wp-block-group alignfull event-header has-white-color has-secondary-background-color has-text-color has-background"><!-- wp:post-title {"level":2,"textColor":"white"} /-->
+function acj_artist_page_pattern_content(): string {
+    return <<<'PATTERN'
+<!-- wp:group {"align":"full","className":"event-header","backgroundColor":"secondary","textColor":"white"} -->
+<div class="wp-block-group alignfull event-header has-white-color has-secondary-background-color has-text-color has-background"><!-- wp:post-title /-->
 
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"65%"} -->
-<div class="wp-block-column" style="flex-basis:65%"><!-- wp:post-featured-image {"sizeSlug":"large"} /-->
+<div class="wp-block-column" style="flex-basis:65%"><!-- wp:post-featured-image /-->
 </div>
 <!-- /wp:column -->
 
@@ -496,14 +525,159 @@ https://www.youtube.com/watch?v=
 <!-- /wp:media-text --></div>
 <!-- /wp:group -->
 PATTERN;
+}
 
+add_action('init', function () {
+    register_block_pattern_category('acj', ['label' => 'Angel City Jazz']);
     register_block_pattern('acj/artist-page', [
         'title'       => 'Artist Page',
         'description' => 'Scaffold for ACJ artist page content: line-up, videos, and bio.',
         'categories'  => ['acj'],
-        'content'     => $pattern_content,
+        'content'     => acj_artist_page_pattern_content(),
     ]);
 });
+
+function acj_event_page_pattern_content(): string {
+    return <<<'PATTERN'
+<!-- wp:group {"align":"full","className":"event-header","backgroundColor":"secondary","textColor":"white"} -->
+<div class="wp-block-group alignfull event-header has-white-color has-secondary-background-color has-text-color has-background"><!-- wp:post-title {"level":2} /-->
+
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column {"width":"65%"} -->
+<div class="wp-block-column" style="flex-basis:65%"><!-- wp:post-featured-image /--></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"35%"} -->
+<div class="wp-block-column" style="flex-basis:35%"><!-- wp:tribe/event-datetime /-->
+
+<!-- wp:tribe/event-venue /--></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"align":"full","backgroundColor":"white"} -->
+<div class="wp-block-group alignfull has-white-background-color has-background"><!-- wp:columns {"align":"full"} -->
+<div class="wp-block-columns alignfull"><!-- wp:column {"style":{"spacing":{"padding":{"top":"20px","right":"20px","bottom":"20px","left":"20px"}}},"backgroundColor":"secondary-variation"} -->
+<div class="wp-block-column has-secondary-variation-background-color has-background" style="padding-top:20px;padding-right:20px;padding-bottom:20px;padding-left:20px"><!-- wp:columns {"backgroundColor":"light-gray"} -->
+<div class="wp-block-columns has-light-gray-background-color has-background"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:paragraph -->
+<p>7:30pm | Doors</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:paragraph -->
+<p>8:00pm | <a href="#">Artist Name</a></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:paragraph -->
+<p>9:15pm | <a href="#">Artist Name</a></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
+<!-- /wp:group -->
+
+<!-- wp:tribe/related-events /-->
+PATTERN;
+}
+
+// Register acj/event-page block pattern
+//
+add_action('init', function () {
+    register_block_pattern_category('acj-patterns', ['label' => 'ACJ Patterns']);
+    register_block_pattern('acj/event-page', [
+        'title'       => 'Event Page',
+        'description' => 'Scaffold for ACJ event page content: header with datetime/venue, schedule bar.',
+        'categories'  => ['acj-patterns'],
+        'postTypes'   => ['tribe_events'],
+        'content'     => acj_event_page_pattern_content(),
+    ]);
+});
+
+// Pre-populate new posts with the relevant ACJ block pattern based on post type.
+// NOTE: the tribe_events branch below is a no-op — Gutenberg creates event auto-drafts
+// via REST API with empty content, bypassing this filter. New events are handled by the
+// enqueue_block_editor_assets hook below instead.
+add_filter( 'default_content', function ( $content, $post ) {
+    if ( $post->post_type === 'tribe_events' ) {
+        return acj_event_page_pattern_content();
+    }
+    if ( $post->post_type === 'acj_artist' ) {
+        return acj_artist_page_pattern_content();
+    }
+    return $content;
+}, 10, 2 );
+
+// Pre-populate new tribe_events posts with the ACJ event page pattern via JS.
+// Gutenberg creates auto-drafts through the REST API (bypassing default_content), so
+// we wait for TEC's default template blocks to load, then replace them with our pattern.
+add_action( 'enqueue_block_editor_assets', function () {
+    $screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+    if ( ! $screen || $screen->post_type !== 'tribe_events' ) {
+        return;
+    }
+
+    global $post;
+    if ( ! $post || $post->post_status !== 'auto-draft' ) {
+        return;
+    }
+
+    // Register a stub handle (no file) to carry dependencies and inline code.
+    wp_register_script(
+        'acj-event-page-defaults',
+        false,
+        [ 'wp-blocks', 'wp-data', 'wp-dom-ready' ],
+        null,
+        true
+    );
+    wp_enqueue_script( 'acj-event-page-defaults' );
+
+    // Pass the pattern markup from PHP to JS without duplicating it.
+    wp_localize_script( 'acj-event-page-defaults', 'acjEventPageData', [
+        'content' => acj_event_page_pattern_content(),
+    ] );
+
+    wp_add_inline_script( 'acj-event-page-defaults', <<<'JS'
+wp.domReady( function () {
+    var data = window.acjEventPageData;
+    if ( ! data || ! data.content ) return;
+
+    var replaced = false;
+
+    var unsubscribe = wp.data.subscribe( function () {
+        if ( replaced ) return;
+
+        var editor = wp.data.select( 'core/editor' );
+        if ( ! editor ) return;
+
+        // Bail if this is not a new auto-draft (e.g. user opened an existing event).
+        var status = editor.getCurrentPostAttribute( 'status' );
+        if ( status && status !== 'auto-draft' ) {
+            replaced = true;
+            unsubscribe();
+            return;
+        }
+
+        // Wait until the block editor has finished loading its initial blocks.
+        var blockEditor = wp.data.select( 'core/block-editor' );
+        if ( ! blockEditor || blockEditor.getBlocks().length === 0 ) return;
+
+        replaced = true;
+        unsubscribe();
+
+        // Replace TEC's default template with the ACJ event page pattern.
+        wp.data.dispatch( 'core/block-editor' ).resetBlocks(
+            wp.blocks.parse( data.content )
+        );
+    } );
+} );
+JS
+    );
+} );
 
 //
 // 🔗 Register ACF field groups for artist ↔ event relationships

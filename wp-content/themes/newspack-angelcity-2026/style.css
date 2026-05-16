@@ -622,6 +622,18 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   margin-bottom: 0;
 }
 
+/* Event page hero title color fallback — pattern sets textColor:"white" which adds
+   has-white-color, but theme heading selectors can override at higher specificity. */
+.single-tribe_events .event-header .wp-block-post-title {
+  color: white;
+}
+
+/* Hide the empty PHP entry-header that newspack single.php renders on event pages;
+   TEC renders the title via wp:post-title inside block content instead. */
+.single-tribe_events .entry-header {
+  display: none;
+}
+
 /* Hide event end date on single event and sidebar widget */
 .single-tribe_events .tribe-events-schedule__datetime .tribe-events-schedule__date--end,
 .single-tribe_events .tribe-mini-calendar-event .tribe-event-date-end {
@@ -1344,10 +1356,21 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   box-sizing: border-box;
 }
 
+/* Match the event page hero column width.
+   Event pages carry post-template-single-wide which triggers a newspack rule:
+   .wp-block-group.alignfull > div > * { max-width: 1200px; margin: auto }
+   Artist pages don't get that class, so constrain the inner container here. */
+.single-acj_artist .event-header .wp-block-group__inner-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .single-acj_artist #primary.content-area {
   max-width: 100%;
   width: 100%;
 }
+
 
 /* ---- Block content below hero ------------------------------------------ */
 
