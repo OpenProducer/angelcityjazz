@@ -550,7 +550,11 @@ function acj_event_page_pattern_content(): string {
 <!-- wp:column {"width":"35%"} -->
 <div class="wp-block-column" style="flex-basis:35%"><!-- wp:tribe/event-datetime /-->
 
-<!-- wp:tribe/event-venue /--></div>
+<!-- wp:tribe/event-venue /-->
+
+<!-- wp:tribe/event-price /-->
+
+<!-- wp:jetpack/eventbrite {"url":"","eventId":0,"style":"modal"} /--></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
 <!-- /wp:group -->
