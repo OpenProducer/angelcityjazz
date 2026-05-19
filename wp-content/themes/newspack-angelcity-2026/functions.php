@@ -125,6 +125,7 @@ add_action('after_setup_theme', function () {
     add_theme_support('wc-product-gallery-zoom');
     add_theme_support('wc-product-gallery-lightbox');
     add_theme_support('wc-product-gallery-slider');
+    add_editor_style( 'style.css' );
 });
 add_theme_support('post-thumbnails', ['post', 'page', 'tribe_events', 'acj_artist']);
 
@@ -552,9 +553,7 @@ function acj_event_page_pattern_content(): string {
 
 <!-- wp:tribe/event-venue /-->
 
-<!-- wp:tribe/event-price /-->
-
-<!-- wp:jetpack/eventbrite {"url":"","eventId":0,"style":"modal"} /--></div>
+<!-- wp:tribe/event-price /--></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
 <!-- /wp:group -->

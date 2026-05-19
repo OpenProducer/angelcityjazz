@@ -1448,4 +1448,12 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   display: none;
 }
 
+/* tribe/event-price: keep price/placeholder text legible on the dark event-header background (editor) */
+.event-header .tribe-editor__event-price__currency,
+.event-header .tribe-editor__event-price__label,
+.event-header .tribe-editor__event-price__cost,
+.event-header .tribe-editor__event-price__description {
+  color: #111111;
+}
+
 
