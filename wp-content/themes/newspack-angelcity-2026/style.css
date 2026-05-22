@@ -1394,6 +1394,25 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   display: none;
 }
 
+/* Re-apply underlines in .event-header. Uses #tribe-events-content (1,0,0) to
+   beat the sibling rule "#tribe-events-content a { text-decoration: none }" at (1,0,1).
+   Total specificity (1,2,1). */
+#tribe-events-content .event-header a:not(.wp-element-button, .wp-block-button__link) {
+  text-decoration: underline;
+}
+
+#tribe-events-content .event-header a:not(.wp-element-button, .wp-block-button__link):hover {
+  text-decoration: none;
+}
+
+.single-acj_artist .event-header a:not(.wp-element-button, .wp-block-button__link) {
+  text-decoration: underline;
+}
+
+.single-acj_artist .event-header a:not(.wp-element-button, .wp-block-button__link):hover {
+  text-decoration: none;
+}
+
 /* Force white text/links on Content Loop items inside the orange hero. */
 .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles *,
 .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles a {
