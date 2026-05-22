@@ -1425,6 +1425,7 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-wrapper {
   display: flex;
   flex-direction: column;
+  row-gap: 0.4rem;
 }
 
 .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-meta {
@@ -1433,19 +1434,83 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 
 .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles time.entry-date {
   order: 1;
+  font-size: 1rem;
+  line-height: 1.45;
 }
 
 .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-title {
   order: 2;
+  font-size: clamp(1.45rem, 1.15rem + 0.8vw, 1.9rem);
+  line-height: 1.15;
+  margin: 0.15rem 0 0.25rem;
 }
 
 .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .newspack-blocks__tec-venue {
   order: 3;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.single-acj_artist .event-header .wp-block-columns .wp-block-column:nth-of-type(2) > p.has-white-color.has-text-color {
+  font-size: 0.85rem !important;
+  line-height: 1.4;
+  margin-bottom: 0.7rem;
+}
+
+.single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-title a {
+  color: #fff;
+  text-decoration-line: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.14em;
+}
+
+.single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-title a:hover,
+.single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-title a:focus {
+  text-decoration: none;
+}
+
+.single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-title a:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 0.16em;
+}
+
+@media (max-width: 781px) {
+  .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-wrapper {
+    row-gap: 0.3rem;
+  }
+
+  .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-title {
+    font-size: clamp(1.35rem, 1.1rem + 1.5vw, 1.65rem);
+    line-height: 1.18;
+  }
+
+  .single-acj_artist .event-header .wp-block-columns .wp-block-column:nth-of-type(2) > p.has-white-color.has-text-color {
+    margin-bottom: 0.55rem;
+  }
 }
 
 /* Hide the "updated" (modified) date; only the event start date is relevant here. */
 .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles time.updated {
   display: none;
+}
+
+.single-tribe_events .entry-content .wp-block-group.alignfull.has-white-background-color > .wp-block-group__inner-container > .wp-block-columns.alignfull > .wp-block-column.has-secondary-variation-background-color > .wp-block-columns.has-light-gray-background-color a {
+  color: var(--newspack-theme-color-secondary) !important;
+  text-decoration-line: underline !important;
+  text-decoration-color: currentColor !important;
+  text-decoration-thickness: 0.08em !important;
+  text-underline-offset: 0.14em;
+}
+
+.single-tribe_events .entry-content .wp-block-group.alignfull.has-white-background-color > .wp-block-group__inner-container > .wp-block-columns.alignfull > .wp-block-column.has-secondary-variation-background-color > .wp-block-columns.has-light-gray-background-color a:hover,
+.single-tribe_events .entry-content .wp-block-group.alignfull.has-white-background-color > .wp-block-group__inner-container > .wp-block-columns.alignfull > .wp-block-column.has-secondary-variation-background-color > .wp-block-columns.has-light-gray-background-color a:focus {
+  text-decoration: none !important;
+}
+
+.single-tribe_events .entry-content .wp-block-group.alignfull.has-white-background-color > .wp-block-group__inner-container > .wp-block-columns.alignfull > .wp-block-column.has-secondary-variation-background-color > .wp-block-columns.has-light-gray-background-color a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 0.16em;
 }
 
 /* tribe/event-price: keep price/placeholder text legible on the dark event-header background (editor) */
@@ -1455,5 +1520,3 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 .event-header .tribe-editor__event-price__description {
   color: #111111;
 }
-
-
