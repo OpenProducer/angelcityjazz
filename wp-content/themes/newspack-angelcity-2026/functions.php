@@ -407,6 +407,14 @@ add_action('init', function () {
     ]);
 });
 
+/**
+ * Add acj_artist post type support to Newspack Content Loop block
+ */
+add_filter( 'newspack_blocks_homepage_posts_post_types', function( $post_types ) {
+    $post_types['acj_artist'] = get_post_type_object( 'acj_artist' );
+    return $post_types;
+} );
+
 //
 // 🏷 Register acj_performance taxonomy (shared between acj_artist and tribe_events)
 //
