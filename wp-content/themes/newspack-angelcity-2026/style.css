@@ -43,10 +43,10 @@
 --------------------------------------------------------------*/
 
 :root {
-  --newspack-theme-color-primary: #541a17;
-  --newspack-theme-color-secondary: #d5621c;
-  --newspack-theme-color-primary-against-white: var(--newspack-theme-color-primary);
-  --newspack-theme-color-secondary-against-white: var(--newspack-theme-color-secondary);
+  --newspack-theme-color-primary: var(--color-primary);
+  --newspack-theme-color-secondary: var(--color-secondary);
+  --newspack-theme-color-primary-against-white: var(--color-primary);
+  --newspack-theme-color-secondary-against-white: var(--color-secondary);
   --newspack-theme-color-against-primary: #fff;
   --newspack-theme-color-against-secondary: #fff;
 }
@@ -1024,8 +1024,8 @@ body.single-tribe_venue .tribe-common-g-row > .tribe-common-g-col {
 .woocommerce-error {
   flex-direction: column;
   align-items: flex-start;
-  background: #541a17;             /* site primary — replaces generic firebrick #b22222 */
-  border-left: 4px solid #d5621c; /* site secondary as accent stripe */
+  background: var(--newspack-theme-color-primary);
+  border-left: 4px solid var(--newspack-theme-color-secondary);
   padding: 0.75rem 1.25rem;
 }
 
