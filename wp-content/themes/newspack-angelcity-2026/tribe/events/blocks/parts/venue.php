@@ -43,11 +43,18 @@ $venue_url = $venue_id ? (string) get_post_meta( $venue_id, '_VenueURL', true ) 
 	<?php if ( tribe_address_exists() ) : ?>
 		<address class="tribe-block__venue__address">
 			<?php echo tribe_get_full_address(); ?>
-
-			<?php if ( tribe_show_google_map_link() ) : ?>
-				<?php echo tribe_get_map_link_html(); ?>
-			<?php endif; ?>
 		</address>
+		<?php
+		// Check the per-venue map link flag directly. tribe_show_google_map_link() is gated
+		// by the global embedGoogleMaps option which is disabled on this site, so we bypass
+		// that gate and read _VenueShowMapLink from the venue post meta instead.
+		$show_map_link = $venue_id && get_post_meta( $venue_id, '_VenueShowMapLink', true );
+		if ( $show_map_link ) :
+			$map_link = tribe_get_map_link_html();
+			if ( ! empty( $map_link ) ) : ?>
+		<span class="tribe-block__venue__map-link"><?php echo $map_link; ?></span>
+		<?php endif;
+		endif; ?>
 	<?php endif; ?>
 
 	<?php do_action( 'tribe_events_single_meta_venue_section_end' ) ?>

@@ -646,24 +646,19 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   display: none;
 }
 
-/* Event hero: CSS grid layout — moves post-title into the right column so the
-   info block reads: title → date → venue → price → button (DICE.fm-style).
-   Uses display:contents on .wp-block-columns to make its children direct grid
-   items of the parent .event-header, without touching block markup. */
+/* Event hero: CSS grid — two-column layout (image 65% | details 35%).
+   The post-title block is hidden; the title is output at the top of the
+   right column by event-datetime.php so the order is naturally:
+   title → date/time → venue → price → button. */
 @media (min-width: 782px) {
   .single-tribe_events .event-header {
     display: grid;
     grid-template-columns: 65% 35%;
   }
 
-  /* Title: right column, first row */
+  /* Hide the standalone block — title comes from event-datetime.php */
   .single-tribe_events .event-header > .wp-block-post-title {
-    grid-column: 2;
-    grid-row: 1;
-    margin: 0;
-    padding: 16px 20px 0;
-    font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.7rem);
-    line-height: 1.15;
+    display: none;
   }
 
   /* Flatten the columns wrapper into the parent grid */
@@ -671,10 +666,10 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
     display: contents;
   }
 
-  /* Image column: left column, spanning both rows */
+  /* Image: left column */
   .single-tribe_events .event-header > .wp-block-columns > .wp-block-column:first-child {
     grid-column: 1;
-    grid-row: 1 / 3;
+    grid-row: 1;
     overflow: hidden;
   }
 
@@ -690,19 +685,23 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
     display: block;
   }
 
-  /* Details column: right column, second row (below title) */
+  /* Details: right column, same row as image */
   .single-tribe_events .event-header > .wp-block-columns > .wp-block-column:last-child {
     grid-column: 2;
-    grid-row: 2;
-    padding: 0 20px 20px;
+    grid-row: 1;
+    padding: 20px;
   }
 }
 
-/* Mobile: image → title → details stacked */
+/* Mobile: image (row 1) → details with title (row 2) */
 @media (max-width: 781px) {
   .single-tribe_events .event-header {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .single-tribe_events .event-header > .wp-block-post-title {
+    display: none;
   }
 
   .single-tribe_events .event-header > .wp-block-columns {
@@ -714,20 +713,27 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
     grid-column: 1;
   }
 
-  .single-tribe_events .event-header > .wp-block-post-title {
+  .single-tribe_events .event-header > .wp-block-columns > .wp-block-column:last-child {
     grid-row: 2;
     grid-column: 1;
-    margin: 0;
-    padding: 16px 16px 0;
-    font-size: clamp(1.25rem, 1.1rem + 1vw, 1.5rem);
-    line-height: 1.2;
+    padding: 16px;
   }
+}
 
-  .single-tribe_events .event-header > .wp-block-columns > .wp-block-column:last-child {
-    grid-row: 3;
-    grid-column: 1;
-    padding: 0 16px 16px;
-  }
+/* Event hero title — output by event-datetime.php at the top of the right column.
+   Hidden outside .single-tribe_events .event-header so it doesn't bleed into
+   other TEC rendering contexts. */
+.event-hero__title {
+  display: none;
+}
+.single-tribe_events .event-header .event-hero__title {
+  display: block;
+  font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.7rem);
+  line-height: 1.15;
+  color: white;
+  margin: 0 0 8px;
+  padding: 0;
+  font-family: inherit;
 }
 
 /* Event detail date and time - background, margin, and padding */
@@ -787,7 +793,20 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   color: inherit;
   line-height: 1.3;
   letter-spacing: 0.13px;
-  margin: 0 0 4px;
+  margin: 0;
+}
+
+/* Map link — sits immediately below the address, styled as a compact inline line */
+.single-tribe_events .event-header .tribe-block__venue__map-link {
+  display: block;
+  line-height: 1.3;
+  margin: 2px 0 4px;
+}
+
+/* Close the gap between the venue block and the price/paragraph that follows */
+.single-tribe_events .event-header .tribe-block__event-price {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 /* Reduce top margin from venue links */

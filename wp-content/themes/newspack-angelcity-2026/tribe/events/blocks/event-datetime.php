@@ -70,6 +70,7 @@ $is_same_start_end = $formatted_start_date == $formatted_end_date && $formatted_
 
 $event_id = $this->get( 'post_id' );
 ?>
+<h2 class="event-hero__title"><?php echo esc_html( get_the_title() ); ?></h2>
 <div class="tribe-events-schedule tribe-clearfix">
 	<h2 class="tribe-events-schedule__datetime">
 		<span class="tribe-events-schedule__date tribe-events-schedule__date--start">
