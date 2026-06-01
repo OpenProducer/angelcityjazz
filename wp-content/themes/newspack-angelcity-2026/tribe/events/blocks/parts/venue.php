@@ -18,14 +18,24 @@ if ( ! tribe_get_venue_id() ) {
 }
 $attributes = $this->get( 'attributes', [] );
 
-$phone   = tribe_get_phone();
-$website = tribe_get_venue_website_link();
+$phone     = tribe_get_phone();
+$venue_id  = tribe_get_venue_id();
+// Use the venue's own website URL (stored as _VenueURL meta) to link the venue name directly.
+// tribe_get_venue_link() links to TEC's internal venue archive page, not the external site.
+$venue_url = $venue_id ? (string) get_post_meta( $venue_id, '_VenueURL', true ) : '';
 
 ?>
 
 <div class="tribe-block__venue__meta">
 	<div class="tribe-block__venue__name">
-		<h3><?php echo tribe_get_venue_link() ?></h3>
+		<h3><?php
+			$venue_name = esc_html( tribe_get_venue() );
+			if ( ! empty( $venue_url ) ) {
+				echo '<a href="' . esc_url( $venue_url ) . '" target="_blank" rel="noopener noreferrer">' . $venue_name . '</a>';
+			} else {
+				echo $venue_name;
+			}
+		?></h3>
 	</div>
 
 	<?php do_action( 'tribe_events_single_meta_venue_section_start' ) ?>
@@ -39,9 +49,6 @@ $website = tribe_get_venue_website_link();
 			<?php endif; ?>
 		</address>
 	<?php endif; ?>
-    <?php if ( ! empty( $website ) ) : ?>
-		<span class="tribe-block__venue__website"><?php echo $website ?></span>
-	<?php endif ?>
 
 	<?php do_action( 'tribe_events_single_meta_venue_section_end' ) ?>
 </div>
