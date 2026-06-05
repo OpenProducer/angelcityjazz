@@ -771,6 +771,12 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   display: none !important;
 }
 
+/* Event hero: hide the <br> between street address and city — street address is
+   display:none but the BR still renders a blank line without this rule */
+.single-tribe_events .event-header .tribe-block__venue__address br {
+  display: none !important;
+}
+
 /* Event hero: city and state — visible, white, small */
 .single-tribe_events .event-header .tribe-block__venue__meta .tribe-city,
 .single-tribe_events .event-header .tribe-block__venue__meta .tribe-stateprovince {
