@@ -757,3 +757,24 @@ add_action('acf/init', function () {
         'style'      => 'seamless',
     ]);
 });
+
+/**
+ * Wrap acj_artist card thumbnail + title in a positioned container
+ * so the title can be overlaid on the image via CSS.
+ */
+add_filter( 'post_thumbnail_html', function( $html, $post_id, $post_thumbnail_id, $size ) {
+  // Only apply to acj_artist post thumbnails
+  if ( get_post_type( $post_id ) !== 'acj_artist' ) return $html;
+
+  // Skip on the single artist page hero -- detected by thumbnail size.
+  // The hero uses 'large' or 'post-thumbnail'; cards use smaller sizes
+  // or the newspack-article-block sizes.
+  $hero_sizes = [ 'large', 'full', 'post-thumbnail' ];
+  if ( is_singular( 'acj_artist' ) && in_array( $size, $hero_sizes ) ) return $html;
+
+  $title   = get_the_title( $post_id );
+  $overlay = '<span class="acj-artist-card__title-overlay">'
+    . esc_html( $title ) . '</span>';
+  return '<div class="acj-artist-card__thumb-wrap">'
+    . $html . $overlay . '</div>';
+}, 10, 4 );
