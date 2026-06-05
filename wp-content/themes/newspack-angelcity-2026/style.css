@@ -705,6 +705,13 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   }
 }
 
+/* Hide end time from event-datetime block in hero */
+.single-tribe_events .event-header .tribe-events-schedule__separator--time,
+.single-tribe_events .event-header .tribe-events-schedule__time--end {
+    display: none !important;
+}
+
+
 /* Event detail venue - fontsize, color and spacing */
 .single-tribe_events .tribe-block__venue {
   font-size: 0.85rem;
@@ -785,62 +792,19 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   text-decoration: underline;
 }
 
-/* Event hero: Eventbrite button outline style to match artist page */
-.single-tribe_events .event-header .wp-block-jetpack-eventbrite a.wp-block-button__link,
-.single-tribe_events .event-header .wp-block-jetpack-eventbrite .wp-block-button__link {
-  background: transparent !important;
-  background-color: transparent !important;
-  border: 2px solid #ffffff !important;
-  color: #ffffff !important;
-  box-shadow: none !important;
-  border-radius: 4px !important;
-  padding: 0.5em 1.2em !important;
-  font-size: 1rem !important;
-}
-
-.single-tribe_events .event-header .wp-block-jetpack-eventbrite .wp-block-button__link:hover {
-  background-color: #000000 !important;
-  border-color: #000000 !important;
-  color: #ffffff !important;
-}
-
 /* Event hero: Buy Tickets button — gap above to separate from info block */
 .single-tribe_events .event-header .wp-block-jetpack-eventbrite {
-  margin-top: 1rem !important;
-}
-
-/* Event hero: inline wp:buttons blocks (More Info etc) */
-.single-tribe_events .event-header .wp-block-buttons {
-  gap: 4px !important;
-  margin-top: 1.2em !important;
-}
-
-.single-tribe_events .event-header .wp-block-buttons .wp-block-button {
-  margin: 4px 0 !important;
-}
-
-.single-tribe_events .event-header .wp-block-buttons .wp-block-button__link {
-  background: transparent !important;
-  border: 2px solid #ffffff !important;
-  color: #ffffff !important;
-  border-radius: 4px !important;
-  padding: 0.5em 1.2em !important;
+  margin-top: 0 !important;
 }
 
 .single-acj_artist .event-header .wp-block-buttons .wp-block-button__link {
     border-radius: 4px !important;
 }
 
-.single-tribe_events .event-header .wp-block-buttons .wp-block-button__link:hover {
-  background: #ffffff !important;
-  color: #D05730 !important;
-  cursor: pointer;
-}
-
 /* Event hero: date/time size and spacing to match artist page */
 .single-tribe_events .event-header .tribe-events-schedule__datetime,
 .single-tribe_events .event-header .tribe-events-schedule__datetime * {
-  color: #ffffff;
+  color: #ffffff !important;
   font-size: 1rem !important;
   font-weight: 700 !important;
   line-height: 1.45 !important;
@@ -862,7 +826,7 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
 
 .single-tribe_events .event-header .tribe-block__venue__name h3 a {
   color: #ffffff !important;
-  text-decoration: underline !important;
+  text-decoration: none !important;
 }
 
 /* Event hero: tighten spacing between all detail elements */
@@ -882,18 +846,38 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   padding-bottom: 0 !important;
 }
 
-/* ── Event hero: datetime matches artist page style ── */
-.single-tribe_events .event-header .tribe-events-schedule__datetime {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 0.25rem;
-}
 
 .single-tribe_events .event-header .tribe-events-schedule abbr,
 .single-tribe_events .event-header .tribe-events-schedule__separator {
     color: #ffffff;
     text-decoration: none;
+}
+
+/* Price positioning */
+.single-tribe_events .event-header .tribe-block__event-price {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* Schedule group heading matches FEATURING style */
+.single-tribe_events .event-header .wp-block-group p.has-small-font-size {
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    margin-top: 0 !important;
+    margin-bottom: 0.35rem !important;
+}
+
+/* Schedule list matches FEATURING list style */
+.single-tribe_events .event-header .wp-block-group ul {
+    font-size: 0.85rem !important;
+    list-style: disc !important;
+    padding-left: 1.25rem !important;
+    margin: 0 !important;
 }
 
 /* ── Event hero: venue name and address ── */
@@ -936,19 +920,6 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
     text-decoration: underline !important;
 }
 
-.single-tribe_events .event-header .wp-block-buttons.wp-block-buttons-is-layout-flex {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 0.5rem !important;
-}
-
-.single-tribe_events .event-header .wp-block-buttons.wp-block-buttons-is-layout-flex .wp-block-button,
-.single-tribe_events .event-header .wp-block-buttons.wp-block-buttons-is-layout-flex .wp-block-jetpack-eventbrite {
-    flex: 0 0 auto !important;
-    width: auto !important;
-    max-width: fit-content !important;
-}
-
 /* ── Google Maps link: underlined / no underline on hover ── */
 .single-tribe_events .event-header .tribe-block__venue__map a {
     color: #ffffff !important;
@@ -966,21 +937,6 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
     color: #ffffff;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-}
-
-/* ── Buy Tickets button: match artist page button size ── */
-.single-tribe_events .event-header .wp-block-jetpack-eventbrite .wp-block-button__link,
-.single-tribe_events .event-header .wp-block-buttons .wp-block-button__link {
-    font-size: 0.9rem !important;
-    padding: 0.6em 1.2em !important;
-    border-radius: 4px !important;
-}
-
-/* ── Buy Tickets hover: match artist page ── */
-.single-tribe_events .event-header .wp-block-jetpack-eventbrite .wp-block-button__link:hover,
-.single-tribe_events .event-header .wp-block-buttons .wp-block-button__link:hover {
-    background-color: #ffffff !important;
-    color: #c8392b !important;
 }
 
 /* ── Schedule group: match FEATURING style on artist page ── */
@@ -1914,9 +1870,17 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 
 /* Artist hero: buttons side by side */
 .single-acj_artist .event-header .wp-block-buttons {
+  display: flex !important;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+.single-tribe_events .event-header .wp-block-buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
 }
 
 /* Artist hero: featuring list — remove default indent */
@@ -1958,6 +1922,7 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   background-color: transparent !important;
   border: 2px solid #ffffff !important;
   color: #ffffff !important;
+  width: auto !important;
 }
 
 /* Artist hero: Eventbrite button hover state */
@@ -1965,6 +1930,14 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   background-color: #000000 !important;
   border-color: #000000 !important;
   color: #ffffff !important;
+}
+
+.single-acj_artist .event-header .wp-block-group__inner-container > * {
+    margin-top: 0 !important;
+}
+
+.single-tribe_events .event-header .wp-block-group__inner-container > * {
+    margin-top: 0 !important;
 }
 
 /* Artist page: Related Artists image sizing — 16:9, full-width, cover crop */
@@ -2041,13 +2014,3 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
     text-decoration: none !important;
 }
 
-.single-tribe_events .event-header .tribe-block__venue__website a,
-.single-tribe_events .event-header .tribe-block__venue__location a,
-.single-acj_artist .event-header .newspack-blocks-homepage-articles__article a {
-    text-decoration: none;
-}
-
-.single-tribe_events .event-header .tribe-block__venue__website a:hover,
-.single-tribe_events .event-header .tribe-block__venue__location a:hover {
-    text-decoration: underline;
-}

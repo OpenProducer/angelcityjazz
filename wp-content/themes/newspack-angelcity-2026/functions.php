@@ -25,43 +25,30 @@ function newspack_angelcity_2026_enqueue_styles() {
 }
 add_action('wp_enqueue_scripts', 'newspack_angelcity_2026_enqueue_styles', 20);
 
-/**
- * Override Gutenberg flex-grow layout injection for event header buttons.
- * Gutenberg injects .wp-block-buttons-is-layout-flex > * { flex-grow: 1 }
- * as an inline <style> in wp_head. We override it here, also inline,
- * so it loads after and wins.
- */
-add_action('wp_head', function() {
-    if (!is_singular('tribe_events')) return;
-    echo '<style>
-.event-header .wp-block-buttons-is-layout-flex > * {
-    flex-grow: 0 !important;
-    width: auto !important;
-    max-width: fit-content !important;
-}
-.event-header .wp-block-buttons .wp-block-button__link {
-    width: auto !important;
-    max-width: fit-content !important;
-}
-.event-header .tribe-block__venue__location a,
-.event-header .tribe-block__venue__location h2 a,
-.event-header .tribe-block__venue__location h3 a,
-.event-header .tribe-venue a {
-    text-decoration: none !important;
-}
-.event-header .tribe-block__venue__location a:hover,
-.event-header .tribe-block__venue__location h2 a:hover,
-.event-header .tribe-block__venue__location h3 a:hover,
-.event-header .tribe-venue a:hover {
-    text-decoration: underline !important;
-}
-</style>';
-}, 100);
 
 //
 // 🗓 Remove end time from The Events Calendar schedule output
 //
 add_filter('tribe_events_event_schedule_details_formatting', fn($settings) => array_merge($settings, ['time' => false]));
+
+// Default _EventShowMapLink to enabled for all tribe_events posts.
+// The TEC block editor doesn't reliably write this meta on save, so without this
+// filter new events silently suppress the Google Maps link in the venue block.
+// Respects an explicit '0' — only substitutes when the meta is absent or empty.
+// Static guard prevents recursion since get_post_meta() re-enters this filter.
+add_filter('get_post_metadata', function($value, $post_id, $meta_key, $single) {
+    static $in_filter = false;
+    if ($meta_key !== '_EventShowMapLink') return $value;
+    if ($value !== null) return $value;
+    if ($in_filter) return $value;
+    $in_filter = true;
+    $stored = get_post_meta($post_id, '_EventShowMapLink', true);
+    $in_filter = false;
+    if ($stored === '' || $stored === false) {
+        return $single ? '1' : ['1'];
+    }
+    return $value;
+}, 5, 4);
 
 //
 // Fix specificMode WP_Query for tribe_events in the Content Loop block.
@@ -595,11 +582,9 @@ function acj_event_page_pattern_content(): string {
 
 <!-- wp:tribe/event-price /-->
 
-<!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:jetpack/eventbrite {"url":"https://www.eventbrite.com/e/fremakajo-doyeon-kims-wellspring-tickets-1990554439914?aff=oddtdtcreator","eventId":1990554439914,"style":"modal"} -->
+<!-- wp:jetpack/eventbrite {"url":"https://www.eventbrite.com/e/fremakajo-doyeon-kims-wellspring-tickets-1990554439914?aff=oddtdtcreator","eventId":1990554439914,"style":"modal"} -->
 <div class="wp-block-jetpack-eventbrite"><!-- wp:jetpack/button {"element":"a","uniqueId":"eventbrite-widget-id","text":"Buy Tickets","textColor":"white","className":"is-style-outline"} /--></div>
-<!-- /wp:jetpack/eventbrite --></div>
-<!-- /wp:buttons -->
+<!-- /wp:jetpack/eventbrite -->
 
 <!-- wp:group {"className":"is-style-default"} -->
 <div class="wp-block-group is-style-default"><!-- wp:paragraph {"textColor":"white","fontSize":"small"} -->
