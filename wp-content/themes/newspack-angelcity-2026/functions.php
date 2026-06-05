@@ -476,7 +476,7 @@ function acj_artist_page_pattern_content(): string {
 <!-- /wp:button -->
 
 <!-- wp:jetpack/eventbrite {"url":"https://www.eventbrite.com/e/fremakajo-doyeon-kims-wellspring-tickets-1990554439914?aff=oddtdtcreator","eventId":1990554439914,"style":"modal"} -->
-<div class="wp-block-jetpack-eventbrite"><!-- wp:jetpack/button {"element":"a","uniqueId":"eventbrite-widget-id","text":"Buy Tickets","textColor":"white","className":"is-style-outline"} /--></div>
+<div class="wp-block-jetpack-eventbrite"><!-- wp:jetpack/button {"element":"a","uniqueId":"eventbrite-widget-id","text":"Buy Tickets","className":"is-style-outline"} /--></div>
 <!-- /wp:jetpack/eventbrite --></div>
 <!-- /wp:buttons -->
 
@@ -583,7 +583,7 @@ function acj_event_page_pattern_content(): string {
 <!-- wp:tribe/event-price /-->
 
 <!-- wp:jetpack/eventbrite {"url":"https://www.eventbrite.com/e/fremakajo-doyeon-kims-wellspring-tickets-1990554439914?aff=oddtdtcreator","eventId":1990554439914,"style":"modal"} -->
-<div class="wp-block-jetpack-eventbrite"><!-- wp:jetpack/button {"element":"a","uniqueId":"eventbrite-widget-id","text":"Buy Tickets","textColor":"white","className":"is-style-outline"} /--></div>
+<div class="wp-block-jetpack-eventbrite"><!-- wp:jetpack/button {"element":"a","uniqueId":"eventbrite-widget-id","text":"Buy Tickets","className":"is-style-outline"} /--></div>
 <!-- /wp:jetpack/eventbrite -->
 
 <!-- wp:group {"className":"is-style-default"} -->
