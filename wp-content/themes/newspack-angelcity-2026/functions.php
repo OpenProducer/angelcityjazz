@@ -612,7 +612,7 @@ function acj_event_page_pattern_content(): string {
 
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">Event Info</a></div>
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">More Info</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:column -->
@@ -642,7 +642,7 @@ function acj_event_page_pattern_content(): string {
 
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">Event Info</a></div>
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">More Info</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:column -->
