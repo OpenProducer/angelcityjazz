@@ -38,7 +38,6 @@
 
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
 
 /*--------------------------------------------------------------
 # Colors (Base Variables)
@@ -777,6 +776,11 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
    display:none but the BR still renders a blank line without this rule */
 .single-tribe_events .event-header .tribe-block__venue__address br {
   display: none !important;
+}
+
+/* Event hero: match Buy Tickets button radius to artist page buttons */
+.single-tribe_events .event-header .wp-block-button .wp-block-button__link {
+  border-radius: 5px !important;
 }
 
 /* Event hero: city and state — visible, white, small */
@@ -2020,67 +2024,4 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 
 .single-tribe_events .event-lineup .more-link:hover {
     text-decoration: none !important;
-}
-
-
-/* =============================================
-   Artist page: title overlay on featured image
-   ============================================= */
-
-/* Make the inner container the positioning context */
-.single-acj_artist .event-header .wp-block-group__inner-container {
-  position: relative;
-}
-
-/* Lift and reposition post title over the featured image */
-.single-acj_artist .event-header .wp-block-post-title {
-  display: block !important;
-  position: absolute;
-  top: 1rem;
-  left: .75rem;
-  z-index: 2;
-  margin: 0;
-  font-family: 'Montserrat', var(--font-headings, sans-serif);
-  font-weight: 900;
-  font-size: clamp(1.75rem, 3.5vw, 3rem);
-  color: #fdba16 !important;
-  line-height: 1.1;
-  max-width: 45%;
-  word-break: keep-all;
-  overflow-wrap: normal;
-}
-
-@media (max-width: 600px) {
-  .single-acj_artist .event-header .wp-block-post-title {
-    font-size: clamp(1.4rem, 5vw, 2rem);
-    max-width: 60%;
-  }
-}
-
-/* =============================================
-   Artist cards: title overlay on thumbnail
-   (lineup sections, related artists, everywhere
-   acj_artist post type thumbnails appear)
-   ============================================= */
-
-.acj-artist-card__thumb-wrap {
-  position: relative;
-  display: block;
-  line-height: 0;
-}
-
-.acj-artist-card__title-overlay {
-  display: block;
-  position: absolute;
-  top: .5rem;
-  left: .5rem;
-  z-index: 2;
-  font-family: 'Montserrat', var(--font-headings, sans-serif);
-  font-weight: 900;
-  font-size: clamp(.75rem, 1.8vw, 1.25rem);
-  color: #fdba16;
-  line-height: 1.1;
-  max-width: 55%;
-  word-break: keep-all;
-  overflow-wrap: normal;
 }

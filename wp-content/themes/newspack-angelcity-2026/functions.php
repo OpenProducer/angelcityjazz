@@ -475,9 +475,9 @@ function acj_artist_page_pattern_content(): string {
 <div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">More Info</a></div>
 <!-- /wp:button -->
 
-<!-- wp:jetpack/eventbrite {"url":"https://www.eventbrite.com/e/fremakajo-doyeon-kims-wellspring-tickets-1990554439914?aff=oddtdtcreator","eventId":1990554439914,"style":"modal"} -->
-<div class="wp-block-jetpack-eventbrite"><!-- wp:jetpack/button {"element":"a","uniqueId":"eventbrite-widget-id","text":"Buy Tickets","className":"is-style-outline"} /--></div>
-<!-- /wp:jetpack/eventbrite --></div>
+<!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">Buy Tickets</a></div>
+<!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
 <!-- wp:paragraph {"fontSize":"small","textColor":"white"} -->
@@ -550,7 +550,7 @@ function acj_artist_page_pattern_content(): string {
 <h3 class="wp-block-heading has-text-color" style="color:#c8392b;font-size:0.75rem;font-style:normal;font-weight:700;letter-spacing:0.1em;text-transform:uppercase">Related Artists</h3>
 <!-- /wp:heading -->
 
-<!-- wp:newspack-blocks/homepage-articles {"showExcerpt":false,"readMoreLabel":"View Artist","showDate":false,"imageShape":"uncropped","showAuthor":false,"postLayout":"grid","columns":4,"colGap":2,"postsToShow":4,"specificPosts":[],"typeScale":3,"imageScale":4,"postType":["acj_artist"]} /--></div>
+<!-- wp:newspack-blocks/homepage-articles {"showExcerpt":false,"readMoreLabel":"View Artist","showDate":false,"imageShape":"uncropped","showAuthor":false,"postLayout":"grid","columns":4,"colGap":2,"postsToShow":4,"specificPosts":[],"specificMode":true,"typeScale":3,"imageScale":4,"postType":["acj_artist"]} /--></div>
 <!-- /wp:group -->
 PATTERN;
 }
@@ -582,9 +582,11 @@ function acj_event_page_pattern_content(): string {
 
 <!-- wp:tribe/event-price /-->
 
-<!-- wp:jetpack/eventbrite {"url":"https://www.eventbrite.com/e/fremakajo-doyeon-kims-wellspring-tickets-1990554439914?aff=oddtdtcreator","eventId":1990554439914,"style":"modal"} -->
-<div class="wp-block-jetpack-eventbrite"><!-- wp:jetpack/button {"element":"a","uniqueId":"eventbrite-widget-id","text":"Buy Tickets","className":"is-style-outline"} /--></div>
-<!-- /wp:jetpack/eventbrite -->
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">Buy Tickets</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
 
 <!-- wp:group {"className":"is-style-default"} -->
 <div class="wp-block-group is-style-default"><!-- wp:paragraph {"textColor":"white","fontSize":"small"} -->
@@ -607,10 +609,92 @@ function acj_event_page_pattern_content(): string {
 
 <!-- wp:group {"align":"full","className":"event-lineup","style":{"elements":{"link":{"color":{"text":"var:preset|color|white"}}}},"backgroundColor":"primary-variation","textColor":"white","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull event-lineup has-white-color has-primary-variation-background-color has-text-color has-background has-link-color"><!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700","textTransform":"uppercase","fontSize":"0.75rem","letterSpacing":"0.1em"},"color":{"text":"#f0a830"}}} -->
-<h3 class="wp-block-heading has-text-color" style="color:#f0a830;font-size:0.75rem;font-style:normal;font-weight:700;letter-spacing:0.1em;text-transform:uppercase">LINEUP</h3>
+<h3 class="wp-block-heading has-text-color" style="color:#f0a830;font-size:0.75rem;font-style:normal;font-weight:700;letter-spacing:0.1em;text-transform:uppercase">SCHEDULE</h3>
 <!-- /wp:heading -->
 
-<!-- wp:newspack-blocks/homepage-articles {"excerptLength":30,"showReadMore":true,"readMoreLabel":"More Info","showDate":false,"imageShape":"uncropped","showAuthor":false,"mediaPosition":"right","specificPosts":[],"typeScale":4,"imageScale":2,"mobileStack":true,"specificMode":true,"postType":["acj_artist"]} /--></div>
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading {"level":4} -->
+<h4 class="wp-block-heading">8:00pm – Artist Name</h4>
+<!-- /wp:heading -->
+
+<!-- wp:list {"textColor":"white","className":"acj-performer-list"} -->
+<ul class="wp-block-list acj-performer-list has-white-color has-text-color"><!-- wp:list-item -->
+<li>Performer Name – instrument</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Performer Name – instrument</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Performer Name – instrument</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:paragraph {"textColor":"white","fontSize":"small"} -->
+<p class="has-white-color has-text-color has-small-font-size">Placeholder artist description. A few sentences about the artist and what to expect from their performance at this event.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">More Info</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:image -->
+<figure class="wp-block-image"><img alt=""/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:separator {"className":"is-style-wide"} -->
+<hr class="wp-block-separator has-alpha-channel-opacity is-style-wide"/>
+<!-- /wp:separator -->
+
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading {"level":4} -->
+<h4 class="wp-block-heading">9:30pm – Artist Name</h4>
+<!-- /wp:heading -->
+
+<!-- wp:list {"textColor":"white","className":"acj-performer-list"} -->
+<ul class="wp-block-list acj-performer-list has-white-color has-text-color"><!-- wp:list-item -->
+<li>Performer Name – instrument</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Performer Name – instrument</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Performer Name – instrument</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:paragraph {"textColor":"white","fontSize":"small"} -->
+<p class="has-white-color has-text-color has-small-font-size">Placeholder artist description. A few sentences about the artist and what to expect from their performance at this event.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">More Info</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:image -->
+<figure class="wp-block-image"><img alt=""/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns --></div>
 <!-- /wp:group -->
 
 <!-- wp:group {"align":"full","style":{"color":{"background":"#e9e2d9"}},"layout":{"type":"constrained"}} -->
@@ -757,24 +841,3 @@ add_action('acf/init', function () {
         'style'      => 'seamless',
     ]);
 });
-
-/**
- * Wrap acj_artist card thumbnail + title in a positioned container
- * so the title can be overlaid on the image via CSS.
- */
-add_filter( 'post_thumbnail_html', function( $html, $post_id, $post_thumbnail_id, $size ) {
-  // Only apply to acj_artist post thumbnails
-  if ( get_post_type( $post_id ) !== 'acj_artist' ) return $html;
-
-  // Skip on the single artist page hero -- detected by thumbnail size.
-  // The hero uses 'large' or 'post-thumbnail'; cards use smaller sizes
-  // or the newspack-article-block sizes.
-  $hero_sizes = [ 'large', 'full', 'post-thumbnail' ];
-  if ( is_singular( 'acj_artist' ) && in_array( $size, $hero_sizes ) ) return $html;
-
-  $title   = get_the_title( $post_id );
-  $overlay = '<span class="acj-artist-card__title-overlay">'
-    . esc_html( $title ) . '</span>';
-  return '<div class="acj-artist-card__thumb-wrap">'
-    . $html . $overlay . '</div>';
-}, 10, 4 );
