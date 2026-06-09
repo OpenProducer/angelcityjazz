@@ -588,21 +588,7 @@ function acj_event_page_pattern_content(): string {
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
-<!-- wp:group {"className":"is-style-default"} -->
-<div class="wp-block-group is-style-default"><!-- wp:paragraph {"textColor":"white","fontSize":"small"} -->
-<p class="has-white-color has-text-color has-small-font-size">Schedule:</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:list {"textColor":"white"} -->
-<ul class="wp-block-list has-white-color has-text-color"><!-- wp:list-item {"fontSize":"small"} -->
-<li class="has-small-font-size">Set Time – Artist Name</li>
-<!-- /wp:list-item -->
-
-<!-- wp:list-item {"fontSize":"small"} -->
-<li class="has-small-font-size">Set Time – Artist Name</li>
-<!-- /wp:list-item --></ul>
-<!-- /wp:list --></div>
-<!-- /wp:group --></div>
+</div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
 <!-- /wp:group -->
