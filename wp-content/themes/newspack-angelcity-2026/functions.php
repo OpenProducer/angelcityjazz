@@ -472,7 +472,7 @@ function acj_artist_page_pattern_content(): string {
 
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">More Info</a></div>
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">Event Info</a></div>
 <!-- /wp:button -->
 
 <!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
@@ -516,8 +516,8 @@ function acj_artist_page_pattern_content(): string {
 <!-- /wp:paragraph --><cite>— Attribution</cite></blockquote>
 <!-- /wp:quote -->
 
-<!-- wp:social-links {"size":"has-normal-icon-size","openInNewTab":true,"style":{"color":{"text":"#111111"}}} -->
-<ul class="wp-block-social-links has-normal-icon-size has-text-color" style="color:#111111"><!-- wp:social-link {"url":"","service":"instagram"} /-->
+<!-- wp:social-links {"size":"has-normal-icon-size","openInNewTab":true,"style":{"color":{"text":"#111111"}},"layout":{"type":"flex","justifyContent":"center"}} -->
+<ul class="wp-block-social-links has-normal-icon-size has-text-color is-layout-flex wp-block-social-links-is-layout-flex is-content-justification-center" style="color:#111111"><!-- wp:social-link {"url":"","service":"instagram"} /-->
 
 <!-- wp:social-link {"url":"","service":"chain"} /--></ul>
 <!-- /wp:social-links --></div>
@@ -602,21 +602,7 @@ function acj_event_page_pattern_content(): string {
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:heading {"level":4} -->
 <h4 class="wp-block-heading">8:00pm – Artist Name</h4>
-<!-- /wp:heading -->
-
-<!-- wp:list {"textColor":"white","className":"acj-performer-list"} -->
-<ul class="wp-block-list acj-performer-list has-white-color has-text-color"><!-- wp:list-item -->
-<li>Performer Name – instrument</li>
-<!-- /wp:list-item -->
-
-<!-- wp:list-item -->
-<li>Performer Name – instrument</li>
-<!-- /wp:list-item -->
-
-<!-- wp:list-item -->
-<li>Performer Name – instrument</li>
-<!-- /wp:list-item --></ul>
-<!-- /wp:list --></div>
+<!-- /wp:heading --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
@@ -626,7 +612,7 @@ function acj_event_page_pattern_content(): string {
 
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">More Info</a></div>
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">Event Info</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:column -->
@@ -646,21 +632,7 @@ function acj_event_page_pattern_content(): string {
 <div class="wp-block-columns"><!-- wp:column -->
 <div class="wp-block-column"><!-- wp:heading {"level":4} -->
 <h4 class="wp-block-heading">9:30pm – Artist Name</h4>
-<!-- /wp:heading -->
-
-<!-- wp:list {"textColor":"white","className":"acj-performer-list"} -->
-<ul class="wp-block-list acj-performer-list has-white-color has-text-color"><!-- wp:list-item -->
-<li>Performer Name – instrument</li>
-<!-- /wp:list-item -->
-
-<!-- wp:list-item -->
-<li>Performer Name – instrument</li>
-<!-- /wp:list-item -->
-
-<!-- wp:list-item -->
-<li>Performer Name – instrument</li>
-<!-- /wp:list-item --></ul>
-<!-- /wp:list --></div>
+<!-- /wp:heading --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
@@ -670,7 +642,7 @@ function acj_event_page_pattern_content(): string {
 
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">More Info</a></div>
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">Event Info</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:column -->

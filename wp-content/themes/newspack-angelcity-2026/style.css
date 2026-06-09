@@ -1970,6 +1970,14 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   overflow-wrap: normal !important;
 }
 
+/* Related artists/lineup: hide text title below thumbnail (name is in featured image) */
+.single-acj_artist .wp-block-newspack-blocks-homepage-articles .entry-title {
+  display: none !important;
+}
+.single-tribe_events .wp-block-newspack-blocks-homepage-articles .entry-title {
+  display: none !important;
+}
+
 /* Global: fix outline button hover so white-outline buttons stay white on dark backgrounds */
 .is-style-outline .wp-block-button__link.has-white-color:hover,
 .wp-block-button__link.is-style-outline.has-white-color:hover,
