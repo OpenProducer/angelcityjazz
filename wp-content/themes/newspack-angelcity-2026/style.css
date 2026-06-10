@@ -772,6 +772,13 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   display: none !important;
 }
 
+/* Event hero: hide city/state and address delimiter */
+.single-tribe_events .event-header .tribe-locality,
+.single-tribe_events .event-header .tribe-region,
+.single-tribe_events .event-header .tribe-address .tribe-delimiter {
+  display: none !important;
+}
+
 /* Event hero: hide the <br> between street address and city — street address is
    display:none but the BR still renders a blank line without this rule */
 .single-tribe_events .event-header .tribe-block__venue__address br {
