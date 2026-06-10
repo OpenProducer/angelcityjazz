@@ -400,20 +400,12 @@ add_action('init', function () {
         'public'       => true,
         'has_archive'  => true,
         'show_in_rest' => true,
-        'supports'     => ['title', 'editor', 'thumbnail', 'excerpt'],
+        'supports'     => ['title', 'editor', 'thumbnail', 'excerpt', 'newspack_blocks'],
         'menu_icon'    => 'dashicons-groups',
         'rewrite'      => ['slug' => 'artist'],
         'taxonomies'   => ['post_tag', 'category'],
     ]);
 });
-
-/**
- * Add acj_artist post type support to Newspack Content Loop block
- */
-add_filter( 'newspack_blocks_homepage_posts_post_types', function( $post_types ) {
-    $post_types['acj_artist'] = get_post_type_object( 'acj_artist' );
-    return $post_types;
-} );
 
 
 //
