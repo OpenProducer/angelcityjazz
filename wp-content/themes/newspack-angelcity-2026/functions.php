@@ -403,6 +403,7 @@ add_action('init', function () {
         'supports'     => ['title', 'editor', 'thumbnail', 'excerpt'],
         'menu_icon'    => 'dashicons-groups',
         'rewrite'      => ['slug' => 'artist'],
+        'taxonomies'   => ['post_tag', 'category'],
     ]);
 });
 
@@ -414,41 +415,6 @@ add_filter( 'newspack_blocks_homepage_posts_post_types', function( $post_types )
     return $post_types;
 } );
 
-//
-// 🏷 Register acj_performance taxonomy (shared between acj_artist and tribe_events)
-//
-add_action('init', function () {
-    register_taxonomy('acj_performance', ['acj_artist', 'tribe_events'], [
-        'labels' => [
-            'name'              => 'Performances',
-            'singular_name'     => 'Performance',
-            'search_items'      => 'Search Performances',
-            'all_items'         => 'All Performances',
-            'edit_item'         => 'Edit Performance',
-            'update_item'       => 'Update Performance',
-            'add_new_item'      => 'Add New Performance',
-            'new_item_name'     => 'New Performance Name',
-            'menu_name'         => 'Performances',
-        ],
-        'public'       => true,
-        'show_in_rest' => true,
-        'rest_base'    => 'acj_performance',
-        'hierarchical' => false,
-        'rewrite'      => ['slug' => 'performance'],
-    ]);
-});
-
-add_filter( 'rest_acj_performance_query', function( $args, $request ) {
-    return $args;
-}, 10, 2 );
-
-add_filter( 'block_editor_settings_all', function( $settings ) {
-    $settings['acj_performance'] = get_terms( [
-        'taxonomy'   => 'acj_performance',
-        'hide_empty' => false,
-    ] );
-    return $settings;
-} );
 
 //
 // 🧩 Pattern markup — referenced by both register_block_pattern and default_content filter
