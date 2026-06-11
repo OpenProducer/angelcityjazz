@@ -5,7 +5,7 @@
  Author:         OpenProducer
  Author URI:     https://www.openproducer.org/
  Template:       newspack-theme
- Version:        1.0.0
+ Version:        1.1.0
 */
 
 /*--------------------------------------------------------------
@@ -37,6 +37,7 @@
 # Layout - Shop / WooCommerce Landing Page
 
 */
+
 
 /*--------------------------------------------------------------
 # Colors (Base Variables)
@@ -622,10 +623,40 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   margin-bottom: 0;
 }
 
+/* Top-align hero columns so right column starts flush with image top */
+.single-tribe_events .event-header .wp-block-columns,
+.single-acj_artist .event-header .wp-block-columns {
+  align-items: flex-start;
+}
+
+/* Artist hero: gap between image column and right detail column */
+.single-acj_artist .event-header .wp-block-columns {
+  gap: 2rem !important;
+}
+
+/* Featured image: bleed to hero edges, no gap */
+.single-tribe_events .event-header .wp-block-post-featured-image {
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.single-tribe_events .event-header .wp-block-post-featured-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
 /* Event page hero title color fallback — pattern sets textColor:"white" which adds
    has-white-color, but theme heading selectors can override at higher specificity. */
 .single-tribe_events .event-header .wp-block-post-title {
   color: white;
+  font-size: 1.4rem !important;
+  line-height: 1.2 !important;
+  margin-bottom: 0.25rem !important;
+  font-weight: 700;
 }
 
 /* Hide the empty PHP entry-header that newspack single.php renders on event pages;
@@ -765,9 +796,17 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   }
 }
 
+/* Hide end time from event-datetime block in hero */
+.single-tribe_events .event-header .tribe-events-schedule__separator--time,
+.single-tribe_events .event-header .tribe-events-schedule__time--end {
+    display: none !important;
+}
+
+
 /* Event detail venue - fontsize, color and spacing */
 .single-tribe_events .tribe-block__venue {
-  font-size: inherit;
+  font-size: 0.85rem;
+  line-height: 1.4;
   color: inherit;
   margin: 0;
   padding: 0;
@@ -820,6 +859,242 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   display: none;
 }
 
+/* Event hero: date/time spacing to match artist page */
+.single-tribe_events .event-header .tribe-events-schedule {
+  margin-bottom: 0.25rem;
+}
+
+/* Event hero: hide street address, zip, country, website — show city/state */
+.single-tribe_events .event-header .tribe-block__venue__address .tribe-street-address,
+.single-tribe_events .event-header .tribe-block__venue__address .tribe-zip,
+.single-tribe_events .event-header .tribe-block__venue__website,
+.single-tribe_events .event-header .tribe-block__venue__meta .tribe-zip,
+.single-tribe_events .event-header .tribe-block__venue__meta .tribe-country-name {
+  display: none !important;
+}
+
+/* Event hero: hide city/state and address delimiter */
+.single-tribe_events .event-header .tribe-locality,
+.single-tribe_events .event-header .tribe-region,
+.single-tribe_events .event-header .tribe-address .tribe-delimiter {
+  display: none !important;
+}
+
+/* Event hero: hide the <br> between street address and city — street address is
+   display:none but the BR still renders a blank line without this rule */
+.single-tribe_events .event-header .tribe-block__venue__address br {
+  display: none !important;
+}
+
+/* Event hero: match Buy Tickets button radius to artist page buttons */
+.single-tribe_events .event-header .wp-block-button .wp-block-button__link {
+  border-radius: 5px !important;
+}
+
+/* Event hero: city and state — visible, white, small */
+.single-tribe_events .event-header .tribe-block__venue__meta .tribe-city,
+.single-tribe_events .event-header .tribe-block__venue__meta .tribe-stateprovince {
+  display: inline !important;
+  color: #ffffff;
+  font-size: 0.85rem;
+}
+
+/* Event hero: Google Maps link */
+.single-tribe_events .event-header .tribe-block__venue__map-link {
+  display: block !important;
+  color: #ffffff !important;
+  font-size: 0.85rem;
+  margin-top: 0.1rem;
+}
+
+.single-tribe_events .event-header .tribe-block__venue__map-link a {
+  color: #ffffff !important;
+  text-decoration: underline;
+}
+
+/* Event hero: Buy Tickets button — gap above to separate from info block */
+.single-tribe_events .event-header .wp-block-jetpack-eventbrite {
+  margin-top: 0 !important;
+}
+
+.single-acj_artist .event-header .wp-block-buttons .wp-block-button__link {
+    border-radius: 4px !important;
+}
+
+/* Event hero: date/time size and spacing to match artist page */
+.single-tribe_events .event-header .tribe-events-schedule__datetime,
+.single-tribe_events .event-header .tribe-events-schedule__datetime * {
+  color: #ffffff !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  line-height: 1.45 !important;
+  margin-bottom: 0.15rem !important;
+}
+
+/* Event hero: venue name size and spacing */
+.single-tribe_events .event-header .tribe-block__venue__name h3,
+.single-tribe_events .event-header .tribe-block__venue__name h3 a {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  line-height: 1.45 !important;
+  margin-bottom: 0.15rem !important;
+}
+
+.single-tribe_events .event-header .tribe-block__venue__name h3 {
+  margin-top: 0;
+}
+
+.single-tribe_events .event-header .tribe-block__venue__name h3 a {
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+
+/* Event hero: tighten spacing between all detail elements */
+.single-tribe_events .event-header .wp-block-column > * {
+  margin-top: 0 !important;
+  margin-bottom: 0.2rem !important;
+}
+
+.single-tribe_events .event-header .tribe-block__venue,
+.single-tribe_events .event-header .tribe-block__event-price {
+  margin-top: 0 !important;
+  margin-bottom: 0.2rem !important;
+}
+
+.single-tribe_events .event-header .tribe-block__event-price {
+  font-size: 0.9rem;
+  padding-bottom: 0 !important;
+}
+
+
+.single-tribe_events .event-header .tribe-events-schedule abbr,
+.single-tribe_events .event-header .tribe-events-schedule__separator {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* Price positioning */
+.single-tribe_events .event-header .tribe-block__event-price {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* Schedule group heading matches FEATURING style */
+.single-tribe_events .event-header .wp-block-group p.has-small-font-size {
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    margin-top: 0 !important;
+    margin-bottom: 0.35rem !important;
+}
+
+/* Schedule list matches FEATURING list style */
+.single-tribe_events .event-header .wp-block-group ul {
+    font-size: 0.85rem !important;
+    list-style: disc !important;
+    padding-left: 1.25rem !important;
+    margin: 0 !important;
+}
+
+/* ── Event hero: venue name and address ── */
+.single-tribe_events .event-header .tribe-block__venue__location h2,
+.single-tribe_events .event-header .tribe-block__venue__location h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.1rem;
+}
+
+.single-tribe_events .event-header .tribe-block__venue__location address,
+.single-tribe_events .event-header .tribe-block__venue__location p {
+    font-size: 0.9rem;
+    color: #ffffff;
+    margin-bottom: 0;
+}
+
+/* ── Venue link: no underline default / underline on hover ── */
+.single-tribe_events .event-header .tribe-block__venue__location a,
+.single-tribe_events .event-header .tribe-block__venue__website a {
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+.single-tribe_events .event-header .tribe-block__venue__location a:hover,
+.single-tribe_events .event-header .tribe-block__venue__website a:hover {
+    text-decoration: underline !important;
+}
+
+.single-tribe_events .event-header .tribe-block__venue__location h2 a,
+.single-tribe_events .event-header .tribe-block__venue__location h3 a,
+.single-tribe_events .event-header .tribe-venue .tribe-venue__name a {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-weight: 700;
+}
+.single-tribe_events .event-header .tribe-block__venue__location h2 a:hover,
+.single-tribe_events .event-header .tribe-block__venue__location h3 a:hover,
+.single-tribe_events .event-header .tribe-venue .tribe-venue__name a:hover {
+    text-decoration: underline !important;
+}
+
+/* ── Google Maps link: underlined / no underline on hover ── */
+.single-tribe_events .event-header .tribe-block__venue__map a {
+    color: #ffffff !important;
+    text-decoration: underline !important;
+    font-size: 0.85rem;
+}
+.single-tribe_events .event-header .tribe-block__venue__map a:hover {
+    text-decoration: none !important;
+}
+
+/* ── Price: move below venue, reduce size ── */
+.single-tribe_events .event-header .tribe-block__event-price {
+    order: 3;
+    font-size: 0.9rem;
+    color: #ffffff;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* ── Schedule group: match FEATURING style on artist page ── */
+.single-tribe_events .event-header .wp-block-group p.has-small-font-size {
+    font-size: 0.75rem !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.single-tribe_events .event-header .wp-block-group .wp-block-list {
+    font-size: 0.85rem;
+    margin-top: 0;
+    padding-left: 1.25rem;
+}
+
+/* Event lineup section (has-secondary-variation-background-color) */
+.single-tribe_events .has-secondary-variation-background-color {
+  border-top: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.single-tribe_events .has-secondary-variation-background-color .wp-block-buttons {
+  margin-top: 0.5em;
+}
+
+.single-tribe_events .has-secondary-variation-background-color .wp-block-button__link {
+  background: transparent !important;
+  border: 2px solid #ffffff !important;
+  color: #ffffff !important;
+}
+
+.single-tribe_events .has-secondary-variation-background-color .wp-block-button__link:hover {
+  background: #ffffff !important;
+  color: #D05730 !important;
+}
+
 /* Event price styling */
 .single-tribe_events .tribe-block.tribe-block__event-price .tribe-block__event-price__cost,
 .tribe-block__event-price .tribe-block__event-price__description {
@@ -863,6 +1138,49 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
 /* Remove Jetpack video margins */
 .single-tribe_events .wp-block-columns .wp-block-column .jetpack-video-wrapper {
   margin: 0;
+}
+
+/* Remove default ul/ol indent in schedule columns so content aligns with column header */
+.single-tribe_events .entry-content .wp-block-columns ul,
+.single-tribe_events .entry-content .wp-block-columns ol {
+  padding-left: 0;
+  margin-left: 0;
+  list-style: none;
+}
+
+/* Remove left offset from event-lineup columns block and first column; set row spacing */
+.single-tribe_events .event-lineup .wp-block-columns {
+  padding-left: 0;
+  margin-left: 0;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.single-tribe_events .event-lineup .wp-block-columns .wp-block-column:first-child {
+  padding-left: 0;
+}
+
+
+/* Event lineup: natural aspect ratio for artist images (no forced cropping) */
+.single-tribe_events .event-lineup .wp-block-newspack-blocks-homepage-articles .post-thumbnail,
+.single-tribe_events .event-lineup .wp-block-newspack-blocks-homepage-articles figure.post-thumbnail {
+  height: auto !important;
+  aspect-ratio: auto !important;
+}
+
+.single-tribe_events .event-lineup .wp-block-newspack-blocks-homepage-articles .post-thumbnail img {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: fill !important;
+  display: block;
+}
+
+/* Event lineup: More Info / View Artist button sizing */
+.single-tribe_events .event-lineup .wp-block-button__link {
+  font-size: 1rem !important;
+  border-radius: 4px !important;
 }
 
 /* Bio group padding and margins */
@@ -1450,12 +1768,16 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   overflow: visible;
 }
 
-/* Reset primary area constraints */
+/* Make #primary full-width, matching event pages (which use post-template-single-wide).
+   max-width: none overrides Newspack's default content-area constraint so the hero
+   bleeds edge to edge. Gutenberg's is-layout-constrained CSS handles inner content
+   width for the sections below the hero independently. */
 .single-acj_artist #primary {
   margin: 0;
   padding: 0;
-  max-width: 100%;
   box-sizing: border-box;
+  max-width: none !important;
+  width: 100%;
 }
 
 /* Match the event page hero column width.
@@ -1468,11 +1790,6 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   margin-right: auto;
 }
 
-.single-acj_artist #primary.content-area {
-  max-width: 100%;
-  width: 100%;
-}
-
 
 /* ---- Block content below hero ------------------------------------------ */
 
@@ -1482,6 +1799,19 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   width: 100%;
   padding: 0;
   margin: 0;
+}
+
+/* Constrain inner content of non-hero sections.
+   --wp--style--global--content-size is not set on this install, so Gutenberg's
+   is-layout-constrained CSS resolves to max-width: none. Newspack's equivalent
+   rule only fires on post-template-single-wide (event pages), not artist pages.
+   This rule mirrors what Newspack applies on event pages. */
+.single-acj_artist .entry-content .wp-block-group.alignfull:not(.event-header) .wp-block-group__inner-container {
+  max-width: var(--wp--style--global--content-size, 1200px);
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 /* Remove parent-theme 32px top/bottom margin on direct content children,
@@ -1616,6 +1946,161 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   display: none;
 }
 
+/* Artist hero: hide post title (artist name shown via page title, not repeating in hero) */
+.single-acj_artist .event-header .wp-block-post-title {
+  display: none;
+}
+
+/* Remove margin from the group wrapping the hidden post title */
+.single-acj_artist .event-header .wp-block-group:has(.wp-block-post-title) {
+  margin-bottom: 0 !important;
+}
+
+/* Artist hero: remove top margin on featured image so it top-aligns with event page */
+.single-acj_artist .event-header .wp-block-columns .wp-block-column:first-child {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+/* Artist hero: remove top gap on right column so "APPEARING ON" aligns with hero top */
+.single-acj_artist .event-header .wp-block-column:last-child {
+  padding-top: 0 !important;
+}
+
+.single-acj_artist .event-header .wp-block-column:last-child > *:first-child {
+  margin-top: 0 !important;
+}
+
+.single-acj_artist .event-header .wp-block-post-featured-image,
+.single-acj_artist .event-header .wp-block-column:first-child .wp-block-post-featured-image,
+.single-acj_artist .event-header .wp-block-column:first-child figure {
+  margin: 0 !important;
+  padding: 0;
+  line-height: 0;
+  display: block;
+}
+
+.single-acj_artist .event-header .wp-block-post-featured-image img,
+.single-acj_artist .event-header .wp-block-column:first-child figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 !important;
+  padding: 0;
+}
+
+/* Artist hero: buttons side by side */
+.single-acj_artist .event-header .wp-block-buttons {
+  display: flex !important;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.single-tribe_events .event-header .wp-block-buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+}
+
+/* Artist hero: featuring list — remove default indent */
+.single-acj_artist .event-header ul {
+  padding-left: 0;
+  list-style-position: inside;
+  margin-top: 0.25rem;
+}
+
+.single-acj_artist .event-header ul li {
+  margin-bottom: 0.1rem;
+}
+
+/* Artist hero: tighten right-column element spacing */
+.single-acj_artist .event-header .wp-block-column p,
+.single-acj_artist .event-header .wp-block-column h2,
+.single-acj_artist .event-header .wp-block-column h3 {
+  margin-bottom: 0.25rem;
+}
+
+/* Artist hero: "Featuring:" label — match section header style */
+.single-acj_artist .event-header .wp-block-column p.has-small-font-size {
+  font-size: 0.75rem !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Artist hero: hide event title from homepage-articles block (showTitle:false not supported) */
+.single-acj_artist .event-header .wp-newspack-blocks-content .entry-title,
+.single-acj_artist .event-header .entry-title,
+.single-acj_artist .event-header h2.entry-title,
+.single-acj_artist .event-header h3.entry-title {
+  display: none !important;
+}
+
+/* Artist hero: force Eventbrite button to match outline style */
+.single-acj_artist .event-header .wp-block-jetpack-eventbrite .wp-block-button__link {
+  background-color: transparent !important;
+  border: 2px solid #ffffff !important;
+  color: #ffffff !important;
+  width: auto !important;
+}
+
+/* Artist hero: Eventbrite button hover state */
+.single-acj_artist .event-header .wp-block-jetpack-eventbrite .wp-block-button__link:hover {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.single-acj_artist .event-header .wp-block-group__inner-container > * {
+    margin-top: 0 !important;
+}
+
+.single-tribe_events .event-header .wp-block-group__inner-container > * {
+    margin-top: 0 !important;
+}
+
+/* Artist page: Related Artists image sizing — 16:9, full-width, cover crop */
+.single-acj_artist .wp-block-newspack-blocks-homepage-articles figure img,
+.single-acj_artist .wp-block-newspack-blocks-homepage-articles .post-thumbnail img {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9 !important;
+  object-fit: cover !important;
+}
+
+/* Artist page: Related Artists title size (outside hero context) */
+.single-acj_artist .wp-block-newspack-blocks-homepage-articles h3,
+.single-acj_artist .wp-block-newspack-blocks-homepage-articles .entry-title {
+  font-size: 0.9rem !important;
+  line-height: 1.3 !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+/* Related artists/lineup: hide text title below thumbnail (name is in featured image) */
+.single-acj_artist .wp-block-newspack-blocks-homepage-articles .entry-title {
+  display: none !important;
+}
+.single-tribe_events .wp-block-newspack-blocks-homepage-articles .entry-title {
+  display: none !important;
+}
+
+/* Global: fix outline button hover so white-outline buttons stay white on dark backgrounds */
+.is-style-outline .wp-block-button__link.has-white-color:hover,
+.wp-block-button__link.is-style-outline.has-white-color:hover,
+.wp-block-button.is-style-outline .wp-block-button__link.has-white-color:hover {
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+.wp-block-jetpack-eventbrite .wp-block-button__link.is-style-outline:hover,
+.wp-block-jetpack-button.is-style-outline .wp-block-button__link:hover {
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
 .single-tribe_events .entry-content .wp-block-group.alignfull.has-white-background-color > .wp-block-group__inner-container > .wp-block-columns.alignfull > .wp-block-column.has-secondary-variation-background-color > .wp-block-columns.has-light-gray-background-color a {
   color: var(--newspack-theme-color-secondary) !important;
   text-decoration-line: underline !important;
@@ -1640,4 +2125,20 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 .event-header .tribe-editor__event-price__cost,
 .event-header .tribe-editor__event-price__description {
   color: #111111;
+}
+
+/* ── Event page: hero TEC block consistency ── */
+.single-tribe_events .tribe-events-single .tribe-event-url,
+.single-tribe_events .tribe-block__venue__location,
+.single-tribe_events .tribe-block__venue__website {
+    color: #ffffff;
+}
+
+.single-tribe_events .event-lineup .more-link {
+    text-decoration: underline !important;
+    color: #ffffff !important;
+}
+
+.single-tribe_events .event-lineup .more-link:hover {
+    text-decoration: none !important;
 }

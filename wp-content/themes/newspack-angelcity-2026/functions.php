@@ -25,10 +25,30 @@ function newspack_angelcity_2026_enqueue_styles() {
 }
 add_action('wp_enqueue_scripts', 'newspack_angelcity_2026_enqueue_styles', 20);
 
+
 //
 // 🗓 Remove end time from The Events Calendar schedule output
 //
 add_filter('tribe_events_event_schedule_details_formatting', fn($settings) => array_merge($settings, ['time' => false]));
+
+// Default _EventShowMapLink to enabled for all tribe_events posts.
+// The TEC block editor doesn't reliably write this meta on save, so without this
+// filter new events silently suppress the Google Maps link in the venue block.
+// Respects an explicit '0' — only substitutes when the meta is absent or empty.
+// Static guard prevents recursion since get_post_meta() re-enters this filter.
+add_filter('get_post_metadata', function($value, $post_id, $meta_key, $single) {
+    static $in_filter = false;
+    if ($meta_key !== '_EventShowMapLink') return $value;
+    if ($value !== null) return $value;
+    if ($in_filter) return $value;
+    $in_filter = true;
+    $stored = get_post_meta($post_id, '_EventShowMapLink', true);
+    $in_filter = false;
+    if ($stored === '' || $stored === false) {
+        return $single ? '1' : ['1'];
+    }
+    return $value;
+}, 5, 4);
 
 //
 // Fix specificMode WP_Query for tribe_events in the Content Loop block.
@@ -380,55 +400,13 @@ add_action('init', function () {
         'public'       => true,
         'has_archive'  => true,
         'show_in_rest' => true,
-        'supports'     => ['title', 'editor', 'thumbnail', 'excerpt'],
+        'supports'     => ['title', 'editor', 'thumbnail', 'excerpt', 'newspack_blocks'],
         'menu_icon'    => 'dashicons-groups',
         'rewrite'      => ['slug' => 'artist'],
+        'taxonomies'   => ['post_tag', 'category'],
     ]);
 });
 
-/**
- * Add acj_artist post type support to Newspack Content Loop block
- */
-add_filter( 'newspack_blocks_homepage_posts_post_types', function( $post_types ) {
-    $post_types['acj_artist'] = get_post_type_object( 'acj_artist' );
-    return $post_types;
-} );
-
-//
-// 🏷 Register acj_performance taxonomy (shared between acj_artist and tribe_events)
-//
-add_action('init', function () {
-    register_taxonomy('acj_performance', ['acj_artist', 'tribe_events'], [
-        'labels' => [
-            'name'              => 'Performances',
-            'singular_name'     => 'Performance',
-            'search_items'      => 'Search Performances',
-            'all_items'         => 'All Performances',
-            'edit_item'         => 'Edit Performance',
-            'update_item'       => 'Update Performance',
-            'add_new_item'      => 'Add New Performance',
-            'new_item_name'     => 'New Performance Name',
-            'menu_name'         => 'Performances',
-        ],
-        'public'       => true,
-        'show_in_rest' => true,
-        'rest_base'    => 'acj_performance',
-        'hierarchical' => false,
-        'rewrite'      => ['slug' => 'performance'],
-    ]);
-});
-
-add_filter( 'rest_acj_performance_query', function( $args, $request ) {
-    return $args;
-}, 10, 2 );
-
-add_filter( 'block_editor_settings_all', function( $settings ) {
-    $settings['acj_performance'] = get_terms( [
-        'taxonomy'   => 'acj_performance',
-        'hide_empty' => false,
-    ] );
-    return $settings;
-} );
 
 //
 // 🧩 Pattern markup — referenced by both register_block_pattern and default_content filter
@@ -436,81 +414,101 @@ add_filter( 'block_editor_settings_all', function( $settings ) {
 function acj_artist_page_pattern_content(): string {
     return <<<'PATTERN'
 <!-- wp:group {"align":"full","className":"event-header","backgroundColor":"secondary","textColor":"white"} -->
-<div class="wp-block-group alignfull event-header has-white-color has-secondary-background-color has-text-color has-background"><!-- wp:post-title /-->
+<div class="wp-block-group alignfull event-header has-white-color has-secondary-background-color has-text-color has-background"><!-- wp:post-title {"textColor":"white"} /-->
 
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"65%"} -->
-<div class="wp-block-column" style="flex-basis:65%"><!-- wp:post-featured-image /-->
-</div>
+<div class="wp-block-column" style="flex-basis:65%"><!-- wp:post-featured-image {"sizeSlug":"large"} /--></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"35%"} -->
 <div class="wp-block-column" style="flex-basis:35%"><!-- wp:paragraph {"style":{"typography":{"fontStyle":"normal","fontWeight":"700","textTransform":"uppercase","fontSize":"0.75rem","letterSpacing":"0.1em"}},"textColor":"white"} -->
-<p class="has-white-color has-text-color" style="font-size:0.75rem;font-style:normal;font-weight:700;letter-spacing:0.1em;text-transform:uppercase">Performing on</p>
+<p class="has-white-color has-text-color" style="font-size:0.75rem;font-style:normal;font-weight:700;letter-spacing:0.1em;text-transform:uppercase">Appearing on</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:newspack-blocks/homepage-articles {"specificMode":true,"specificPosts":[],"postType":["tribe_events"],"showImage":false,"showExcerpt":false,"showAuthor":false,"showDate":true,"showCategory":false,"typeScale":3,"imageScale":1} /-->
-</div>
+<!-- wp:newspack-blocks/homepage-articles {"showExcerpt":false,"showImage":false,"showAuthor":false,"showTitle":false,"postsToShow":3,"specificPosts":[],"specificMode":true,"showReadMoreLink":true,"readMoreLabel":"More Info","typeScale":3,"imageScale":4,"postType":["tribe_events"]} /-->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">Event Info</a></div>
+<!-- /wp:button -->
+
+<!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">Buy Tickets</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:paragraph {"fontSize":"small","textColor":"white"} -->
+<p class="has-white-color has-text-color has-small-font-size">Featuring:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"textColor":"white"} -->
+<ul class="wp-block-list has-white-color has-text-color"><!-- wp:list-item {"fontSize":"small"} -->
+<li class="has-small-font-size">Musician Name – instrument</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item {"fontSize":"small"} -->
+<li class="has-small-font-size">Musician Name – instrument</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"align":"full","backgroundColor":"white"} -->
-<div class="wp-block-group alignfull has-white-background-color has-background"><!-- wp:columns -->
-<div class="wp-block-columns"><!-- wp:column {"style":{"spacing":{"padding":{"top":"20px","right":"20px","bottom":"20px","left":"20px"}}},"backgroundColor":"secondary-variation"} -->
-<div class="wp-block-column has-secondary-variation-background-color has-background" style="padding-top:20px;padding-right:20px;padding-bottom:20px;padding-left:20px"><!-- wp:paragraph {"align":"center","textColor":"white"} -->
-<p class="has-text-align-center has-white-color has-text-color"><strong>LINE UP</strong></p>
-<!-- /wp:paragraph -->
+<!-- wp:group {"align":"full","style":{"color":{"background":"#e9e2d9"}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull has-background" style="background-color:#e9e2d9"><!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700","textTransform":"uppercase","fontSize":"0.75rem","letterSpacing":"0.1em"},"color":{"text":"#c8392b"}}} -->
+<h3 class="wp-block-heading has-text-color" style="color:#c8392b;font-size:0.75rem;font-style:normal;font-weight:700;letter-spacing:0.1em;text-transform:uppercase">About</h3>
+<!-- /wp:heading -->
 
-<!-- wp:paragraph {"align":"center","textColor":"white"} -->
-<p class="has-text-align-center has-white-color has-text-color">Artist Name – instrument<br><strong>Artist Name</strong> – instrument</p>
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column {"width":"55%"} -->
+<div class="wp-block-column" style="flex-basis:55%"><!-- wp:paragraph -->
+<p>Add artist/ensemble bio here</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
-<!-- wp:column {"style":{"spacing":{"padding":{"top":"20px","right":"20px","bottom":"20px","left":"20px"}}},"backgroundColor":"primary","textColor":"white"} -->
-<div class="wp-block-column has-white-color has-primary-background-color has-text-color has-background" style="padding-top:20px;padding-right:20px;padding-bottom:20px;padding-left:20px"><!-- wp:paragraph {"style":{"elements":{"link":{"color":{"text":"var:preset|color|white"}}}},"textColor":"white"} -->
-<p class="has-white-color has-text-color has-link-color">Performance description and context.</p>
-<!-- /wp:paragraph -->
+<!-- wp:column {"width":"45%"} -->
+<div class="wp-block-column" style="flex-basis:45%"><!-- wp:quote {"className":"is-style-large","backgroundColor":"light-gray"} -->
+<blockquote class="wp-block-quote is-style-large has-light-gray-background-color has-background"><!-- wp:paragraph -->
+<p><em>"Add pull quote here"</em></p>
+<!-- /wp:paragraph --><cite>— Attribution</cite></blockquote>
+<!-- /wp:quote -->
 
-<!-- wp:quote {"textColor":"white"} -->
-<blockquote class="wp-block-quote has-white-color has-text-color"><!-- wp:paragraph {"textColor":"white"} -->
-<p class="has-white-color has-text-color">"A great quote about the performance."</p>
-<!-- /wp:paragraph --><cite>– Source</cite></blockquote>
-<!-- /wp:quote --></div>
+<!-- wp:social-links {"size":"has-normal-icon-size","openInNewTab":true,"style":{"color":{"text":"#111111"}},"layout":{"type":"flex","justifyContent":"center"}} -->
+<ul class="wp-block-social-links has-normal-icon-size has-text-color is-layout-flex wp-block-social-links-is-layout-flex is-content-justification-center" style="color:#111111"><!-- wp:social-link {"url":"","service":"instagram"} /-->
+
+<!-- wp:social-link {"url":"","service":"chain"} /--></ul>
+<!-- /wp:social-links --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"align":"full","className":"video","backgroundColor":"light-gray"} -->
-<div class="wp-block-group alignfull video has-light-gray-background-color has-background"><!-- wp:columns -->
+<!-- wp:group {"align":"full","style":{"color":{"background":"#2D398B"}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull has-background" style="background-color:#2D398B"><!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700","textTransform":"uppercase","fontSize":"0.75rem","letterSpacing":"0.1em"},"color":{"text":"#f0a830"}}} -->
+<h3 class="wp-block-heading has-text-color" style="color:#f0a830;font-size:0.75rem;font-style:normal;font-weight:700;letter-spacing:0.1em;text-transform:uppercase">Watch and Listen</h3>
+<!-- /wp:heading -->
+
+<!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:embed {"url":"https://www.youtube.com/watch?v=","type":"video","providerNameSlug":"youtube","responsive":true,"className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
-<figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
-https://www.youtube.com/watch?v=
-</div></figure>
-<!-- /wp:embed --></div>
+<div class="wp-block-column"><!-- wp:embed /--></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:embed {"url":"https://www.youtube.com/watch?v=","type":"video","providerNameSlug":"youtube","responsive":true,"className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
-<figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
-https://www.youtube.com/watch?v=
-</div></figure>
-<!-- /wp:embed --></div>
+<div class="wp-block-column"><!-- wp:embed /--></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:embed /--></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"align":"full","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull"><!-- wp:media-text {"align":"full","mediaPosition":"right","mediaType":"image","mediaWidth":39,"imageFill":true,"backgroundColor":"primary","textColor":"white"} -->
-<div class="wp-block-media-text alignfull has-media-on-the-right is-stacked-on-mobile is-image-fill-element has-white-color has-primary-background-color has-text-color has-background" style="grid-template-columns:auto 39%"><div class="wp-block-media-text__content"><!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">About the Artist</h3>
+<!-- wp:group {"align":"full","style":{"color":{"background":"#e9e2d9"}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull has-background" style="background-color:#e9e2d9"><!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700","textTransform":"uppercase","fontSize":"0.75rem","letterSpacing":"0.1em"},"color":{"text":"#c8392b"}}} -->
+<h3 class="wp-block-heading has-text-color" style="color:#c8392b;font-size:0.75rem;font-style:normal;font-weight:700;letter-spacing:0.1em;text-transform:uppercase">Related Artists</h3>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"textColor":"white"} -->
-<p class="has-white-color has-text-color">Artist biography goes here.</p>
-<!-- /wp:paragraph --></div><figure class="wp-block-media-text__media"></figure></div>
-<!-- /wp:media-text --></div>
+<!-- wp:newspack-blocks/homepage-articles {"showExcerpt":false,"readMoreLabel":"View Artist","showDate":false,"imageShape":"uncropped","showAuthor":false,"postLayout":"grid","columns":4,"colGap":2,"postsToShow":4,"specificPosts":[],"specificMode":true,"typeScale":3,"imageScale":4,"postType":["acj_artist"]} /--></div>
 <!-- /wp:group -->
 PATTERN;
 }
@@ -528,50 +526,100 @@ add_action('init', function () {
 function acj_event_page_pattern_content(): string {
     return <<<'PATTERN'
 <!-- wp:group {"align":"full","className":"event-header","backgroundColor":"secondary","textColor":"white"} -->
-<div class="wp-block-group alignfull event-header has-white-color has-secondary-background-color has-text-color has-background"><!-- wp:post-title {"level":2} /-->
-
-<!-- wp:columns -->
+<div class="wp-block-group alignfull event-header has-white-color has-secondary-background-color has-text-color has-background"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"65%"} -->
 <div class="wp-block-column" style="flex-basis:65%"><!-- wp:post-featured-image /--></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"35%"} -->
-<div class="wp-block-column" style="flex-basis:35%"><!-- wp:tribe/event-datetime /-->
+<div class="wp-block-column" style="flex-basis:35%"><!-- wp:post-title {"level":3} /-->
+
+<!-- wp:tribe/event-datetime /-->
 
 <!-- wp:tribe/event-venue /-->
 
-<!-- wp:tribe/event-price /--></div>
+<!-- wp:tribe/event-price /-->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">Buy Tickets</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+</div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
 <!-- /wp:group -->
 
-<!-- wp:group {"align":"full","backgroundColor":"white"} -->
-<div class="wp-block-group alignfull has-white-background-color has-background"><!-- wp:columns {"align":"full"} -->
-<div class="wp-block-columns alignfull"><!-- wp:column {"style":{"spacing":{"padding":{"top":"20px","right":"20px","bottom":"20px","left":"20px"}}},"backgroundColor":"secondary-variation"} -->
-<div class="wp-block-column has-secondary-variation-background-color has-background" style="padding-top:20px;padding-right:20px;padding-bottom:20px;padding-left:20px"><!-- wp:columns {"backgroundColor":"light-gray"} -->
-<div class="wp-block-columns has-light-gray-background-color has-background"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:paragraph -->
-<p>7:30pm | Doors</p>
-<!-- /wp:paragraph --></div>
+<!-- wp:group {"align":"full","className":"event-lineup","style":{"elements":{"link":{"color":{"text":"var:preset|color|white"}}}},"backgroundColor":"primary-variation","textColor":"white","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull event-lineup has-white-color has-primary-variation-background-color has-text-color has-background has-link-color"><!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700","textTransform":"uppercase","fontSize":"0.75rem","letterSpacing":"0.1em"},"color":{"text":"#f0a830"}}} -->
+<h3 class="wp-block-heading has-text-color" style="color:#f0a830;font-size:0.75rem;font-style:normal;font-weight:700;letter-spacing:0.1em;text-transform:uppercase">SCHEDULE</h3>
+<!-- /wp:heading -->
+
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading {"level":4} -->
+<h4 class="wp-block-heading">8:00pm – Artist Name</h4>
+<!-- /wp:heading --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:paragraph -->
-<p>8:00pm | <a href="#">Artist Name</a></p>
-<!-- /wp:paragraph --></div>
+<div class="wp-block-column"><!-- wp:paragraph {"textColor":"white","fontSize":"small"} -->
+<p class="has-white-color has-text-color has-small-font-size">Placeholder artist description. A few sentences about the artist and what to expect from their performance at this event.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">More Info</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:paragraph -->
-<p>9:15pm | <a href="#">Artist Name</a></p>
-<!-- /wp:paragraph --></div>
+<div class="wp-block-column"><!-- wp:image -->
+<figure class="wp-block-image"><img alt=""/></figure>
+<!-- /wp:image --></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns --></div>
+<!-- /wp:columns -->
+
+<!-- wp:separator {"className":"is-style-wide"} -->
+<hr class="wp-block-separator has-alpha-channel-opacity is-style-wide"/>
+<!-- /wp:separator -->
+
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading {"level":4} -->
+<h4 class="wp-block-heading">9:30pm – Artist Name</h4>
+<!-- /wp:heading --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:paragraph {"textColor":"white","fontSize":"small"} -->
+<p class="has-white-color has-text-color has-small-font-size">Placeholder artist description. A few sentences about the artist and what to expect from their performance at this event.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
+<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">More Info</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:image -->
+<figure class="wp-block-image"><img alt=""/></figure>
+<!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
 <!-- /wp:group -->
 
-<!-- wp:tribe/related-events /-->
+<!-- wp:group {"align":"full","style":{"color":{"background":"#e9e2d9"}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull has-background" style="background-color:#e9e2d9"><!-- wp:heading {"level":3,"style":{"typography":{"fontStyle":"normal","fontWeight":"700","textTransform":"uppercase","fontSize":"0.75rem","letterSpacing":"0.1em"},"color":{"text":"#c8392b"}}} -->
+<h3 class="wp-block-heading has-text-color" style="color:#c8392b;font-size:0.75rem;font-style:normal;font-weight:700;letter-spacing:0.1em;text-transform:uppercase">Related Events</h3>
+<!-- /wp:heading -->
+
+<!-- wp:newspack-blocks/homepage-articles {"showExcerpt":false,"showAuthor":false,"postLayout":"grid","columns":4,"colGap":2,"postsToShow":4,"typeScale":3,"imageScale":4,"postType":["tribe_events"]} /--></div>
+<!-- /wp:group -->
 PATTERN;
 }
 
