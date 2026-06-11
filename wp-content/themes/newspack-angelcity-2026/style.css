@@ -677,96 +677,6 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   display: none;
 }
 
-/* Event hero: CSS grid — two-column layout (image 65% | details 35%).
-   The post-title block is hidden; the title is output at the top of the
-   right column by event-datetime.php so the order is naturally:
-   title → date/time → venue → price → button. */
-@media (min-width: 782px) {
-  .single-tribe_events .event-header {
-    display: grid;
-    grid-template-columns: 65% 35%;
-  }
-
-  /* Hide the standalone block — title comes from event-datetime.php */
-  .single-tribe_events .event-header > .wp-block-post-title {
-    display: none;
-  }
-
-  /* Flatten the columns wrapper into the parent grid */
-  .single-tribe_events .event-header > .wp-block-columns {
-    display: contents;
-  }
-
-  /* Image: left column */
-  .single-tribe_events .event-header > .wp-block-columns > .wp-block-column:first-child {
-    grid-column: 1;
-    grid-row: 1;
-    overflow: hidden;
-  }
-
-  .single-tribe_events .event-header > .wp-block-columns > .wp-block-column:first-child .wp-block-post-featured-image {
-    height: 100%;
-    margin: 0;
-  }
-
-  .single-tribe_events .event-header > .wp-block-columns > .wp-block-column:first-child .wp-block-post-featured-image img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  /* Details: right column, same row as image */
-  .single-tribe_events .event-header > .wp-block-columns > .wp-block-column:last-child {
-    grid-column: 2;
-    grid-row: 1;
-    padding: 20px;
-  }
-}
-
-/* Mobile: image (row 1) → details with title (row 2) */
-@media (max-width: 781px) {
-  .single-tribe_events .event-header {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-
-  .single-tribe_events .event-header > .wp-block-post-title {
-    display: none;
-  }
-
-  .single-tribe_events .event-header > .wp-block-columns {
-    display: contents;
-  }
-
-  .single-tribe_events .event-header > .wp-block-columns > .wp-block-column:first-child {
-    grid-row: 1;
-    grid-column: 1;
-  }
-
-  .single-tribe_events .event-header > .wp-block-columns > .wp-block-column:last-child {
-    grid-row: 2;
-    grid-column: 1;
-    padding: 16px;
-  }
-}
-
-/* Event hero title — output by event-datetime.php at the top of the right column.
-   Hidden outside .single-tribe_events .event-header so it doesn't bleed into
-   other TEC rendering contexts. */
-.event-hero__title {
-  display: none;
-}
-.single-tribe_events .event-header .event-hero__title {
-  display: block;
-  font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.7rem);
-  line-height: 1.15;
-  color: white;
-  margin: 0 0 8px;
-  padding: 0;
-  font-family: inherit;
-}
-
 /* Event detail date and time - background, margin, and padding */
 .single-tribe_events .tribe-events-schedule {
   margin: 0;
@@ -783,7 +693,7 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   font-weight: 700;
   color: white;
   margin-top: 0;
-  margin-bottom: 4px;
+  margin-bottom: 12px;
   padding: 0;
   background: inherit;
   border: none;
@@ -817,7 +727,7 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
 .single-tribe_events .tribe-block__venue .tribe-block__venue__meta .tribe-block__venue__name h3 {
   font-size: inherit;
   color: inherit;
-  margin: 0 0 2px;
+  margin: 0;
   padding: 0;
 }
 
@@ -835,28 +745,17 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   margin: 0;
 }
 
-/* Map link — sits immediately below the address, styled as a compact inline line */
-.single-tribe_events .event-header .tribe-block__venue__map-link {
-  display: block;
-  line-height: 1.3;
-  margin: 2px 0 4px;
-}
-
-/* Close the gap between the venue block and the price/paragraph that follows */
-.single-tribe_events .event-header .tribe-block__event-price {
-  margin-top: 0;
-  padding-top: 0;
-}
-
 /* Reduce top margin from venue links */
 .tribe-block__venue .tribe-block__venue__meta .tribe-block__venue__address a {
   margin-top: 0;
 }
 
-/* Venue website link — no longer rendered by venue.php (venue name links to
-   external URL directly); rule kept as guard against parent theme output */
+/* Venue website styling */
 .tribe-block__venue .tribe-block__venue__meta .tribe-block__venue__website {
-  display: none;
+  color: inherit;
+  line-height: 1.3;
+  letter-spacing: 0.13px;
+  margin: 0;
 }
 
 /* Event hero: date/time spacing to match artist page */
@@ -1104,10 +1003,9 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
   border: none;
 }
 
-/* Ticket button margins — larger top gap creates DICE.fm-style visual separation
-   between the compact info block above and the CTA */
+/* Ticket button margins */
 .event-header .wp-block-button {
-  margin: 28px 0 0;
+  margin: 24px 0;
 }
 
 /* Sponsors section margins */
