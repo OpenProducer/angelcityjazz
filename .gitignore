@@ -1,3 +1,17 @@
+# WordPress core and root files (managed by Pressable, not tracked in git) #
+##############################################################################
+wp-admin/
+wp-includes/
+wp-content/plugins/
+wp-content/jetpack-waf/
+wp-config.php
+wp-config-pressable.php
+index.php
+xmlrpc.php
+license.txt
+readme.html
+wp-*.php
+
 # WordPress #
 ############
 wp-config-local.php
