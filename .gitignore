@@ -4,13 +4,24 @@ wp-admin/
 wp-includes/
 wp-content/plugins/
 wp-content/jetpack-waf/
+wp-content/fonts/
 wp-config.php
 wp-config-pressable.php
+wp-config-pantheon.php
 index.php
 xmlrpc.php
 license.txt
 readme.html
 wp-*.php
+
+# Pantheon-specific (migrated to Pressable) #
+##############################################
+pantheon.upstream.yml
+pantheon.yml
+
+# Server-generated files #
+###########################
+.htaccess*
 
 # WordPress #
 ############
