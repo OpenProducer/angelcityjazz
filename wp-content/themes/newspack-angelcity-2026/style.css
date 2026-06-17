@@ -1887,19 +1887,26 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   padding: 0;
 }
 
-/* Artist hero: buttons side by side */
-.single-acj_artist .event-header .wp-block-buttons {
-  display: flex !important;
+/* Artist/event hero: Event Info + DICE "Buy Tickets" buttons side by side.
+   Both live in the same wp-block-column but as separate sibling blocks
+   (wp-block-buttons and the wp:html DICE block). Making them inline-flex
+   lets them flow on the same line within normal block formatting context. */
+.single-acj_artist .event-header .wp-block-column > .wp-block-buttons,
+.single-tribe_events .event-header .wp-block-column > .wp-block-buttons {
+  display: inline-flex !important;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 0.5rem;
+  width: auto;
+  vertical-align: top;
+  margin-right: 0.5rem;
 }
 
-.single-tribe_events .event-header .wp-block-buttons {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    gap: 0.5rem !important;
+.event-header .wp-block-column > .acj-dice-button {
+  display: inline-flex !important;
+  vertical-align: top;
+  margin-top: 24px !important;
+  margin-bottom: 24px !important;
 }
 
 /* Artist hero: featuring list — remove default indent */
@@ -2039,4 +2046,51 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 
 .single-tribe_events .event-lineup .more-link:hover {
     text-decoration: none !important;
+}
+
+/* =============================================
+   DICE overlay button
+   Supports .dice-widget-btn directly (Rocco's
+   paste workflow) and .acj-dice-button wrapper.
+   ============================================= */
+
+.dice-widget-btn,
+.acj-dice-button .dice-widget-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: 2px solid #ffffff;
+    border-radius: 5px;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: inherit;
+    font-size: 14.4px;
+    font-weight: 700;
+    line-height: 1.2;
+    padding: 11.68px 16px;
+    text-decoration: none;
+}
+
+/* Newspack's .wp-block-button.is-style-outline > .wp-block-button__link:not(.has-text-color) rule has
+   specificity (0,4,0) and overrides our base rule. This (0,5,0) selector beats it without !important. */
+.wp-block-button.is-style-outline.acj-dice-button > .wp-block-button__link.dice-widget-btn {
+    color: #ffffff;
+    border: 2px solid #ffffff;
+}
+
+.dice-widget-btn:hover,
+.dice-widget-btn:focus,
+.acj-dice-button .dice-widget-btn:hover,
+.acj-dice-button .dice-widget-btn:focus {
+    background: #111111;
+    border-color: #ffffff;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.acj-dice-button {
+    display: inline-flex;
+    margin: 0;
+    vertical-align: top;
 }

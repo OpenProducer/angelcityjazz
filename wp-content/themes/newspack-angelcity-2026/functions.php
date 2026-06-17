@@ -433,10 +433,17 @@ function acj_artist_page_pattern_content(): string {
 <div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">Event Info</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">Buy Tickets</a></div>
-<!-- /wp:button --></div>
+</div>
 <!-- /wp:buttons -->
+
+<!-- wp:html -->
+<div class="wp-block-button is-style-outline acj-dice-button">
+  <button class="wp-block-button__link wp-element-button dice-widget-btn" data-dice-id="YOUR-DICE-ID-HERE" type="button">
+    Buy Tickets
+  </button>
+</div>
+<div id="dice-overlay-widget"></div>
+<!-- /wp:html -->
 
 <!-- wp:paragraph {"fontSize":"small","textColor":"white"} -->
 <p class="has-white-color has-text-color has-small-font-size">Featuring:</p>
@@ -540,11 +547,14 @@ function acj_event_page_pattern_content(): string {
 
 <!-- wp:tribe/event-price /-->
 
-<!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"style":{"color":{"text":"#ffffff"},"border":{"radius":"0px"}},"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-text-color wp-element-button" href="#" style="color:#ffffff;border-radius:0px">Buy Tickets</a></div>
-<!-- /wp:button --></div>
-<!-- /wp:buttons -->
+<!-- wp:html -->
+<div class="wp-block-button is-style-outline acj-dice-button">
+  <button class="wp-block-button__link wp-element-button dice-widget-btn" data-dice-id="YOUR-DICE-ID-HERE" type="button">
+    Buy Tickets
+  </button>
+</div>
+<div id="dice-overlay-widget"></div>
+<!-- /wp:html -->
 
 </div>
 <!-- /wp:column --></div>
@@ -716,6 +726,159 @@ wp.domReady( function () {
 JS
     );
 } );
+
+// Pre-populate new acj_artist posts with the artist page pattern via JS.
+// Gutenberg creates auto-drafts through the REST API (bypassing default_content),
+// so we use the same wp.data.subscribe workaround as the tribe_events block above.
+add_action( 'enqueue_block_editor_assets', function () {
+    $screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+    if ( ! $screen || $screen->post_type !== 'acj_artist' ) {
+        return;
+    }
+
+    global $post;
+    if ( ! $post || $post->post_status !== 'auto-draft' ) {
+        return;
+    }
+
+    wp_register_script(
+        'acj-artist-page-defaults',
+        false,
+        [ 'wp-blocks', 'wp-data', 'wp-dom-ready' ],
+        null,
+        true
+    );
+    wp_enqueue_script( 'acj-artist-page-defaults' );
+
+    wp_localize_script( 'acj-artist-page-defaults', 'acjArtistPageData', [
+        'content' => acj_artist_page_pattern_content(),
+    ] );
+
+    wp_add_inline_script( 'acj-artist-page-defaults', <<<'JS'
+wp.domReady( function () {
+    var data = window.acjArtistPageData;
+    if ( ! data || ! data.content ) return;
+
+    var replaced = false;
+
+    var unsubscribe = wp.data.subscribe( function () {
+        if ( replaced ) return;
+
+        var editor = wp.data.select( 'core/editor' );
+        if ( ! editor ) return;
+
+        // Bail if this is not a new auto-draft (e.g. user opened an existing artist).
+        var status = editor.getCurrentPostAttribute( 'status' );
+        if ( status && status !== 'auto-draft' ) {
+            replaced = true;
+            unsubscribe();
+            return;
+        }
+
+        // Wait until the block editor has finished loading its initial blocks.
+        var blockEditor = wp.data.select( 'core/block-editor' );
+        if ( ! blockEditor || blockEditor.getBlocks().length === 0 ) return;
+
+        replaced = true;
+        unsubscribe();
+
+        // Replace the empty default with the ACJ artist page pattern.
+        wp.data.dispatch( 'core/block-editor' ).resetBlocks(
+            wp.blocks.parse( data.content )
+        );
+    } );
+} );
+JS
+    );
+} );
+
+// =============================================
+// DICE overlay button support
+// =============================================
+
+function acj_post_has_dice_button( $post_id = null ) {
+    $post_id = $post_id ?: get_the_ID();
+    if ( ! $post_id ) return false;
+    $content = get_post_field( 'post_content', $post_id );
+    return (
+        false !== strpos( $content, 'dice-widget-btn' )
+        || false !== strpos( $content, 'data-dice-id' )
+        || false !== strpos( $content, 'dice-overlay-widget' )
+    );
+}
+
+add_action( 'wp_enqueue_scripts', function() {
+    if ( ! is_singular() ) return;
+    if ( ! acj_post_has_dice_button( get_queried_object_id() ) ) return;
+    wp_enqueue_script(
+        'dice-overlay-widget',
+        'https://widgets.dice.fm/dice-overlay-widget.js',
+        [],
+        null,
+        true
+    );
+    wp_add_inline_script(
+        'dice-overlay-widget',
+        'DiceOverlayWidget.create({});'
+    );
+} );
+
+add_action( 'enqueue_block_editor_assets', function() {
+    wp_enqueue_style(
+        'acj-editor-dice',
+        get_stylesheet_directory_uri() . '/editor-dice.css',
+        [],
+        wp_get_theme()->get( 'Version' )
+    );
+
+} );
+
+// Push DICE editor preview CSS into Gutenberg's settings.styles so it reaches
+// the Custom HTML block's sandboxed preview iframe (sandbox="allow-scripts" only,
+// opaque origin — contentDocument injection from parent JS is blocked by browser).
+// Gutenberg's SandBox component injects settings.styles into every iframe srcdoc.
+add_filter( 'block_editor_settings_all', function( $settings ) {
+    $settings['styles'][] = [
+        'css' => '.dice-widget-btn, .acj-dice-button .dice-widget-btn { background: #111111 !important; color: #ffffff !important; border: 2px solid #111111 !important; border-radius: 4px; display: inline-block; font-size: 14.4px; font-weight: 700; padding: 11.68px 16px; cursor: pointer; }',
+        '__experimentalNoWrapper' => true,
+    ];
+    return $settings;
+} );
+
+// Strip Rocco's pasted inline <style>/<script> tags from DICE Custom HTML blocks at
+// render time so theme CSS controls button styling and the script isn't double-loaded
+// (the theme already enqueues it via wp_enqueue_scripts above).
+add_filter( 'render_block', function( $block_content, $block ) {
+    if ( 'core/html' !== $block['blockName'] ) {
+        return $block_content;
+    }
+
+    if (
+        false === strpos( $block_content, 'dice-widget-btn' ) &&
+        false === strpos( $block_content, 'data-dice-id' )
+    ) {
+        return $block_content;
+    }
+
+    // Strip inline <style> blocks from DICE embed output.
+    $block_content = preg_replace( '/<style\b[^>]*>.*?<\/style>/is', '', $block_content );
+
+    // Strip inline <script> tags from DICE embed output.
+    $block_content = preg_replace( '/<script\b[^>]*>.*?<\/script>/is', '', $block_content );
+
+    // Auto-wrap a bare dice button with wp-block-button structure if not already wrapped,
+    // so it sits inline beside other buttons regardless of how Rocco pasted the embed.
+    if ( preg_match( '/<button[^>]+class="[^"]*dice-widget-btn[^"]*"/i', $block_content )
+        && false === strpos( $block_content, 'wp-block-button' ) ) {
+        $block_content = preg_replace(
+            '/(<button[^>]+class="[^"]*dice-widget-btn[^"]*"[^>]*>[\s\S]*?<\/button>)/i',
+            '<div class="wp-block-button is-style-outline acj-dice-button">$1</div>',
+            $block_content
+        );
+    }
+
+    return $block_content;
+}, 10, 2 );
 
 //
 // 🔗 Register ACF field groups for artist ↔ event relationships

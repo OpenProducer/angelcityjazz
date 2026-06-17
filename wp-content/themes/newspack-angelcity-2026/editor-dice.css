@@ -1,0 +1,16 @@
+/* DICE button -- editor preview visibility */
+.wp-block-html .dice-widget-btn,
+.wp-block-html .acj-dice-button .dice-widget-btn,
+.editor-styles-wrapper .dice-widget-btn,
+.editor-styles-wrapper .acj-dice-button .dice-widget-btn {
+  background-color: #111111 !important;
+  color: #ffffff !important;
+  border-color: #111111 !important;
+  border: 2px solid #111111 !important;
+  border-radius: 4px;
+  display: inline-block;
+  font-size: 14.4px;
+  font-weight: 700;
+  padding: 11.68px 16px;
+  cursor: pointer;
+}
