@@ -1909,6 +1909,18 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   margin-bottom: 24px !important;
 }
 
+/* When buttons stack (narrow viewport), the inner .wp-block-button's margin-bottom
+   folds into .wp-block-buttons container height, doubling the gap to 48px.
+   Zero it out so only .acj-dice-button's margin-top creates a single 24px gap. */
+.event-header .wp-block-column > .wp-block-buttons > .wp-block-button {
+  margin-bottom: 0;
+}
+
+/* Artist hero: "Featuring:" paragraph — separate it from the button area above */
+.single-acj_artist .event-header .wp-block-column > #dice-overlay-widget + p {
+  margin-top: 24px;
+}
+
 /* Artist hero: featuring list — remove default indent */
 .single-acj_artist .event-header ul {
   padding-left: 0;
@@ -1973,6 +1985,21 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   height: auto !important;
   aspect-ratio: 16 / 9 !important;
   object-fit: cover !important;
+}
+
+/* Sponsor credit block: match small-print font size, tighten gap before logo.
+   Selector uses .wp-block-group to reach specificity (0,2,1) and beat Newspack's
+   .wp-block-group .wp-block-group__inner-container > * rule at (0,2,0). */
+.wp-block-group.acj-sponsor-credit p {
+  font-size: 15.3px;
+  margin-bottom: 12px;
+}
+
+/* Sponsor credit block: remove carousel top padding.
+   The existing column-context rule sets padding-top: 16px at (0,4,0); adding
+   .acj-sponsor-credit lifts this to (0,5,0) to win without !important. */
+.event-header .wp-block-columns .wp-block-column .acj-sponsor-credit .sp-logo-carousel-pro-section {
+  padding-top: 0;
 }
 
 /* Artist page: Related Artists title size (outside hero context) */
