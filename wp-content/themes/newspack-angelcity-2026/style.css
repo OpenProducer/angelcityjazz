@@ -1916,7 +1916,11 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   margin-bottom: 0;
 }
 
-/* Artist hero: "Featuring:" paragraph — separate it from the button area above */
+/* Artist hero: "Featuring:" paragraph — separate it from the button area above.
+   Group A (DICE embed): paragraph follows #dice-overlay-widget.
+   Group B (two native buttons): paragraph follows .wp-block-buttons directly. */
+.single-acj_artist .event-header .wp-block-column > .wp-block-buttons + p,
+.single-acj_artist .event-header .wp-block-column > .acj-dice-button + p,
 .single-acj_artist .event-header .wp-block-column > #dice-overlay-widget + p {
   margin-top: 24px;
 }
