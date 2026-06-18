@@ -2002,6 +2002,21 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   padding-top: 0;
 }
 
+/* Sponsor credit block: constrain logo to read as a small credit mark, not a
+   full-width image. Plugin rule at (0,3,2); adding .sp-logo-carousel-pro-area
+   gives us (0,4,1) which wins without !important. */
+.acj-sponsor-credit .sp-logo-carousel-pro-section .sp-logo-carousel-pro-area .sp-lcp-item img {
+  max-height: 60px;
+  width: auto;
+  max-width: 100%;
+}
+
+/* Sponsor credit block: left-align logo. Plugin sets text-align: center via
+   .text-center at (0,1,0); two classes here gives (0,2,0) which wins. */
+.acj-sponsor-credit .sp-lcp-item {
+  text-align: left;
+}
+
 /* Artist page: Related Artists title size (outside hero context) */
 .single-acj_artist .wp-block-newspack-blocks-homepage-articles h3,
 .single-acj_artist .wp-block-newspack-blocks-homepage-articles .entry-title {
