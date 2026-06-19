@@ -81,6 +81,16 @@ add_filter( 'newspack_blocks_build_articles_query', function ( $args, $attribute
     return $args;
 }, 10, 3 );
 
+// Randomize order of Related Artists Content Loop blocks on each page load.
+// Uses the same hook as the specificMode fix above (priority 11, runs after).
+add_filter( 'newspack_blocks_build_articles_query', function( $args, $attributes, $block_name ) {
+    $post_types = (array) ( $args['post_type'] ?? [] );
+    if ( in_array( 'acj_artist', $post_types ) ) {
+        $args['orderby'] = 'rand';
+    }
+    return $args;
+}, 11, 3 );
+
 /**
  * ACJ Artist Page - Event Display Customizations
  *
