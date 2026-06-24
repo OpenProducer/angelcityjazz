@@ -1789,9 +1789,10 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 
 .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-title {
   order: 2;
-  font-size: clamp(1.45rem, 1.15rem + 0.8vw, 1.9rem);
-  line-height: 1.15;
-  margin: 0.15rem 0 0.25rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 0.25rem;
 }
 
 .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .newspack-blocks__tec-venue {
@@ -1808,14 +1809,12 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 
 .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-title a {
   color: #fff;
-  text-decoration-line: underline;
-  text-decoration-color: currentColor;
-  text-decoration-thickness: 0.08em;
-  text-underline-offset: 0.14em;
+  text-decoration: none;
 }
 
 .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-title a:hover,
 .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-title a:focus {
+  color: #fff;
   text-decoration: none;
 }
 
@@ -1827,11 +1826,6 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 @media (max-width: 781px) {
   .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-wrapper {
     row-gap: 0.3rem;
-  }
-
-  .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-title {
-    font-size: clamp(1.35rem, 1.1rem + 1.5vw, 1.65rem);
-    line-height: 1.18;
   }
 
   .single-acj_artist .event-header .wp-block-columns .wp-block-column:nth-of-type(2) > p.has-white-color.has-text-color {
@@ -1951,14 +1945,6 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   letter-spacing: 0.1em;
 }
 
-/* Artist hero: hide event title from homepage-articles block (showTitle:false not supported) */
-.single-acj_artist .event-header .wp-newspack-blocks-content .entry-title,
-.single-acj_artist .event-header .entry-title,
-.single-acj_artist .event-header h2.entry-title,
-.single-acj_artist .event-header h3.entry-title {
-  display: none !important;
-}
-
 /* Artist hero: force Eventbrite button to match outline style */
 .single-acj_artist .event-header .wp-block-jetpack-eventbrite .wp-block-button__link {
   background-color: transparent !important;
@@ -1990,6 +1976,14 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+}
+
+/* Artist page: hide entry titles in the Related Artists Content Loop — artist
+   names are baked into the featured images, so the text title is redundant.
+   Scoped to article.type-acj_artist so the event title in the hero (type-tribe_events)
+   is unaffected. */
+.single-acj_artist .acj-artist-content .wp-block-newspack-blocks-homepage-articles article.type-acj_artist .entry-title {
+  display: none;
 }
 
 /* Sponsor credit block: match small-print font size, tighten gap before logo.
