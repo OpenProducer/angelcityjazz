@@ -207,18 +207,24 @@ add_action('pre_get_posts', function ($query) {
     }
 });
 
+// DISABLED: Potentially conflicting with Yoast SEO page-level settings; flagged for review.
+// Date string updated to 2026 in case we re-enable.
+/*
 //
-// 🏷 Force Events archive <title> (overrides old/Yoast titles)
+// 🏷 Force Events archive <title> (overrides Yoast titles)
 //
 function acj_force_events_archive_title($title) {
     if (function_exists('tribe_is_event_query') && tribe_is_event_query() && is_post_type_archive('tribe_events')) {
-        return 'Angel City Jazz Fest 2025 Schedule – Oct 9–19 | Angel City Jazz';
+        return 'Jazz Refractions 2026 Schedule – Oct 9–25 | Angel City Jazz';
     }
     return $title;
 }
 add_filter('pre_get_document_title', 'acj_force_events_archive_title', 99);
 add_filter('wp_title', 'acj_force_events_archive_title', 99);
+*/
 
+// DISABLED: Potentially conflicting with Yoast SEO page-level settings; flagged for review.
+/*
 //
 // ✅ Dynamically append festival year category to Yoast SEO title & meta description
 //
@@ -250,12 +256,16 @@ add_filter('wpseo_metadesc', function ($desc) {
     }
     return $desc;
 });
+*/
 
+// DISABLED: Potentially conflicting with Yoast SEO page-level settings; flagged for review.
+/*
 //
 // 🖼 Force homepage OG & Twitter images (Yoast override)
 //
 add_filter('wpseo_opengraph_image', fn($img) => is_front_page() ? home_url('/wp-content/uploads/2025/07/2025acjfbanner.webp') : $img);
 add_filter('wpseo_twitter_image', fn($img) => is_front_page() ? home_url('/wp-content/uploads/2025/07/2025acjfbanner.webp') : $img);
+*/
 
 //
 // 💤 Lazy load all images + set fetchpriority on first event image
