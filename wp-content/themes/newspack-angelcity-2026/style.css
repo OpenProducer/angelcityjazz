@@ -2151,7 +2151,7 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 }
 
 .acj-event-card__body {
-    padding: 1rem;
+    padding: 0.5rem 1rem 1rem;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -2161,7 +2161,7 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
     font-size: 1rem;
     font-weight: 700;
     line-height: 1.3;
-    margin: 0 0 0.5rem;
+    margin: 0;
 }
 
 .acj-event-card__title a {
@@ -2173,34 +2173,29 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
     text-decoration: underline;
 }
 
-.acj-event-card__date {
-    color: inherit;
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 0.2rem;
-}
-
+.acj-event-card__date,
 .acj-event-card__venue,
-.acj-event-card__venue a {
+.acj-event-card__venue a,
+.acj-event-card__price {
+    font-size: 0.925rem;
+    font-weight: 600;
+}
+
+.acj-event-card__date,
+.acj-event-card__venue,
+.acj-event-card__price {
     color: inherit;
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 0.2rem;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .acj-event-card__venue a {
+    color: inherit;
     text-decoration: none;
 }
 
 .acj-event-card__venue a:hover {
     text-decoration: underline;
-}
-
-.acj-event-card__price {
-    color: inherit;
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 0.4rem;
 }
 
 .acj-event-card__ticket {
