@@ -901,6 +901,48 @@ add_filter( 'render_block', function( $block_content, $block ) {
 }, 10, 2 );
 
 //
+// 📅 [acj_event_schedule] shortcode — renders all published events as a card grid
+//
+function acj_event_schedule_shortcode() {
+    $events = get_posts( [
+        'post_type'      => 'tribe_events',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'meta_key'       => '_EventStartDate',
+        'orderby'        => 'meta_value',
+        'order'          => 'ASC',
+    ] );
+
+    if ( empty( $events ) ) {
+        return '';
+    }
+
+    $needs_dice = false;
+    $output     = '';
+
+    foreach ( $events as $event ) {
+        $event_id = $event->ID;
+        $content  = get_post_field( 'post_content', $event_id );
+        if ( preg_match( '/data-dice-id=["\']([^"\']+)["\']/', $content, $m )
+            && $m[1] !== '' && $m[1] !== 'YOUR-DICE-ID-HERE' ) {
+            $needs_dice = true;
+        }
+        ob_start();
+        include get_stylesheet_directory() . '/template-parts/event-card.php';
+        $output .= ob_get_clean();
+    }
+
+    if ( $needs_dice && ! wp_script_is( 'dice-overlay-widget', 'enqueued' ) ) {
+        wp_enqueue_script( 'dice-overlay-widget', 'https://widgets.dice.fm/dice-overlay-widget.js', [], null, true );
+        wp_add_inline_script( 'dice-overlay-widget', 'DiceOverlayWidget.create({});' );
+        $output .= '<div id="dice-overlay-widget"></div>';
+    }
+
+    return '<div class="acj-event-schedule">' . $output . '</div>';
+}
+add_shortcode( 'acj_event_schedule', 'acj_event_schedule_shortcode' );
+
+//
 // 🔗 Register ACF field groups for artist ↔ event relationships
 //
 add_action('acf/init', function () {
