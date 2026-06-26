@@ -940,22 +940,45 @@ add_filter( 'request', function ( $query_vars ) {
 //
 // 📅 [acj_event_schedule] shortcode — renders all published events as a card grid
 //
-function acj_event_schedule_shortcode() {
+function acj_event_schedule_shortcode( $atts = [] ) {
     global $wpdb;
+
+    $atts          = shortcode_atts( [ 'category' => '' ], $atts, 'acj_event_schedule' );
+    $category_slug = sanitize_title( $atts['category'] );
 
     // Use a direct $wpdb query to bypass TEC's pre_get_posts hook, which
     // interferes with WP_Query/get_posts calls for post_type=tribe_events
     // and causes them to return no results outside the main query context.
     // Same pattern as the newspack_blocks_build_articles_query fix above.
-    $event_ids = $wpdb->get_col(
-        "SELECT p.ID
-         FROM {$wpdb->posts} p
-         INNER JOIN {$wpdb->postmeta} pm
-                 ON pm.post_id = p.ID AND pm.meta_key = '_EventStartDate'
-         WHERE p.post_type = 'tribe_events'
-           AND p.post_status = 'publish'
-         ORDER BY pm.meta_value ASC"
-    );
+    if ( $category_slug ) {
+        $event_ids = $wpdb->get_col( $wpdb->prepare(
+            "SELECT p.ID
+             FROM {$wpdb->posts} p
+             INNER JOIN {$wpdb->postmeta} pm
+                     ON pm.post_id = p.ID AND pm.meta_key = '_EventStartDate'
+             INNER JOIN {$wpdb->term_relationships} tr
+                     ON tr.object_id = p.ID
+             INNER JOIN {$wpdb->term_taxonomy} tt
+                     ON tt.term_taxonomy_id = tr.term_taxonomy_id
+                    AND tt.taxonomy = 'tribe_events_cat'
+             INNER JOIN {$wpdb->terms} t
+                     ON t.term_id = tt.term_id AND t.slug = %s
+             WHERE p.post_type = 'tribe_events'
+               AND p.post_status = 'publish'
+             ORDER BY pm.meta_value ASC",
+            $category_slug
+        ) );
+    } else {
+        $event_ids = $wpdb->get_col(
+            "SELECT p.ID
+             FROM {$wpdb->posts} p
+             INNER JOIN {$wpdb->postmeta} pm
+                     ON pm.post_id = p.ID AND pm.meta_key = '_EventStartDate'
+             WHERE p.post_type = 'tribe_events'
+               AND p.post_status = 'publish'
+             ORDER BY pm.meta_value ASC"
+        );
+    }
 
     if ( empty( $event_ids ) ) {
         return '';
