@@ -941,24 +941,31 @@ add_filter( 'request', function ( $query_vars ) {
 // 📅 [acj_event_schedule] shortcode — renders all published events as a card grid
 //
 function acj_event_schedule_shortcode() {
-    $events = get_posts( [
-        'post_type'      => 'tribe_events',
-        'post_status'    => 'publish',
-        'posts_per_page' => -1,
-        'meta_key'       => '_EventStartDate',
-        'orderby'        => 'meta_value',
-        'order'          => 'ASC',
-    ] );
+    global $wpdb;
 
-    if ( empty( $events ) ) {
+    // Use a direct $wpdb query to bypass TEC's pre_get_posts hook, which
+    // interferes with WP_Query/get_posts calls for post_type=tribe_events
+    // and causes them to return no results outside the main query context.
+    // Same pattern as the newspack_blocks_build_articles_query fix above.
+    $event_ids = $wpdb->get_col(
+        "SELECT p.ID
+         FROM {$wpdb->posts} p
+         INNER JOIN {$wpdb->postmeta} pm
+                 ON pm.post_id = p.ID AND pm.meta_key = '_EventStartDate'
+         WHERE p.post_type = 'tribe_events'
+           AND p.post_status = 'publish'
+         ORDER BY pm.meta_value ASC"
+    );
+
+    if ( empty( $event_ids ) ) {
         return '';
     }
 
     $needs_dice = false;
     $output     = '';
 
-    foreach ( $events as $event ) {
-        $event_id = $event->ID;
+    foreach ( $event_ids as $event_id ) {
+        $event_id = (int) $event_id;
         $content  = get_post_field( 'post_content', $event_id );
         if ( preg_match( '/data-dice-id=["\']([^"\']+)["\']/', $content, $m )
             && $m[1] !== '' && $m[1] !== 'YOUR-DICE-ID-HERE' ) {
