@@ -901,6 +901,35 @@ add_filter( 'render_block', function( $block_content, $block ) {
 }, 10, 2 );
 
 //
+// 🛡 Prevent TEC from intercepting WordPress page URLs.
+//
+// "Works on first load, breaks on reload" is caused by TEC flushing rewrite
+// rules during init so its archive rule gains higher priority than the WP page
+// rule. On the second request TEC's rule matches first and shows the events
+// archive instead of the page content.
+//
+// Fix: run at priority 5 (before TEC's own request filters). If TEC has set
+// eventDisplay — meaning it thinks it owns the URL — check whether a published
+// WP page actually exists at that path. If one does, replace TEC's query vars
+// with pagename so WordPress serves the page normally.
+//
+add_filter( 'request', function ( $query_vars ) {
+    global $wp;
+    if ( ! isset( $query_vars['eventDisplay'] ) ) {
+        return $query_vars;
+    }
+    if ( empty( $wp->request ) ) {
+        return $query_vars;
+    }
+    $path = trim( $wp->request, '/' );
+    $page = get_page_by_path( $path );
+    if ( $page && $page->post_status === 'publish' ) {
+        return [ 'pagename' => $path ];
+    }
+    return $query_vars;
+}, 5 );
+
+//
 // 📅 [acj_event_schedule] shortcode — renders all published events as a card grid
 //
 function acj_event_schedule_shortcode() {
