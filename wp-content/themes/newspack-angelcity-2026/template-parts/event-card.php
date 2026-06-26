@@ -13,10 +13,10 @@ $date_str       = tribe_get_start_date( $event_id, false, 'F j, Y' );
 $time_str       = tribe_get_start_date( $event_id, false, 'g:i a' );
 $datetime_label = ( $date_str && $time_str ) ? $date_str . ' @ ' . $time_str : $date_str;
 
-// Venue with optional website link
+// Venue linking to TEC venue page (matches hero block behavior)
 $venue_id   = tribe_get_venue_id( $event_id );
 $venue_name = $venue_id ? get_the_title( (int) $venue_id ) : '';
-$venue_url  = $venue_id ? tribe_get_venue_website_url( $venue_id ) : '';
+$venue_url  = $venue_id ? get_permalink( $venue_id ) : '';
 
 // Cost via TEC formatter: returns "Free", "$30", etc. Empty string when unset.
 $price_label = tribe_get_cost( $event_id, true );
@@ -57,7 +57,7 @@ if ( preg_match( '/<button\b[^>]*class="[^"]*dice-widget-btn[^"]*"[^>]*>(.*?)<\/
 		<?php if ( $venue_name ) : ?>
 			<div class="acj-event-card__venue">
 				<?php if ( $venue_url ) : ?>
-					<a href="<?php echo esc_url( $venue_url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $venue_name ); ?></a>
+					<a href="<?php echo esc_url( $venue_url ); ?>"><?php echo esc_html( $venue_name ); ?></a>
 				<?php else : ?>
 					<?php echo esc_html( $venue_name ); ?>
 				<?php endif; ?>

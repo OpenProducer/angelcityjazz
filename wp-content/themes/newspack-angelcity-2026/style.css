@@ -2134,6 +2134,7 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 }
 
 .acj-event-card {
+    color: inherit;
     display: flex;
     flex-direction: column;
 }
@@ -2172,24 +2173,33 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
     text-decoration: underline;
 }
 
-.acj-event-card__date,
-.acj-event-card__time {
-    font-size: 0.85rem;
+.acj-event-card__date {
+    color: inherit;
+    font-size: 1rem;
     font-weight: 700;
-    color: #2b2b2e;
     margin-bottom: 0.2rem;
 }
 
-.acj-event-card__venue {
-    font-size: 0.85rem;
-    color: #2b2b2e;
+.acj-event-card__venue,
+.acj-event-card__venue a {
+    color: inherit;
+    font-size: 1rem;
+    font-weight: 700;
     margin-bottom: 0.2rem;
+}
+
+.acj-event-card__venue a {
+    text-decoration: none;
+}
+
+.acj-event-card__venue a:hover {
+    text-decoration: underline;
 }
 
 .acj-event-card__price {
-    font-size: 0.85rem;
+    color: inherit;
+    font-size: 1rem;
     font-weight: 700;
-    color: #2b2b2e;
     margin-bottom: 0.4rem;
 }
 
