@@ -2126,7 +2126,6 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 --------------------------------------------------------------*/
 
 .acj-event-schedule {
-    background-color: #e9e2d9;
     padding: 1.5rem;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2135,7 +2134,6 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 }
 
 .acj-event-card {
-    background-color: #ffffff;
     display: flex;
     flex-direction: column;
 }

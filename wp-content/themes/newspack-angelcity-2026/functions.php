@@ -903,16 +903,24 @@ add_filter( 'render_block', function( $block_content, $block ) {
 //
 // 🛡 Prevent TEC from intercepting WordPress page URLs.
 //
-// "Works on first load, breaks on reload" is caused by TEC flushing rewrite
-// rules during init so its archive rule gains higher priority than the WP page
-// rule. On the second request TEC's rule matches first and shows the events
-// archive instead of the page content.
+// TEC flushes and re-registers rewrite rules during init (with 'top' priority),
+// so its archive rule ends up before the WP page rule in the stored
+// rewrite_rules option. Subsequent requests match TEC's rule first.
 //
-// Fix: run at priority 5 (before TEC's own request filters). If TEC has set
-// eventDisplay — meaning it thinks it owns the URL — check whether a published
-// WP page actually exists at that path. If one does, replace TEC's query vars
-// with pagename so WordPress serves the page normally.
+// Primary fix: register the jazz-refractions page rule at init priority 1,
+// before TEC's own init runs, so it appears first in rewrite_rules and
+// WordPress serves the page before TEC can match.
 //
+add_action( 'init', function () {
+    add_rewrite_rule(
+        '^jazz-refractions/?$',
+        'index.php?pagename=jazz-refractions',
+        'top'
+    );
+}, 1 );
+
+// Safety-net filter: if TEC still sets eventDisplay for a path that has a
+// published WP page, clear TEC's vars and hand control back to WordPress.
 add_filter( 'request', function ( $query_vars ) {
     global $wp;
     if ( ! isset( $query_vars['eventDisplay'] ) ) {
