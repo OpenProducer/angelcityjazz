@@ -2126,7 +2126,12 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 --------------------------------------------------------------*/
 
 .acj-event-schedule {
-    padding: 1.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     column-gap: 24px;
@@ -2142,6 +2147,7 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 .acj-event-card__image-link {
     display: block;
     line-height: 0;
+    position: relative;
 }
 
 .acj-event-card__image-link img {
@@ -2150,8 +2156,41 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
     height: auto;
 }
 
+/* Date overlay on card thumbnail -- mirrors .tribe-events-pro photo grid rules */
+.acj-event-card__image-link .tribe-events-pro-photo__event-featured-image-date-tag {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 6px 12px;
+}
+
+.acj-event-card__image-link .tribe-events-pro-photo__event-featured-image-date-tag-datetime {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.acj-event-card__image-link .tribe-events-pro-photo__event-featured-image-date-tag-month {
+    font-size: 11px;
+    color: #727272;
+    text-transform: uppercase;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.acj-event-card__image-link .tribe-events-pro-photo__event-featured-image-date-tag-daynum {
+    display: block;
+    color: rgb(20, 24, 39);
+    font-family: "Josefin Sans", Georgia, serif;
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 700;
+}
+
 .acj-event-card__body {
-    padding: 0.5rem 1rem 1rem;
+    padding: 0.5rem 0 1rem;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -2213,4 +2252,14 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
     .acj-event-schedule {
         grid-template-columns: 1fr;
     }
+}
+
+/* Venues page: hide event end time in Featured Venue widget */
+.tribe-events-widget-featured-venue__event-datetime .tribe-event-time {
+	display: none;
+}
+
+/* Venues page: hide "View More" venue link in Featured Venue widget */
+.tribe-events-widget-featured-venue__view-more {
+	display: none;
 }

@@ -8,10 +8,10 @@ $permalink = get_permalink( $event_id );
 $title     = get_the_title( $event_id );
 $thumbnail = get_the_post_thumbnail( $event_id, 'large' );
 
-// Single datetime line: "October 9, 2026 @ 8:00 pm"
-$date_str       = tribe_get_start_date( $event_id, false, 'F j, Y' );
-$time_str       = tribe_get_start_date( $event_id, false, 'g:i a' );
-$datetime_label = ( $date_str && $time_str ) ? $date_str . ' @ ' . $time_str : $date_str;
+// Date for image overlay (month abbreviation + day number)
+$event_month    = tribe_get_start_date( $event_id, false, 'M' );
+$event_day_num  = tribe_get_start_date( $event_id, false, 'j' );
+$event_date_attr = tribe_get_start_date( $event_id, false, 'Y-m-d' );
 
 // Venue with external website link (opens in new tab); plain text if no URL
 $venue_id   = tribe_get_venue_id( $event_id );
@@ -42,6 +42,19 @@ if ( preg_match( '/<button\b[^>]*class="[^"]*dice-widget-btn[^"]*"[^>]*>(.*?)<\/
 	<?php if ( $thumbnail ) : ?>
 		<a href="<?php echo esc_url( $permalink ); ?>" class="acj-event-card__image-link" tabindex="-1" aria-hidden="true">
 			<?php echo $thumbnail; ?>
+			<?php if ( $event_date_attr ) : ?>
+				<div class="tribe-events-pro-photo__event-featured-image-date-tag">
+					<time class="tribe-events-pro-photo__event-featured-image-date-tag-datetime"
+					      datetime="<?php echo esc_attr( $event_date_attr ); ?>">
+						<span class="tribe-events-pro-photo__event-featured-image-date-tag-month">
+							<?php echo esc_html( $event_month ); ?>
+						</span>
+						<span class="tribe-events-pro-photo__event-featured-image-date-tag-daynum tribe-common-h5 tribe-common-h4--min-medium">
+							<?php echo esc_html( $event_day_num ); ?>
+						</span>
+					</time>
+				</div>
+			<?php endif; ?>
 		</a>
 	<?php endif; ?>
 
@@ -50,9 +63,13 @@ if ( preg_match( '/<button\b[^>]*class="[^"]*dice-widget-btn[^"]*"[^>]*>(.*?)<\/
 			<a href="<?php echo esc_url( $permalink ); ?>"><?php echo esc_html( $title ); ?></a>
 		</h3>
 
-		<?php if ( $datetime_label ) : ?>
-			<div class="acj-event-card__date"><?php echo esc_html( $datetime_label ); ?></div>
-		<?php endif; ?>
+		<?php // Text date replaced by image overlay above. To revert: uncomment below. ?>
+		<?php /*
+		if ( $event_month ) {
+			$datetime_label = tribe_get_start_date( $event_id, false, 'F j, Y' ) . ' @ ' . tribe_get_start_date( $event_id, false, 'g:i a' );
+			echo '<div class="acj-event-card__date">' . esc_html( $datetime_label ) . '</div>';
+		}
+		*/ ?>
 
 		<?php if ( $venue_name ) : ?>
 			<div class="acj-event-card__venue">
