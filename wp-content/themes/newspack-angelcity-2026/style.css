@@ -2142,6 +2142,7 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
     color: inherit;
     display: flex;
     flex-direction: column;
+    outline: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .acj-event-card__image-link {
@@ -2190,7 +2191,8 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 }
 
 .acj-event-card__body {
-    padding: 0.5rem 0 1rem;
+    padding: 0.75rem 1rem 1rem;
+    background-color: #bc2100;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -2216,7 +2218,7 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 .acj-event-card__venue,
 .acj-event-card__venue a,
 .acj-event-card__price {
-    font-size: 0.925rem;
+    font-size: 0.75rem;
     font-weight: 600;
 }
 
@@ -2262,4 +2264,25 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 /* Venues page: hide "View More" venue link in Featured Venue widget */
 .tribe-events-widget-featured-venue__view-more {
 	display: none;
+}
+
+/* Watch and Listen section: audio player fixes */
+/* Make captions readable on dark background */
+.single-acj_artist .wp-block-audio figcaption {
+    color: rgba(255, 255, 255, 0.85);
+}
+/* Prevent audio player overflowing narrow columns */
+.single-acj_artist .wp-block-audio audio {
+    min-width: 0;
+    width: 100%;
+}
+/* Add spacing between audio blocks in columns */
+.single-acj_artist .wp-block-column .wp-block-audio {
+    margin-bottom: 1rem;
+}
+
+/* Event schedule cards */
+/* Hide price */
+.acj-event-card__price {
+    display: none;
 }
