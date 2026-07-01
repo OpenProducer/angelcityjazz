@@ -63,8 +63,8 @@ RELEASE_TAG="$(printf '%s' "$release_json" | grep -m1 '"tag_name"' | sed 's/.*"t
 # Prefer packaged asset zip; fall back to zipball_url
 DOWNLOAD_URL="$(
 	printf '%s' "$release_json" \
-		| grep -A2 '"newspack-theme.zip"' \
 		| grep '"browser_download_url"' \
+		| grep 'newspack-theme\.zip' \
 		| sed 's/.*"browser_download_url": *"\([^"]*\)".*/\1/' \
 		| head -1
 )"
