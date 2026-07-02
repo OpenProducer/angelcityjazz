@@ -5,7 +5,7 @@
  Author:         OpenProducer
  Author URI:     https://www.openproducer.org/
  Template:       newspack-theme
- Version:        1.1.0
+ Version:        1.1.1
 */
 
 /*--------------------------------------------------------------
@@ -1785,7 +1785,6 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   order: 1;
   font-size: 1rem;
   line-height: 1.45;
-  display: block !important;
 }
 
 .single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles .entry-title {
