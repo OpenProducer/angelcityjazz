@@ -1834,7 +1834,7 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 }
 
 /* Hide the "updated" (modified) date; only the event start date is relevant here. */
-.single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles time.updated {
+.single-acj_artist .event-header .wp-block-newspack-blocks-homepage-articles time.updated:not(.published) {
   display: none;
 }
 
