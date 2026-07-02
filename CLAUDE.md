@@ -34,6 +34,16 @@ Only push tested, stable code to `pressable-deploy`.
 4. Push to `pressable-deploy`
 5. Pressable picks up the deployment automatically
 
+## CSS Deployment Reminders
+
+When deploying CSS changes to production:
+
+- **Always bump the child theme version number** in `wp-content/themes/newspack-angelcity-2026/style.css` (e.g. `Version: 1.1.1 → 1.1.2`)
+- WordPress uses the theme version as a cache-busting query parameter (`style.css?ver=X.X.X`) — without a version bump, Cloudflare and browser caches will continue serving the old stylesheet even after the server file is updated
+- After deploying, verify the new version string is visible in the browser's network tab for `style.css`
+
+> **Why this matters:** In July 2026 a CSS fix for the artist-page event date (`time.updated:not(.published)`) was correctly deployed to the server but went unnoticed for an extended debugging session because `style.css?ver=1.1.0` never changed. Every cache layer served the old broken rule until the version was bumped to `1.1.1`.
+
 ## Key Files
 
 - `.gitignore` — controls what is excluded from version control
