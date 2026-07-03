@@ -1061,3 +1061,22 @@ add_action('acf/init', function () {
         'style'      => 'seamless',
     ]);
 });
+
+/**
+ * Custom Yoast replacement variable: %%acj_festival%%
+ * Pulls the primary tribe_events_cat term name for the current post.
+ * Used in Yoast title/description templates on single event pages.
+ * Example output: "Jazz Refractions 2026"
+ */
+add_filter( 'wpseo_replacements', function( $replacements, $args ) {
+    if ( isset( $args->ID ) ) {
+        $primary_term_id = get_post_meta( $args->ID, '_yoast_wpseo_primary_tribe_events_cat', true );
+        if ( $primary_term_id ) {
+            $term = get_term( (int) $primary_term_id, 'tribe_events_cat' );
+            if ( $term && ! is_wp_error( $term ) ) {
+                $replacements['%%acj_festival%%'] = $term->name;
+            }
+        }
+    }
+    return $replacements;
+}, 10, 2 );
