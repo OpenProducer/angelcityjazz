@@ -5,7 +5,7 @@
  Author:         OpenProducer
  Author URI:     https://www.openproducer.org/
  Template:       newspack-theme
- Version:        1.1.3
+ Version:        1.1.4
 */
 
 /*--------------------------------------------------------------
@@ -2289,11 +2289,11 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 
 /* Jazz Refractions page: hide duplicate venue name link in TEC featured venue widget */
 /* The venue name is already shown in the accordion heading above; the link inside the widget is redundant */
-.page-id-23759 .tribe-events-widget-featured-venue__venue-name {
+.page-id-19096 .tribe-events-widget-featured-venue__venue-name {
     display: none;
 }
 
 /* Jazz Refractions page: add bottom padding before footer */
-.page-id-23759 .entry-content > *:last-child {
+.page-id-19096 .entry-content > *:last-child {
     margin-bottom: 3rem;
 }
