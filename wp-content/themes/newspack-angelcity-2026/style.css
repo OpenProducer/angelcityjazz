@@ -5,7 +5,7 @@
  Author:         OpenProducer
  Author URI:     https://www.openproducer.org/
  Template:       newspack-theme
- Version:        1.1.1
+ Version:        1.1.2
 */
 
 /*--------------------------------------------------------------
@@ -2284,5 +2284,11 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 /* Event schedule cards */
 /* Hide price */
 .acj-event-card__price {
+    display: none;
+}
+
+/* Jazz Refractions page: hide duplicate venue name link in TEC featured venue widget */
+/* The venue name is already shown in the accordion heading above; the link inside the widget is redundant */
+.page-id-23759 .tribe-events-widget-featured-venue__venue-name {
     display: none;
 }
