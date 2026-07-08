@@ -901,6 +901,127 @@ add_filter( 'render_block', function( $block_content, $block ) {
 }, 10, 2 );
 
 //
+// 🛡 Prevent TEC from intercepting WordPress page URLs.
+//
+// TEC flushes and re-registers rewrite rules during init (with 'top' priority),
+// so its archive rule ends up before the WP page rule in the stored
+// rewrite_rules option. Subsequent requests match TEC's rule first.
+//
+// Primary fix: register the jazz-refractions page rule at init priority 1,
+// before TEC's own init runs, so it appears first in rewrite_rules and
+// WordPress serves the page before TEC can match.
+//
+add_action( 'init', function () {
+    add_rewrite_rule(
+        '^jazz-refractions/?$',
+        'index.php?pagename=jazz-refractions',
+        'top'
+    );
+}, 1 );
+
+// Safety-net filter: if TEC still sets eventDisplay for a path that has a
+// published WP page, clear TEC's vars and hand control back to WordPress.
+add_filter( 'request', function ( $query_vars ) {
+    global $wp;
+    if ( ! isset( $query_vars['eventDisplay'] ) ) {
+        return $query_vars;
+    }
+    if ( empty( $wp->request ) ) {
+        return $query_vars;
+    }
+    $path = trim( $wp->request, '/' );
+    $page = get_page_by_path( $path );
+    if ( $page && $page->post_status === 'publish' ) {
+        return [ 'pagename' => $path ];
+    }
+    return $query_vars;
+}, 5 );
+
+//
+// 📅 [acj_event_schedule] shortcode — renders all published events as a card grid
+//
+function acj_event_schedule_shortcode( $atts = [] ) {
+    global $wpdb;
+
+    $atts          = shortcode_atts( [ 'category' => '', 'tag' => '', 'limit' => -1 ], $atts, 'acj_event_schedule' );
+    $category_slug = sanitize_title( $atts['category'] );
+    $tag_slug      = sanitize_title( $atts['tag'] );
+    $limit         = intval( $atts['limit'] );
+    $limit_clause  = $limit > 0 ? 'LIMIT ' . $limit : '';
+
+    // Use a direct $wpdb query to bypass TEC's pre_get_posts hook, which
+    // interferes with WP_Query/get_posts calls for post_type=tribe_events
+    // and causes them to return no results outside the main query context.
+    // Same pattern as the newspack_blocks_build_articles_query fix above.
+    $joins        = '';
+    $prepare_args = [];
+
+    if ( $category_slug ) {
+        $joins .= " INNER JOIN {$wpdb->term_relationships} tr_cat
+                            ON tr_cat.object_id = p.ID
+                   INNER JOIN {$wpdb->term_taxonomy} tt_cat
+                            ON tt_cat.term_taxonomy_id = tr_cat.term_taxonomy_id
+                           AND tt_cat.taxonomy = 'tribe_events_cat'
+                   INNER JOIN {$wpdb->terms} t_cat
+                            ON t_cat.term_id = tt_cat.term_id AND t_cat.slug = %s";
+        $prepare_args[] = $category_slug;
+    }
+
+    if ( $tag_slug ) {
+        $joins .= " INNER JOIN {$wpdb->term_relationships} tr_tag
+                            ON tr_tag.object_id = p.ID
+                   INNER JOIN {$wpdb->term_taxonomy} tt_tag
+                            ON tt_tag.term_taxonomy_id = tr_tag.term_taxonomy_id
+                           AND tt_tag.taxonomy = 'post_tag'
+                   INNER JOIN {$wpdb->terms} t_tag
+                            ON t_tag.term_id = tt_tag.term_id AND t_tag.slug = %s";
+        $prepare_args[] = $tag_slug;
+    }
+
+    $sql = "SELECT p.ID
+            FROM {$wpdb->posts} p
+            INNER JOIN {$wpdb->postmeta} pm
+                    ON pm.post_id = p.ID AND pm.meta_key = '_EventStartDate'
+            $joins
+            WHERE p.post_type = 'tribe_events'
+              AND p.post_status = 'publish'
+            ORDER BY pm.meta_value ASC
+            $limit_clause";
+
+    $event_ids = $prepare_args
+        ? $wpdb->get_col( $wpdb->prepare( $sql, $prepare_args ) )
+        : $wpdb->get_col( $sql );
+
+    if ( empty( $event_ids ) ) {
+        return '';
+    }
+
+    $needs_dice = false;
+    $output     = '';
+
+    foreach ( $event_ids as $event_id ) {
+        $event_id = (int) $event_id;
+        $content  = get_post_field( 'post_content', $event_id );
+        if ( preg_match( '/data-dice-id=["\']([^"\']+)["\']/', $content, $m )
+            && $m[1] !== '' && $m[1] !== 'YOUR-DICE-ID-HERE' ) {
+            $needs_dice = true;
+        }
+        ob_start();
+        include get_stylesheet_directory() . '/template-parts/event-card.php';
+        $output .= ob_get_clean();
+    }
+
+    if ( $needs_dice && ! wp_script_is( 'dice-overlay-widget', 'enqueued' ) ) {
+        wp_enqueue_script( 'dice-overlay-widget', 'https://widgets.dice.fm/dice-overlay-widget.js', [], null, true );
+        wp_add_inline_script( 'dice-overlay-widget', 'DiceOverlayWidget.create({});' );
+        $output .= '<div id="dice-overlay-widget"></div>';
+    }
+
+    return '<div class="acj-event-schedule">' . $output . '</div>';
+}
+add_shortcode( 'acj_event_schedule', 'acj_event_schedule_shortcode' );
+
+//
 // 🔗 Register ACF field groups for artist ↔ event relationships
 //
 add_action('acf/init', function () {
