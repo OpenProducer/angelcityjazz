@@ -2120,3 +2120,13 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
     margin: 0;
     vertical-align: top;
 }
+
+/* Venues page: hide event end time in Featured Venue widget */
+.tribe-events-widget-featured-venue__event-datetime .tribe-event-time {
+	display: none;
+}
+
+/* Venues page: hide "View More" venue link in Featured Venue widget */
+.tribe-events-widget-featured-venue__view-more {
+	display: none;
+}
