@@ -5,7 +5,7 @@
  Author:         OpenProducer
  Author URI:     https://www.openproducer.org/
  Template:       newspack-theme
- Version:        1.1.7
+ Version:        1.1.9
 */
 
 /*--------------------------------------------------------------
@@ -2328,4 +2328,12 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
         padding-left: 1rem !important;
         padding-right: 1rem !important;
     }
+}
+
+/* Mailchimp embed: Mailchimp's own stylesheet sets .mc-field-group { width: 96% }
+   with no auto margins, leaving a 4% gap on the right only. Stretch to 100% so
+   all field groups align flush with both edges of the form. */
+#mc_embed_signup .mc-field-group {
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
