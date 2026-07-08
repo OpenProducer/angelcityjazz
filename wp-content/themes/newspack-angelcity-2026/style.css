@@ -5,7 +5,7 @@
  Author:         OpenProducer
  Author URI:     https://www.openproducer.org/
  Template:       newspack-theme
- Version:        1.1.9
+ Version:        1.1.10
 */
 
 /*--------------------------------------------------------------
@@ -2310,6 +2310,13 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
+}
+
+/* Mailchimp embed: restore interior side spacing — v1.1.7 zeroed out the form's
+   original margin-left/right: 20px to fix overflow, which also removed the visual
+   breathing room. Replace with padding on the parent (safe with box-sizing: border-box). */
+#mc_embed_signup {
+    padding: 0 1.5rem !important;
 }
 
 /* Mailchimp embed: neutralize the 20px left/right margins Mailchimp's own stylesheet
