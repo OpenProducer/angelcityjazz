@@ -5,7 +5,7 @@
  Author:         OpenProducer
  Author URI:     https://www.openproducer.org/
  Template:       newspack-theme
- Version:        1.1.10
+ Version:        1.1.11
 */
 
 /*--------------------------------------------------------------
@@ -2299,9 +2299,12 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
 }
 
 /* Mailchimp subscribe section: top/bottom breathing room around the colored group block */
+/* margin-bottom uses !important to beat .entry .entry-content > :last-child { margin-bottom: 0 }
+   which fires on /contact/ where this group is the final block in entry-content */
 .wp-block-group:has(#mc_embed_shell) {
     padding-top: 2rem;
     padding-bottom: 2rem;
+    margin-bottom: 2rem !important;
 }
 
 /* Mailchimp embed: fix form overflow on narrow screens (global, applies to all pages) */
