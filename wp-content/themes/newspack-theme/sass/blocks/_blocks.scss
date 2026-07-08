@@ -932,12 +932,9 @@ body:not(.wp-child-theme-newspack-joseph):not(.wp-child-theme-newspack-nelson) .
 
 //! Blockquote
 .wp-block-quote {
-	&:not(.is-large),
-	&:not(.is-style-large) {
-		border-width: 2px;
-		border-color: var(--newspack-theme-color-link);
-		padding-top: 0;
-		padding-bottom: 0;
+	&:not(.is-large):not(.is-style-large):not(.is-style-plain) {
+		border-left: 2px solid var(--newspack-theme-color-link);
+		padding: 0 0 0 1em;
 	}
 
 	p {
@@ -1035,6 +1032,17 @@ body:not(.wp-child-theme-newspack-joseph):not(.wp-child-theme-newspack-nelson) .
 	}
 }
 
+//! Icon
+.wp-block-icon {
+	&.alignleft,
+	&.alignright {
+		svg {
+			height: auto;
+			max-width: 100%;
+		}
+	}
+}
+
 //! Separator
 .wp-block-separator,
 hr {
@@ -1089,6 +1097,7 @@ hr {
 
 //! Table
 .wp-block-table {
+	box-sizing: border-box;
 	&.is-style-stripes td,
 	&.is-style-stripes th {
 		border-color: var(--newspack-theme-color-text-light);
@@ -1667,6 +1676,11 @@ $colors: (
 .page-template-single-feature,
 .page-template-no-header-footer {
 	.entry .entry-content > *,
+	// Some plugins (e.g. Everlit) wrap the_content in a span/div at render
+	// time, which interposes a parent between .entry-content and the aligned
+	// block and breaks the direct-child match above. Allow one level of such
+	// wrapping so wide/full alignment continues to work.
+	.entry .entry-content > .everlit-audio > *,
 	.newspack-content-gate__inline-gate > *,
 	[id="pico"] > * {
 		&.alignwide {
