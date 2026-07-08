@@ -1080,3 +1080,21 @@ add_filter( 'wpseo_replacements', function( $replacements, $args ) {
     }
     return $replacements;
 }, 10, 2 );
+
+/**
+ * Allow the per-page "Hide page title" toggle to override the global
+ * Newspack hide-homepage-title body class. When a page explicitly has
+ * newspack_hide_page_title set to 0 (show title), remove the global
+ * hide-homepage-title class so the title displays correctly.
+ */
+add_filter( 'body_class', function( $classes ) {
+    if ( is_singular() ) {
+        $hide = get_post_meta( get_the_ID(), 'newspack_hide_page_title', true );
+        if ( $hide === '0' ) {
+            $classes = array_filter( $classes, function( $class ) {
+                return $class !== 'hide-homepage-title';
+            } );
+        }
+    }
+    return $classes;
+} );
