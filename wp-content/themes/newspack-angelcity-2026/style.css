@@ -5,7 +5,7 @@
  Author:         OpenProducer
  Author URI:     https://www.openproducer.org/
  Template:       newspack-theme
- Version:        1.1.12
+ Version:        1.1.13
 */
 
 /*--------------------------------------------------------------
@@ -1705,8 +1705,6 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   max-width: var(--wp--style--global--content-size, 1200px);
   margin-left: auto !important;
   margin-right: auto !important;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
 }
 
 /* Remove parent-theme 32px top/bottom margin on direct content children,
