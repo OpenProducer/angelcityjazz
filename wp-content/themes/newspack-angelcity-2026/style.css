@@ -5,7 +5,7 @@
  Author:         OpenProducer
  Author URI:     https://www.openproducer.org/
  Template:       newspack-theme
- Version:        1.1.11
+ Version:        1.1.13
 */
 
 /*--------------------------------------------------------------
@@ -546,16 +546,13 @@ body:not([class*="block-theme"]) .wp-block-columns.playlist-embed-columns {
 }
 
 /* Hide page titles if 'hide-page-title' is set */
-.hide-page-title .entry-header h1.entry-title,
-.page-template-single-wide.hide-homepage-title .entry-header h1.entry-title {
+.hide-page-title .entry-header h1.entry-title {
   display: none;
 }
 
 /* Remove spacing when page title is hidden */
 .hide-page-title .site-content,
-.hide-page-title .entry .entry-content:first-child,
-.page-template-single-wide.hide-homepage-title .site-content,
-.page-template-single-wide.hide-homepage-title .entry .entry-content:first-child {
+.hide-page-title .entry .entry-content:first-child {
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -1708,8 +1705,6 @@ body.woocommerce-checkout .entry .entry-content > .woocommerce {
   max-width: var(--wp--style--global--content-size, 1200px);
   margin-left: auto !important;
   margin-right: auto !important;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
 }
 
 /* Remove parent-theme 32px top/bottom margin on direct content children,
