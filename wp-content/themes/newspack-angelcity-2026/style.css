@@ -5,7 +5,7 @@
  Author:         OpenProducer
  Author URI:     https://www.openproducer.org/
  Template:       newspack-theme
- Version:        1.1.13
+ Version:        1.1.14
 */
 
 /*--------------------------------------------------------------
@@ -1360,6 +1360,20 @@ body.single-tribe_venue .tribe-common-g-row > .tribe-common-g-col {
 .woocommerce-error a:hover {
   color: #fff;
   text-decoration: underline;
+}
+
+/* Parent theme's .showcoupon rule has no .showlogin equivalent; since
+   .woocommerce-info is display:flex, the whitespace text node before the
+   login link collapses with no rule to replace it. */
+:is(.woocommerce-error, .woocommerce-info, .woocommerce-message) .showlogin {
+  margin-left: 0.5em;
+}
+
+/* Same issue as .showlogin above: WooCommerce's CSS only adds margin-left
+   to .showcoupon, not .restore-item, so the "removed" notice's whitespace
+   before the Undo link collapses under display:flex. */
+:is(.woocommerce-error, .woocommerce-info, .woocommerce-message) .restore-item {
+  margin-left: 0.5em;
 }
 
 /* Add bottom margin to account dashboard */
