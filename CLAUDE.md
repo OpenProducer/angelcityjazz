@@ -17,22 +17,27 @@ Themes and MU plugins are **symlinked FROM the repo INTO Studio**. The symlinks 
 
 ## Plugin Rule
 
-Plugins are **not symlinked**. They are managed on Pressable dev and promoted to production via Data Transfer. Do not track or edit plugins in this repo.
+Plugins are **not symlinked** and **not tracked or deployed via Git**. They are managed directly per-environment through the Pressable dashboard and each site's WordPress dashboard. Do not track or edit plugins in this repo.
 
 ## Branch Policy
 
-- `master` — development history; this is where active work happens
-- `pressable-deploy` — production deployment branch; Pressable deploys from this branch
+Three Pressable-hosted environments (production, stage, dev), each auto-deploying from its own branch — plus `master` as the untracked source of truth:
 
-Only push tested, stable code to `pressable-deploy`.
+- `master` — source of truth; does not auto-deploy anywhere
+- `pressable-production` — auto-deploys to production (angelcityjazz.com)
+- `pressable-stage` — auto-deploys to stage; **not** a mirror of production — a dedicated workspace for new content/layout testing
+- `pressable-dev` — auto-deploys to dev; a regularly-synced clone of production, used to verify theme fixes against real content before they reach production
+
+Only push tested, stable code to `pressable-production`. Periodically merge `master` into the Pressable branches (and vice versa) so they don't silently drift apart. Full detail: wiki → Pressable Environments.
 
 ## Deployment Flow
 
 1. Edit code in the repo
 2. Test via the Studio symlink (local WordPress instance)
 3. Commit to `master`
-4. Push to `pressable-deploy`
-5. Pressable picks up the deployment automatically
+4. Push to `pressable-dev`, verify against dev's synced content
+5. Cherry-pick the approved commit(s) to `pressable-production`, push
+6. Pressable auto-deploys each branch to its environment
 
 ## CSS Deployment Reminders
 
@@ -48,8 +53,8 @@ When deploying CSS changes to production:
 
 - `.gitignore` — controls what is excluded from version control
 - `.deployignore` — controls what is excluded from Pressable deployments
-- `.githooks` — project-level git hooks
 - `scripts/local/link-studio-code.sh` — sets up symlinks from the repo into the Studio instance
+- `scripts/sync-newspack-theme.sh` — manual, human-invoked script that fetches the latest `newspack-theme@X.Y.Z` release from `Automattic/newspack-workspace` (the monorepo `Automattic/newspack-theme` was consolidated into, 2026-08-06) and extracts it into `wp-content/themes/newspack-theme/` for review. Nothing calls it automatically; it stops before committing.
 
 ## Known Issues
 
@@ -57,7 +62,7 @@ When deploying CSS changes to production:
 
 ## MU Plugins
 
-One MU plugin is tracked in `wp-content/mu-plugins/`:
+Tracked in `wp-content/mu-plugins/` (deployed to Pressable like theme code — not excluded by `.deployignore`):
 
 - **`woocommerce-performance-optimizations.php`** — Local-environment-only WooCommerce optimizations. Guarded by `wp_get_environment_type() === 'local'` so it is a no-op on staging and production. It does three things:
   1. Skips loading the WooCommerce cart/session on pages that are not WooCommerce-related (suppresses the `woocommerce_load_cart` filter on non-Woo pages).
@@ -66,14 +71,18 @@ One MU plugin is tracked in `wp-content/mu-plugins/`:
 
   The intent is to reduce WooCommerce overhead during local development on content pages where cart state is irrelevant.
 
+- **`sso.php`** — Single sign-on plugin.
+- **`wp-native-php-sessions.php`** (+ `wp-native-php-sessions/` dir) — native PHP session handling.
+- **`loader.php`** + **`pantheon-mu-plugin/`** — inherited from this site's prior Pantheon hosting. `loader.php` requires `pantheon-mu-plugin/pantheon.php`, and most of that plugin's logic gates on `$_ENV['PANTHEON_ENVIRONMENT']`, which Pressable never sets — so it's dead code here, not live functionality. Left in place rather than removed; treat as intentionally inert, not a bug.
+
 ## AI Integration
 
 - **Claude Code CLI** is launched via `claude` in the terminal. Do not use the VS Code panel extension for MCP-dependent tasks — it does not inherit the shell environment and MCP servers will not connect.
 - **GitHub MCP** is configured in `~/.claude/settings.json`. Authentication uses the `gh` CLI token sourced from `~/.zshrc`.
-- **WordPress MCP (`wordpress-stage`)** connects to `https://stage-angelcityjazz.mystagingwebsite.com` using the `@automattic/mcp-wordpress` server. It is also configured in `~/.claude/settings.json`.
-- **`WP_STAGE_APP_PASSWORD`** must be exported in `~/.zshenv` so it is available when Claude Code launches. If it is not set at launch time, the MCP server will fail to authenticate and no WordPress tools will be available.
+- **WordPress MCP (`wordpress-stage`)** connects to `https://stage-angelcityjazz.mystagingwebsite.com` using the `@automattic/mcp-wordpress-remote@latest` server, configured in `~/.claude/settings.json`. The WordPress Application Password is stored directly in that server's `env` block in `~/.claude/settings.json` (not read from a shell env var, despite a legacy `WP_STAGE_APP_PASSWORD` export sitting unused in `~/.zshrc`).
+- **Pressable MCP (`pressable`)** — `https://mcp.pressable.com`, configured in `~/.claude.json`. Covers account-level Pressable operations (site search/status, plugin list/install/update per site, cross-site sync, DNS) that the `wordpress-stage`/`wordpress-studio` servers don't reach.
 - **Environment note:** The VS Code extension does not inherit shell environment variables — always launch `claude` from a terminal for any session that requires MCP servers.
-- **Staging vs. dev:** The staging site (`stage-angelcityjazz.mystagingwebsite.com`) is a production clone used for content updates and fixes. Long-term development work happens locally and is deployed via `pressable-deploy`.
+- **Staging vs. dev:** The stage site is an independent workspace for new content/layout testing — **not** a production clone. Dev is the production clone, regularly synced, used to verify theme changes against real content. See wiki → Pressable Environments for the full three-environment model.
 - **WordPress MCP (Local Studio)**
   - Command: `studio mcp`
   - Config: added to `~/.claude.json` via `claude mcp add --scope user wordpress-studio -- studio mcp`
@@ -100,4 +109,4 @@ One MU plugin is tracked in `wp-content/mu-plugins/`:
 
 - `*.bak-*` files
 - `.DS_Store`
-- Experimental or versioned theme copies such as `newspack-angelcity-2025-1.0.0/`
+- Experimental or versioned theme copies (e.g. an ad hoc `newspack-angelcity-2026-1.0.0/` backup dir) — as a convention only; none has ever actually existed in this repo, and `.gitignore` does not enforce it

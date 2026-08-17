@@ -4,6 +4,15 @@ set -euo pipefail
 # Fetch the latest newspack-theme release from GitHub, extract it into
 # wp-content/themes/newspack-theme/, and show git diff --stat.
 #
+# Automattic/newspack-theme was retired into the Automattic/newspack-workspace
+# monorepo (2026-08-06). That repo shares one release feed across ~20 packages,
+# tagged `{slug}@{version}` (e.g. newspack-theme@2.25.0), with heavy pre-release
+# noise (-alpha.N, -hotfix-*.N suffixes) mixed in. This script filters for the
+# newest tag matching `newspack-theme@X.Y.Z` exactly (no suffix) and downloads
+# that release's `newspack-theme.zip` asset specifically — NOT the release
+# zipball, which on the monorepo is the entire ~20-package workspace, not just
+# the theme.
+#
 # Does NOT commit, push, deploy, or touch any remote server.
 #
 # Usage:
@@ -15,7 +24,9 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 THEME_DIR="${PROJECT_ROOT}/wp-content/themes/newspack-theme"
-GITHUB_API_URL="https://api.github.com/repos/Automattic/newspack-theme/releases/latest"
+GITHUB_RELEASES_URL="https://api.github.com/repos/Automattic/newspack-workspace/releases"
+TAG_PATTERN='^newspack-theme@[0-9]+\.[0-9]+\.[0-9]+$'
+ASSET_NAME="newspack-theme.zip"
 
 DRY_RUN=0
 TMP_DIR=""
@@ -42,36 +53,52 @@ done
 
 # --- Fetch release metadata ---
 
-log_step "Fetching latest newspack-theme release"
+log_step "Finding latest newspack-theme@X.Y.Z release in Automattic/newspack-workspace"
 
-auth_header=""
+command -v jq >/dev/null 2>&1 || die "jq is required but not installed"
+
+token=""
 if command -v gh >/dev/null 2>&1; then
 	token="$(gh auth token 2>/dev/null || true)"
-	[[ -n "$token" ]] && auth_header="-H \"Authorization: Bearer ${token}\""
 fi
 
+# The monorepo's release feed is shared across ~20 packages, newest-first.
+# Page through it collecting every tag that matches newspack-theme@X.Y.Z
+# exactly (no -alpha/-hotfix suffix), then take the highest version — do not
+# just take the first newspack-theme@ tag encountered, and do not use
+# /releases/latest, which reflects whichever package released most recently,
+# not necessarily the theme.
+RELEASE_TAG=""
+for page in 1 2 3 4 5; do
+	page_json="$(
+		curl -sf \
+			${token:+-H "Authorization: Bearer ${token}"} \
+			-H "Accept: application/vnd.github+json" \
+			"${GITHUB_RELEASES_URL}?per_page=100&page=${page}"
+	)" || die "Failed to fetch release metadata from GitHub"
+
+	page_count="$(printf '%s' "$page_json" | jq 'length')"
+	[[ "$page_count" -gt 0 ]] || break
+
+	page_tags="$(printf '%s' "$page_json" | jq -r '.[].tag_name' | grep -E "$TAG_PATTERN" || true)"
+	[[ -n "$page_tags" ]] && RELEASE_TAG="$(printf '%s\n%s\n' "$RELEASE_TAG" "$page_tags" | grep -v '^$' | sort -t@ -k2 -V | tail -1)"
+done
+
+[[ -n "$RELEASE_TAG" ]] || die "Could not find a release tag matching newspack-theme@X.Y.Z in Automattic/newspack-workspace"
+
+# Fetch the specific release (assets aren't reliably in the list response) and
+# pull the theme zip asset by name — never fall back to zipball_url, which on
+# this monorepo is the entire ~20-package workspace, not just the theme.
 release_json="$(
 	curl -sf \
-		${auth_header:+-H "Authorization: Bearer ${token}"} \
+		${token:+-H "Authorization: Bearer ${token}"} \
 		-H "Accept: application/vnd.github+json" \
-		"$GITHUB_API_URL"
-)" || die "Failed to fetch release metadata from GitHub"
+		"https://api.github.com/repos/Automattic/newspack-workspace/releases/tags/$(printf '%s' "$RELEASE_TAG" | sed 's/@/%40/')"
+)" || die "Failed to fetch release detail for ${RELEASE_TAG}"
 
-RELEASE_TAG="$(printf '%s' "$release_json" | grep -m1 '"tag_name"' | sed 's/.*"tag_name": *"\([^"]*\)".*/\1/')"
-[[ -n "$RELEASE_TAG" && "$RELEASE_TAG" != "null" ]] || die "Could not parse release tag"
-
-# Prefer packaged asset zip; fall back to zipball_url
-DOWNLOAD_URL="$(
-	printf '%s' "$release_json" \
-		| grep '"browser_download_url"' \
-		| grep 'newspack-theme\.zip' \
-		| sed 's/.*"browser_download_url": *"\([^"]*\)".*/\1/' \
-		| head -1
-)"
-if [[ -z "$DOWNLOAD_URL" ]]; then
-	DOWNLOAD_URL="$(printf '%s' "$release_json" | grep '"zipball_url"' | head -1 | sed 's/.*"zipball_url": *"\([^"]*\)".*/\1/')"
-fi
-[[ -n "$DOWNLOAD_URL" && "$DOWNLOAD_URL" != "null" ]] || die "Could not determine download URL"
+DOWNLOAD_URL="$(printf '%s' "$release_json" | jq -r --arg name "$ASSET_NAME" '.assets[] | select(.name == $name) | .browser_download_url')"
+[[ -n "$DOWNLOAD_URL" && "$DOWNLOAD_URL" != "null" ]] \
+	|| die "Release ${RELEASE_TAG} has no asset named '${ASSET_NAME}' — check https://github.com/Automattic/newspack-workspace/releases/tag/$(printf '%s' "$RELEASE_TAG" | sed 's/@/%40/') for the current asset list"
 
 printf 'Latest release: %s\n' "$RELEASE_TAG"
 printf 'Download URL:   %s\n' "$DOWNLOAD_URL"
@@ -89,7 +116,7 @@ TMP_DIR="$(mktemp -d)"
 zip_file="${TMP_DIR}/newspack-theme.zip"
 
 curl -sf -L \
-	${auth_header:+-H "Authorization: Bearer ${token}"} \
+	${token:+-H "Authorization: Bearer ${token}"} \
 	"$DOWNLOAD_URL" \
 	-o "$zip_file" || die "Download failed"
 

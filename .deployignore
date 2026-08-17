@@ -1,5 +1,5 @@
 # Pressable deployment exclusions
-# Plugins are managed via sync-plugins.sh directly on Pressable
+# Plugins are managed manually per-environment via the Pressable/WP dashboards, not via this repo
 wp-content/plugins/
 # Development and build artifacts
 .github/
@@ -8,6 +8,5 @@ docs/
 CLAUDE.md
 .gitignore
 .deployignore
-.githooks/
 **/.DS_Store
 **/*.bak-*
