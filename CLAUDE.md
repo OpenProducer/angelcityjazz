@@ -19,6 +19,8 @@ Themes and MU plugins are **symlinked FROM the repo INTO Studio**. The symlinks 
 
 Plugins are **not symlinked** and **not tracked or deployed via Git**. They are managed directly per-environment through the Pressable dashboard and each site's WordPress dashboard. Do not track or edit plugins in this repo.
 
+Two plugins — `newspack-plugin` and `newspack-blocks` — aren't on WordPress.org; they're only available via GitHub. They used to be checked by a third-party plugin, `newspack-plugin-update-checker` (not tracked in this repo's git, removed from tracking by commit `6ecb14f58`), which hardcoded each plugin's old per-package `Automattic/<slug>` GitHub repo URL. Those repos were folded into the `Automattic/newspack-workspace` monorepo on 2026-08-06. They're still reachable (archived, not deleted) and Automattic keeps auto-publishing a "final version, please migrate" placeholder release on each whenever the real monorepo package releases — so the old checker doesn't just go stale, it keeps reinstalling those placeholders (confirmed live on production and dev 2026-08-18, before the fix below: their `newspack-plugin`/`newspack-blocks` installs showed `(WRONG VERSION)` in their own plugin titles as a result). `scripts/sync-newspack-plugins.sh` replaces it — see Key Files above. `newspack-plugin-update-checker` should be deactivated on any environment once that script has verified `newspack-plugin`/`newspack-blocks` are at their real target version there — already done on dev (2026-08-18); stage and production still pending as of this writing.
+
 ## Branch Policy
 
 Three Pressable-hosted environments (production, stage, dev), each auto-deploying from its own branch — plus `master` as the untracked source of truth:
@@ -55,6 +57,7 @@ When deploying CSS changes to production:
 - `.deployignore` — controls what is excluded from Pressable deployments
 - `scripts/local/link-studio-code.sh` — sets up symlinks from the repo into the Studio instance
 - `scripts/sync-newspack-theme.sh` — manual, human-invoked script that fetches the latest `newspack-theme@X.Y.Z` release from `Automattic/newspack-workspace` (the monorepo `Automattic/newspack-theme` was consolidated into, 2026-08-06) and extracts it into `wp-content/themes/newspack-theme/` for review. Nothing calls it automatically; it stops before committing.
+- `scripts/sync-newspack-plugins.sh` — manual, human-invoked script that checks (and, with `--apply`, installs) updates for `newspack-plugin` and `newspack-blocks` directly from `Automattic/newspack-workspace`, over SSH + WP-CLI. Replaces `newspack-plugin-update-checker` (see Plugin Rule below). `--env stage|dev|production` required; defaults to report-only.
 
 ## Known Issues
 
