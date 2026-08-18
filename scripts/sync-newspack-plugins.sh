@@ -25,19 +25,38 @@ set -euo pipefail
 #
 # Ground-truthed via the pressable MCP server against all three
 # environments (2026-08-18) — do not add plugins to GH_WORKSPACE_PACKAGES
-# below without re-confirming they're actually active first:
-#   active + GitHub-sourced, everywhere: newspack-plugin, newspack-blocks
-#   installed but INACTIVE everywhere (not managed here): newspack-ads,
-#     newspack-popups, newspack-sponsors
+# below without re-confirming they're actually installed first:
+#   installed, GitHub-sourced, actively used or roadmapped: newspack-plugin
+#     and newspack-blocks (active everywhere), newspack-ads, newspack-popups
+#     (wp-admin display name "Newspack Campaigns" — slug is still
+#     newspack-popups, not newspack-campaigns), and newspack-sponsors
+#     (installed but deliberately INACTIVE everywhere — kept up to date
+#     without being activated; activation is a separate decision)
 #   not installed at all: newspack-listings, newspack-media-partners,
 #     newspack-rss-enhancements, newspack-supporters
-# If one of the inactive ones is ever activated, re-check its current tag
-# prefix/asset name in Automattic/newspack-workspace directly before adding
-# it here — don't assume it matches what's below. The monorepo moves fast:
-# confirmed 2026-08-18 that the core plugin's tag prefix is "newspack" (not
-# "newspack-plugin"), while its release zip asset is still named
-# newspack-plugin.zip — prefix and zip name intentionally differ for that
-# one entry.
+# Re-check current tag prefix/asset name in Automattic/newspack-workspace
+# directly before adding anything new here — don't assume it matches what's
+# below or that all packages follow the same pattern. Confirmed 2026-08-18:
+# the core plugin's tag prefix is "newspack" (not "newspack-plugin") while
+# its release zip asset is still named newspack-plugin.zip — prefix and zip
+# name intentionally differ for that one entry. newspack-ads, -blocks,
+# -popups, -sponsors all have matching tag-prefix/wp-slug/zip-basename (no
+# mismatch) as of the same date, but re-verify rather than assume that holds.
+#
+# newspack-sponsors note: unlike ads/blocks/popups, it never showed
+# "(WRONG VERSION)" from the old checker — not because it was current
+# (installed 2.2.0 vs. real newspack-sponsors@2.2.2, genuinely two patches
+# behind), but because the checker's own hardcoded plugin-slug list has a
+# literal typo, 'newsspack-sponsors' (double "s") instead of
+# 'newspack-sponsors' — see wp-content/plugins/newspack-plugin-update-checker/
+# newspack-plugin-update-checker.php (git show 6ecb14f58^:...). That typo
+# makes its file_exists() check for the plugin's main file always fail, so
+# the checker silently never even attempted to track it — it wasn't spared
+# by being fine, it slipped through a bug. Automattic's old-repo placeholder
+# mechanism affects it too (Automattic/newspack-sponsors' own "final
+# version, please migrate" placeholder release is also tagged v2.2.2,
+# confirmed 2026-08-18) — the typo is the only reason it was never
+# auto-installed.
 #
 # Apply mechanism: SSH + WP-CLI, the same validated pattern
 # scripts/archive/sync-plugins.sh already used on this exact site (Pressable
@@ -84,6 +103,9 @@ GH_PER_PAGE=100
 GH_WORKSPACE_PACKAGES=(
 	"newspack|newspack-plugin|newspack-plugin.zip"
 	"newspack-blocks|newspack-blocks|newspack-blocks.zip"
+	"newspack-ads|newspack-ads|newspack-ads.zip"
+	"newspack-popups|newspack-popups|newspack-popups.zip"
+	"newspack-sponsors|newspack-sponsors|newspack-sponsors.zip"
 )
 
 CHECKER_SLUG="newspack-plugin-update-checker"
@@ -208,7 +230,7 @@ for page in $(seq 1 "$GH_MAX_PAGES"); do
 done
 
 # ---- resolve each tracked package's latest stable release -----------------
-declare -a PLAN_SLUG=() PLAN_INSTALLED=() PLAN_TARGET=() PLAN_URL=()
+declare -a PLAN_SLUG=() PLAN_INSTALLED=() PLAN_TARGET=() PLAN_URL=() PLAN_WAS_ACTIVE=()
 
 for entry in "${GH_WORKSPACE_PACKAGES[@]}"; do
 	IFS='|' read -r tag_prefix wp_slug zip_name <<< "$entry"
@@ -237,16 +259,27 @@ for entry in "${GH_WORKSPACE_PACKAGES[@]}"; do
 		continue
 	fi
 
+	# `wp plugin install --force` overwrites files in place and does not touch
+	# activation state (WP-CLI only activates when --activate/--activate-network
+	# is explicitly passed, which this script never does — confirmed against
+	# wp-cli/extension-command's Plugin_Command::install() source, 2026-08-18).
+	# Captured here anyway and re-checked after install below as a live
+	# guardrail, not just a doc-read assumption — newspack-ads/-popups/-sponsors
+	# are deliberately inactive and must stay that way; activating them is a
+	# separate decision.
+	was_active="$(wp_remote plugin is-active "$wp_slug" >/dev/null 2>&1 && echo yes || echo no)"
+
 	if [[ "$installed_version" == "$target_version" ]]; then
 		printf '  up to date  %s: %s\n' "$wp_slug" "$installed_version"
 		continue
 	fi
 
-	printf '  update  %s: %s -> %s\n' "$wp_slug" "$installed_version" "$target_version"
+	printf '  update  %s: %s -> %s (currently %s)\n' "$wp_slug" "$installed_version" "$target_version" "$([[ "$was_active" == yes ]] && echo active || echo inactive)"
 	PLAN_SLUG+=("$wp_slug")
 	PLAN_INSTALLED+=("$installed_version")
 	PLAN_TARGET+=("$target_version")
 	PLAN_URL+=("$asset_url")
+	PLAN_WAS_ACTIVE+=("$was_active")
 done
 
 if [[ "${#PLAN_SLUG[@]}" -eq 0 ]]; then
@@ -269,12 +302,21 @@ for i in "${!PLAN_SLUG[@]}"; do
 	slug="${PLAN_SLUG[$i]}"
 	target="${PLAN_TARGET[$i]}"
 	url="${PLAN_URL[$i]}"
+	was_active="${PLAN_WAS_ACTIVE[$i]}"
 
 	log_step "Installing ${slug} ${target}"
 	if wp_remote plugin install "$url" --force; then
 		new_version="$(wp_remote plugin get "$slug" --field=version 2>/dev/null || true)"
+		is_active_now="$(wp_remote plugin is-active "$slug" >/dev/null 2>&1 && echo yes || echo no)"
+
+		if [[ "$is_active_now" != "$was_active" ]]; then
+			printf '  ERROR  %s activation state changed (%s -> %s) during install — this should never happen with --force alone. Investigate before trusting this install.\n' "$slug" "$was_active" "$is_active_now"
+			FAILED=1
+			continue
+		fi
+
 		if [[ "$new_version" == "$target" ]]; then
-			printf '  OK  %s now at %s\n' "$slug" "$new_version"
+			printf '  OK  %s now at %s (%s, unchanged)\n' "$slug" "$new_version" "$([[ "$is_active_now" == yes ]] && echo active || echo inactive)"
 		else
 			printf '  WARN  %s installed but reports version "%s", expected "%s" — verify manually\n' "$slug" "$new_version" "$target"
 			FAILED=1
